@@ -67,6 +67,33 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		DA41A1EA24EBDA2F00E7BB93 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				DA41A08B24EBB35400E7BB93 /* AppendStar.swift */,
+				DA09438224E1214B00671F0D /* CustomTextField.swift */,
+			);
+			name = Util;
+			sourceTree = "<group>";
+		};
+		DA41A1EC24EBDA3600E7BB93 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				DA09438824E146AC00671F0D /* JoinViewController.swift */,
+				DABC41AB24CE73F500DD366F /* LoginViewController.swift */,
+			);
+			name = ViewController;
+			sourceTree = "<group>";
+		};
+		DA41A1EE24EBDA3A00E7BB93 /* Storyboard */ = {
+			isa = PBXGroup;
+			children = (
+				DABC41B524CE73F700DD366F /* LaunchScreen.storyboard */,
+				DABC41AD24CE73F500DD366F /* Main.storyboard */,
+			);
+			name = Storyboard;
+			sourceTree = "<group>";
+		};
 		DABC419B24CE73F500DD366F = {
 			isa = PBXGroup;
 			children = (
@@ -88,17 +115,14 @@
 		DABC41A624CE73F500DD366F /* SharingCharger */ = {
 			isa = PBXGroup;
 			children = (
-				DA41A08B24EBB35400E7BB93 /* AppendStar.swift */,
 				DABC41A724CE73F500DD366F /* AppDelegate.swift */,
-				DABC41A924CE73F500DD366F /* SceneDelegate.swift */,
-				DABC41AB24CE73F500DD366F /* LoginViewController.swift */,
-				DA09438824E146AC00671F0D /* JoinViewController.swift */,
-				DABC41AD24CE73F500DD366F /* Main.storyboard */,
-				DA09438224E1214B00671F0D /* CustomTextField.swift */,
 				DABC41B324CE73F700DD366F /* Assets.xcassets */,
-				DABC41B524CE73F700DD366F /* LaunchScreen.storyboard */,
 				DABC41B824CE73F700DD366F /* Info.plist */,
+				DABC41A924CE73F500DD366F /* SceneDelegate.swift */,
 				DABC41B024CE73F500DD366F /* SharingCharger.xcdatamodeld */,
+				DA41A1EE24EBDA3A00E7BB93 /* Storyboard */,
+				DA41A1EA24EBDA2F00E7BB93 /* Util */,
+				DA41A1EC24EBDA3600E7BB93 /* ViewController */,
 			);
 			path = SharingCharger;
 			sourceTree = "<group>";
