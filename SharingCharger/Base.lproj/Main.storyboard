@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Kus-Rr-AYX">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="qD3-VY-qaA">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
@@ -8,10 +8,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Login View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="Login" id="BYZ-38-t0r" customClass="ViewController" customModule="SharingCharger" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Login" id="BYZ-38-t0r" customClass="LoginViewController" customModule="SharingCharger" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -72,7 +72,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <segue destination="z7H-q4-msR" kind="show" id="mLy-Si-hja"/>
+                                    <action selector="presentJoin:" destination="BYZ-38-t0r" eventType="touchUpInside" id="IQv-kw-tad"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="by6-wl-3zX" userLabel="비밀번호 초기화">
@@ -122,7 +122,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" id="vNU-e0-Lsd"/>
+                    <navigationItem key="navigationItem" id="vpE-pg-n1e"/>
                     <connections>
                         <outlet property="loginEmail" destination="0xs-pL-Jds" id="ihn-tO-eRu"/>
                         <outlet property="loginPassword" destination="1cb-Y1-VYR" id="a75-hF-1ht"/>
@@ -130,96 +130,250 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1047.8260869565217" y="137.94642857142856"/>
+            <point key="canvasLocation" x="1957.9710144927537" y="137.94642857142856"/>
         </scene>
         <!--회원가입-->
         <scene sceneID="utd-Wu-4pY">
             <objects>
-                <viewController storyboardIdentifier="Join" id="z7H-q4-msR" customClass="JoinViewController" customModule="SharingCharger" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Join" title="회원가입" id="z7H-q4-msR" customClass="JoinViewController" customModule="SharingCharger" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="GtN-0N-Uhf">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="이름" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uas-ss-dqI">
-                                <rect key="frame" x="22" y="118" width="26" height="18"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XGi-rB-zGE" customClass="CustomTextField" customModule="SharingCharger" customModuleProvider="target">
-                                <rect key="frame" x="20" y="151" width="374" height="34"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="이메일" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="alg-wZ-P8y">
-                                <rect key="frame" x="22" y="205" width="39" height="18"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aaI-sS-DcR" customClass="CustomTextField" customModule="SharingCharger" customModuleProvider="target">
-                                <rect key="frame" x="20" y="238" width="374" height="34"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TX6-c1-LR4" userLabel="Top Line">
+                                <rect key="frame" x="0.0" y="44" width="414" height="7"/>
+                                <color key="backgroundColor" name="Color_EFEFEF"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="7" id="bJR-QA-R2t"/>
+                                </constraints>
+                            </view>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iO7-M5-AAV">
+                                <rect key="frame" x="0.0" y="51" width="414" height="771"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Nd-sL-hxl" userLabel="Content View">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="552"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="이름*" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uas-ss-dqI" customClass="AppendStar" customModule="SharingCharger" customModuleProvider="target">
+                                                <rect key="frame" x="27" y="30" width="360" height="18"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="실명 입력" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XGi-rB-zGE" userLabel="Text Name" customClass="CustomTextField" customModule="SharingCharger" customModuleProvider="target">
+                                                <rect key="frame" x="20" y="53" width="374" height="34"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="placeholderLabel.textColor">
+                                                        <color key="value" name="Color_E0E0E0"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </textField>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="전화번호*" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="24c-d4-qS4" userLabel="Label Phone" customClass="AppendStar" customModule="SharingCharger" customModuleProvider="target">
+                                                <rect key="frame" x="27" y="117" width="360" height="18"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="- 제외하고 숫자만 입력" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tkZ-sm-i4D" userLabel="Text Phone" customClass="CustomTextField" customModule="SharingCharger" customModuleProvider="target">
+                                                <rect key="frame" x="20" y="140" width="374" height="34"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="placeholderLabel.textColor">
+                                                        <color key="value" name="Color_E0E0E0"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </textField>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="이메일*" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="alg-wZ-P8y" customClass="AppendStar" customModule="SharingCharger" customModuleProvider="target">
+                                                <rect key="frame" x="27" y="204" width="360" height="18"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="example@gmail.com" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aaI-sS-DcR" userLabel="Text Email" customClass="CustomTextField" customModule="SharingCharger" customModuleProvider="target">
+                                                <rect key="frame" x="20" y="227" width="374" height="34"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="placeholderLabel.textColor">
+                                                        <color key="value" name="Color_E0E0E0"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </textField>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="인증번호*" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dWX-qM-nkN" userLabel="Label AutorizationCode" customClass="AppendStar" customModule="SharingCharger" customModuleProvider="target">
+                                                <rect key="frame" x="27" y="291" width="360" height="18"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="인증번호 입력" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ok0-jl-X0u" userLabel="Text AutorizationCode" customClass="CustomTextField" customModule="SharingCharger" customModuleProvider="target">
+                                                <rect key="frame" x="20" y="314" width="374" height="34"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="placeholderLabel.textColor">
+                                                        <color key="value" name="Color_E0E0E0"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </textField>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="비밀번호*" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qqw-h1-81e" userLabel="Label Password" customClass="AppendStar" customModule="SharingCharger" customModuleProvider="target">
+                                                <rect key="frame" x="27" y="378" width="360" height="18"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0VM-e2-ViD" userLabel="Text Password" customClass="CustomTextField" customModule="SharingCharger" customModuleProvider="target">
+                                                <rect key="frame" x="20" y="401" width="374" height="34"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="비밀번호 확인*" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="raJ-f9-tbc" userLabel="Label Password" customClass="AppendStar" customModule="SharingCharger" customModuleProvider="target">
+                                                <rect key="frame" x="27" y="465" width="360" height="18"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="g63-hj-zOu" userLabel="Text Password" customClass="CustomTextField" customModule="SharingCharger" customModuleProvider="target">
+                                                <rect key="frame" x="20" y="488" width="374" height="34"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstItem="XGi-rB-zGE" firstAttribute="top" secondItem="uas-ss-dqI" secondAttribute="bottom" constant="5" id="0Y5-W3-TM9"/>
+                                            <constraint firstItem="24c-d4-qS4" firstAttribute="top" secondItem="XGi-rB-zGE" secondAttribute="bottom" constant="30" id="0kR-wa-sZq"/>
+                                            <constraint firstItem="g63-hj-zOu" firstAttribute="top" secondItem="raJ-f9-tbc" secondAttribute="bottom" constant="5" id="4NY-H5-nzw"/>
+                                            <constraint firstItem="0VM-e2-ViD" firstAttribute="top" secondItem="qqw-h1-81e" secondAttribute="bottom" constant="5" id="5kO-Oe-nKg"/>
+                                            <constraint firstItem="ok0-jl-X0u" firstAttribute="leading" secondItem="XGi-rB-zGE" secondAttribute="leading" id="5tM-MC-1Ew"/>
+                                            <constraint firstItem="tkZ-sm-i4D" firstAttribute="leading" secondItem="XGi-rB-zGE" secondAttribute="leading" id="9fv-ZT-Oms"/>
+                                            <constraint firstItem="tkZ-sm-i4D" firstAttribute="trailing" secondItem="XGi-rB-zGE" secondAttribute="trailing" id="C5e-a3-M2A"/>
+                                            <constraint firstItem="dWX-qM-nkN" firstAttribute="trailing" secondItem="uas-ss-dqI" secondAttribute="trailing" id="G0L-vL-xfk"/>
+                                            <constraint firstItem="0VM-e2-ViD" firstAttribute="leading" secondItem="XGi-rB-zGE" secondAttribute="leading" id="LSk-xg-DFU"/>
+                                            <constraint firstItem="ok0-jl-X0u" firstAttribute="trailing" secondItem="XGi-rB-zGE" secondAttribute="trailing" id="MiB-NS-Pis"/>
+                                            <constraint firstItem="ok0-jl-X0u" firstAttribute="top" secondItem="dWX-qM-nkN" secondAttribute="bottom" constant="5" id="NhU-7E-dN9"/>
+                                            <constraint firstItem="dWX-qM-nkN" firstAttribute="top" secondItem="aaI-sS-DcR" secondAttribute="bottom" constant="30" id="RJH-G5-be3"/>
+                                            <constraint firstItem="uas-ss-dqI" firstAttribute="top" secondItem="4Nd-sL-hxl" secondAttribute="top" constant="30" id="SZu-1P-EhZ"/>
+                                            <constraint firstItem="qqw-h1-81e" firstAttribute="leading" secondItem="uas-ss-dqI" secondAttribute="leading" id="SlK-vJ-0s5"/>
+                                            <constraint firstItem="alg-wZ-P8y" firstAttribute="leading" secondItem="uas-ss-dqI" secondAttribute="leading" id="VJk-lf-rL4"/>
+                                            <constraint firstItem="0VM-e2-ViD" firstAttribute="trailing" secondItem="XGi-rB-zGE" secondAttribute="trailing" id="Vum-hU-jBO"/>
+                                            <constraint firstItem="qqw-h1-81e" firstAttribute="top" secondItem="ok0-jl-X0u" secondAttribute="bottom" constant="30" id="ZyL-UO-V3R"/>
+                                            <constraint firstItem="aaI-sS-DcR" firstAttribute="leading" secondItem="XGi-rB-zGE" secondAttribute="leading" id="bRs-CS-YZD"/>
+                                            <constraint firstAttribute="trailing" secondItem="uas-ss-dqI" secondAttribute="trailing" constant="27" id="c3P-HX-7TU"/>
+                                            <constraint firstItem="tkZ-sm-i4D" firstAttribute="top" secondItem="24c-d4-qS4" secondAttribute="bottom" constant="5" id="caw-Kt-EbO"/>
+                                            <constraint firstAttribute="trailing" secondItem="XGi-rB-zGE" secondAttribute="trailing" constant="20" id="cn2-bF-w76"/>
+                                            <constraint firstItem="raJ-f9-tbc" firstAttribute="leading" secondItem="uas-ss-dqI" secondAttribute="leading" id="ePJ-d8-0Ph"/>
+                                            <constraint firstItem="raJ-f9-tbc" firstAttribute="top" secondItem="0VM-e2-ViD" secondAttribute="bottom" constant="30" id="eer-UO-v1L"/>
+                                            <constraint firstItem="uas-ss-dqI" firstAttribute="leading" secondItem="4Nd-sL-hxl" secondAttribute="leading" constant="27" id="g0A-pl-MOA"/>
+                                            <constraint firstItem="g63-hj-zOu" firstAttribute="trailing" secondItem="XGi-rB-zGE" secondAttribute="trailing" id="lNB-c0-N6L"/>
+                                            <constraint firstAttribute="bottom" secondItem="g63-hj-zOu" secondAttribute="bottom" constant="30" id="lQp-M8-XuM"/>
+                                            <constraint firstItem="g63-hj-zOu" firstAttribute="leading" secondItem="XGi-rB-zGE" secondAttribute="leading" id="lTI-sj-3EX"/>
+                                            <constraint firstItem="qqw-h1-81e" firstAttribute="trailing" secondItem="uas-ss-dqI" secondAttribute="trailing" id="m7d-l1-ZTh"/>
+                                            <constraint firstItem="uas-ss-dqI" firstAttribute="leading" secondItem="24c-d4-qS4" secondAttribute="leading" id="msP-lo-SoF"/>
+                                            <constraint firstItem="alg-wZ-P8y" firstAttribute="trailing" secondItem="uas-ss-dqI" secondAttribute="trailing" id="nuN-N4-PCV"/>
+                                            <constraint firstItem="aaI-sS-DcR" firstAttribute="top" secondItem="alg-wZ-P8y" secondAttribute="bottom" constant="5" id="o57-Xw-X1p"/>
+                                            <constraint firstItem="dWX-qM-nkN" firstAttribute="leading" secondItem="uas-ss-dqI" secondAttribute="leading" id="oji-YT-8wd"/>
+                                            <constraint firstItem="raJ-f9-tbc" firstAttribute="trailing" secondItem="uas-ss-dqI" secondAttribute="trailing" id="qoj-ku-5VQ"/>
+                                            <constraint firstItem="uas-ss-dqI" firstAttribute="trailing" secondItem="24c-d4-qS4" secondAttribute="trailing" id="qqq-cO-LFK"/>
+                                            <constraint firstItem="aaI-sS-DcR" firstAttribute="trailing" secondItem="XGi-rB-zGE" secondAttribute="trailing" id="sA3-B8-Ttf"/>
+                                            <constraint firstItem="XGi-rB-zGE" firstAttribute="leading" secondItem="4Nd-sL-hxl" secondAttribute="leading" constant="20" id="twc-y4-fKf"/>
+                                            <constraint firstItem="alg-wZ-P8y" firstAttribute="top" secondItem="tkZ-sm-i4D" secondAttribute="bottom" constant="30" id="w4n-Ms-6K4"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="4Nd-sL-hxl" firstAttribute="bottom" secondItem="2ao-eZ-5oM" secondAttribute="bottom" id="0P5-va-aFK"/>
+                                    <constraint firstItem="4Nd-sL-hxl" firstAttribute="leading" secondItem="2ao-eZ-5oM" secondAttribute="leading" id="MeA-gk-msH"/>
+                                    <constraint firstItem="4Nd-sL-hxl" firstAttribute="top" secondItem="2ao-eZ-5oM" secondAttribute="top" id="VE2-ID-7Sh"/>
+                                    <constraint firstItem="4Nd-sL-hxl" firstAttribute="width" secondItem="ZB8-Ly-N6K" secondAttribute="width" id="VzX-01-TzX"/>
+                                    <constraint firstItem="4Nd-sL-hxl" firstAttribute="trailing" secondItem="2ao-eZ-5oM" secondAttribute="trailing" id="Y4r-Ew-udR"/>
+                                </constraints>
+                                <viewLayoutGuide key="contentLayoutGuide" id="2ao-eZ-5oM"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="ZB8-Ly-N6K"/>
+                            </scrollView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rbG-05-4uT">
+                                <rect key="frame" x="0.0" y="822" width="414" height="40"/>
+                                <color key="backgroundColor" name="Color_3498DB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="ind-ba-fb0"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <state key="normal" title="완료">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="uas-ss-dqI" firstAttribute="top" secondItem="CmZ-Oq-m4F" secondAttribute="top" constant="30" id="0L9-jL-UGc"/>
-                            <constraint firstItem="aaI-sS-DcR" firstAttribute="leading" secondItem="CmZ-Oq-m4F" secondAttribute="leading" constant="20" id="6Cg-4Y-aam"/>
-                            <constraint firstItem="uas-ss-dqI" firstAttribute="leading" secondItem="CmZ-Oq-m4F" secondAttribute="leading" constant="22" id="DUg-8F-jTs"/>
-                            <constraint firstItem="XGi-rB-zGE" firstAttribute="top" secondItem="uas-ss-dqI" secondAttribute="bottom" constant="15" id="Drj-XO-E8j"/>
-                            <constraint firstItem="CmZ-Oq-m4F" firstAttribute="trailing" secondItem="aaI-sS-DcR" secondAttribute="trailing" constant="20" id="GJZ-8R-RqX"/>
-                            <constraint firstItem="aaI-sS-DcR" firstAttribute="top" secondItem="alg-wZ-P8y" secondAttribute="bottom" constant="15" id="LM3-9K-mme"/>
-                            <constraint firstItem="XGi-rB-zGE" firstAttribute="leading" secondItem="CmZ-Oq-m4F" secondAttribute="leading" constant="20" id="WU1-P2-zBy"/>
-                            <constraint firstItem="alg-wZ-P8y" firstAttribute="leading" secondItem="CmZ-Oq-m4F" secondAttribute="leading" constant="22" id="n71-Le-tYf"/>
-                            <constraint firstItem="alg-wZ-P8y" firstAttribute="top" secondItem="XGi-rB-zGE" secondAttribute="bottom" constant="20" id="qW3-Qk-k8X"/>
-                            <constraint firstItem="CmZ-Oq-m4F" firstAttribute="trailing" secondItem="XGi-rB-zGE" secondAttribute="trailing" constant="20" id="xkm-7z-msx"/>
+                            <constraint firstItem="rbG-05-4uT" firstAttribute="leading" secondItem="CmZ-Oq-m4F" secondAttribute="leading" id="9dC-iG-r7d"/>
+                            <constraint firstItem="iO7-M5-AAV" firstAttribute="leading" secondItem="CmZ-Oq-m4F" secondAttribute="leading" id="DgI-eG-fSv"/>
+                            <constraint firstItem="rbG-05-4uT" firstAttribute="trailing" secondItem="CmZ-Oq-m4F" secondAttribute="trailing" id="OW1-cN-s2E"/>
+                            <constraint firstItem="TX6-c1-LR4" firstAttribute="top" secondItem="CmZ-Oq-m4F" secondAttribute="top" id="Vwy-LO-5Hn"/>
+                            <constraint firstItem="TX6-c1-LR4" firstAttribute="leading" secondItem="CmZ-Oq-m4F" secondAttribute="leading" id="qMb-A1-wgp"/>
+                            <constraint firstItem="iO7-M5-AAV" firstAttribute="trailing" secondItem="CmZ-Oq-m4F" secondAttribute="trailing" id="rJO-Y4-dxY"/>
+                            <constraint firstItem="rbG-05-4uT" firstAttribute="top" secondItem="iO7-M5-AAV" secondAttribute="bottom" id="t21-XS-p5v"/>
+                            <constraint firstItem="iO7-M5-AAV" firstAttribute="top" secondItem="TX6-c1-LR4" secondAttribute="bottom" id="t7D-7z-wft"/>
+                            <constraint firstItem="TX6-c1-LR4" firstAttribute="trailing" secondItem="CmZ-Oq-m4F" secondAttribute="trailing" id="wdP-9h-JFA"/>
+                            <constraint firstItem="rbG-05-4uT" firstAttribute="bottom" secondItem="CmZ-Oq-m4F" secondAttribute="bottom" id="xyI-Ei-FaL"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="CmZ-Oq-m4F"/>
                     </view>
-                    <navigationItem key="navigationItem" title="회원가입" id="8iA-1C-OsX"/>
                     <connections>
-                        <outlet property="labelEmail" destination="alg-wZ-P8y" id="Gwk-MQ-Qac"/>
-                        <outlet property="labelName" destination="uas-ss-dqI" id="cgl-Cu-XQ6"/>
+                        <outlet property="buttonComplete" destination="rbG-05-4uT" id="CqO-DK-EUU"/>
                         <outlet property="tfEmail" destination="aaI-sS-DcR" id="faZ-8B-QOc"/>
-                        <outlet property="tfName" destination="XGi-rB-zGE" id="dhg-6y-zQo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pld-It-Dfx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1804" y="138"/>
+            <point key="canvasLocation" x="2713.04347826087" y="137.94642857142856"/>
         </scene>
         <!--Navigation Controller-->
-        <scene sceneID="gyC-8m-GL4">
+        <scene sceneID="Faf-JJ-bS7">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Kus-Rr-AYX" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="qD3-VY-qaA" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="TQ9-U3-ZGI">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Yml-i5-1nE">
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <textAttributes key="titleTextAttributes">
-                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="d55-fp-r3P"/>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="tBW-oY-NW5"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Ckz-u8-q8Q" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bE4-9F-4nq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="137.68115942028987" y="137.94642857142856"/>
+            <point key="canvasLocation" x="1047.8260869565217" y="137.94642857142856"/>
         </scene>
     </scenes>
     <resources>
+        <namedColor name="Color_3498DB">
+            <color red="0.20392156862745098" green="0.59607843137254901" blue="0.85882352941176465" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="Color_7F7F7F">
             <color red="0.49803921568627452" green="0.49803921568627452" blue="0.49803921568627452" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="Color_E0E0E0">
+            <color red="0.87843137250000003" green="0.87843137250000003" blue="0.87843137250000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="Color_E0E0E0">
+            <color red="0.87843137250000003" green="0.87843137250000003" blue="0.87843137250000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="Color_E0E0E0">
+            <color red="0.87843137250000003" green="0.87843137250000003" blue="0.87843137250000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="Color_E0E0E0">
             <color red="0.8784313725490196" green="0.8784313725490196" blue="0.8784313725490196" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="Color_E0E0E0">
+            <color red="0.87843137250000003" green="0.87843137250000003" blue="0.87843137250000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="Color_EFEFEF">
+            <color red="0.93699997663497925" green="0.93699997663497925" blue="0.93699997663497925" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

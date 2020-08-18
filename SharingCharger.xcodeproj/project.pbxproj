@@ -10,14 +10,14 @@
 		96A289B377796E4505BB738D /* Pods_SharingCharger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E150F99499B36EF9DEE2F892 /* Pods_SharingCharger.framework */; };
 		DA09438324E1214B00671F0D /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA09438224E1214B00671F0D /* CustomTextField.swift */; };
 		DA09438924E146AC00671F0D /* JoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA09438824E146AC00671F0D /* JoinViewController.swift */; };
+		DA41A08C24EBB35400E7BB93 /* AppendStar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA41A08B24EBB35400E7BB93 /* AppendStar.swift */; };
 		DABC41A824CE73F500DD366F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC41A724CE73F500DD366F /* AppDelegate.swift */; };
 		DABC41AA24CE73F500DD366F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC41A924CE73F500DD366F /* SceneDelegate.swift */; };
-		DABC41AC24CE73F500DD366F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC41AB24CE73F500DD366F /* ViewController.swift */; };
+		DABC41AC24CE73F500DD366F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC41AB24CE73F500DD366F /* LoginViewController.swift */; };
 		DABC41AF24CE73F500DD366F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DABC41AD24CE73F500DD366F /* Main.storyboard */; };
 		DABC41B224CE73F500DD366F /* SharingCharger.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DABC41B024CE73F500DD366F /* SharingCharger.xcdatamodeld */; };
 		DABC41B424CE73F700DD366F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DABC41B324CE73F700DD366F /* Assets.xcassets */; };
 		DABC41B724CE73F700DD366F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DABC41B524CE73F700DD366F /* LaunchScreen.storyboard */; };
-		DACA700E24E28B7000B72784 /* ScreenAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACA700D24E28B7000B72784 /* ScreenAnimation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,16 +25,16 @@
 		A2EB86E1C4E15A54970329DC /* Pods-SharingCharger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SharingCharger.release.xcconfig"; path = "Target Support Files/Pods-SharingCharger/Pods-SharingCharger.release.xcconfig"; sourceTree = "<group>"; };
 		DA09438224E1214B00671F0D /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		DA09438824E146AC00671F0D /* JoinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinViewController.swift; sourceTree = "<group>"; };
+		DA41A08B24EBB35400E7BB93 /* AppendStar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppendStar.swift; sourceTree = "<group>"; };
 		DABC41A424CE73F500DD366F /* SharingCharger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SharingCharger.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DABC41A724CE73F500DD366F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DABC41A924CE73F500DD366F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		DABC41AB24CE73F500DD366F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		DABC41AB24CE73F500DD366F /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		DABC41AE24CE73F500DD366F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DABC41B124CE73F500DD366F /* SharingCharger.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SharingCharger.xcdatamodel; sourceTree = "<group>"; };
 		DABC41B324CE73F700DD366F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DABC41B624CE73F700DD366F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DABC41B824CE73F700DD366F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		DACA700D24E28B7000B72784 /* ScreenAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenAnimation.swift; sourceTree = "<group>"; };
 		E150F99499B36EF9DEE2F892 /* Pods_SharingCharger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SharingCharger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -67,13 +67,6 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		DAAFBCE624DABA0B00CAC7CD /* main */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = main;
-			sourceTree = "<group>";
-		};
 		DABC419B24CE73F500DD366F = {
 			isa = PBXGroup;
 			children = (
@@ -95,18 +88,17 @@
 		DABC41A624CE73F500DD366F /* SharingCharger */ = {
 			isa = PBXGroup;
 			children = (
-				DAAFBCE624DABA0B00CAC7CD /* main */,
+				DA41A08B24EBB35400E7BB93 /* AppendStar.swift */,
 				DABC41A724CE73F500DD366F /* AppDelegate.swift */,
 				DABC41A924CE73F500DD366F /* SceneDelegate.swift */,
-				DABC41AB24CE73F500DD366F /* ViewController.swift */,
+				DABC41AB24CE73F500DD366F /* LoginViewController.swift */,
+				DA09438824E146AC00671F0D /* JoinViewController.swift */,
 				DABC41AD24CE73F500DD366F /* Main.storyboard */,
 				DA09438224E1214B00671F0D /* CustomTextField.swift */,
 				DABC41B324CE73F700DD366F /* Assets.xcassets */,
 				DABC41B524CE73F700DD366F /* LaunchScreen.storyboard */,
 				DABC41B824CE73F700DD366F /* Info.plist */,
 				DABC41B024CE73F500DD366F /* SharingCharger.xcdatamodeld */,
-				DA09438824E146AC00671F0D /* JoinViewController.swift */,
-				DACA700D24E28B7000B72784 /* ScreenAnimation.swift */,
 			);
 			path = SharingCharger;
 			sourceTree = "<group>";
@@ -226,13 +218,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DABC41AC24CE73F500DD366F /* ViewController.swift in Sources */,
+				DABC41AC24CE73F500DD366F /* LoginViewController.swift in Sources */,
 				DABC41A824CE73F500DD366F /* AppDelegate.swift in Sources */,
 				DABC41AA24CE73F500DD366F /* SceneDelegate.swift in Sources */,
 				DABC41B224CE73F500DD366F /* SharingCharger.xcdatamodeld in Sources */,
 				DA09438924E146AC00671F0D /* JoinViewController.swift in Sources */,
-				DACA700E24E28B7000B72784 /* ScreenAnimation.swift in Sources */,
 				DA09438324E1214B00671F0D /* CustomTextField.swift in Sources */,
+				DA41A08C24EBB35400E7BB93 /* AppendStar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

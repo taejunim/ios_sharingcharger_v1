@@ -1,4 +1,4 @@
-//
+//  텍스트 필드 커스텀
 //  CustomTextField.swift
 //  SharingCharger
 //
@@ -13,70 +13,68 @@ class CustomTextField: UITextField {
     let border = CALayer()
     var type = 0;
     
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        self.backgroundColor = UIColor.white
-        drawUnderLine()
-//        switch type {
-//        case 1:
-//            drawUnderLine()
-//            addButton()
-//            break
-//        default:
-//            drawUnderLine()
-//            break
-//        }
         
-//        drawUnderLine()
+        self.backgroundColor = UIColor.white
+        self.textColor = UIColor.darkText
+        
+        drawUnderLine()
     }
     
     public func setCurrentType(type: Int, target: JoinViewController) {
+   
         switch type {
+        
         case 1:
             addButton(target: target)
+            
             break
+            
         default:
             break
         }
     }
     
+    //인증 요청 버튼 추가
     private func addButton(target: JoinViewController) {
-//        let btn = UIButton(frame: CGRect(x: 100, y: 0, width: 100, height: 30))
+
         let btn = UIButton()
-        btn.setTitle("인증 요청", for: .normal)
-        //btn.backgroundColor = UIColor.black
         
-        let Color_7F7F7F = UIColor(named: "Color_7F7F7F")
+        let Color_7F7F7F = UIColor(named: "Color_3498DB")
         btn.backgroundColor = Color_7F7F7F
-//        btn.addTarget(superview, action: #selector(buttonAction), for: .touchUpInside)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: CGFloat(15))
+        btn.setTitle("인증 요청", for: .normal)
+
         self.addSubview(btn)
         
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         btn.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        btn.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        btn.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
+        btn.widthAnchor.constraint(equalToConstant: 70).isActive = true
+        btn.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -7).isActive = true
         
-        btn.addTarget(target, action: #selector(target.buttonAction), for: .touchUpInside)
+        btn.addTarget(target, action: #selector(target.buttonAutorization), for: .touchUpInside)
     }
     
+    //텍스트 필드에 밑줄 긋기
     private func drawUnderLine() {
         
-        let frameY: CGFloat = self.frame.size.height-1
-        let frameWidth: CGFloat = self.frame.width
+        let underLine = UIView()
         
-        border.frame = CGRect(x: 0, y: frameY, width: frameWidth, height: 1)
+        let Color_EFEFEF = UIColor(named: "Color_EFEFEF")
+        underLine.backgroundColor = Color_EFEFEF
 
-        //border.backgroundColor = UIColor.Color_7F7F7F.cgColor
-        let Color_7F7F7F = UIColor(named: "Color_EFEFEF")?.cgColor
-        border.backgroundColor = Color_7F7F7F
-//            UIColor(named: "Color_7F7F7F")!
+        self.addSubview(underLine)
         
-        self.layer.addSublayer(border)
+        underLine.translatesAutoresizingMaskIntoConstraints = false
+        underLine.topAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        underLine.leftAnchor.constraint(equalTo: self.leftAnchor, constant:7).isActive = true
+        underLine.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -7).isActive = true
+        underLine.heightAnchor.constraint(equalToConstant: 1).isActive = true
     }
 }
