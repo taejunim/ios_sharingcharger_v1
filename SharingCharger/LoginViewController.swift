@@ -13,15 +13,35 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var loginEmail: UITextField!
     @IBOutlet weak var loginPassword: UITextField!
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        initializeHideKeyboard()    //뷰 터치시 키보드 내리기
+        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))   //뷰 터치시 키보드 내리기
+        view.addGestureRecognizer(tap)
     }
     
-    @IBAction func presentJoin(_ sender: Any) {
+    @IBAction func loginButton(_ sender: Any) {
+        
+        print("Login Button")
+        
+        let mainViewController = UIStoryboard(name:"Main", bundle: nil).instantiateViewController(withIdentifier: "Main") as! MainViewController
+        let navigationController = UINavigationController(rootViewController: mainViewController)
+        navigationController.navigationBar.isHidden = true
+        UIApplication.shared.windows.first?.rootViewController = navigationController
+        UIApplication.shared.windows.first?.makeKeyAndVisible()
+    }
+    
+    @IBAction func joinButton(_ sender: Any) {
         
         guard let uvc = self.storyboard?.instantiateViewController(withIdentifier: "Join") else { return }
+        
+        self.navigationController?.pushViewController(uvc, animated: true)
+    }
+    
+    @IBAction func passwordInitButton(_ sender: Any) {
+        
+        guard let uvc = self.storyboard?.instantiateViewController(withIdentifier: "PasswordInit") else { return }
         
         self.navigationController?.pushViewController(uvc, animated: true)
     }
@@ -38,22 +58,5 @@ class LoginViewController: UIViewController {
         self.navigationController?.setNavigationBarHidden(true, animated: true)
         
         super.viewWillAppear(animated)
-    }
-}
-
-//뷰 터치시 키보드 내리기
-extension LoginViewController {
-    func initializeHideKeyboard(){
-        //Declare a Tap Gesture Recognizer which will trigger our dismissMyKeyboard() function
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(
-            target: self,
-            action: #selector(dismissMyKeyboard))
-        //Add this tap gesture recognizer to the parent view
-        view.addGestureRecognizer(tap)
-    }
-    @objc func dismissMyKeyboard(){
-        //endEditing causes the view (or one of its embedded text fields) to resign the first responder status.
-        //In short- Dismiss the active keyboard.
-        view.endEditing(true)
     }
 }

@@ -11,13 +11,17 @@
 		DA09438324E1214B00671F0D /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA09438224E1214B00671F0D /* CustomTextField.swift */; };
 		DA09438924E146AC00671F0D /* JoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA09438824E146AC00671F0D /* JoinViewController.swift */; };
 		DA41A08C24EBB35400E7BB93 /* AppendStar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA41A08B24EBB35400E7BB93 /* AppendStar.swift */; };
+		DA41A1F024ECF71200E7BB93 /* PasswordInitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA41A1EF24ECF71200E7BB93 /* PasswordInitViewController.swift */; };
 		DABC41A824CE73F500DD366F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC41A724CE73F500DD366F /* AppDelegate.swift */; };
 		DABC41AA24CE73F500DD366F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC41A924CE73F500DD366F /* SceneDelegate.swift */; };
 		DABC41AC24CE73F500DD366F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC41AB24CE73F500DD366F /* LoginViewController.swift */; };
-		DABC41AF24CE73F500DD366F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DABC41AD24CE73F500DD366F /* Main.storyboard */; };
+		DABC41AF24CE73F500DD366F /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DABC41AD24CE73F500DD366F /* Login.storyboard */; };
 		DABC41B224CE73F500DD366F /* SharingCharger.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DABC41B024CE73F500DD366F /* SharingCharger.xcdatamodeld */; };
 		DABC41B424CE73F700DD366F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DABC41B324CE73F700DD366F /* Assets.xcassets */; };
 		DABC41B724CE73F700DD366F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DABC41B524CE73F700DD366F /* LaunchScreen.storyboard */; };
+		DADCD4C524F4E1E20026EFAD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DADCD4C424F4E1E20026EFAD /* Main.storyboard */; };
+		DADCD4C724F4E2080026EFAD /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADCD4C624F4E2080026EFAD /* MainViewController.swift */; };
+		DADCD4F224F554710026EFAD /* ReservationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADCD4F124F554710026EFAD /* ReservationViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,15 +30,19 @@
 		DA09438224E1214B00671F0D /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		DA09438824E146AC00671F0D /* JoinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinViewController.swift; sourceTree = "<group>"; };
 		DA41A08B24EBB35400E7BB93 /* AppendStar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppendStar.swift; sourceTree = "<group>"; };
+		DA41A1EF24ECF71200E7BB93 /* PasswordInitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordInitViewController.swift; sourceTree = "<group>"; };
 		DABC41A424CE73F500DD366F /* SharingCharger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SharingCharger.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DABC41A724CE73F500DD366F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DABC41A924CE73F500DD366F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		DABC41AB24CE73F500DD366F /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		DABC41AE24CE73F500DD366F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		DABC41AE24CE73F500DD366F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Login.storyboard; sourceTree = "<group>"; };
 		DABC41B124CE73F500DD366F /* SharingCharger.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SharingCharger.xcdatamodel; sourceTree = "<group>"; };
 		DABC41B324CE73F700DD366F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DABC41B624CE73F700DD366F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DABC41B824CE73F700DD366F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DADCD4C424F4E1E20026EFAD /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		DADCD4C624F4E2080026EFAD /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		DADCD4F124F554710026EFAD /* ReservationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservationViewController.swift; sourceTree = "<group>"; };
 		E150F99499B36EF9DEE2F892 /* Pods_SharingCharger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SharingCharger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -81,6 +89,9 @@
 			children = (
 				DA09438824E146AC00671F0D /* JoinViewController.swift */,
 				DABC41AB24CE73F500DD366F /* LoginViewController.swift */,
+				DADCD4C624F4E2080026EFAD /* MainViewController.swift */,
+				DA41A1EF24ECF71200E7BB93 /* PasswordInitViewController.swift */,
+				DADCD4F124F554710026EFAD /* ReservationViewController.swift */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -89,7 +100,8 @@
 			isa = PBXGroup;
 			children = (
 				DABC41B524CE73F700DD366F /* LaunchScreen.storyboard */,
-				DABC41AD24CE73F500DD366F /* Main.storyboard */,
+				DABC41AD24CE73F500DD366F /* Login.storyboard */,
+				DADCD4C424F4E1E20026EFAD /* Main.storyboard */,
 			);
 			name = Storyboard;
 			sourceTree = "<group>";
@@ -189,7 +201,8 @@
 			files = (
 				DABC41B724CE73F700DD366F /* LaunchScreen.storyboard in Resources */,
 				DABC41B424CE73F700DD366F /* Assets.xcassets in Resources */,
-				DABC41AF24CE73F500DD366F /* Main.storyboard in Resources */,
+				DABC41AF24CE73F500DD366F /* Login.storyboard in Resources */,
+				DADCD4C524F4E1E20026EFAD /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -244,9 +257,12 @@
 			files = (
 				DABC41AC24CE73F500DD366F /* LoginViewController.swift in Sources */,
 				DABC41A824CE73F500DD366F /* AppDelegate.swift in Sources */,
+				DA41A1F024ECF71200E7BB93 /* PasswordInitViewController.swift in Sources */,
 				DABC41AA24CE73F500DD366F /* SceneDelegate.swift in Sources */,
 				DABC41B224CE73F500DD366F /* SharingCharger.xcdatamodeld in Sources */,
+				DADCD4F224F554710026EFAD /* ReservationViewController.swift in Sources */,
 				DA09438924E146AC00671F0D /* JoinViewController.swift in Sources */,
+				DADCD4C724F4E2080026EFAD /* MainViewController.swift in Sources */,
 				DA09438324E1214B00671F0D /* CustomTextField.swift in Sources */,
 				DA41A08C24EBB35400E7BB93 /* AppendStar.swift in Sources */,
 			);
@@ -255,12 +271,12 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		DABC41AD24CE73F500DD366F /* Main.storyboard */ = {
+		DABC41AD24CE73F500DD366F /* Login.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				DABC41AE24CE73F500DD366F /* Base */,
 			);
-			name = Main.storyboard;
+			name = Login.storyboard;
 			sourceTree = "<group>";
 		};
 		DABC41B524CE73F700DD366F /* LaunchScreen.storyboard */ = {

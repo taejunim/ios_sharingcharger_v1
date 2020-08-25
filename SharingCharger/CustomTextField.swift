@@ -9,7 +9,7 @@
 import UIKit
 
 class CustomTextField: UITextField {
-
+    
     let border = CALayer()
     var type = 0;
     
@@ -26,7 +26,7 @@ class CustomTextField: UITextField {
         drawUnderLine()
     }
     
-    public func setCurrentType(type: Int, target: JoinViewController) {
+    public func setCurrentType(type: Int, target: AnyObject) {
    
         switch type {
         
@@ -41,7 +41,7 @@ class CustomTextField: UITextField {
     }
     
     //인증 요청 버튼 추가
-    private func addButton(target: JoinViewController) {
+    private func addButton(target: AnyObject) {
 
         let btn = UIButton()
         
@@ -60,6 +60,7 @@ class CustomTextField: UITextField {
         
         btn.addTarget(target, action: #selector(target.buttonAutorization), for: .touchUpInside)
     }
+    
     
     //텍스트 필드에 밑줄 긋기
     private func drawUnderLine() {

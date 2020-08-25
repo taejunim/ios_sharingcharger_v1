@@ -11,13 +11,43 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    
+    let mode: String = "Login"
+    //let mode: String = "Main"
 
-
+    //추후 로그인 API 연동후 로그인 정보가 있으면 "메인" 화면으로 이동, 로그인 정보가 없으면 "로그인" 화면으로 이동하게 처리
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let _ = (scene as? UIWindowScene) else { return }
+        //guard let _ = (scene as? UIWindowScene) else { return }
+        
+        guard let windowScene = (scene as? UIWindowScene) else { return }
+
+        self.window = UIWindow(windowScene: windowScene)
+        //self.window =  UIWindow(frame: UIScreen.main.bounds)
+
+        var storyboard: UIStoryboard?
+        var rootViewController: UIViewController?
+        
+        if mode == "Login" {
+        
+            storyboard = UIStoryboard(name: "Login", bundle: nil)
+            rootViewController = storyboard?.instantiateViewController(identifier: "Login") as? LoginViewController
+            
+        } else if mode == "Main" {
+            
+            storyboard = UIStoryboard(name: "Main", bundle: nil)
+            rootViewController = storyboard?.instantiateViewController(identifier: "Main") as? MainViewController
+        }
+        
+        let rootNavigationController = UINavigationController(rootViewController: rootViewController!)
+        rootNavigationController.isNavigationBarHidden = true
+        rootNavigationController.navigationBar.barTintColor = .white
+        rootNavigationController.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.darkText]
+        
+        self.window?.rootViewController = rootNavigationController
+        self.window?.makeKeyAndVisible()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
