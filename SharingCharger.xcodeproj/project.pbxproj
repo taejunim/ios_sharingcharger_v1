@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		372D309224F6324000CEB232 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 372D309124F6324000CEB232 /* SettingViewController.swift */; };
 		96A289B377796E4505BB738D /* Pods_SharingCharger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E150F99499B36EF9DEE2F892 /* Pods_SharingCharger.framework */; };
 		DA09438324E1214B00671F0D /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA09438224E1214B00671F0D /* CustomTextField.swift */; };
 		DA09438924E146AC00671F0D /* JoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA09438824E146AC00671F0D /* JoinViewController.swift */; };
@@ -26,6 +27,7 @@
 
 /* Begin PBXFileReference section */
 		0E3E6427A6C3A592D0F58D84 /* Pods-SharingCharger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SharingCharger.debug.xcconfig"; path = "Target Support Files/Pods-SharingCharger/Pods-SharingCharger.debug.xcconfig"; sourceTree = "<group>"; };
+		372D309124F6324000CEB232 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		A2EB86E1C4E15A54970329DC /* Pods-SharingCharger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SharingCharger.release.xcconfig"; path = "Target Support Files/Pods-SharingCharger/Pods-SharingCharger.release.xcconfig"; sourceTree = "<group>"; };
 		DA09438224E1214B00671F0D /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		DA09438824E146AC00671F0D /* JoinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinViewController.swift; sourceTree = "<group>"; };
@@ -92,6 +94,7 @@
 				DADCD4C624F4E2080026EFAD /* MainViewController.swift */,
 				DA41A1EF24ECF71200E7BB93 /* PasswordInitViewController.swift */,
 				DADCD4F124F554710026EFAD /* ReservationViewController.swift */,
+				372D309124F6324000CEB232 /* SettingViewController.swift */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -265,6 +268,7 @@
 				DADCD4C724F4E2080026EFAD /* MainViewController.swift in Sources */,
 				DA09438324E1214B00671F0D /* CustomTextField.swift in Sources */,
 				DA41A08C24EBB35400E7BB93 /* AppendStar.swift in Sources */,
+				372D309224F6324000CEB232 /* SettingViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
