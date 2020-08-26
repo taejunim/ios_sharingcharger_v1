@@ -37,6 +37,8 @@ class LoginViewController: UIViewController {
         guard let uvc = self.storyboard?.instantiateViewController(withIdentifier: "Join") else { return }
         
         self.navigationController?.pushViewController(uvc, animated: true)
+        
+        //test
     }
     
     @IBAction func passwordInitButton(_ sender: Any) {
