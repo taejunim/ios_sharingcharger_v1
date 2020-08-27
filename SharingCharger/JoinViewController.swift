@@ -19,7 +19,9 @@ class JoinViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var buttonComplete: UIButton!                    //완료 버튼
     
-    var activeTextFieldTag: Int = -1    //현재 포커싱인 textField
+    @IBOutlet weak var scrollView: UIScrollView!
+    
+    var activeTextField: UITextField?   //현재 포커싱인 textField
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,31 +77,35 @@ class JoinViewController: UIViewController, UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         
-        activeTextFieldTag = textField.tag
+        activeTextField = textField
     }
         
     func textFieldDidEndEditing(_ textField: UITextField) {
 
-        activeTextFieldTag = -1
+        activeTextField = nil
     }
     
     @objc func keyboardWillHide(_ notification : Notification?) {
         
-        if (activeTextFieldTag == self.passwordConfirmTextField.tag) {
-            self.view.frame.origin.y = 0
-        }
+        let contentInsets = UIEdgeInsets.zero
+        scrollView.contentInset = contentInsets
+        scrollView.scrollIndicatorInsets = contentInsets
     }
     
     @objc func keyboardWillShow(_ notification : Notification?) {
         
-        //맨 아래의 "패스워드 확인 textField" 터치후 키보드 올라오면 키보드가 textField 를 가리므로 뷰를 -50 만큼 올려줌
-        if (activeTextFieldTag == self.passwordConfirmTextField.tag) {
-            self.view.frame.origin.y = -50
-        }
+        guard let keyboardFrame = (notification?.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
         
-        //키보드가 올라와있고 "패스워드 확인 textField" 포커싱중인 상태에서 다른 textField 로 포커스 이동시 뷰를 0만큼 원래위치로
-        else if (activeTextFieldTag != self.passwordConfirmTextField.tag && self.view.frame.origin.y == -50.0) {
-            self.view.frame.origin.y = 0
+        let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardFrame.height, right: 0.0)
+        scrollView.contentInset = contentInsets
+        scrollView.scrollIndicatorInsets = contentInsets
+
+        // 활성화된 텍스트 필드가 키보드에 의해 가려진다면 가려지지 않도록 스크롤한다.
+        // 이 부분은 상황에 따라 불필요할 수 있다.
+        var rect = self.view.frame
+        rect.size.height -= keyboardFrame.height
+        if rect.contains(activeTextField!.frame.origin) {
+            scrollView.scrollRectToVisible(activeTextField!.frame, animated: true)
         }
     }
 }

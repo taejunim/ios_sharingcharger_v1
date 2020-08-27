@@ -165,6 +165,138 @@
                                     <constraint firstAttribute="height" constant="7" id="F0E-bX-I5V"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i0a-EV-nYN" userLabel="Frame View">
+                                <rect key="frame" x="0.0" y="51" width="414" height="771"/>
+                                <subviews>
+                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K4w-ve-Vrh">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="771"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fby-H7-HOw" userLabel="Content VIew">
+                                                <rect key="frame" x="0.0" y="0.0" width="414" height="426"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="이름*" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yty-dv-EXB" userLabel="Label Name" customClass="AppendStar" customModule="SharingCharger" customModuleProvider="target">
+                                                        <rect key="frame" x="27" y="30" width="360" height="18"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="실명 입력" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ocz-FP-cqd" userLabel="Text Name" customClass="CustomTextField" customModule="SharingCharger" customModuleProvider="target">
+                                                        <rect key="frame" x="20" y="53" width="374" height="34"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                        <textInputTraits key="textInputTraits" returnKeyType="next"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="color" keyPath="placeholderLabel.textColor">
+                                                                <color key="value" name="Color_E0E0E0"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </textField>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="전화번호*" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dNk-mO-ib6" userLabel="Label Phone" customClass="AppendStar" customModule="SharingCharger" customModuleProvider="target">
+                                                        <rect key="frame" x="27" y="117" width="360" height="18"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <textField opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="- 제외하고 숫자만 입력" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ANT-mF-OhE" userLabel="Text Phone" customClass="CustomTextField" customModule="SharingCharger" customModuleProvider="target">
+                                                        <rect key="frame" x="20" y="140" width="374" height="34"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                        <textInputTraits key="textInputTraits" returnKeyType="next"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="color" keyPath="placeholderLabel.textColor">
+                                                                <color key="value" name="Color_E0E0E0"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </textField>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="이메일*" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nOF-NY-Pcq" userLabel="Label Email" customClass="AppendStar" customModule="SharingCharger" customModuleProvider="target">
+                                                        <rect key="frame" x="27" y="204" width="360" height="18"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <textField opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="example@gmail.com" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eOS-vs-gPs" userLabel="Text Email" customClass="CustomTextField" customModule="SharingCharger" customModuleProvider="target">
+                                                        <rect key="frame" x="20" y="227" width="374" height="34"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                        <textInputTraits key="textInputTraits" returnKeyType="next"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="color" keyPath="placeholderLabel.textColor">
+                                                                <color key="value" name="Color_E0E0E0"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </textField>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="인증번호*" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wbu-On-BAn" userLabel="Label AutorizationCode" customClass="AppendStar" customModule="SharingCharger" customModuleProvider="target">
+                                                        <rect key="frame" x="27" y="291" width="360" height="18"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <textField opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="인증번호 입력" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aaW-Y2-Xe1" userLabel="Text AutorizationCode" customClass="CustomTextField" customModule="SharingCharger" customModuleProvider="target">
+                                                        <rect key="frame" x="20" y="314" width="374" height="34"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                        <textInputTraits key="textInputTraits"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="color" keyPath="placeholderLabel.textColor">
+                                                                <color key="value" name="Color_E0E0E0"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </textField>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="※ 입력하신 이메일로 초기 비밀번호가 전송됩니다." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="noH-dN-sQo" userLabel="Label Phrase" customClass="AppendStar" customModule="SharingCharger" customModuleProvider="target">
+                                                        <rect key="frame" x="27" y="378" width="360" height="18"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstItem="dNk-mO-ib6" firstAttribute="top" secondItem="Ocz-FP-cqd" secondAttribute="bottom" constant="30" id="2mB-He-qcr"/>
+                                                    <constraint firstItem="wbu-On-BAn" firstAttribute="leading" secondItem="yty-dv-EXB" secondAttribute="leading" id="3Gi-Pf-HQ7"/>
+                                                    <constraint firstItem="noH-dN-sQo" firstAttribute="leading" secondItem="yty-dv-EXB" secondAttribute="leading" id="65g-l2-lzz"/>
+                                                    <constraint firstItem="dNk-mO-ib6" firstAttribute="leading" secondItem="yty-dv-EXB" secondAttribute="leading" id="6cX-92-Uqc"/>
+                                                    <constraint firstItem="ANT-mF-OhE" firstAttribute="trailing" secondItem="Ocz-FP-cqd" secondAttribute="trailing" id="7fd-hF-jPP"/>
+                                                    <constraint firstItem="yty-dv-EXB" firstAttribute="top" secondItem="Fby-H7-HOw" secondAttribute="top" constant="30" id="7mD-IA-ymP"/>
+                                                    <constraint firstItem="ANT-mF-OhE" firstAttribute="leading" secondItem="Ocz-FP-cqd" secondAttribute="leading" id="80w-pF-a8Z"/>
+                                                    <constraint firstItem="nOF-NY-Pcq" firstAttribute="trailing" secondItem="dNk-mO-ib6" secondAttribute="trailing" id="9kx-FI-SbV"/>
+                                                    <constraint firstItem="eOS-vs-gPs" firstAttribute="top" secondItem="nOF-NY-Pcq" secondAttribute="bottom" constant="5" id="BL4-aq-A0b"/>
+                                                    <constraint firstItem="yty-dv-EXB" firstAttribute="leading" secondItem="Fby-H7-HOw" secondAttribute="leading" constant="27" id="BmD-JB-nFE"/>
+                                                    <constraint firstItem="aaW-Y2-Xe1" firstAttribute="top" secondItem="wbu-On-BAn" secondAttribute="bottom" constant="5" id="Dfr-8p-Skv"/>
+                                                    <constraint firstItem="noH-dN-sQo" firstAttribute="trailing" secondItem="yty-dv-EXB" secondAttribute="trailing" id="Ehd-mB-EcT"/>
+                                                    <constraint firstAttribute="bottom" secondItem="noH-dN-sQo" secondAttribute="bottom" constant="30" id="Lye-Mh-7JK"/>
+                                                    <constraint firstItem="dNk-mO-ib6" firstAttribute="trailing" secondItem="yty-dv-EXB" secondAttribute="trailing" id="Rre-gv-5Od"/>
+                                                    <constraint firstItem="aaW-Y2-Xe1" firstAttribute="leading" secondItem="Ocz-FP-cqd" secondAttribute="leading" id="SAp-6P-sPC"/>
+                                                    <constraint firstAttribute="trailing" secondItem="yty-dv-EXB" secondAttribute="trailing" constant="27" id="SBr-NP-nfb"/>
+                                                    <constraint firstItem="nOF-NY-Pcq" firstAttribute="top" secondItem="ANT-mF-OhE" secondAttribute="bottom" constant="30" id="TNa-ys-UpS"/>
+                                                    <constraint firstAttribute="trailing" secondItem="Ocz-FP-cqd" secondAttribute="trailing" constant="20" id="TcO-5w-PJ0"/>
+                                                    <constraint firstItem="Ocz-FP-cqd" firstAttribute="leading" secondItem="Fby-H7-HOw" secondAttribute="leading" constant="20" id="Und-fG-qsM"/>
+                                                    <constraint firstItem="ANT-mF-OhE" firstAttribute="top" secondItem="dNk-mO-ib6" secondAttribute="bottom" constant="5" id="azx-Ql-Bvg"/>
+                                                    <constraint firstItem="wbu-On-BAn" firstAttribute="trailing" secondItem="yty-dv-EXB" secondAttribute="trailing" id="fXQ-HA-LqV"/>
+                                                    <constraint firstItem="noH-dN-sQo" firstAttribute="top" secondItem="aaW-Y2-Xe1" secondAttribute="bottom" constant="30" id="jfw-qk-YUD"/>
+                                                    <constraint firstItem="aaW-Y2-Xe1" firstAttribute="trailing" secondItem="Ocz-FP-cqd" secondAttribute="trailing" id="rem-bU-W8z"/>
+                                                    <constraint firstItem="eOS-vs-gPs" firstAttribute="leading" secondItem="Ocz-FP-cqd" secondAttribute="leading" id="slo-bI-lGX"/>
+                                                    <constraint firstItem="eOS-vs-gPs" firstAttribute="trailing" secondItem="Ocz-FP-cqd" secondAttribute="trailing" id="vkX-qC-OG9"/>
+                                                    <constraint firstItem="Ocz-FP-cqd" firstAttribute="top" secondItem="yty-dv-EXB" secondAttribute="bottom" constant="5" id="wFt-Lr-umk"/>
+                                                    <constraint firstItem="wbu-On-BAn" firstAttribute="top" secondItem="eOS-vs-gPs" secondAttribute="bottom" constant="30" id="x5d-b3-9k0"/>
+                                                    <constraint firstItem="nOF-NY-Pcq" firstAttribute="leading" secondItem="dNk-mO-ib6" secondAttribute="leading" id="yRt-BH-2SJ"/>
+                                                </constraints>
+                                            </view>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="Fby-H7-HOw" firstAttribute="bottom" secondItem="xXt-iQ-s1C" secondAttribute="bottom" id="Mqj-25-rZO"/>
+                                            <constraint firstItem="Fby-H7-HOw" firstAttribute="top" secondItem="xXt-iQ-s1C" secondAttribute="top" id="SDA-k1-B9x"/>
+                                            <constraint firstItem="Fby-H7-HOw" firstAttribute="width" secondItem="iyc-GB-Dkc" secondAttribute="width" id="StL-8N-w2f"/>
+                                            <constraint firstItem="Fby-H7-HOw" firstAttribute="leading" secondItem="xXt-iQ-s1C" secondAttribute="leading" id="W3d-gv-hGX"/>
+                                            <constraint firstItem="Fby-H7-HOw" firstAttribute="trailing" secondItem="xXt-iQ-s1C" secondAttribute="trailing" id="z1i-PN-Llg"/>
+                                        </constraints>
+                                        <viewLayoutGuide key="contentLayoutGuide" id="xXt-iQ-s1C"/>
+                                        <viewLayoutGuide key="frameLayoutGuide" id="iyc-GB-Dkc"/>
+                                    </scrollView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="K4w-ve-Vrh" secondAttribute="bottom" id="6u0-PD-cdQ"/>
+                                    <constraint firstItem="K4w-ve-Vrh" firstAttribute="top" secondItem="i0a-EV-nYN" secondAttribute="top" id="Rv8-0N-EKQ"/>
+                                    <constraint firstAttribute="trailing" secondItem="K4w-ve-Vrh" secondAttribute="trailing" id="jiX-I6-I5c"/>
+                                    <constraint firstItem="K4w-ve-Vrh" firstAttribute="leading" secondItem="i0a-EV-nYN" secondAttribute="leading" id="loK-Ue-oTY"/>
+                                </constraints>
+                            </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tlL-Xl-UlR">
                                 <rect key="frame" x="0.0" y="822" width="414" height="40"/>
                                 <color key="backgroundColor" name="Color_3498DB"/>
@@ -176,130 +308,34 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="이름*" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yty-dv-EXB" userLabel="Label Name" customClass="AppendStar" customModule="SharingCharger" customModuleProvider="target">
-                                <rect key="frame" x="27" y="81" width="360" height="18"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="실명 입력" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ocz-FP-cqd" userLabel="Text Name" customClass="CustomTextField" customModule="SharingCharger" customModuleProvider="target">
-                                <rect key="frame" x="20" y="104" width="374" height="34"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <textInputTraits key="textInputTraits"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="placeholderLabel.textColor">
-                                        <color key="value" name="Color_E0E0E0"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="전화번호*" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dNk-mO-ib6" userLabel="Label Phone" customClass="AppendStar" customModule="SharingCharger" customModuleProvider="target">
-                                <rect key="frame" x="27" y="168" width="360" height="18"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="- 제외하고 숫자만 입력" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ANT-mF-OhE" userLabel="Text Phone" customClass="CustomTextField" customModule="SharingCharger" customModuleProvider="target">
-                                <rect key="frame" x="20" y="191" width="374" height="34"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <textInputTraits key="textInputTraits"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="placeholderLabel.textColor">
-                                        <color key="value" name="Color_E0E0E0"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="이메일*" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nOF-NY-Pcq" userLabel="Label Email" customClass="AppendStar" customModule="SharingCharger" customModuleProvider="target">
-                                <rect key="frame" x="27" y="255" width="360" height="18"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="example@gmail.com" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eOS-vs-gPs" userLabel="Text Email" customClass="CustomTextField" customModule="SharingCharger" customModuleProvider="target">
-                                <rect key="frame" x="20" y="278" width="374" height="34"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <textInputTraits key="textInputTraits"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="placeholderLabel.textColor">
-                                        <color key="value" name="Color_E0E0E0"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="인증번호 입력" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aaW-Y2-Xe1" userLabel="Text AutorizationCode" customClass="CustomTextField" customModule="SharingCharger" customModuleProvider="target">
-                                <rect key="frame" x="20" y="365" width="374" height="34"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <textInputTraits key="textInputTraits"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="placeholderLabel.textColor">
-                                        <color key="value" name="Color_E0E0E0"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="인증번호*" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wbu-On-BAn" userLabel="Label AutorizationCode" customClass="AppendStar" customModule="SharingCharger" customModuleProvider="target">
-                                <rect key="frame" x="27" y="342" width="360" height="18"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="※ 입력하신 이메일로 초기 비밀번호가 전송됩니다." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="noH-dN-sQo" userLabel="Label Phrase" customClass="AppendStar" customModule="SharingCharger" customModuleProvider="target">
-                                <rect key="frame" x="27" y="429" width="360" height="18"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="nOF-NY-Pcq" firstAttribute="trailing" secondItem="yty-dv-EXB" secondAttribute="trailing" id="2m3-M9-R0T"/>
-                            <constraint firstItem="wbu-On-BAn" firstAttribute="trailing" secondItem="yty-dv-EXB" secondAttribute="trailing" id="2wk-4Q-ZPt"/>
                             <constraint firstItem="Vc8-9V-QFE" firstAttribute="top" secondItem="3QH-yk-dYV" secondAttribute="top" id="30g-ig-gVk"/>
-                            <constraint firstItem="eOS-vs-gPs" firstAttribute="top" secondItem="nOF-NY-Pcq" secondAttribute="bottom" constant="5" id="3jE-ex-gKo"/>
-                            <constraint firstItem="Ocz-FP-cqd" firstAttribute="leading" secondItem="3QH-yk-dYV" secondAttribute="leading" constant="20" id="8QP-8e-mmh"/>
-                            <constraint firstItem="noH-dN-sQo" firstAttribute="trailing" secondItem="yty-dv-EXB" secondAttribute="trailing" id="9FH-d5-Ril"/>
                             <constraint firstItem="3QH-yk-dYV" firstAttribute="bottom" secondItem="tlL-Xl-UlR" secondAttribute="bottom" id="AiK-Yh-EsO"/>
-                            <constraint firstItem="ANT-mF-OhE" firstAttribute="top" secondItem="dNk-mO-ib6" secondAttribute="bottom" constant="5" id="Ci8-fB-7t3"/>
                             <constraint firstItem="tlL-Xl-UlR" firstAttribute="trailing" secondItem="3QH-yk-dYV" secondAttribute="trailing" id="DmK-XY-dvF"/>
-                            <constraint firstItem="noH-dN-sQo" firstAttribute="top" secondItem="aaW-Y2-Xe1" secondAttribute="bottom" constant="30" id="E4j-fe-nj9"/>
-                            <constraint firstItem="yty-dv-EXB" firstAttribute="top" secondItem="Vc8-9V-QFE" secondAttribute="bottom" constant="30" id="Ea4-7e-F3T"/>
-                            <constraint firstItem="aaW-Y2-Xe1" firstAttribute="top" secondItem="wbu-On-BAn" secondAttribute="bottom" constant="5" id="Fb2-Ua-hph"/>
-                            <constraint firstItem="yty-dv-EXB" firstAttribute="leading" secondItem="3QH-yk-dYV" secondAttribute="leading" constant="27" id="G6C-YV-MSX"/>
-                            <constraint firstItem="eOS-vs-gPs" firstAttribute="trailing" secondItem="Ocz-FP-cqd" secondAttribute="trailing" id="GnQ-os-Let"/>
-                            <constraint firstItem="noH-dN-sQo" firstAttribute="leading" secondItem="yty-dv-EXB" secondAttribute="leading" id="Nng-vJ-MZW"/>
-                            <constraint firstItem="noH-dN-sQo" firstAttribute="width" secondItem="yty-dv-EXB" secondAttribute="width" id="Nsr-lx-pVW"/>
-                            <constraint firstItem="dNk-mO-ib6" firstAttribute="width" secondItem="yty-dv-EXB" secondAttribute="width" id="OBQ-7L-fhX"/>
-                            <constraint firstItem="Ocz-FP-cqd" firstAttribute="top" secondItem="yty-dv-EXB" secondAttribute="bottom" constant="5" id="OeJ-a5-d6k"/>
+                            <constraint firstItem="i0a-EV-nYN" firstAttribute="trailing" secondItem="3QH-yk-dYV" secondAttribute="trailing" id="Kcg-qZ-5jB"/>
                             <constraint firstItem="Vc8-9V-QFE" firstAttribute="trailing" secondItem="3QH-yk-dYV" secondAttribute="trailing" id="SdD-hi-duZ"/>
-                            <constraint firstItem="eOS-vs-gPs" firstAttribute="width" secondItem="Ocz-FP-cqd" secondAttribute="width" id="T3q-9j-CJy"/>
-                            <constraint firstItem="3QH-yk-dYV" firstAttribute="trailing" secondItem="Ocz-FP-cqd" secondAttribute="trailing" constant="20" id="TkB-Ft-WXG"/>
-                            <constraint firstItem="nOF-NY-Pcq" firstAttribute="leading" secondItem="yty-dv-EXB" secondAttribute="leading" id="TrU-pa-zfI"/>
-                            <constraint firstItem="ANT-mF-OhE" firstAttribute="trailing" secondItem="Ocz-FP-cqd" secondAttribute="trailing" id="UFo-Yg-9GZ"/>
-                            <constraint firstItem="aaW-Y2-Xe1" firstAttribute="width" secondItem="Ocz-FP-cqd" secondAttribute="width" id="XBj-w0-Omb"/>
                             <constraint firstItem="Vc8-9V-QFE" firstAttribute="leading" secondItem="3QH-yk-dYV" secondAttribute="leading" id="ZNw-2f-GjH"/>
-                            <constraint firstItem="ANT-mF-OhE" firstAttribute="leading" secondItem="Ocz-FP-cqd" secondAttribute="leading" id="anc-xY-bda"/>
-                            <constraint firstItem="wbu-On-BAn" firstAttribute="top" secondItem="eOS-vs-gPs" secondAttribute="bottom" constant="30" id="cHp-UM-FHC"/>
-                            <constraint firstItem="ANT-mF-OhE" firstAttribute="width" secondItem="Ocz-FP-cqd" secondAttribute="width" id="d8Y-tK-C3u"/>
-                            <constraint firstItem="eOS-vs-gPs" firstAttribute="leading" secondItem="Ocz-FP-cqd" secondAttribute="leading" id="eLh-r4-wIf"/>
-                            <constraint firstItem="wbu-On-BAn" firstAttribute="width" secondItem="yty-dv-EXB" secondAttribute="width" id="ejh-Ef-Pnf"/>
+                            <constraint firstItem="i0a-EV-nYN" firstAttribute="top" secondItem="Vc8-9V-QFE" secondAttribute="bottom" id="fLo-jf-JU6"/>
+                            <constraint firstItem="i0a-EV-nYN" firstAttribute="leading" secondItem="3QH-yk-dYV" secondAttribute="leading" id="hmx-To-LR5"/>
                             <constraint firstItem="tlL-Xl-UlR" firstAttribute="leading" secondItem="3QH-yk-dYV" secondAttribute="leading" id="jDt-fO-NBG"/>
-                            <constraint firstItem="3QH-yk-dYV" firstAttribute="trailing" secondItem="yty-dv-EXB" secondAttribute="trailing" constant="27" id="l3C-WE-0M2"/>
-                            <constraint firstItem="dNk-mO-ib6" firstAttribute="trailing" secondItem="yty-dv-EXB" secondAttribute="trailing" id="oCg-b4-Ixu"/>
-                            <constraint firstItem="dNk-mO-ib6" firstAttribute="leading" secondItem="yty-dv-EXB" secondAttribute="leading" id="orK-Wd-gWq"/>
-                            <constraint firstItem="dNk-mO-ib6" firstAttribute="top" secondItem="Ocz-FP-cqd" secondAttribute="bottom" constant="30" id="rji-Yo-bGA"/>
-                            <constraint firstItem="nOF-NY-Pcq" firstAttribute="top" secondItem="ANT-mF-OhE" secondAttribute="bottom" constant="30" id="sU9-MX-kEq"/>
-                            <constraint firstItem="aaW-Y2-Xe1" firstAttribute="trailing" secondItem="Ocz-FP-cqd" secondAttribute="trailing" id="tpx-Gh-0xN"/>
-                            <constraint firstItem="aaW-Y2-Xe1" firstAttribute="leading" secondItem="Ocz-FP-cqd" secondAttribute="leading" id="vHB-rl-IBw"/>
-                            <constraint firstItem="wbu-On-BAn" firstAttribute="leading" secondItem="yty-dv-EXB" secondAttribute="leading" id="vhL-f5-XPo"/>
-                            <constraint firstItem="nOF-NY-Pcq" firstAttribute="width" secondItem="yty-dv-EXB" secondAttribute="width" id="xdg-29-Iip"/>
+                            <constraint firstItem="tlL-Xl-UlR" firstAttribute="top" secondItem="i0a-EV-nYN" secondAttribute="bottom" id="zAZ-1I-TWc"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="3QH-yk-dYV"/>
                     </view>
                     <connections>
+                        <outlet property="autorizationCodeTextField" destination="aaW-Y2-Xe1" id="Yg6-NF-mPR"/>
                         <outlet property="emailTextField" destination="eOS-vs-gPs" id="Lx3-vd-uCu"/>
+                        <outlet property="nameTextField" destination="Ocz-FP-cqd" id="bh2-aJ-t4l"/>
                         <outlet property="passwordInitButton" destination="tlL-Xl-UlR" id="yQ2-KK-q9L"/>
+                        <outlet property="phoneTextField" destination="ANT-mF-OhE" id="nA0-VX-vdX"/>
+                        <outlet property="scrollView" destination="K4w-ve-Vrh" id="au4-EL-A3D"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qXM-NF-8MK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1958" y="812"/>
+            <point key="canvasLocation" x="1957.9710144927537" y="811.60714285714278"/>
         </scene>
         <!--설정-->
         <scene sceneID="Kho-pl-RWI">
@@ -637,6 +673,7 @@
                         <outlet property="passwordConfirmTextField" destination="g63-hj-zOu" id="ygd-lT-ydI"/>
                         <outlet property="passwordTextField" destination="0VM-e2-ViD" id="5sn-kO-y5x"/>
                         <outlet property="phoneTextField" destination="tkZ-sm-i4D" id="qVV-gN-Mws"/>
+                        <outlet property="scrollView" destination="iO7-M5-AAV" id="0aC-Bn-GQq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pld-It-Dfx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
