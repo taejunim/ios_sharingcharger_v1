@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -15,6 +15,10 @@
 		96A289B377796E4505BB738D /* Pods_SharingCharger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E150F99499B36EF9DEE2F892 /* Pods_SharingCharger.framework */; };
 		DA09438324E1214B00671F0D /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA09438224E1214B00671F0D /* CustomTextField.swift */; };
 		DA09438924E146AC00671F0D /* JoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA09438824E146AC00671F0D /* JoinViewController.swift */; };
+		DA26FB2324FCC0CC00D76753 /* SampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA26FB2224FCC0CC00D76753 /* SampleViewController.swift */; };
+		DA26FB2524FCC0FF00D76753 /* SampleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA26FB2424FCC0FF00D76753 /* SampleTableViewCell.swift */; };
+		DA26FB3224FCD6B400D76753 /* EvzBLEKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA26FB3024FCD6AD00D76753 /* EvzBLEKit.xcframework */; };
+		DA26FB3324FCD6B400D76753 /* EvzBLEKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA26FB3024FCD6AD00D76753 /* EvzBLEKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		DA41A08C24EBB35400E7BB93 /* AppendStar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA41A08B24EBB35400E7BB93 /* AppendStar.swift */; };
 		DA41A1F024ECF71200E7BB93 /* PasswordInitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA41A1EF24ECF71200E7BB93 /* PasswordInitViewController.swift */; };
 		DABC41A824CE73F500DD366F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC41A724CE73F500DD366F /* AppDelegate.swift */; };
@@ -29,6 +33,20 @@
 		DADCD4F224F554710026EFAD /* ReservationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADCD4F124F554710026EFAD /* ReservationViewController.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		DA26FB3424FCD6B400D76753 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				DA26FB3324FCD6B400D76753 /* EvzBLEKit.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		0E3E6427A6C3A592D0F58D84 /* Pods-SharingCharger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SharingCharger.debug.xcconfig"; path = "Target Support Files/Pods-SharingCharger/Pods-SharingCharger.debug.xcconfig"; sourceTree = "<group>"; };
 		37201B7824FC95DD000A3F08 /* HistoryElectricityTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryElectricityTableCell.swift; sourceTree = "<group>"; };
@@ -39,6 +57,10 @@
 		A2EB86E1C4E15A54970329DC /* Pods-SharingCharger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SharingCharger.release.xcconfig"; path = "Target Support Files/Pods-SharingCharger/Pods-SharingCharger.release.xcconfig"; sourceTree = "<group>"; };
 		DA09438224E1214B00671F0D /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		DA09438824E146AC00671F0D /* JoinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinViewController.swift; sourceTree = "<group>"; };
+		DA26FB2224FCC0CC00D76753 /* SampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleViewController.swift; sourceTree = "<group>"; };
+		DA26FB2424FCC0FF00D76753 /* SampleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleTableViewCell.swift; sourceTree = "<group>"; };
+		DA26FB2724FCD5F800D76753 /* EvzBLEKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = EvzBLEKit.xcframework; path = ../EvzBLEKit.xcframework; sourceTree = "<group>"; };
+		DA26FB3024FCD6AD00D76753 /* EvzBLEKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = EvzBLEKit.xcframework; sourceTree = "<group>"; };
 		DA41A08B24EBB35400E7BB93 /* AppendStar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppendStar.swift; sourceTree = "<group>"; };
 		DA41A1EF24ECF71200E7BB93 /* PasswordInitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordInitViewController.swift; sourceTree = "<group>"; };
 		DABC41A424CE73F500DD366F /* SharingCharger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SharingCharger.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -61,6 +83,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA26FB3224FCD6B400D76753 /* EvzBLEKit.xcframework in Frameworks */,
 				96A289B377796E4505BB738D /* Pods_SharingCharger.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -71,6 +94,7 @@
 		6F2778561FDF4EE778A01B95 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DA26FB2724FCD5F800D76753 /* EvzBLEKit.xcframework */,
 				E150F99499B36EF9DEE2F892 /* Pods_SharingCharger.framework */,
 			);
 			name = Frameworks;
@@ -83,6 +107,14 @@
 				A2EB86E1C4E15A54970329DC /* Pods-SharingCharger.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		DA26FB2624FCD20500D76753 /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				DA26FB3024FCD6AD00D76753 /* EvzBLEKit.xcframework */,
+			);
+			path = Library;
 			sourceTree = "<group>";
 		};
 		DA41A1EA24EBDA2F00E7BB93 /* Util */ = {
@@ -107,6 +139,8 @@
 				37373FAC24FB50C900181756 /* HistoryPointViewController.swift */,
 				37373FAD24FB50C900181756 /* HistoryPointTableCell.swift */,
 				37201B7824FC95DD000A3F08 /* HistoryElectricityTableCell.swift */,
+				DA26FB2224FCC0CC00D76753 /* SampleViewController.swift */,
+				DA26FB2424FCC0FF00D76753 /* SampleTableViewCell.swift */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -145,6 +179,7 @@
 				DABC41A724CE73F500DD366F /* AppDelegate.swift */,
 				DABC41B324CE73F700DD366F /* Assets.xcassets */,
 				DABC41B824CE73F700DD366F /* Info.plist */,
+				DA26FB2624FCD20500D76753 /* Library */,
 				DABC41A924CE73F500DD366F /* SceneDelegate.swift */,
 				DABC41B024CE73F500DD366F /* SharingCharger.xcdatamodeld */,
 				DA41A1EE24EBDA3A00E7BB93 /* Storyboard */,
@@ -166,6 +201,7 @@
 				DABC41A124CE73F500DD366F /* Frameworks */,
 				DABC41A224CE73F500DD366F /* Resources */,
 				045C1485EE8DCC341BCD80E3 /* [CP] Embed Pods Frameworks */,
+				DA26FB3424FCD6B400D76753 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -274,8 +310,10 @@
 				DABC41A824CE73F500DD366F /* AppDelegate.swift in Sources */,
 				DA41A1F024ECF71200E7BB93 /* PasswordInitViewController.swift in Sources */,
 				DABC41AA24CE73F500DD366F /* SceneDelegate.swift in Sources */,
+				DA26FB2524FCC0FF00D76753 /* SampleTableViewCell.swift in Sources */,
 				DABC41B224CE73F500DD366F /* SharingCharger.xcdatamodeld in Sources */,
 				37373FAF24FB50C900181756 /* HistoryPointTableCell.swift in Sources */,
+				DA26FB2324FCC0CC00D76753 /* SampleViewController.swift in Sources */,
 				376E3A2624FC906C007274A1 /* HistoryElectricityChargingViewController.swift in Sources */,
 				DADCD4F224F554710026EFAD /* ReservationViewController.swift in Sources */,
 				DA09438924E146AC00671F0D /* JoinViewController.swift in Sources */,
