@@ -6,6 +6,7 @@ target 'SharingCharger' do
   use_frameworks!
 
 	pod 'Alamofire', '~> 5.2.2'
+	pod 'MaterialComponents/BottomSheet'
 
   # Pods for SharingCharger
 

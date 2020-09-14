@@ -1,16 +1,48 @@
 PODS:
   - Alamofire (5.2.2)
+  - MaterialComponents/Availability (115.1.0)
+  - MaterialComponents/BottomSheet (115.1.0):
+    - MaterialComponents/Elevation
+    - MaterialComponents/private/KeyboardWatcher
+    - MaterialComponents/private/Math
+    - MaterialComponents/ShadowElevations
+    - MaterialComponents/ShadowLayer
+    - MaterialComponents/ShapeLibrary
+    - MaterialComponents/Shapes
+  - MaterialComponents/Elevation (115.1.0):
+    - MaterialComponents/Availability
+    - MaterialComponents/private/Color
+    - MaterialComponents/private/Math
+  - MaterialComponents/private/Application (115.1.0)
+  - MaterialComponents/private/Color (115.1.0):
+    - MaterialComponents/Availability
+  - MaterialComponents/private/KeyboardWatcher (115.1.0):
+    - MaterialComponents/private/Application
+  - MaterialComponents/private/Math (115.1.0)
+  - MaterialComponents/ShadowElevations (115.1.0)
+  - MaterialComponents/ShadowLayer (115.1.0):
+    - MaterialComponents/ShadowElevations
+  - MaterialComponents/ShapeLibrary (115.1.0):
+    - MaterialComponents/private/Math
+    - MaterialComponents/Shapes
+  - MaterialComponents/Shapes (115.1.0):
+    - MaterialComponents/private/Color
+    - MaterialComponents/private/Math
+    - MaterialComponents/ShadowLayer
 
 DEPENDENCIES:
   - Alamofire (~> 5.2.2)
+  - MaterialComponents/BottomSheet
 
 SPEC REPOS:
   trunk:
     - Alamofire
+    - MaterialComponents
 
 SPEC CHECKSUMS:
   Alamofire: 814429acc853c6c54ff123fc3d2ef66803823ce0
+  MaterialComponents: ed63ad5df885bcf0f06751adc1ee97d73464ef9c
 
-PODFILE CHECKSUM: a39952423c280edcbd6b2ea36b7dd7859048efb8
+PODFILE CHECKSUM: b7a5e66be9fa97f013d96c08ed30f70a16f9f3ba
 
 COCOAPODS: 1.10.0.beta.2
