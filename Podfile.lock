@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (5.2.2)
+  - DropDown (2.3.13)
   - MaterialComponents/Availability (115.1.0)
   - MaterialComponents/BottomSheet (115.1.0):
     - MaterialComponents/Elevation
@@ -32,17 +33,20 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 5.2.2)
+  - DropDown
   - MaterialComponents/BottomSheet
 
 SPEC REPOS:
   trunk:
     - Alamofire
+    - DropDown
     - MaterialComponents
 
 SPEC CHECKSUMS:
   Alamofire: 814429acc853c6c54ff123fc3d2ef66803823ce0
+  DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
   MaterialComponents: ed63ad5df885bcf0f06751adc1ee97d73464ef9c
 
-PODFILE CHECKSUM: b7a5e66be9fa97f013d96c08ed30f70a16f9f3ba
+PODFILE CHECKSUM: 03f131a48d37a83836a4d218593b1f340b1d5a92
 
 COCOAPODS: 1.10.0.beta.2

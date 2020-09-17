@@ -44,17 +44,6 @@ class CustomButton: UIButton {
             
             break
             
-        case "confirm":
-            
-            self.titleLabel?.font = UIFont.boldSystemFont(ofSize: CGFloat(18))
-            self.setTitle("확인", for: .normal)
-            self.setTitleColor(UIColor.white, for: .normal)
-            self.backgroundColor = UIColor(named: "Color_3498DB")
-            self.addTarget(SearchingConditionViewController(), action: #selector(SearchingConditionViewController.closeButton), for: .touchUpInside)
-            self.layer.cornerRadius = 7
-            
-            break
-            
         default:
             break
         }
@@ -81,10 +70,6 @@ class CustomButton: UIButton {
         
         if bottom != nil {
             self.bottomAnchor.constraint(equalTo: target.bottomAnchor, constant: bottom!).isActive = true
-        }
-        
-        if buttonName == "confirm" {
-            self.bottomAnchor.constraint(equalTo: target.safeAreaLayoutGuide.bottomAnchor, constant: 0).isActive = true
         }
      }
     

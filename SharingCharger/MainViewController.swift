@@ -49,7 +49,8 @@ class MainViewController: UIViewController, MTMapViewDelegate {
         
         searchingConditionView.setLabelText(chargingTimeText: "60", chargingDateText: "9/20 (금) 22:30 ~ 23:30")
         
-        let viewController: SearchingConditionViewController = SearchingConditionViewController()
+        guard let viewController = self.storyboard?.instantiateViewController(withIdentifier: "SearchingCondition") else { return }
+        
         let bottomSheet: MDCBottomSheetController = MDCBottomSheetController(contentViewController: viewController)
         bottomSheet.preferredContentSize = CGSize(width: mapView.frame.size.width, height: mapView.frame.size.height)
         

@@ -7,6 +7,7 @@ target 'SharingCharger' do
 
 	pod 'Alamofire', '~> 5.2.2'
 	pod 'MaterialComponents/BottomSheet'
+	pod 'DropDown'
 
   # Pods for SharingCharger
 
