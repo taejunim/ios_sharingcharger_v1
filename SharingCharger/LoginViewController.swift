@@ -58,6 +58,9 @@ class LoginViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         
         self.navigationController?.setNavigationBarHidden(false, animated: true)
+        self.navigationController?.navigationBar.tintColor = UIColor.black  //백버튼 검은색으로
+        self.navigationController?.navigationBar.backItem?.title = ""        //백버튼 텍스트 제거
+        self.navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
         
         super.viewWillDisappear(animated)
     }

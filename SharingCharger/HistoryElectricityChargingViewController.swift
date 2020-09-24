@@ -23,11 +23,7 @@ class HistoryElectricityChargingViewController: UIViewController, UITableViewDel
         
         self.tableView.allowsSelection = false
         
-        self.navigationController?.navigationBar.tintColor = UIColor.black  //백버튼 검은색으로
-        self.navigationController?.navigationBar.topItem?.title = ""        //백버튼 텍스트 제거
-        
         let rightBarButton = UIBarButtonItem.init(title: "right", style: .done, target: self, action: #selector(rightMenu))
-
         
         navigationItem.rightBarButtonItem = rightBarButton
     }

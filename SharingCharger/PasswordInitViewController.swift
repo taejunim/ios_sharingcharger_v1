@@ -24,13 +24,11 @@ class PasswordInitViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
     
-        self.navigationController?.navigationBar.tintColor = UIColor.black  //백버튼 검은색으로
-        self.navigationController?.navigationBar.topItem?.title = ""        //백버튼 텍스트 제거
-        
-        emailTextField.setCurrentType(type: 1, target: self)   //이메일 필드에 인증요청 버튼 추가
         
         setTextFieldDelegate()
         setKeyboard()
+        
+        emailTextField.setCurrentType(type: 1, target: self)   //이메일 필드에 인증요청 버튼 추가
         
         passwordInitButton.layer.cornerRadius = 7           //완료 버튼 둥글게
     }
@@ -101,7 +99,7 @@ class PasswordInitViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    @objc func buttonAutorization(sender: UIButton!) {
+    @objc func requestAuthentication(sender: UIButton!) {
         print("PasswordInitViewController - Button tapped")
     }
 }

@@ -23,22 +23,15 @@ class HistoryPointViewController: UIViewController, UITableViewDelegate, UITable
         
         self.tableView.allowsSelection = false
         
-        self.navigationController?.navigationBar.tintColor = UIColor.black  //백버튼 검은색으로
-        self.navigationController?.navigationBar.topItem?.title = ""        //백버튼 텍스트 제거
-        
         let rightBarButton = UIBarButtonItem.init(title: "right", style: .done, target: self, action: #selector(rightMenu))
-
         
         navigationItem.rightBarButtonItem = rightBarButton
     }
-    
-    
     
     override func viewWillAppear(_ animated: Bool) {
                 
         super.viewWillAppear(animated)
     }
-    
 
     @objc func rightMenu() {
         
@@ -47,20 +40,15 @@ class HistoryPointViewController: UIViewController, UITableViewDelegate, UITable
         self.navigationController?.pushViewController(uvc, animated: true)
     }
     
-    
     func numberOfSections(in tableView: UITableView) -> Int {
         
         return arr.count
     }
     
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return 1
     }
-    
-    
-    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
@@ -68,22 +56,4 @@ class HistoryPointViewController: UIViewController, UITableViewDelegate, UITable
         
         return Cell
     }
-    
-    
-    
-    
-
-    
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

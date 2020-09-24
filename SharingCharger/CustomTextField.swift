@@ -43,22 +43,22 @@ class CustomTextField: UITextField {
     //인증 요청 버튼 추가
     private func addButton(target: AnyObject) {
 
-        let btn = UIButton()
+        let authenticationButton = UIButton()
         
         let Color_7F7F7F = UIColor(named: "Color_3498DB")
-        btn.backgroundColor = Color_7F7F7F
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: CGFloat(15))
-        btn.setTitle("인증 요청", for: .normal)
+        authenticationButton.backgroundColor = Color_7F7F7F
+        authenticationButton.titleLabel?.font = UIFont.systemFont(ofSize: CGFloat(15))
+        authenticationButton.setTitle("인증 요청", for: .normal)
 
-        self.addSubview(btn)
+        self.addSubview(authenticationButton)
         
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-        btn.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        btn.widthAnchor.constraint(equalToConstant: 70).isActive = true
-        btn.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -7).isActive = true
+        authenticationButton.translatesAutoresizingMaskIntoConstraints = false
+        authenticationButton.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+        authenticationButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        authenticationButton.widthAnchor.constraint(equalToConstant: 70).isActive = true
+        authenticationButton.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
         
-        btn.addTarget(target, action: #selector(target.buttonAutorization), for: .touchUpInside)
+        authenticationButton.addTarget(target, action: #selector(target.requestAuthentication), for: .touchUpInside)
     }
     
     
@@ -73,9 +73,9 @@ class CustomTextField: UITextField {
         self.addSubview(underLine)
         
         underLine.translatesAutoresizingMaskIntoConstraints = false
-        underLine.topAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        underLine.leftAnchor.constraint(equalTo: self.leftAnchor, constant:7).isActive = true
-        underLine.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -7).isActive = true
+        underLine.topAnchor.constraint(equalTo: self.bottomAnchor, constant: 5).isActive = true
+        underLine.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
+        underLine.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
         underLine.heightAnchor.constraint(equalToConstant: 1).isActive = true
     }
 }

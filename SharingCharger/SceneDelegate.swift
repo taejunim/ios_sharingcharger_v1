@@ -25,6 +25,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
 
         self.window = UIWindow(windowScene: windowScene)
+        self.window!.overrideUserInterfaceStyle = UIUserInterfaceStyle.light;   //다크모드 지원 안함
         //self.window =  UIWindow(frame: UIScreen.main.bounds)
 
         var storyboard: UIStoryboard?
