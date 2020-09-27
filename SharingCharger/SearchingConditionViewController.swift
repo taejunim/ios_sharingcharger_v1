@@ -9,8 +9,14 @@
 import UIKit
 import GoneVisible
 
-class SearchingConditionViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+protocol SearchingConditionProtocol {
+    func searchingConditionDelegate(data: SearchingConditionObject)
+}
 
+class SearchingConditionViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+    
+    var delegate: SearchingConditionProtocol?
+    
     @IBOutlet var totalChargingTimeTextField: UILabel!
     @IBOutlet var chargingPeriod: UILabel!
     @IBOutlet var instantCharge: UIButton!
@@ -68,6 +74,9 @@ class SearchingConditionViewController: UIViewController, UIPickerViewDelegate, 
     }
     
     private func viewWillInitializeObjects() {
+        
+        self.delegate = MainViewController()    //선택한 검색 조건들을 MainViewController 로 넘김
+        
         addButton(buttonName: "close", width: 40, height: 40, top: 15, left: 15, right: nil, bottom: nil, target: self.view)
         addButton(buttonName: "refresh", width: 40, height: 40, top: 15, left: nil, right: -15, bottom: nil, target: self.view)
         
@@ -118,15 +127,10 @@ class SearchingConditionViewController: UIViewController, UIPickerViewDelegate, 
         
         var availableDate = Date()
         
-        print("current date: \(dateFormatter.string(from: Date()))")
-        print("current minute: \(minute)")
-        print("current hour: \(hour)")
-        print("test: \(dateFormatter.string(from: availableDate))")
-        
         if minute >= 0 && minute < 30 {
             availableDate = calendar.date(bySettingHour: hour, minute: 30, second: 0, of: date)!
         } else {
-            //availableDate = Calendar.current.date(byAdding: .hour, value: 1, to: date)!
+            
             let tempDate = calendar.date(byAdding: .hour, value: 1, to: date)!
             let tempHour = calendar.component(.hour, from: tempDate)
             availableDate = calendar.date(bySettingHour: tempHour, minute: 0, second: 0, of: tempDate)!
@@ -186,12 +190,14 @@ class SearchingConditionViewController: UIViewController, UIPickerViewDelegate, 
         confirmButton.layer.cornerRadius = 7
     }
     
+    //datePicker 에서 변경시
     @objc func dateChanged(_ sender: UIDatePicker) {
         
         chargingStartDate.text = "\(dateFormatter.string(from: sender.date))"
         calculateChargingTime(senderDate: sender.date)
     }
     
+    //time 변경시
     private func timeChanged() {
         
         calculateChargingTime(senderDate: chargingStartDatePicker.date)
@@ -211,6 +217,7 @@ class SearchingConditionViewController: UIViewController, UIPickerViewDelegate, 
         changeAttribute(inactiveButton: instantCharge, activeButton: reservationCharge)
     }
     
+    //충전 기간 세팅o
     private func setChargingPeriod(activeButton: UIButton!) {
         
         let date = Date()
@@ -228,6 +235,7 @@ class SearchingConditionViewController: UIViewController, UIPickerViewDelegate, 
     private func calculateChargingTime(senderDate: Date) {
         
         let chargingTimeText = chargingTime.text!
+        totalChargingTimeTextField.text = "총 \(chargingTimeText) 충전"
         
         var formattedChargingTime = Date()
         
@@ -491,10 +499,19 @@ class SearchingConditionViewController: UIViewController, UIPickerViewDelegate, 
     
     @objc func closeButton(sender: UIButton!) {
         print("JoinViewController - Button tapped")
+        
         self.dismiss(animated: true, completion: nil)
     }
     
     @objc func confirmButton(sender: UIButton!) {
+        
+        let searchingConditionObject = SearchingConditionObject()
+        searchingConditionObject.chargingEndDate = chargingEndDate
+        searchingConditionObject.chargingTime = chargingTime.text!
+        searchingConditionObject.chargingPeriod = chargingPeriod.text!
+        searchingConditionObject.abcd = "됨?"
+        
+        delegate?.searchingConditionDelegate(data: searchingConditionObject)
         self.dismiss(animated: true, completion: nil)
     }
     

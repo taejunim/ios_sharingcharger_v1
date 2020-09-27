@@ -9,8 +9,8 @@
 import UIKit
 import MaterialComponents.MaterialBottomSheet
 
-class MainViewController: UIViewController, MTMapViewDelegate {
-
+class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditionProtocol {
+    
     @IBOutlet var mapView: UIView!
     var mTMapView: MTMapView?
     var searchingConditionView = ShadowView()
@@ -33,7 +33,10 @@ class MainViewController: UIViewController, MTMapViewDelegate {
         addButton(buttonName: "menu", width: 40, height: 40, top: 15, left: 15, right: nil, bottom: nil, target: mapView)
         addButton(buttonName: "address", width: nil, height: 40, top: 15, left: 70, right: -15, bottom: nil, target: mapView)
         addCurrentLocationButton(buttonName: "currentLocation", width: 40, height: 40, top: 70, left: nil, right: -15, bottom: nil, target: mapView)
-        addView(buttonName: "searchingCondition", width: nil, height: 110, top: nil, left: 15, right: -15, bottom: 0, target: mapView)
+        addView(width: nil, height: 110, top: nil, left: 15, right: -15, bottom: 0, target: mapView)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(updateSearchingCondition(_:)), name: .updateSearchingCondition, object: nil)
+        
     }
     
     @objc func menuButton(sender: UIButton!) {
@@ -46,8 +49,6 @@ class MainViewController: UIViewController, MTMapViewDelegate {
     
     @objc func searchingConditionButton(sender: UIView!) {
         print("MainViewController - searchingConditionButton tapped")
-        
-        searchingConditionView.setLabelText(chargingTimeText: "60", chargingDateText: "9/20 (금) 22:30 ~ 23:30")
         
         guard let viewController = self.storyboard?.instantiateViewController(withIdentifier: "SearchingCondition") else { return }
         
@@ -63,6 +64,7 @@ class MainViewController: UIViewController, MTMapViewDelegate {
     }
     
     @objc func currentLocationTrackingModeButton(sender: UIView!) {
+        
         print("MainViewController - currentLocationTrackingModeButton tapped")
     }
     
@@ -75,11 +77,11 @@ class MainViewController: UIViewController, MTMapViewDelegate {
         button.setAttributes(buttonName: buttonName, width: width, height: height, top: top, left: left, right: right, bottom: bottom, target: target)
     }
     
-    private func addView(buttonName: String?, width: CGFloat?, height: CGFloat?, top: CGFloat?, left: CGFloat?, right: CGFloat?, bottom: CGFloat?, target: AnyObject) {
+    private func addView(width: CGFloat?, height: CGFloat?, top: CGFloat?, left: CGFloat?, right: CGFloat?, bottom: CGFloat?, target: AnyObject) {
         
         mapView?.addSubview(searchingConditionView)
         
-        searchingConditionView.setAttributes(buttonName: buttonName, width: width, height: height, top: top, left: left, right: right, bottom: bottom, target: target)
+        searchingConditionView.setAttributes(width: width, height: height, top: top, left: left, right: right, bottom: bottom, target: target)
     }
     
     private func addCurrentLocationButton(buttonName: String?, width: CGFloat?, height: CGFloat?, top: CGFloat?, left: CGFloat?, right: CGFloat?, bottom: CGFloat?, target: AnyObject) {
@@ -89,9 +91,24 @@ class MainViewController: UIViewController, MTMapViewDelegate {
         mapView?.addSubview(view)
         
         view.setAttributes(buttonName: buttonName, width: width, height: height, top: top, left: left, right: right, bottom: bottom, target: target)
-        
     }
     
+    func searchingConditionDelegate(data: SearchingConditionObject) {
+        
+        print("data.chargingTime : \(data.chargingTime)")
+        print("data.chargingPeriod : \(data.chargingPeriod)")
+        
+        NotificationCenter.default.post(name: .updateSearchingCondition, object: data, userInfo: nil)
+    }
+    
+    @objc func updateSearchingCondition(_ notification: Notification) {
+        
+        let data = notification.object as! SearchingConditionObject
+        print("data : \(data)")
+        
+        searchingConditionView.setLabelText(chargingTimeText: data.chargingTime, chargingDateText: data.chargingPeriod)
+    }
+
     override func viewWillDisappear(_ animated: Bool) {
         
         self.navigationController?.setNavigationBarHidden(false, animated: true)
@@ -105,4 +122,9 @@ class MainViewController: UIViewController, MTMapViewDelegate {
         
         super.viewWillAppear(animated)
     }
+    
+}
+
+extension Notification.Name {
+    static let updateSearchingCondition = Notification.Name("updateSearchingCondition")
 }

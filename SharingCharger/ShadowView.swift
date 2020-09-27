@@ -15,6 +15,13 @@ class ShadowView: UIControl {
     let chargingTimeTextLayer = CATextLayer()
     let chargingDateTextLayer = CATextLayer()
     
+    let calendar = Calendar.current
+    let dateFormatter = DateFormatter()
+    let timeFormatter = DateFormatter()
+    
+    let bigFont = UIFont.systemFont(ofSize: 15)
+    var smallFont = UIFont()
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         
@@ -56,7 +63,7 @@ class ShadowView: UIControl {
         chargingTimeTextLayer.frame = CGRect(x: clockLayer.frame.maxX, y: 20, width: layer.frame.width - (clockLayer.frame.maxX * 2), height: layer.frame.height/2)
         chargingTimeTextLayer.alignmentMode = .center
         chargingTimeTextLayer.contentsScale = UIScreen.main.scale
-        chargingTimeTextLayer.string = chargingTimeTextAttribute(text: "30")
+        chargingTimeTextLayer.string = chargingTimeTextAttribute(text: "30분")
         
         layer.addSublayer(chargingTimeTextLayer)
     }
@@ -66,7 +73,34 @@ class ShadowView: UIControl {
         chargingDateTextLayer.frame = CGRect(x: clockLayer.frame.maxX, y: chargingTimeTextLayer.frame.height, width: layer.frame.width - (clockLayer.frame.maxX * 2), height: layer.frame.height - chargingTimeTextLayer.frame.maxY)
         chargingDateTextLayer.alignmentMode = .center
         chargingDateTextLayer.contentsScale = UIScreen.main.scale
-        chargingDateTextLayer.string = chargingDateTextAttribute(text: "9/20 (금) 22:30 ~ 23:00")
+        
+        dateFormatter.locale = Locale(identifier: "ko")
+        dateFormatter.dateFormat = "MM/dd (E) HH:mm"
+        
+        timeFormatter.locale = Locale(identifier: "ko")
+        timeFormatter.dateFormat = "HH:mm"
+        
+        let date = Date()
+        let minute = calendar.component(.minute, from: date)
+        let hour = calendar.component(.hour, from: date)
+        
+        var components = DateComponents()
+        components.calendar = calendar
+        components.day = 1
+        
+        var availableDate = Date()
+        
+        if minute >= 0 && minute < 30 {
+            availableDate = calendar.date(bySettingHour: hour, minute: 30, second: 0, of: date)!
+        } else {
+            
+            let tempDate = calendar.date(byAdding: .hour, value: 1, to: date)!
+            let tempHour = calendar.component(.hour, from: tempDate)
+            availableDate = calendar.date(bySettingHour: tempHour, minute: 0, second: 0, of: tempDate)!
+        }
+        
+        let endDate = Calendar.current.date(byAdding: .minute, value: 30, to: availableDate)!
+        chargingDateTextLayer.string = chargingDateTextAttribute(text: "\(dateFormatter.string(from: availableDate)) ~ \(timeFormatter.string(from: endDate))")
         
         layer.addSublayer(chargingDateTextLayer)
     }
@@ -82,23 +116,9 @@ class ShadowView: UIControl {
         layer.addSublayer(mainArrowImageLayer)
     }
     
-    public func setAttributes(buttonName: String?, width: CGFloat?, height: CGFloat?, top: CGFloat?, left: CGFloat?, right: CGFloat?, bottom: CGFloat?, target: AnyObject) {
+    public func setAttributes(width: CGFloat?, height: CGFloat?, top: CGFloat?, left: CGFloat?, right: CGFloat?, bottom: CGFloat?, target: AnyObject) {
         
         self.translatesAutoresizingMaskIntoConstraints = false
-        
-        switch buttonName {
-            
-        case "searchingCondition":
-            
-            break
-            
-        case "mainArrow":
-            
-            break
-            
-        default:
-            break
-        }
         
         if width != nil {
             self.widthAnchor.constraint(equalToConstant: width!).isActive = true
@@ -126,7 +146,7 @@ class ShadowView: UIControl {
     }
     
     public func setLabelText(chargingTimeText: String?, chargingDateText: String?) {
-     
+        
         chargingTimeTextLayer.string = chargingTimeTextAttribute(text: chargingTimeText)
         chargingDateTextLayer.string = chargingDateTextAttribute(text: chargingDateText)
     }
@@ -134,7 +154,7 @@ class ShadowView: UIControl {
     private func chargingTimeTextAttribute(text: String?) -> NSAttributedString {
         
         let attributedString = NSAttributedString(
-            string: "총 \(text!)분 충전",
+            string: "총 \(text!) 충전",
             attributes: [ .font: UIFont.boldSystemFont(ofSize: 22), .foregroundColor: UIColor.darkText]
         )
         
@@ -143,11 +163,61 @@ class ShadowView: UIControl {
     
     private func chargingDateTextAttribute(text: String?) -> NSAttributedString {
         
+        let font: UIFont
+        
+        if text!.count >= 33 {
+            font = checkDeviceFrame()
+        } else {
+            font = bigFont
+        }
+        
         let attributedString = NSAttributedString(
             string: text!,
-            attributes: [ .font: UIFont.systemFont(ofSize: 16), .foregroundColor: UIColor.darkText]
+            attributes: [ .font: font, .foregroundColor: UIColor.darkText]
         )
         
         return attributedString
+    }
+    
+    private func checkDeviceFrame() -> UIFont {
+        
+        var font = UIFont()
+        
+        if UIDevice().userInterfaceIdiom == .phone {
+            
+            switch UIScreen.main.nativeBounds.height {
+            
+            case 1136:
+                print("iPhone 5 or 5S or 5C")
+                font = UIFont.systemFont(ofSize: 10)
+                
+            case 1334:
+                print("iPhone 6/6S/7/8")
+                font = UIFont.systemFont(ofSize: 10)
+                
+            case 1920, 2208:
+                print("iPhone 6+/6S+/7+/8+")
+                font = UIFont.systemFont(ofSize: 13)
+                
+            case 2436:
+                print("iPhone X/XS/11 Pro")
+                font = UIFont.systemFont(ofSize: 13)
+                
+            case 2688:
+                print("iPhone XS Max/11 Pro Max")
+                font = UIFont.systemFont(ofSize: 13)
+                
+            case 1792:
+                print("iPhone XR/ 11 ")
+                font = UIFont.systemFont(ofSize: 13)
+                
+            default:
+                print("Unknown")
+                font = UIFont.systemFont(ofSize: 13)
+                
+            }
+        }
+        
+        return font
     }
 }

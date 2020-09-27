@@ -15,6 +15,7 @@
 		96A289B377796E4505BB738D /* Pods_SharingCharger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E150F99499B36EF9DEE2F892 /* Pods_SharingCharger.framework */; };
 		DA09438324E1214B00671F0D /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA09438224E1214B00671F0D /* CustomTextField.swift */; };
 		DA09438924E146AC00671F0D /* JoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA09438824E146AC00671F0D /* JoinViewController.swift */; };
+		DA1D8380251DD77B00855000 /* SearchingConditionObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1D837F251DD77B00855000 /* SearchingConditionObject.swift */; };
 		DA26FB2324FCC0CC00D76753 /* SampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA26FB2224FCC0CC00D76753 /* SampleViewController.swift */; };
 		DA26FB2524FCC0FF00D76753 /* SampleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA26FB2424FCC0FF00D76753 /* SampleTableViewCell.swift */; };
 		DA26FB3224FCD6B400D76753 /* EvzBLEKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA26FB3024FCD6AD00D76753 /* EvzBLEKit.xcframework */; };
@@ -97,6 +98,7 @@
 		A2EB86E1C4E15A54970329DC /* Pods-SharingCharger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SharingCharger.release.xcconfig"; path = "Target Support Files/Pods-SharingCharger/Pods-SharingCharger.release.xcconfig"; sourceTree = "<group>"; };
 		DA09438224E1214B00671F0D /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		DA09438824E146AC00671F0D /* JoinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinViewController.swift; sourceTree = "<group>"; };
+		DA1D837F251DD77B00855000 /* SearchingConditionObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchingConditionObject.swift; sourceTree = "<group>"; };
 		DA26FB2224FCC0CC00D76753 /* SampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleViewController.swift; sourceTree = "<group>"; };
 		DA26FB2424FCC0FF00D76753 /* SampleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleTableViewCell.swift; sourceTree = "<group>"; };
 		DA26FB2724FCD5F800D76753 /* EvzBLEKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = EvzBLEKit.xcframework; path = ../EvzBLEKit.xcframework; sourceTree = "<group>"; };
@@ -225,6 +227,7 @@
 		DA34166C2509FDDB0031999F /* Object */ = {
 			isa = PBXGroup;
 			children = (
+				DA1D837F251DD77B00855000 /* SearchingConditionObject.swift */,
 			);
 			name = Object;
 			sourceTree = "<group>";
@@ -521,6 +524,7 @@
 				DABC41B224CE73F500DD366F /* SharingCharger.xcdatamodeld in Sources */,
 				37373FAF24FB50C900181756 /* HistoryPointTableCell.swift in Sources */,
 				DA26FB2324FCC0CC00D76753 /* SampleViewController.swift in Sources */,
+				DA1D8380251DD77B00855000 /* SearchingConditionObject.swift in Sources */,
 				376E3A2624FC906C007274A1 /* HistoryElectricityChargingViewController.swift in Sources */,
 				DADCD4F224F554710026EFAD /* ReservationViewController.swift in Sources */,
 				DA09438924E146AC00671F0D /* JoinViewController.swift in Sources */,
