@@ -1,6 +1,5 @@
 PODS:
   - Alamofire (5.2.2)
-  - DropDown (2.3.13)
   - GoneVisible (1.2.0)
   - MaterialComponents/Availability (115.1.0)
   - MaterialComponents/BottomSheet (115.1.0):
@@ -31,26 +30,27 @@ PODS:
     - MaterialComponents/private/Color
     - MaterialComponents/private/Math
     - MaterialComponents/ShadowLayer
+  - SideMenu (6.4.9)
 
 DEPENDENCIES:
   - Alamofire (~> 5.2.2)
-  - DropDown
   - GoneVisible
   - MaterialComponents/BottomSheet
+  - SideMenu
 
 SPEC REPOS:
   trunk:
     - Alamofire
-    - DropDown
     - GoneVisible
     - MaterialComponents
+    - SideMenu
 
 SPEC CHECKSUMS:
   Alamofire: 814429acc853c6c54ff123fc3d2ef66803823ce0
-  DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
   GoneVisible: c552940cd9df7548427f6bffd000dcbcc6de187f
   MaterialComponents: ed63ad5df885bcf0f06751adc1ee97d73464ef9c
+  SideMenu: 8ef57a3cfc024a2d3fc1c036c7fe98537baec9e0
 
-PODFILE CHECKSUM: 56344a2e3cc02773aa23ef9214e1fde587118735
+PODFILE CHECKSUM: fe4c96e717965709bd4572d3b5cd89e75d0249fa
 
 COCOAPODS: 1.10.0.beta.2

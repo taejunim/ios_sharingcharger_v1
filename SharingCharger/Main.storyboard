@@ -35,6 +35,7 @@
                     <navigationItem key="navigationItem" id="5cB-XR-FjX"/>
                     <connections>
                         <outlet property="mapView" destination="rbf-Yl-jsM" id="4tE-7k-fTp"/>
+                        <segue destination="4V7-cf-dEl" kind="presentation" identifier="segueToLeftMenu" id="fFg-zj-O1l"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qDx-HY-ADW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -524,6 +525,55 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gmo-Cc-WLe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-55.072463768115945" y="156.69642857142856"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="QtX-NN-CCv">
+            <objects>
+                <viewController id="vgC-B4-go4" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="XbE-Sh-VPq">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RxE-wQ-RUo">
+                                <rect key="frame" x="30" y="30" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="5F2-gy-ss8"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="RxE-wQ-RUo" firstAttribute="top" secondItem="5F2-gy-ss8" secondAttribute="top" constant="30" id="rhF-YV-Hzy"/>
+                            <constraint firstItem="RxE-wQ-RUo" firstAttribute="leading" secondItem="5F2-gy-ss8" secondAttribute="leading" constant="30" id="wcw-Zi-IgO"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="g6g-oP-qDU"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Nl5-JM-w7r" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1763.7681159420292" y="870.53571428571422"/>
+        </scene>
+        <!--Side Menu Navigation Controller-->
+        <scene sceneID="LQ6-PG-xZK">
+            <objects>
+                <navigationController storyboardIdentifier="LeftMenuNavigationController" automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="4V7-cf-dEl" customClass="SideMenuNavigationController" customModule="SideMenu" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="WQ4-PR-M5S">
+                        <rect key="frame" x="0.0" y="-54" width="0.0" height="0.0"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="leftSide" value="YES"/>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <segue destination="vgC-B4-go4" kind="relationship" relationship="rootViewController" id="zK7-BK-Jeu"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2QD-g2-XLU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="853.62318840579712" y="870.53571428571422"/>
         </scene>
     </scenes>
     <resources>

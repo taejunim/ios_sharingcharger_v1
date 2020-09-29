@@ -8,6 +8,7 @@
 
 import UIKit
 import MaterialComponents.MaterialBottomSheet
+import SideMenu
 
 class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditionProtocol {
     
@@ -36,11 +37,42 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         addView(width: nil, height: 110, top: nil, left: 15, right: -15, bottom: 0, target: mapView)
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateSearchingCondition(_:)), name: .updateSearchingCondition, object: nil)
+    }
+    
+    
+    //Side Menu
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
+        if segue.identifier == "segueToLeftMenu" {
+            if let sideMenuNavigationController = segue.destination as? SideMenuNavigationController {
+                
+                sideMenuNavigationController.settings = makeSettings()
+            }
+        }
+    }
+    
+    private func selectedPresentationStyle() -> SideMenuPresentationStyle {
+        
+        return .menuSlideIn
+    }
+    
+    private func makeSettings() -> SideMenuSettings {
+        
+        let presentationStyle = selectedPresentationStyle()
+        presentationStyle.backgroundColor = .black
+        presentationStyle.presentingEndAlpha = 0.5
+        
+        var settings = SideMenuSettings()
+        settings.presentationStyle = presentationStyle
+        settings.menuWidth = self.view.frame.width * 0.85
+        
+        return settings
     }
     
     @objc func menuButton(sender: UIButton!) {
         print("MainViewController - menuButton tapped")
+        
+        self.performSegue(withIdentifier: "segueToLeftMenu", sender: self)
     }
     
     @objc func addressButton(sender: UIButton!) {

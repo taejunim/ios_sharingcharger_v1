@@ -25,6 +25,7 @@
 		DA341674250B7AF00031999F /* ShadowCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA341673250B7AF00031999F /* ShadowCircleView.swift */; };
 		DA41A08C24EBB35400E7BB93 /* AppendStar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA41A08B24EBB35400E7BB93 /* AppendStar.swift */; };
 		DA41A1F024ECF71200E7BB93 /* PasswordInitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA41A1EF24ECF71200E7BB93 /* PasswordInitViewController.swift */; };
+		DAAC21D32521D4E20086055F /* LeftMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAC21D22521D4E20086055F /* LeftMenuViewController.swift */; };
 		DABC41A824CE73F500DD366F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC41A724CE73F500DD366F /* AppDelegate.swift */; };
 		DABC41AA24CE73F500DD366F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC41A924CE73F500DD366F /* SceneDelegate.swift */; };
 		DABC41AC24CE73F500DD366F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC41AB24CE73F500DD366F /* LoginViewController.swift */; };
@@ -108,6 +109,7 @@
 		DA341673250B7AF00031999F /* ShadowCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowCircleView.swift; sourceTree = "<group>"; };
 		DA41A08B24EBB35400E7BB93 /* AppendStar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppendStar.swift; sourceTree = "<group>"; };
 		DA41A1EF24ECF71200E7BB93 /* PasswordInitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordInitViewController.swift; sourceTree = "<group>"; };
+		DAAC21D22521D4E20086055F /* LeftMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftMenuViewController.swift; sourceTree = "<group>"; };
 		DABC41A424CE73F500DD366F /* SharingCharger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SharingCharger.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DABC41A724CE73F500DD366F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DABC41A924CE73F500DD366F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -261,6 +263,7 @@
 				DA26FB2224FCC0CC00D76753 /* SampleViewController.swift */,
 				DAF0F3F7250E1E540055226F /* SearchingConditionViewController.swift */,
 				372D309124F6324000CEB232 /* SettingViewController.swift */,
+				DAAC21D22521D4E20086055F /* LeftMenuViewController.swift */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -528,6 +531,7 @@
 				376E3A2624FC906C007274A1 /* HistoryElectricityChargingViewController.swift in Sources */,
 				DADCD4F224F554710026EFAD /* ReservationViewController.swift in Sources */,
 				DA09438924E146AC00671F0D /* JoinViewController.swift in Sources */,
+				DAAC21D32521D4E20086055F /* LeftMenuViewController.swift in Sources */,
 				DADCD4C724F4E2080026EFAD /* MainViewController.swift in Sources */,
 				37373FAE24FB50C900181756 /* HistoryPointViewController.swift in Sources */,
 				DA09438324E1214B00671F0D /* CustomTextField.swift in Sources */,
