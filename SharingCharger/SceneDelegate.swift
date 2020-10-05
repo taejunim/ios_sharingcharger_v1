@@ -26,8 +26,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         self.window = UIWindow(windowScene: windowScene)
         self.window!.overrideUserInterfaceStyle = UIUserInterfaceStyle.light;   //다크모드 지원 안함
-        //self.window =  UIWindow(frame: UIScreen.main.bounds)
-
+        
         var storyboard: UIStoryboard?
         var rootViewController: UIViewController?
         
@@ -43,9 +42,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         
         let rootNavigationController = UINavigationController(rootViewController: rootViewController!)
-        rootNavigationController.isNavigationBarHidden = true
-        rootNavigationController.navigationBar.barTintColor = .white
-        rootNavigationController.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.darkText]
         
         self.window?.rootViewController = rootNavigationController
         self.window?.makeKeyAndVisible()

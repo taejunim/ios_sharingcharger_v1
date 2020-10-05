@@ -27,7 +27,6 @@ class LoginViewController: UIViewController {
         
         let mainViewController = UIStoryboard(name:"Main", bundle: nil).instantiateViewController(withIdentifier: "Main") as! MainViewController
         let navigationController = UINavigationController(rootViewController: mainViewController)
-        navigationController.navigationBar.isHidden = true
         UIApplication.shared.windows.first?.rootViewController = navigationController
         UIApplication.shared.windows.first?.makeKeyAndVisible()
     }
@@ -37,8 +36,6 @@ class LoginViewController: UIViewController {
         guard let uvc = self.storyboard?.instantiateViewController(withIdentifier: "Join") else { return }
         
         self.navigationController?.pushViewController(uvc, animated: true)
-        
-        //test
     }
     
     @IBAction func passwordInitButton(_ sender: Any) {
@@ -59,7 +56,8 @@ class LoginViewController: UIViewController {
         
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         self.navigationController?.navigationBar.tintColor = UIColor.black  //백버튼 검은색으로
-        self.navigationController?.navigationBar.backItem?.title = ""        //백버튼 텍스트 제거
+        self.navigationController?.navigationBar.backItem?.title = ""       //백버튼 텍스트 제거
+        self.navigationController?.navigationBar.barTintColor = .white      //navigationBar 배경 흰색으로
         self.navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
         
         super.viewWillDisappear(animated)

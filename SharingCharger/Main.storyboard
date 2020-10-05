@@ -13,7 +13,7 @@
         <!--Reservation View Controller-->
         <scene sceneID="IT8-4G-B0D">
             <objects>
-                <viewController storyboardIdentifier="Reservation" id="wn1-0f-oFC" customClass="ReservationViewController" customModule="SharingCharger" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Reservation" title="예약 진행" id="wn1-0f-oFC" userLabel="Reservation View Controller" customClass="ReservationViewController" customModule="SharingCharger" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="XGc-QK-QDD">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -529,7 +529,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="owI-is-WdT" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="3AW-E7-LZT">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="3AW-E7-LZT">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
