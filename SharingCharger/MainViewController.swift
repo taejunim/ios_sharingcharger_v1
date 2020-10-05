@@ -98,6 +98,9 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
     @objc func currentLocationTrackingModeButton(sender: UIView!) {
         
         print("MainViewController - currentLocationTrackingModeButton tapped")
+        guard let uvc = self.storyboard?.instantiateViewController(withIdentifier: "Reservation") else { return }
+        
+        self.navigationController?.pushViewController(uvc, animated: true)
     }
     
     private func addButton(buttonName: String?, width: CGFloat?, height: CGFloat?, top: CGFloat?, left: CGFloat?, right: CGFloat?, bottom: CGFloat?, target: AnyObject) {

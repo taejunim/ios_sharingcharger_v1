@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="qD3-VY-qaA">
-    <device id="retina6_5" orientation="portrait" appearance="light"/>
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
@@ -15,11 +15,11 @@
             <objects>
                 <viewController storyboardIdentifier="Login" id="BYZ-38-t0r" customClass="LoginViewController" customModule="SharingCharger" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="이메일" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0xs-pL-Jds">
-                                <rect key="frame" x="30" y="385" width="354" height="22"/>
+                                <rect key="frame" x="30" y="270.5" width="315" height="22"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <accessibility key="accessibilityConfiguration" identifier="loginEmail"/>
                                 <color key="textColor" systemColor="darkTextColor"/>
@@ -32,14 +32,14 @@
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cbx-TB-eS4" userLabel="line_email">
-                                <rect key="frame" x="30" y="412" width="354" height="1"/>
+                                <rect key="frame" x="30" y="297.5" width="315" height="1"/>
                                 <color key="backgroundColor" name="Color_E0E0E0"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="sZ1-lq-aEL"/>
                                 </constraints>
                             </view>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="비밀번호" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1cb-Y1-VYR">
-                                <rect key="frame" x="30" y="437" width="354" height="22"/>
+                                <rect key="frame" x="30" y="322.5" width="315" height="22"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <accessibility key="accessibilityConfiguration" identifier="loginPassword"/>
                                 <color key="textColor" systemColor="darkTextColor"/>
@@ -52,14 +52,14 @@
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ph0-DC-LtK" userLabel="line_password">
-                                <rect key="frame" x="30" y="464" width="354" height="1"/>
+                                <rect key="frame" x="30" y="349.5" width="315" height="1"/>
                                 <color key="backgroundColor" name="Color_E0E0E0"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="l9x-o5-XwG"/>
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="667-pj-8W5">
-                                <rect key="frame" x="30" y="479" width="177" height="33"/>
+                                <rect key="frame" x="30" y="364.5" width="157.5" height="33"/>
                                 <color key="backgroundColor" red="0.2036718726" green="0.59612089400000001" blue="0.85871541500000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <state key="normal" title="로그인">
@@ -70,7 +70,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l1d-pa-Kge">
-                                <rect key="frame" x="207" y="479" width="177" height="33"/>
+                                <rect key="frame" x="187.5" y="364.5" width="157.5" height="33"/>
                                 <color key="backgroundColor" red="0.36859247090000002" green="0.36864989999999997" blue="0.36857986450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <state key="normal" title="회원가입">
@@ -81,7 +81,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="by6-wl-3zX" userLabel="비밀번호 초기화">
-                                <rect key="frame" x="136" y="532" width="142" height="30"/>
+                                <rect key="frame" x="116.5" y="417.5" width="142" height="30"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal">
                                     <attributedString key="attributedTitle">
@@ -190,33 +190,33 @@
             <objects>
                 <viewController storyboardIdentifier="PasswordInit" title="비밀번호 초기화" id="hv0-kn-goZ" customClass="PasswordInitViewController" customModule="SharingCharger" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="zml-PG-Pbq">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vc8-9V-QFE" userLabel="Top Line">
-                                <rect key="frame" x="0.0" y="44" width="414" height="7"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="7"/>
                                 <color key="backgroundColor" name="Color_EFEFEF"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="7" id="F0E-bX-I5V"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i0a-EV-nYN" userLabel="Frame View">
-                                <rect key="frame" x="0.0" y="51" width="414" height="771"/>
+                                <rect key="frame" x="0.0" y="7" width="375" height="620"/>
                                 <subviews>
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K4w-ve-Vrh">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="771"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="620"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fby-H7-HOw" userLabel="Content VIew">
-                                                <rect key="frame" x="0.0" y="0.0" width="414" height="388.66666666666669"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="375" height="388.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="이름*" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yty-dv-EXB" userLabel="Label Name" customClass="AppendStar" customModule="SharingCharger" customModuleProvider="target">
-                                                        <rect key="frame" x="25" y="30" width="364" height="18"/>
+                                                        <rect key="frame" x="25" y="30" width="325" height="18"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                         <color key="textColor" systemColor="darkTextColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="실명 입력" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ocz-FP-cqd" userLabel="Text Name" customClass="CustomTextField" customModule="SharingCharger" customModuleProvider="target">
-                                                        <rect key="frame" x="25" y="57.999999999999993" width="364" height="19.666666666666664"/>
+                                                        <rect key="frame" x="25" y="58" width="325" height="19.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                         <textInputTraits key="textInputTraits" returnKeyType="next"/>
                                                         <userDefinedRuntimeAttributes>
@@ -226,13 +226,13 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </textField>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="전화번호*" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dNk-mO-ib6" userLabel="Label Phone" customClass="AppendStar" customModule="SharingCharger" customModuleProvider="target">
-                                                        <rect key="frame" x="25" y="107.66666666666666" width="364" height="18"/>
+                                                        <rect key="frame" x="25" y="107.5" width="325" height="18"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                         <color key="textColor" systemColor="darkTextColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textField opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="- 제외하고 숫자만 입력" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ANT-mF-OhE" userLabel="Text Phone" customClass="CustomTextField" customModule="SharingCharger" customModuleProvider="target">
-                                                        <rect key="frame" x="25" y="135.66666666666666" width="364" height="19.666666666666657"/>
+                                                        <rect key="frame" x="25" y="135.5" width="325" height="20"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                         <textInputTraits key="textInputTraits" returnKeyType="next"/>
                                                         <userDefinedRuntimeAttributes>
@@ -242,13 +242,13 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </textField>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="이메일*" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nOF-NY-Pcq" userLabel="Label Email" customClass="AppendStar" customModule="SharingCharger" customModuleProvider="target">
-                                                        <rect key="frame" x="25" y="185.33333333333334" width="364" height="18"/>
+                                                        <rect key="frame" x="25" y="185.5" width="325" height="18"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                         <color key="textColor" systemColor="darkTextColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textField opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="example@gmail.com" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eOS-vs-gPs" userLabel="Text Email" customClass="CustomTextField" customModule="SharingCharger" customModuleProvider="target">
-                                                        <rect key="frame" x="25" y="213.33333333333331" width="364" height="19.666666666666657"/>
+                                                        <rect key="frame" x="25" y="213.5" width="325" height="19.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                         <textInputTraits key="textInputTraits" returnKeyType="next"/>
                                                         <userDefinedRuntimeAttributes>
@@ -258,13 +258,13 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </textField>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="인증번호*" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wbu-On-BAn" userLabel="Label AutorizationCode" customClass="AppendStar" customModule="SharingCharger" customModuleProvider="target">
-                                                        <rect key="frame" x="25" y="263" width="364" height="18"/>
+                                                        <rect key="frame" x="25" y="263" width="325" height="18"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                         <color key="textColor" systemColor="darkTextColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textField opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="인증번호 입력" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aaW-Y2-Xe1" userLabel="Text AutorizationCode" customClass="CustomTextField" customModule="SharingCharger" customModuleProvider="target">
-                                                        <rect key="frame" x="25" y="291" width="364" height="19.666666666666686"/>
+                                                        <rect key="frame" x="25" y="291" width="325" height="19.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                         <userDefinedRuntimeAttributes>
@@ -274,7 +274,7 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </textField>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="※ 입력하신 이메일로 초기 비밀번호가 전송됩니다." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="noH-dN-sQo" userLabel="Label Phrase" customClass="AppendStar" customModule="SharingCharger" customModuleProvider="target">
-                                                        <rect key="frame" x="25" y="340.66666666666669" width="364" height="18"/>
+                                                        <rect key="frame" x="25" y="340.5" width="325" height="18"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                         <color key="textColor" systemColor="darkTextColor"/>
                                                         <nil key="highlightedColor"/>
@@ -333,7 +333,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tlL-Xl-UlR">
-                                <rect key="frame" x="0.0" y="822" width="414" height="40"/>
+                                <rect key="frame" x="0.0" y="627" width="375" height="40"/>
                                 <color key="backgroundColor" name="Color_3498DB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="f5E-mC-PQV"/>
@@ -377,27 +377,27 @@
             <objects>
                 <viewController storyboardIdentifier="Setting" title="설정" id="AqN-Zq-b86" customClass="SettingViewController" customModule="SharingCharger" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="jTf-Hu-7jX">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rDv-Df-VuS" userLabel="Top Line">
-                                <rect key="frame" x="0.0" y="44" width="414" height="7"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="7"/>
                                 <color key="backgroundColor" name="Color_EFEFEF"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="7" id="foA-Yg-uk3"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HFC-1d-yGe" userLabel="Password Change View">
-                                <rect key="frame" x="0.0" y="51" width="414" height="80"/>
+                                <rect key="frame" x="0.0" y="7" width="375" height="80"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="비밀번호 변경" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="huH-3H-MA9">
-                                        <rect key="frame" x="27" y="0.0" width="346" height="80"/>
+                                        <rect key="frame" x="27" y="0.0" width="307" height="80"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <color key="textColor" systemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="PasswordChangeArrow" image="greaterthan" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="soh-jG-96V">
-                                        <rect key="frame" x="373" y="25.666666666666668" width="14" height="17.666666666666661"/>
+                                        <rect key="frame" x="334" y="25" width="14" height="18.5"/>
                                         <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default" weight="light"/>
                                     </imageView>
@@ -412,23 +412,23 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ahc-if-892" userLabel="Middle Line">
-                                <rect key="frame" x="0.0" y="131" width="414" height="1"/>
+                                <rect key="frame" x="0.0" y="87" width="375" height="1"/>
                                 <color key="backgroundColor" name="Color_EFEFEF"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="Tqj-yR-1KT"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k63-fy-ELV" userLabel="Card Setting View">
-                                <rect key="frame" x="0.0" y="133" width="414" height="80"/>
+                                <rect key="frame" x="0.0" y="89" width="375" height="80"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="결제 카드 설정" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DZc-en-6GY" userLabel="결제 카드 설정">
-                                        <rect key="frame" x="27" y="0.0" width="346" height="80"/>
+                                        <rect key="frame" x="27" y="0.0" width="307" height="80"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <color key="textColor" systemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="CardSettingArrow" image="greaterthan" catalog="system" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Psp-hd-ivr" userLabel="greaterthan2">
-                                        <rect key="frame" x="373" y="31" width="14" height="18.333333333333329"/>
+                                        <rect key="frame" x="334" y="31" width="14" height="18.5"/>
                                         <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="14" id="RvU-eL-fFl"/>
@@ -448,14 +448,14 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KAm-gQ-w5S" userLabel="Middle Line 2">
-                                <rect key="frame" x="0.0" y="213" width="414" height="7"/>
+                                <rect key="frame" x="0.0" y="169" width="375" height="7"/>
                                 <color key="backgroundColor" name="Color_EFEFEF"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="7" id="liN-pY-OBN"/>
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Svu-vy-pHy" customClass="RoundButton" customModule="SharingCharger" customModuleProvider="target">
-                                <rect key="frame" x="40" y="250" width="334" height="34"/>
+                                <rect key="frame" x="40" y="206" width="295" height="34"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="로그아웃">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -501,40 +501,40 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wXn-Zm-vP8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2760.8695652173915" y="811.60714285714278"/>
+            <point key="canvasLocation" x="2711" y="993"/>
         </scene>
         <!--회원가입-->
         <scene sceneID="utd-Wu-4pY">
             <objects>
                 <viewController storyboardIdentifier="Join" title="회원가입" id="z7H-q4-msR" customClass="JoinViewController" customModule="SharingCharger" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="GtN-0N-Uhf">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TX6-c1-LR4" userLabel="Top Line">
-                                <rect key="frame" x="0.0" y="44" width="414" height="7"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="7"/>
                                 <color key="backgroundColor" name="Color_EFEFEF"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="7" id="bJR-QA-R2t"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iyI-h4-pyM" userLabel="Frame View">
-                                <rect key="frame" x="0.0" y="51" width="414" height="771"/>
+                                <rect key="frame" x="0.0" y="7" width="375" height="620"/>
                                 <subviews>
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iO7-M5-AAV">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="771"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="620"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Nd-sL-hxl" userLabel="Content View">
-                                                <rect key="frame" x="0.0" y="0.0" width="414" height="496"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="375" height="496"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="이름*" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uas-ss-dqI" userLabel="Label Name" customClass="AppendStar" customModule="SharingCharger" customModuleProvider="target">
-                                                        <rect key="frame" x="25" y="30" width="364" height="18"/>
+                                                        <rect key="frame" x="25" y="30" width="325" height="18"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                         <color key="textColor" systemColor="darkTextColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="실명 입력" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XGi-rB-zGE" userLabel="Text Name" customClass="CustomTextField" customModule="SharingCharger" customModuleProvider="target">
-                                                        <rect key="frame" x="25" y="57.999999999999993" width="364" height="19.666666666666664"/>
+                                                        <rect key="frame" x="25" y="58" width="325" height="19.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                         <textInputTraits key="textInputTraits" returnKeyType="next"/>
                                                         <userDefinedRuntimeAttributes>
@@ -544,13 +544,13 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </textField>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="전화번호*" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="24c-d4-qS4" userLabel="Label Phone" customClass="AppendStar" customModule="SharingCharger" customModuleProvider="target">
-                                                        <rect key="frame" x="25" y="107.66666666666666" width="364" height="18"/>
+                                                        <rect key="frame" x="25" y="107.5" width="325" height="18"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                         <color key="textColor" systemColor="darkTextColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textField opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="- 제외하고 숫자만 입력" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tkZ-sm-i4D" userLabel="Text Phone" customClass="CustomTextField" customModule="SharingCharger" customModuleProvider="target">
-                                                        <rect key="frame" x="25" y="135.66666666666666" width="364" height="19.666666666666657"/>
+                                                        <rect key="frame" x="25" y="135.5" width="325" height="20"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                         <textInputTraits key="textInputTraits" returnKeyType="next"/>
                                                         <userDefinedRuntimeAttributes>
@@ -560,13 +560,13 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </textField>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="이메일*" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="alg-wZ-P8y" userLabel="Label Email" customClass="AppendStar" customModule="SharingCharger" customModuleProvider="target">
-                                                        <rect key="frame" x="25" y="185.33333333333334" width="364" height="18"/>
+                                                        <rect key="frame" x="25" y="185.5" width="325" height="18"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                         <color key="textColor" systemColor="darkTextColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textField opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="example@gmail.com" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aaI-sS-DcR" userLabel="Text Email" customClass="CustomTextField" customModule="SharingCharger" customModuleProvider="target">
-                                                        <rect key="frame" x="25" y="213.33333333333331" width="364" height="19.666666666666657"/>
+                                                        <rect key="frame" x="25" y="213.5" width="325" height="19.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                         <textInputTraits key="textInputTraits" returnKeyType="next"/>
                                                         <userDefinedRuntimeAttributes>
@@ -576,13 +576,13 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </textField>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="인증번호*" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dWX-qM-nkN" userLabel="Label AutorizationCode" customClass="AppendStar" customModule="SharingCharger" customModuleProvider="target">
-                                                        <rect key="frame" x="25" y="263" width="364" height="18"/>
+                                                        <rect key="frame" x="25" y="263" width="325" height="18"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                         <color key="textColor" systemColor="darkTextColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textField opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="인증번호 입력" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ok0-jl-X0u" userLabel="Text AutorizationCode" customClass="CustomTextField" customModule="SharingCharger" customModuleProvider="target">
-                                                        <rect key="frame" x="25" y="291" width="364" height="19.666666666666686"/>
+                                                        <rect key="frame" x="25" y="291" width="325" height="19.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                         <textInputTraits key="textInputTraits" returnKeyType="next"/>
                                                         <userDefinedRuntimeAttributes>
@@ -592,24 +592,24 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </textField>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="비밀번호*" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qqw-h1-81e" userLabel="Label Password" customClass="AppendStar" customModule="SharingCharger" customModuleProvider="target">
-                                                        <rect key="frame" x="25" y="340.66666666666669" width="364" height="18"/>
+                                                        <rect key="frame" x="25" y="340.5" width="325" height="18"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                         <color key="textColor" systemColor="darkTextColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textField opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0VM-e2-ViD" userLabel="Text Password" customClass="CustomTextField" customModule="SharingCharger" customModuleProvider="target">
-                                                        <rect key="frame" x="25" y="368.66666666666669" width="364" height="19.666666666666686"/>
+                                                        <rect key="frame" x="25" y="368.5" width="325" height="20"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                         <textInputTraits key="textInputTraits" returnKeyType="next"/>
                                                     </textField>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="비밀번호 확인*" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="raJ-f9-tbc" userLabel="Label Password" customClass="AppendStar" customModule="SharingCharger" customModuleProvider="target">
-                                                        <rect key="frame" x="25" y="418.33333333333331" width="364" height="18"/>
+                                                        <rect key="frame" x="25" y="418.5" width="325" height="18"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                         <color key="textColor" systemColor="darkTextColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textField opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="g63-hj-zOu" userLabel="Text Password" customClass="CustomTextField" customModule="SharingCharger" customModuleProvider="target">
-                                                        <rect key="frame" x="25" y="446.33333333333331" width="364" height="19.666666666666686"/>
+                                                        <rect key="frame" x="25" y="446.5" width="325" height="19.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                     </textField>
@@ -676,7 +676,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rbG-05-4uT">
-                                <rect key="frame" x="0.0" y="822" width="414" height="40"/>
+                                <rect key="frame" x="0.0" y="627" width="375" height="40"/>
                                 <color key="backgroundColor" name="Color_3498DB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="ind-ba-fb0"/>
@@ -743,47 +743,47 @@
             <objects>
                 <viewController title="포인트 이력" id="rh8-za-dZf" customClass="HistoryPointViewController" customModule="SharingCharger" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="L4C-Uq-Crd">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Sbv-Xl-oKN" userLabel="Top Line">
-                                <rect key="frame" x="0.0" y="44" width="414" height="7"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="7"/>
                                 <color key="backgroundColor" name="Color_EFEFEF"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="7" id="Fu5-he-GF6"/>
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="nMu-tk-DMA">
-                                <rect key="frame" x="0.0" y="51" width="414" height="811"/>
+                                <rect key="frame" x="0.0" y="7" width="375" height="660"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CustomCell" rowHeight="106" id="bP7-9d-C48" customClass="HistoryPointTableCell" customModule="SharingCharger" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="106"/>
+                                        <rect key="frame" x="0.0" y="28" width="375" height="106"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="CustomCell" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="bP7-9d-C48" id="pXR-DW-NmD">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="106"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="106"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="부분 환불" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cGB-dq-t5R">
-                                                    <rect key="frame" x="30" y="42.666666666666664" width="67" height="21"/>
+                                                    <rect key="frame" x="26" y="42.5" width="67" height="21"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                                     <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2020-08-31 14:22" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="idF-54-cc2">
-                                                    <rect key="frame" x="30" y="19" width="119" height="17.666666666666671"/>
+                                                    <rect key="frame" x="26" y="19" width="119" height="17.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" name="Color_7F7F7F"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+ 1,350" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FB3-fa-iH8">
-                                                    <rect key="frame" x="323" y="42.666666666666664" width="61" height="21"/>
+                                                    <rect key="frame" x="288" y="42.5" width="61" height="21"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                     <color key="textColor" name="Color_3498DB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="79,950" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pkm-18-Lo1">
-                                                    <rect key="frame" x="337" y="68.666666666666671" width="47" height="17"/>
+                                                    <rect key="frame" x="302" y="68.5" width="47" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
                                                     <color key="textColor" name="Color_7F7F7F"/>
                                                     <nil key="highlightedColor"/>
@@ -836,25 +836,25 @@
             <objects>
                 <viewController title="충전 이력" id="g2L-G0-n74" customClass="HistoryElectricityChargingViewController" customModule="SharingCharger" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="PyN-2n-wiW">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SM7-Uh-wFv" userLabel="Top Line">
-                                <rect key="frame" x="0.0" y="44" width="414" height="7"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="7"/>
                                 <color key="backgroundColor" name="Color_EFEFEF"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="7" id="mb1-bX-CsB"/>
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="QZJ-qZ-ATO">
-                                <rect key="frame" x="0.0" y="51" width="414" height="811"/>
+                                <rect key="frame" x="0.0" y="7" width="375" height="660"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CustomCell" rowHeight="152" id="lz3-v1-Myo" customClass="HistoryElectricityTableCell" customModule="SharingCharger" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="152"/>
+                                        <rect key="frame" x="0.0" y="28" width="375" height="152"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="lz3-v1-Myo" id="kgv-pC-G9V">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="152"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="152"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Image_location" translatesAutoresizingMaskIntoConstraints="NO" id="bFO-q5-rJe">
@@ -891,7 +891,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2,562 포인트 사용" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VYx-2A-a5t">
-                                                    <rect key="frame" x="52.000000000000007" y="82" width="126.66666666666669" height="21"/>
+                                                    <rect key="frame" x="52" y="82" width="126.5" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" systemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
@@ -948,22 +948,22 @@
             <objects>
                 <viewController id="YIw-Me-lVT" customClass="SampleViewController" customModule="SharingCharger" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="23c-rZ-BF0">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="aGK-Si-1oP">
-                                <rect key="frame" x="0.0" y="60" width="414" height="598"/>
+                                <rect key="frame" x="0.0" y="16" width="375" height="413"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="SampleTableViewCell" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SampleTableViewCell" rowHeight="60" id="ynL-8r-J9U" customClass="SampleTableViewCell" customModule="SharingCharger" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="60"/>
+                                        <rect key="frame" x="0.0" y="28" width="375" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ynL-8r-J9U" id="bbl-dC-u07">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="60"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2pX-qp-BO9">
-                                                    <rect key="frame" x="16" y="0.0" width="382" height="60"/>
+                                                    <rect key="frame" x="16" y="0.0" width="343" height="60"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -983,7 +983,7 @@
                                 </prototypes>
                             </tableView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L9b-iQ-3Jl">
-                                <rect key="frame" x="0.0" y="666" width="414" height="230"/>
+                                <rect key="frame" x="0.0" y="437" width="375" height="230"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="230" id="3s0-Et-ZZf"/>
@@ -1018,9 +1018,9 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Image_clock" width="85.333335876464844" height="85.333335876464844"/>
-        <image name="Image_coin" width="21.333333969116211" height="21.333333969116211"/>
-        <image name="Image_location" width="10.333333015441895" height="13.333333015441895"/>
+        <image name="Image_clock" width="85" height="85"/>
+        <image name="Image_coin" width="21" height="21"/>
+        <image name="Image_location" width="10" height="13"/>
         <image name="greaterthan" catalog="system" width="128" height="111"/>
         <namedColor name="Color_3498DB">
             <color red="0.20392156862745098" green="0.59215686274509804" blue="0.85882352941176465" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
