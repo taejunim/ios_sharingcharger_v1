@@ -9,12 +9,20 @@
 import UIKit
 import MaterialComponents.MaterialBottomSheet
 import SideMenu
+import GoneVisible
 
 class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditionProtocol {
     
     @IBOutlet var mapView: UIView!
     var mTMapView: MTMapView?
     var searchingConditionView = ShadowView()
+    var chargerView: BottomSheetView?
+    var chargerContentView = ChargerContentView()
+    
+    var chargerViewMinimumHeight: CGFloat = 0       //충전기 화면 최소 높이
+    var chargerViewMaximumHeight: CGFloat = 0       //충전기 화면 최대 높이
+    
+    var currentSelectedPoiItem: MTMapPOIItem?       //현재 선택된 마커
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,8 +45,88 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         addView(width: nil, height: 110, top: nil, left: 15, right: -15, bottom: 0, target: mapView)
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateSearchingCondition(_:)), name: .updateSearchingCondition, object: nil)
+        
+        addPoiItem()
+        
+        chargerViewMinimumHeight = mapView.frame.height * 0.25
+        chargerViewMaximumHeight = mapView.frame.height * 0.55
+        
+        print("chargerViewMinimumHeight : \(chargerViewMinimumHeight), chargerViewMaximumHeight : \(chargerViewMaximumHeight)")
     }
     
+    func mapView(_ mapView: MTMapView!, selectedPOIItem poiItem: MTMapPOIItem!) -> Bool {
+        
+        print("poi selected : \(poiItem.tag)")
+        
+        //현재 선택된 마커가 있을 때 -> 뷰는 고정시킨 채로 데이터만 바꿔줌
+        if currentSelectedPoiItem != nil {
+            
+            chargerContentView.changeValue(chargerNameText: poiItem.itemName)
+        }
+        
+        //검색 조건 버튼 숨기고 충전기 화면 올라옴
+        else {
+            searchingConditionView.isHidden = true
+            searchingConditionView.gone()
+            
+            UIView.animate(withDuration: 0.3) { self.view.layoutIfNeeded() }
+            
+            usleep(1000)
+            
+            chargerView = BottomSheetView(
+                contentView: chargerContentView,
+                contentHeights: [chargerViewMinimumHeight, chargerViewMaximumHeight]
+            )
+            
+            chargerView?.present(in: view)
+            
+            chargerContentView.changeValue(chargerNameText: poiItem.itemName)
+        }
+        
+        //현재 선택된 마커 저장
+        currentSelectedPoiItem = poiItem
+        
+        return false
+    }
+
+    //지도 클릭했을 때
+    func mapView(_ mapView: MTMapView!, singleTapOn mapPoint: MTMapPoint!) {
+        
+        print("singleTapOn ")
+        
+        //충전기 화면 사라짐
+        chargerView?.dismiss()
+        
+        //검색 조건 버튼 올라옴
+        searchingConditionView.isHidden = false
+        searchingConditionView.visible()
+        UIView.animate(withDuration: 0.3) { self.view.layoutIfNeeded() }
+        
+        //현재 선택된 마커 지움
+        currentSelectedPoiItem = nil
+    }
+    
+    private func addPoiItem() {
+        
+        let poiItem: MTMapPOIItem = MTMapPOIItem()
+        poiItem.itemName = "충전기1"
+        poiItem.mapPoint = MTMapPoint(geoCoord: MTMapPointGeo(latitude: 33.491450, longitude: 126.535555))
+        poiItem.markerType = MTMapPOIItemMarkerType.bluePin
+        poiItem.tag = 1
+        
+        var poiArray = Array<MTMapPOIItem>()
+        poiArray.append(poiItem)
+        
+        let poiItem2: MTMapPOIItem = MTMapPOIItem()
+        poiItem2.itemName = "충전기2"
+        poiItem2.mapPoint = MTMapPoint(geoCoord: MTMapPointGeo(latitude: 33.491550, longitude: 126.536655))
+        poiItem2.markerType = MTMapPOIItemMarkerType.bluePin
+        poiItem2.tag = 2
+        
+        poiArray.append(poiItem2)
+        
+        mTMapView?.addPOIItems(poiArray)
+    }
     
     //Side Menu
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

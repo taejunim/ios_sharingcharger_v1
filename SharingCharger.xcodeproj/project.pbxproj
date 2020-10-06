@@ -75,6 +75,11 @@
 		DADCD4F224F554710026EFAD /* ReservationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADCD4F124F554710026EFAD /* ReservationViewController.swift */; };
 		DAF0F3F8250E1E540055226F /* SearchingConditionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF0F3F7250E1E540055226F /* SearchingConditionViewController.swift */; };
 		DAF0F421250F7D720055226F /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF0F420250F7D720055226F /* CustomButton.swift */; };
+		DAF4D9D0252C360700B4D218 /* BottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF4D9CC252C360700B4D218 /* BottomSheetView.swift */; };
+		DAF4D9D1252C360700B4D218 /* SpringAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF4D9CD252C360700B4D218 /* SpringAnimator.swift */; };
+		DAF4D9D2252C360700B4D218 /* BottomSheetCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF4D9CE252C360700B4D218 /* BottomSheetCalculator.swift */; };
+		DAF4D9D3252C360700B4D218 /* TranslationTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF4D9CF252C360700B4D218 /* TranslationTarget.swift */; };
+		DAF4D9D5252C56E300B4D218 /* ChargerContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF4D9D4252C56E300B4D218 /* ChargerContentView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -172,6 +177,11 @@
 		DADCD4F124F554710026EFAD /* ReservationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservationViewController.swift; sourceTree = "<group>"; };
 		DAF0F3F7250E1E540055226F /* SearchingConditionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchingConditionViewController.swift; sourceTree = "<group>"; };
 		DAF0F420250F7D720055226F /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
+		DAF4D9CC252C360700B4D218 /* BottomSheetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomSheetView.swift; sourceTree = "<group>"; };
+		DAF4D9CD252C360700B4D218 /* SpringAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpringAnimator.swift; sourceTree = "<group>"; };
+		DAF4D9CE252C360700B4D218 /* BottomSheetCalculator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomSheetCalculator.swift; sourceTree = "<group>"; };
+		DAF4D9CF252C360700B4D218 /* TranslationTarget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TranslationTarget.swift; sourceTree = "<group>"; };
+		DAF4D9D4252C56E300B4D218 /* ChargerContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargerContentView.swift; sourceTree = "<group>"; };
 		E150F99499B36EF9DEE2F892 /* Pods_SharingCharger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SharingCharger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -224,6 +234,7 @@
 		DA26FB2624FCD20500D76753 /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				DAF4D9CB252C35B300B4D218 /* BottomSheet */,
 				DAD31FF125070D410047A446 /* DaumMap.embeddedframework */,
 				DA26FB3024FCD6AD00D76753 /* EvzBLEKit.xcframework */,
 			);
@@ -247,6 +258,7 @@
 				DA3416652508D64C0031999F /* ShadowButton.swift */,
 				DA341673250B7AF00031999F /* ShadowCircleView.swift */,
 				DA341671250A20620031999F /* ShadowView.swift */,
+				DAF4D9D4252C56E300B4D218 /* ChargerContentView.swift */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -377,6 +389,17 @@
 				DAD3200A25070D410047A446 /* MTMapCircle.h */,
 			);
 			path = Headers;
+			sourceTree = "<group>";
+		};
+		DAF4D9CB252C35B300B4D218 /* BottomSheet */ = {
+			isa = PBXGroup;
+			children = (
+				DAF4D9CE252C360700B4D218 /* BottomSheetCalculator.swift */,
+				DAF4D9CC252C360700B4D218 /* BottomSheetView.swift */,
+				DAF4D9CD252C360700B4D218 /* SpringAnimator.swift */,
+				DAF4D9CF252C360700B4D218 /* TranslationTarget.swift */,
+			);
+			name = BottomSheet;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -526,6 +549,7 @@
 				DA341674250B7AF00031999F /* ShadowCircleView.swift in Sources */,
 				DABC41AC24CE73F500DD366F /* LoginViewController.swift in Sources */,
 				DABC41A824CE73F500DD366F /* AppDelegate.swift in Sources */,
+				DAF4D9D1252C360700B4D218 /* SpringAnimator.swift in Sources */,
 				DA3416662508D64C0031999F /* ShadowButton.swift in Sources */,
 				DA41A1F024ECF71200E7BB93 /* PasswordInitViewController.swift in Sources */,
 				DABC41AA24CE73F500DD366F /* SceneDelegate.swift in Sources */,
@@ -541,11 +565,15 @@
 				C6633DED252C362900F02F24 /* SearchingChargerViewController.swift in Sources */,
 				DAAC21D32521D4E20086055F /* LeftMenuViewController.swift in Sources */,
 				DADCD4C724F4E2080026EFAD /* MainViewController.swift in Sources */,
+				DAF4D9D0252C360700B4D218 /* BottomSheetView.swift in Sources */,
 				37373FAE24FB50C900181756 /* HistoryPointViewController.swift in Sources */,
 				DA09438324E1214B00671F0D /* CustomTextField.swift in Sources */,
+				DAF4D9D5252C56E300B4D218 /* ChargerContentView.swift in Sources */,
 				DA41A08C24EBB35400E7BB93 /* AppendStar.swift in Sources */,
+				DAF4D9D2252C360700B4D218 /* BottomSheetCalculator.swift in Sources */,
 				372D309224F6324000CEB232 /* SettingViewController.swift in Sources */,
 				DAF0F421250F7D720055226F /* CustomButton.swift in Sources */,
+				DAF4D9D3252C360700B4D218 /* TranslationTarget.swift in Sources */,
 				DA341672250A20620031999F /* ShadowView.swift in Sources */,
 				37201B7924FC95DD000A3F08 /* HistoryElectricityTableCell.swift in Sources */,
 				DAF0F3F8250E1E540055226F /* SearchingConditionViewController.swift in Sources */,
