@@ -13,6 +13,8 @@
 		37373FAF24FB50C900181756 /* HistoryPointTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37373FAD24FB50C900181756 /* HistoryPointTableCell.swift */; };
 		376E3A2624FC906C007274A1 /* HistoryElectricityChargingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376E3A2524FC906C007274A1 /* HistoryElectricityChargingViewController.swift */; };
 		96A289B377796E4505BB738D /* Pods_SharingCharger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E150F99499B36EF9DEE2F892 /* Pods_SharingCharger.framework */; };
+		C6633DED252C362900F02F24 /* SearchingChargerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6633DEC252C362900F02F24 /* SearchingChargerViewController.swift */; };
+		C6633DEF252C7C4400F02F24 /* ChargeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6633DEE252C7C4400F02F24 /* ChargeViewController.swift */; };
 		DA09438324E1214B00671F0D /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA09438224E1214B00671F0D /* CustomTextField.swift */; };
 		DA09438924E146AC00671F0D /* JoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA09438824E146AC00671F0D /* JoinViewController.swift */; };
 		DA1D8380251DD77B00855000 /* SearchingConditionObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1D837F251DD77B00855000 /* SearchingConditionObject.swift */; };
@@ -97,6 +99,8 @@
 		37373FAD24FB50C900181756 /* HistoryPointTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryPointTableCell.swift; sourceTree = "<group>"; };
 		376E3A2524FC906C007274A1 /* HistoryElectricityChargingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryElectricityChargingViewController.swift; sourceTree = "<group>"; };
 		A2EB86E1C4E15A54970329DC /* Pods-SharingCharger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SharingCharger.release.xcconfig"; path = "Target Support Files/Pods-SharingCharger/Pods-SharingCharger.release.xcconfig"; sourceTree = "<group>"; };
+		C6633DEC252C362900F02F24 /* SearchingChargerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchingChargerViewController.swift; sourceTree = "<group>"; };
+		C6633DEE252C7C4400F02F24 /* ChargeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargeViewController.swift; sourceTree = "<group>"; };
 		DA09438224E1214B00671F0D /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		DA09438824E146AC00671F0D /* JoinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinViewController.swift; sourceTree = "<group>"; };
 		DA1D837F251DD77B00855000 /* SearchingConditionObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchingConditionObject.swift; sourceTree = "<group>"; };
@@ -264,6 +268,8 @@
 				DAF0F3F7250E1E540055226F /* SearchingConditionViewController.swift */,
 				372D309124F6324000CEB232 /* SettingViewController.swift */,
 				DAAC21D22521D4E20086055F /* LeftMenuViewController.swift */,
+				C6633DEC252C362900F02F24 /* SearchingChargerViewController.swift */,
+				C6633DEE252C7C4400F02F24 /* ChargeViewController.swift */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -531,6 +537,8 @@
 				376E3A2624FC906C007274A1 /* HistoryElectricityChargingViewController.swift in Sources */,
 				DADCD4F224F554710026EFAD /* ReservationViewController.swift in Sources */,
 				DA09438924E146AC00671F0D /* JoinViewController.swift in Sources */,
+				C6633DEF252C7C4400F02F24 /* ChargeViewController.swift in Sources */,
+				C6633DED252C362900F02F24 /* SearchingChargerViewController.swift in Sources */,
 				DAAC21D32521D4E20086055F /* LeftMenuViewController.swift in Sources */,
 				DADCD4C724F4E2080026EFAD /* MainViewController.swift in Sources */,
 				37373FAE24FB50C900181756 /* HistoryPointViewController.swift in Sources */,
