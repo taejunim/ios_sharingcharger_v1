@@ -10,21 +10,26 @@ import UIKit
 
 class LeftMenuViewController: UIViewController {
 
+    @IBOutlet var pointCharge: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        initializeLeftMenu()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    private func initializeLeftMenu() {
+        
+        //print("LeftMenuViewController - initializeLeftMenu")
+        
+        pointCharge.addTarget(self, action: #selector(pointChargeButton(sender:)), for: .touchUpInside)
     }
-    */
+    
+    @objc func pointChargeButton(sender: UIView!) {
+        
+        print("충전하기 이벤트")
+
+    }
+    
 
 }
