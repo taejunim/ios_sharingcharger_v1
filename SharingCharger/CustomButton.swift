@@ -44,6 +44,17 @@ class CustomButton: UIButton {
             
             break
             
+        case "reservation":
+            
+            self.layer.cornerRadius = 7           //완료 버튼 둥글게
+            self.backgroundColor = UIColor(named: "Color_3498DB")
+            self.titleLabel?.font = UIFont.boldSystemFont(ofSize: CGFloat(18))
+            self.setTitleColor(.white, for: .normal)
+            self.setTitle("예약하기", for: .normal)
+            self.addTarget(MainViewController(), action: #selector(MainViewController.reservationButton), for: .touchUpInside)
+            
+            break
+            
         default:
             break
         }
@@ -68,8 +79,14 @@ class CustomButton: UIButton {
             self.rightAnchor.constraint(equalTo: target.rightAnchor, constant: right!).isActive = true
         }
         
-        if bottom != nil {
-            self.bottomAnchor.constraint(equalTo: target.bottomAnchor, constant: bottom!).isActive = true
+        if buttonName == "reservation" {
+            if bottom != nil {
+                self.bottomAnchor.constraint(equalTo: target.safeAreaLayoutGuide.bottomAnchor).isActive = true
+            }
+        } else {
+            if bottom != nil {
+                self.bottomAnchor.constraint(equalTo: target.bottomAnchor, constant: bottom!).isActive = true
+            }
         }
      }
     

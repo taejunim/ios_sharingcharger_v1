@@ -24,6 +24,8 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
     
     var currentSelectedPoiItem: MTMapPOIItem?       //현재 선택된 마커
     
+    var reservationView = CustomButton(type: .system)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -41,6 +43,7 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         
         addButton(buttonName: "menu", width: 40, height: 40, top: 15, left: 15, right: nil, bottom: nil, target: mapView)
         addButton(buttonName: "address", width: nil, height: 40, top: 15, left: 70, right: -15, bottom: nil, target: mapView)
+        addReservationButton(buttonName: "reservation", width: nil, height: 40, top: nil, left: 0, right: 0, bottom: 0, target: self.view)
         addCurrentLocationButton(buttonName: "currentLocation", width: 40, height: 40, top: 70, left: nil, right: -15, bottom: nil, target: mapView)
         addView(width: nil, height: 110, top: nil, left: 15, right: -15, bottom: 0, target: mapView)
         
@@ -48,8 +51,8 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         
         addPoiItem()
         
-        chargerViewMinimumHeight = mapView.frame.height * 0.25
-        chargerViewMaximumHeight = mapView.frame.height * 0.55
+        chargerViewMinimumHeight = mapView.frame.height * 0.3
+        chargerViewMaximumHeight = mapView.frame.height * 0.6
         
         print("chargerViewMinimumHeight : \(chargerViewMinimumHeight), chargerViewMaximumHeight : \(chargerViewMaximumHeight)")
     }
@@ -69,6 +72,8 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
             searchingConditionView.isHidden = true
             searchingConditionView.gone()
             
+            reservationView.visible()
+            
             UIView.animate(withDuration: 0.3) { self.view.layoutIfNeeded() }
             
             usleep(1000)
@@ -86,6 +91,8 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         //현재 선택된 마커 저장
         currentSelectedPoiItem = poiItem
         
+        self.view.bringSubviewToFront(reservationView)
+        
         return false
     }
 
@@ -100,6 +107,9 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         //검색 조건 버튼 올라옴
         searchingConditionView.isHidden = false
         searchingConditionView.visible()
+        
+        reservationView.gone()
+        
         UIView.animate(withDuration: 0.3) { self.view.layoutIfNeeded() }
         
         //현재 선택된 마커 지움
@@ -126,6 +136,12 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         poiArray.append(poiItem2)
         
         mTMapView?.addPOIItems(poiArray)
+    }
+    
+    @objc func reservationButton(sender: UIButton!) {
+        print("MainViewController - Button tapped")
+        
+        
     }
     
     //Side Menu
@@ -198,6 +214,14 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         mapView?.addSubview(button)
         
         button.setAttributes(buttonName: buttonName, width: width, height: height, top: top, left: left, right: right, bottom: bottom, target: target)
+    }
+    
+    private func addReservationButton(buttonName: String?, width: CGFloat?, height: CGFloat?, top: CGFloat?, left: CGFloat?, right: CGFloat?, bottom: CGFloat?, target: AnyObject) {
+        
+        self.view.addSubview(reservationView)
+        
+        reservationView.setAttributes(buttonName: buttonName, width: width, height: height, top: top, left: left, right: right, bottom: bottom, target: target)
+        reservationView.gone()
     }
     
     private func addView(width: CGFloat?, height: CGFloat?, top: CGFloat?, left: CGFloat?, right: CGFloat?, bottom: CGFloat?, target: AnyObject) {
