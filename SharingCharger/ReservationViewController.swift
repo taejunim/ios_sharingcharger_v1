@@ -33,9 +33,11 @@ class ReservationViewController: UIViewController {
 
     }
     
-    @objc func confirmReservation(sender: UIView!) {
+    @objc func confirmReservation(sender: UIButton!) {
         
         print("예약완료 이벤트")
 
+//        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
     }
 }

@@ -26,6 +26,8 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
     
     var reservationView = CustomButton(type: .system)
     
+    var isCurrentLocationTrackingMode = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -141,6 +143,9 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
     @objc func reservationButton(sender: UIButton!) {
         print("MainViewController - Button tapped")
         
+        guard let uvc = self.storyboard?.instantiateViewController(withIdentifier: "Reservation") else { return }
+        
+        self.navigationController?.pushViewController(uvc, animated: true)
         
     }
     
@@ -173,16 +178,19 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         return settings
     }
     
+    //사이드 메뉴 버튼
     @objc func menuButton(sender: UIButton!) {
         print("MainViewController - menuButton tapped")
         
         self.performSegue(withIdentifier: "segueToLeftMenu", sender: self)
     }
     
+    //주소 찾기 버튼
     @objc func addressButton(sender: UIButton!) {
         print("MainViewController - addressButton tapped")
     }
     
+    //검색 조건 버튼
     @objc func searchingConditionButton(sender: UIView!) {
         print("MainViewController - searchingConditionButton tapped")
         
@@ -199,14 +207,7 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         present(bottomSheet, animated: true, completion: nil)
     }
     
-    @objc func currentLocationTrackingModeButton(sender: UIView!) {
-        
-        print("MainViewController - currentLocationTrackingModeButton tapped")
-        guard let uvc = self.storyboard?.instantiateViewController(withIdentifier: "Reservation") else { return }
-        
-        self.navigationController?.pushViewController(uvc, animated: true)
-    }
-    
+    //사이드메뉴, 주소 찾기 버튼 추가
     private func addButton(buttonName: String?, width: CGFloat?, height: CGFloat?, top: CGFloat?, left: CGFloat?, right: CGFloat?, bottom: CGFloat?, target: AnyObject) {
         
         let button = ShadowButton(type: .system)
@@ -216,6 +217,7 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         button.setAttributes(buttonName: buttonName, width: width, height: height, top: top, left: left, right: right, bottom: bottom, target: target)
     }
     
+    //예약하기 버튼
     private func addReservationButton(buttonName: String?, width: CGFloat?, height: CGFloat?, top: CGFloat?, left: CGFloat?, right: CGFloat?, bottom: CGFloat?, target: AnyObject) {
         
         self.view.addSubview(reservationView)
@@ -254,6 +256,38 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         print("data : \(data)")
         
         searchingConditionView.setLabelText(chargingTimeText: data.chargingTime, chargingDateText: data.chargingPeriod)
+    }
+    
+    func mapView(_ mapView: MTMapView!, updateCurrentLocation location: MTMapPoint!, withAccuracy accuracy: MTMapLocationAccuracy) {
+        
+        let currentLocation = location?.mapPointGeo()
+        
+        if let latitude = currentLocation?.latitude, let longitude = currentLocation?.longitude{
+            print("MTMapView updateCurrentLocation (\(latitude),\(longitude)) accuracy (\(accuracy))")
+        }
+    }
+    
+    func mapView(_ mapView: MTMapView?, updateDeviceHeading headingAngle: MTMapRotationAngle) {
+        print("MTMapView updateDeviceHeading (\(headingAngle)) degrees")
+    }
+    
+    //현재 위치 버튼
+    @objc func currentLocationTrackingModeButton(sender: UIView!) {
+        
+        if isCurrentLocationTrackingMode {
+            
+            mTMapView?.showCurrentLocationMarker = false
+            mTMapView?.currentLocationTrackingMode = .off
+            
+            isCurrentLocationTrackingMode = false
+            
+        } else {
+        
+            mTMapView?.showCurrentLocationMarker = true
+            mTMapView?.currentLocationTrackingMode = .onWithoutHeading
+            
+            isCurrentLocationTrackingMode = true
+        }
     }
 
     override func viewWillDisappear(_ animated: Bool) {

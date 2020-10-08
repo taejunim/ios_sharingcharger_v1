@@ -217,7 +217,7 @@ class SearchingConditionViewController: UIViewController, UIPickerViewDelegate, 
         changeAttribute(inactiveButton: instantCharge, activeButton: reservationCharge)
     }
     
-    //충전 기간 세팅o
+    //충전 기간 세팅
     private func setChargingPeriod(activeButton: UIButton!) {
         
         let date = Date()
