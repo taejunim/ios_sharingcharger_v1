@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Alamofire
+import Toast_Swift
 
 class JoinViewController: UIViewController, UITextFieldDelegate {
     
@@ -23,6 +25,9 @@ class JoinViewController: UIViewController, UITextFieldDelegate {
     
     var activeTextField: UITextField?   //현재 포커싱인 textField
     
+    var utils: Utils?
+    var activityIndicator: UIActivityIndicatorView?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -32,6 +37,93 @@ class JoinViewController: UIViewController, UITextFieldDelegate {
         emailTextField.setCurrentType(type: 1, target: self)   //이메일 필드에 인증요청 버튼 추가
         
         buttonComplete.layer.cornerRadius = 7           //완료 버튼 둥글게
+        buttonComplete.addTarget(self, action: #selector(joinButton), for: .touchUpInside)
+        
+        //로딩 뷰
+        utils = Utils(superView: self.view)
+        activityIndicator = utils!.activityIndicator
+        self.view.addSubview(activityIndicator!)
+    }
+    
+    @objc func joinButton(sender: UIButton!) {
+        
+        var code: Int! = 0
+        let url = "http://test.jinwoosi.co.kr:6066/api/v1/join"
+        
+        print("emailTextField.text! : \(emailTextField.text!)")
+        print("passwordTextField.text! : \(passwordTextField.text!)")
+        print("phoneTextField.text! : \(phoneTextField.text!)")
+        
+        let parameters: Parameters = [
+            
+//            "email":emailTextField.text!,
+//            "name":nameTextField.text!,
+//            "password":passwordTextField.text!,
+//            "phone":phoneTextField.text!,
+//            "userType":"General"
+            "email":"tjtest01@gmail.com",
+            "name":"임태준",
+            "password":"1",
+            "phone":"01012345678",
+            "userType":"General",
+            "collectUserDataFlag":true,
+            "privacyPolicyFlag":true
+        
+        ]
+        
+        AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, interceptor: Interceptor(indicator: activityIndicator!)).validate().responseJSON(completionHandler: { response in
+            
+            code = response.response?.statusCode
+            
+            switch response.result {
+            
+            case .success(let obj):
+                
+                print("obj : \(obj)")
+                
+                do {
+                    
+                    let JSONData = try JSONSerialization.data(withJSONObject: obj, options: .prettyPrinted)
+                    
+                    let instanceData = try JSONDecoder().decode(JoinObject.self, from: JSONData)
+                    
+                    print("email : \(instanceData.email)")
+                    print("name : \(instanceData.name)")
+                    print("password : \(instanceData.password)")
+                    print("phone : \(instanceData.phone)")
+                    
+                    self.view.makeToast("회원가입이 완료되어 로그인 페이지으로 이동합니다.", duration: 2.0, position: .bottom) {didTap in
+                        if didTap {
+                            print("tap")
+                            self.navigationController?.popViewController(animated: true)
+                        } else {
+                            print("without tap")
+                            self.navigationController?.popViewController(animated: true)
+                        }
+                    }
+                    
+                } catch {
+                    print("error : \(error.localizedDescription)")
+                    print("서버와 통신이 원활하지 않습니다. 고객센터로 문의주십시오. code : \(code!)")
+                }
+                
+            case .failure(let err):
+                
+                print("error is \(String(describing: err))")
+                
+                if code == 400 {
+                    print("중복된 이메일이 존재합니다. 다른 이메일로 가입하여 주십시오.")
+                    self.view.makeToast("중복된 이메일이 존재합니다.\n다른 이메일로 가입하여 주십시오.", duration: 2.0, position: .bottom)
+
+                } else {
+                    print("서버와 통신이 원활하지 않습니다. 고객센터로 문의주십시오. code : \(code!)")
+                    self.view.makeToast("서버와 통신이 원활하지 않습니다.\n고객센터로 문의주십시오.", duration: 2.0, position: .bottom)
+                }
+            }
+            
+            self.activityIndicator!.stopAnimating()
+            self.activityIndicator!.isHidden = true
+        })
     }
     
     //textField delegate 설정
@@ -58,13 +150,13 @@ class JoinViewController: UIViewController, UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
         let textFieldTag:Int = textField.tag
-
+        
         if let textFieldNext = self.view.viewWithTag(textFieldTag + 1) as? UITextField {
             textFieldNext.becomeFirstResponder()
         } else {
             textField.resignFirstResponder()
         }
-
+        
         return true
     }
     
@@ -76,9 +168,9 @@ class JoinViewController: UIViewController, UITextFieldDelegate {
         
         activeTextField = textField
     }
-        
+    
     func textFieldDidEndEditing(_ textField: UITextField) {
-
+        
         activeTextField = nil
     }
     
@@ -96,7 +188,7 @@ class JoinViewController: UIViewController, UITextFieldDelegate {
         let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardFrame.height, right: 0.0)
         scrollView.contentInset = contentInsets
         scrollView.scrollIndicatorInsets = contentInsets
-
+        
         // 활성화된 텍스트 필드가 키보드에 의해 가려진다면 가려지지 않도록 스크롤한다.
         // 이 부분은 상황에 따라 불필요할 수 있다.
         var rect = self.view.frame

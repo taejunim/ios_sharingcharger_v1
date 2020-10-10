@@ -9,6 +9,7 @@ target 'SharingCharger' do
 	pod 'MaterialComponents/BottomSheet'
   pod 'SideMenu'
 	pod 'GoneVisible'
+  pod 'Toast-Swift'
 
   # Pods for SharingCharger
 

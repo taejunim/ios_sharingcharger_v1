@@ -31,12 +31,14 @@ PODS:
     - MaterialComponents/private/Math
     - MaterialComponents/ShadowLayer
   - SideMenu (6.4.9)
+  - Toast-Swift (5.0.1)
 
 DEPENDENCIES:
   - Alamofire (~> 5.2.2)
   - GoneVisible
   - MaterialComponents/BottomSheet
   - SideMenu
+  - Toast-Swift
 
 SPEC REPOS:
   trunk:
@@ -44,13 +46,15 @@ SPEC REPOS:
     - GoneVisible
     - MaterialComponents
     - SideMenu
+    - Toast-Swift
 
 SPEC CHECKSUMS:
   Alamofire: 814429acc853c6c54ff123fc3d2ef66803823ce0
   GoneVisible: c552940cd9df7548427f6bffd000dcbcc6de187f
   MaterialComponents: ed63ad5df885bcf0f06751adc1ee97d73464ef9c
   SideMenu: 8ef57a3cfc024a2d3fc1c036c7fe98537baec9e0
+  Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
 
-PODFILE CHECKSUM: fe4c96e717965709bd4572d3b5cd89e75d0249fa
+PODFILE CHECKSUM: dde2b5e46c173db821788cb510cd225279ef9391
 
 COCOAPODS: 1.10.0.beta.2
