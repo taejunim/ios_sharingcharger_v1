@@ -47,83 +47,100 @@ class JoinViewController: UIViewController, UITextFieldDelegate {
     
     @objc func joinButton(sender: UIButton!) {
         
-        var code: Int! = 0
-        let url = "http://test.jinwoosi.co.kr:6066/api/v1/join"
+        if checkBlank() {
         
-        print("emailTextField.text! : \(emailTextField.text!)")
-        print("passwordTextField.text! : \(passwordTextField.text!)")
-        print("phoneTextField.text! : \(phoneTextField.text!)")
-        
-        let parameters: Parameters = [
+            var code: Int! = 0
             
-//            "email":emailTextField.text!,
-//            "name":nameTextField.text!,
-//            "password":passwordTextField.text!,
-//            "phone":phoneTextField.text!,
-//            "userType":"General"
-            "email":"tjtest01@gmail.com",
-            "name":"임태준",
-            "password":"1",
-            "phone":"01012345678",
-            "userType":"General",
-            "collectUserDataFlag":true,
-            "privacyPolicyFlag":true
-        
-        ]
-        
-        AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, interceptor: Interceptor(indicator: activityIndicator!)).validate().responseJSON(completionHandler: { response in
+            let url = "http://test.jinwoosi.co.kr:6066/api/v1/join"
             
-            code = response.response?.statusCode
+            let parameters: Parameters = [
+                "name": nameTextField.text!,
+                "phone": phoneTextField.text!,
+                "email": emailTextField.text!,
+                "password": passwordTextField.text!,
+                "userType":"General",
+                "collectUserDataFlag":true,
+                "privacyPolicyFlag":true
+            ]
             
-            switch response.result {
-            
-            case .success(let obj):
+            AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, interceptor: Interceptor(indicator: activityIndicator!)).validate().responseJSON(completionHandler: { response in
                 
-                print("obj : \(obj)")
+                code = response.response?.statusCode
                 
-                do {
+                switch response.result {
+                
+                case .success(let obj):
                     
-                    let JSONData = try JSONSerialization.data(withJSONObject: obj, options: .prettyPrinted)
+                    print("obj : \(obj)")
                     
-                    let instanceData = try JSONDecoder().decode(JoinObject.self, from: JSONData)
-                    
-                    print("email : \(instanceData.email)")
-                    print("name : \(instanceData.name)")
-                    print("password : \(instanceData.password)")
-                    print("phone : \(instanceData.phone)")
-                    
-                    self.view.makeToast("회원가입이 완료되어 로그인 페이지으로 이동합니다.", duration: 2.0, position: .bottom) {didTap in
-                        if didTap {
-                            print("tap")
-                            self.navigationController?.popViewController(animated: true)
-                        } else {
-                            print("without tap")
-                            self.navigationController?.popViewController(animated: true)
+                    do {
+                        
+                        let JSONData = try JSONSerialization.data(withJSONObject: obj, options: .prettyPrinted)
+                        
+                        let instanceData = try JSONDecoder().decode(JoinObject.self, from: JSONData)
+                        
+                        self.view.makeToast("회원가입이 완료되어 로그인 페이지으로 이동합니다.", duration: 2.0, position: .bottom) {didTap in
+                            if didTap {
+                                print("tap")
+                                self.navigationController?.popViewController(animated: true)
+                            } else {
+                                print("without tap")
+                                self.navigationController?.popViewController(animated: true)
+                            }
                         }
+                        
+                    } catch {
+                        print("error : \(error.localizedDescription)")
+                        print("서버와 통신이 원활하지 않습니다. 고객센터로 문의주십시오. code : \(code!)")
                     }
                     
-                } catch {
-                    print("error : \(error.localizedDescription)")
-                    print("서버와 통신이 원활하지 않습니다. 고객센터로 문의주십시오. code : \(code!)")
-                }
-                
-            case .failure(let err):
-                
-                print("error is \(String(describing: err))")
-                
-                if code == 400 {
-                    print("중복된 이메일이 존재합니다. 다른 이메일로 가입하여 주십시오.")
-                    self.view.makeToast("중복된 이메일이 존재합니다.\n다른 이메일로 가입하여 주십시오.", duration: 2.0, position: .bottom)
+                case .failure(let err):
+                    
+                    print("error is \(String(describing: err))")
+                    
+                    if code == 400 {
+                        print("중복된 이메일이 존재합니다. 다른 이메일로 가입하여 주십시오.")
+                        self.view.makeToast("중복된 이메일이 존재합니다.\n다른 이메일로 가입하여 주십시오.", duration: 2.0, position: .bottom)
 
-                } else {
-                    print("서버와 통신이 원활하지 않습니다. 고객센터로 문의주십시오. code : \(code!)")
-                    self.view.makeToast("서버와 통신이 원활하지 않습니다.\n고객센터로 문의주십시오.", duration: 2.0, position: .bottom)
+                    } else {
+                        print("서버와 통신이 원활하지 않습니다. 고객센터로 문의주십시오. code : \(code!)")
+                        self.view.makeToast("서버와 통신이 원활하지 않습니다.\n고객센터로 문의주십시오.", duration: 2.0, position: .bottom)
+                    }
                 }
-            }
-            
-            self.activityIndicator!.stopAnimating()
-            self.activityIndicator!.isHidden = true
-        })
+                
+                self.activityIndicator!.stopAnimating()
+                self.activityIndicator!.isHidden = true
+            })
+        }
+    }
+    
+    //빈칸 체크
+    private func checkBlank() -> Bool{
+        
+        if nameTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            self.view.makeToast("이름을 입력하여주십시오", duration: 2.0, position: .bottom)
+            return false
+        } else if phoneTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            self.view.makeToast("전화번호를 입력하여주십시오", duration: 2.0, position: .bottom)
+            return false
+        } else if emailTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            self.view.makeToast("이메일을 입력하여주십시오", duration: 2.0, position: .bottom)
+            return false
+        } else if autorizationCodeTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            self.view.makeToast("인증번호를 입력하여주십시오", duration: 2.0, position: .bottom)
+            return false
+        } else if passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            self.view.makeToast("비밀번호를 입력하여주십시오", duration: 2.0, position: .bottom)
+            return false
+        } else if passwordConfirmTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            self.view.makeToast("비밀번호 확인을 입력하여주십시오", duration: 2.0, position: .bottom)
+            return false
+        } else if passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines) != passwordConfirmTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines) {
+            self.view.makeToast("비밀번호가 일치하지 않습니다.", duration: 2.0, position: .bottom)
+            return false
+        }
+        
+        return true
     }
     
     //textField delegate 설정
