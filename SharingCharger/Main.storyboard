@@ -922,7 +922,11 @@
                     </view>
                     <navigationItem key="navigationItem" id="g6g-oP-qDU"/>
                     <connections>
+                        <outlet property="emailLabel" destination="1js-uR-nnt" id="5S5-XV-CM8"/>
+                        <outlet property="nameLabel" destination="8B9-cx-zcJ" id="HvD-y2-fmz"/>
                         <outlet property="pointCharge" destination="vdR-pR-U8P" id="Oh2-pV-hpB"/>
+                        <outlet property="pointLabel" destination="adY-oe-gCd" id="QQw-0p-msw"/>
+                        <outlet property="reservationStateLabel" destination="p6j-db-ItC" id="rQm-ed-sos"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nl5-JM-w7r" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

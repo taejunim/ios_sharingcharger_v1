@@ -28,6 +28,8 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
     
     var isCurrentLocationTrackingMode = false
     
+    let myUserDefaults = UserDefaults.standard
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -57,6 +59,7 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         chargerViewMaximumHeight = mapView.frame.height * 0.6
         
         print("chargerViewMinimumHeight : \(chargerViewMinimumHeight), chargerViewMaximumHeight : \(chargerViewMaximumHeight)")
+        print("email : \(myUserDefaults.string(forKey: "email"))")
     }
     
     func mapView(_ mapView: MTMapView!, selectedPOIItem poiItem: MTMapPOIItem!) -> Bool {

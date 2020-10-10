@@ -12,6 +12,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
     
+    let isLogin = UserDefaults.standard.bool(forKey: "isLogin")
+    
     let mode: String = "Login"
     //let mode: String = "Main"
 
@@ -30,13 +32,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         var storyboard: UIStoryboard?
         var rootViewController: UIViewController?
         
-        if mode == "Login" {
+//        if isLogin {
+//
+//            storyboard = UIStoryboard(name: "Main", bundle: nil)
+//            rootViewController = storyboard?.instantiateViewController(identifier: "Main") as? MainViewController
+//
+//        } else {
+//
+//            storyboard = UIStoryboard(name: "Login", bundle: nil)
+//            rootViewController = storyboard?.instantiateViewController(identifier: "Login") as? LoginViewController
+//        }
         
+        if mode == "Login" {
             storyboard = UIStoryboard(name: "Login", bundle: nil)
             rootViewController = storyboard?.instantiateViewController(identifier: "Login") as? LoginViewController
-            
+
         } else if mode == "Main" {
-            
             storyboard = UIStoryboard(name: "Main", bundle: nil)
             rootViewController = storyboard?.instantiateViewController(identifier: "Main") as? MainViewController
         }

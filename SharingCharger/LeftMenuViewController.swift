@@ -10,7 +10,13 @@ import UIKit
 
 class LeftMenuViewController: UIViewController {
 
+    @IBOutlet var nameLabel: UILabel!
+    @IBOutlet var emailLabel: UILabel!
+    @IBOutlet var pointLabel: UILabel!
+    @IBOutlet var reservationStateLabel: UILabel!
     @IBOutlet var pointCharge: UIButton!
+    
+    let myUserDefaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +29,9 @@ class LeftMenuViewController: UIViewController {
         //print("LeftMenuViewController - initializeLeftMenu")
         
         pointCharge.addTarget(self, action: #selector(pointChargeButton(sender:)), for: .touchUpInside)
+        nameLabel.text = myUserDefaults.string(forKey: "name")
+        emailLabel.text = myUserDefaults.string(forKey: "email")
+        
     }
     
     @objc func pointChargeButton(sender: UIView!) {
