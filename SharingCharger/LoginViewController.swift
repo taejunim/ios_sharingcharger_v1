@@ -144,13 +144,6 @@ class LoginViewController: UIViewController {
         self.navigationController?.pushViewController(uvc, animated: true)
     }
     
-    @IBAction func nextButton(_ sender: Any) {
-        
-        guard let uvc = self.storyboard?.instantiateViewController(withIdentifier: "Setting") else { return }
-        
-        self.navigationController?.pushViewController(uvc, animated: true)
-    }
-    
     override func viewWillDisappear(_ animated: Bool) {
         
         self.navigationController?.setNavigationBarHidden(false, animated: true)
