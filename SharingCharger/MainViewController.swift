@@ -10,6 +10,8 @@ import UIKit
 import MaterialComponents.MaterialBottomSheet
 import SideMenu
 import GoneVisible
+import Alamofire
+import Toast_Swift
 
 class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditionProtocol {
     
@@ -30,6 +32,9 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
     
     let myUserDefaults = UserDefaults.standard
     
+    var utils: Utils?
+    var activityIndicator: UIActivityIndicatorView?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -41,7 +46,7 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
             mapView.addSubview(mTMapView)
         }
         
-        let DEFAULT_POSITION = MTMapPointGeo(latitude: 33.491450, longitude: 126.535555)
+        let DEFAULT_POSITION = MTMapPointGeo(latitude: 33.4524448, longitude: 126.5676508)
         
         mTMapView?.setMapCenter(MTMapPoint(geoCoord: DEFAULT_POSITION), zoomLevel: 1, animated: true)
         
@@ -52,6 +57,11 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         addView(width: nil, height: 110, top: nil, left: 15, right: -15, bottom: 0, target: mapView)
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateSearchingCondition(_:)), name: .updateSearchingCondition, object: nil)
+        
+        //로딩 뷰
+        utils = Utils(superView: self.view)
+        activityIndicator = utils!.activityIndicator
+        self.view.addSubview(activityIndicator!)
         
         addPoiItem()
         
@@ -122,26 +132,75 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
     }
     
     private func addPoiItem() {
-        
-        let poiItem: MTMapPOIItem = MTMapPOIItem()
-        poiItem.itemName = "충전기1"
-        poiItem.mapPoint = MTMapPoint(geoCoord: MTMapPointGeo(latitude: 33.491450, longitude: 126.535555))
-        poiItem.markerType = MTMapPOIItemMarkerType.bluePin
-        poiItem.tag = 1
-        
-        var poiArray = Array<MTMapPOIItem>()
-        poiArray.append(poiItem)
-        
-        let poiItem2: MTMapPOIItem = MTMapPOIItem()
-        poiItem2.itemName = "충전기2"
-        poiItem2.mapPoint = MTMapPoint(geoCoord: MTMapPointGeo(latitude: 33.491550, longitude: 126.536655))
-        poiItem2.markerType = MTMapPOIItemMarkerType.bluePin
-        poiItem2.tag = 2
-        
-        poiArray.append(poiItem2)
-        
-        mTMapView?.addPOIItems(poiArray)
-    }
+         
+         var code: Int! = 0
+         let url = "http://test.jinwoosi.co.kr:6066/api/v1/chargers"
+
+         let parameters: Parameters = [
+             "sort":"ASC",
+             "acceptType":"ALL",
+             "currentStatusType":"ALL",
+             "page":1,
+             "size":10
+         ]
+         
+         
+         AF.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, interceptor: Interceptor(indicator: activityIndicator!)).validate().responseJSON(completionHandler: { response in
+             
+             code = response.response?.statusCode
+             
+             switch response.result {
+             
+             case .success(let obj):
+                 
+                 print("obj : \(obj)")
+                 do {
+                     
+                     var JSONData = try JSONSerialization.data(withJSONObject: obj, options: .prettyPrinted)
+                     let instanceData = try JSONDecoder().decode(MarkersObject.self, from: JSONData)
+                     
+                     var poiArray = Array<MTMapPOIItem>()
+                     
+                     for content in instanceData.content {
+                         
+                         if(content.name != nil && content.gpsX != nil && content.gpsY != nil && content.id != nil){
+                             
+                             let poiItem: MTMapPOIItem = MTMapPOIItem()
+                             poiItem.itemName = content.name
+                             poiItem.mapPoint = MTMapPoint(geoCoord: MTMapPointGeo(latitude: content.gpsY!, longitude: content.gpsX!))
+                             poiItem.markerType = MTMapPOIItemMarkerType.bluePin
+                             poiItem.tag = content.id!
+                             poiArray.append(poiItem)
+
+                         }
+                     }
+
+                     self.mTMapView?.addPOIItems(poiArray)
+                     
+                 } catch {
+                     print("error : \(error.localizedDescription)")
+                     print("서버와 통신이 원활하지 않습니다. 고객센터로 문의주십시오. code : \(code!)")
+                 }
+                 
+             case .failure(let err):
+                 
+                 print("error is \(String(describing: err))")
+                 
+                 if code == 400 {
+                     print("400 Error.")
+                     self.view.makeToast("400 Error", duration: 2.0, position: .bottom)
+
+                 } else {
+                     print("Error : \(code!)")
+                     self.view.makeToast("Error.", duration: 2.0, position: .bottom)
+                 }
+             }
+             
+             self.activityIndicator!.stopAnimating()
+             self.activityIndicator!.isHidden = true
+         })
+         
+     }
     
     @objc func reservationButton(sender: UIButton!) {
         print("MainViewController - Button tapped")
