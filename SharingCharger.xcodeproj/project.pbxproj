@@ -16,6 +16,7 @@
 		C6633DED252C362900F02F24 /* SearchingChargerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6633DEC252C362900F02F24 /* SearchingChargerViewController.swift */; };
 		C6633DEF252C7C4400F02F24 /* ChargeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6633DEE252C7C4400F02F24 /* ChargeViewController.swift */; };
 		C6633E062535381B00F02F24 /* MarkerObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6633E052535381B00F02F24 /* MarkerObject.swift */; };
+		C6633E0E25357F8600F02F24 /* ReservationObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6633E0D25357F8500F02F24 /* ReservationObject.swift */; };
 		DA09438324E1214B00671F0D /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA09438224E1214B00671F0D /* CustomTextField.swift */; };
 		DA09438924E146AC00671F0D /* JoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA09438824E146AC00671F0D /* JoinViewController.swift */; };
 		DA0AF3DC2531A62400FE5FF7 /* JoinObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0AF3DB2531A62400FE5FF7 /* JoinObject.swift */; };
@@ -111,6 +112,7 @@
 		C6633DEC252C362900F02F24 /* SearchingChargerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchingChargerViewController.swift; sourceTree = "<group>"; };
 		C6633DEE252C7C4400F02F24 /* ChargeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargeViewController.swift; sourceTree = "<group>"; };
 		C6633E052535381B00F02F24 /* MarkerObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerObject.swift; sourceTree = "<group>"; };
+		C6633E0D25357F8500F02F24 /* ReservationObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservationObject.swift; sourceTree = "<group>"; };
 		DA09438224E1214B00671F0D /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		DA09438824E146AC00671F0D /* JoinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinViewController.swift; sourceTree = "<group>"; };
 		DA0AF3DB2531A62400FE5FF7 /* JoinObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinObject.swift; sourceTree = "<group>"; };
@@ -255,6 +257,7 @@
 				DA0AF3DB2531A62400FE5FF7 /* JoinObject.swift */,
 				DA1D837F251DD77B00855000 /* SearchingConditionObject.swift */,
 				C6633E052535381B00F02F24 /* MarkerObject.swift */,
+				C6633E0D25357F8500F02F24 /* ReservationObject.swift */,
 			);
 			name = Object;
 			sourceTree = "<group>";
@@ -561,6 +564,7 @@
 				DA341674250B7AF00031999F /* ShadowCircleView.swift in Sources */,
 				DABC41AC24CE73F500DD366F /* LoginViewController.swift in Sources */,
 				DABC41A824CE73F500DD366F /* AppDelegate.swift in Sources */,
+				C6633E0E25357F8600F02F24 /* ReservationObject.swift in Sources */,
 				DAF4D9D1252C360700B4D218 /* SpringAnimator.swift in Sources */,
 				DA3416662508D64C0031999F /* ShadowButton.swift in Sources */,
 				DA41A1F024ECF71200E7BB93 /* PasswordInitViewController.swift in Sources */,
