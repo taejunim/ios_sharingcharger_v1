@@ -19,7 +19,7 @@ class HistoryElectricityChargingViewController: UIViewController, UITableViewDel
     
     let myUserDefaults = UserDefaults.standard
     
-    var arr:[ReservationObject.InnerItem] = []
+    var arr:[ChargingHistoryObject.InnerItem] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,10 +56,13 @@ class HistoryElectricityChargingViewController: UIViewController, UITableViewDel
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
        
-        let row = self.arr[indexPath.row]
+        let row = self.arr[indexPath.section]
         let Cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for:indexPath) as! HistoryElectricityTableCell
-        
-        Cell.chargingSpotNm?.text = row.chargerName
+
+        Cell.chargingSpotNm?.text = row.state
+        Cell.chargingDate?.text   = String(row.startDate!).replacingOccurrences(of: "T", with: " ") + " ~ " + String(row.endDate!).replacingOccurrences(of: "T", with: " ")
+        Cell.chargingUsePoint?.text = String(row.rangeOfFee!) + " 포인트 사용"
+       
         return Cell
     }
     
@@ -87,11 +90,11 @@ class HistoryElectricityChargingViewController: UIViewController, UITableViewDel
         print(myUserDefaults.string(forKey: "email")!)
         let parameters: Parameters = [
             "sort":"ASC",
-            "reservationType":"KEEP",
+            "reservationType":"ALL",
             "page":1,
             "size":10,
             //"username":myUserDefaults.string(forKey: "email")!,
-            "username":"dd@gmail.com",
+            "username":"steve.ko.jinwoo@gmail.com",
             "startDate":"2020-08-01",
             "endDate":"2020-10-20"
         ]
@@ -110,10 +113,9 @@ class HistoryElectricityChargingViewController: UIViewController, UITableViewDel
                     
                     
                     var JSONData = try JSONSerialization.data(withJSONObject: obj, options: .prettyPrinted)
-                    let instanceData = try JSONDecoder().decode(ReservationObject.self, from: JSONData)
+                    let instanceData = try JSONDecoder().decode(ChargingHistoryObject.self, from: JSONData)
                     
                 
-                    
                     for content in instanceData.content {
                         
                         self.arr.append(content)
