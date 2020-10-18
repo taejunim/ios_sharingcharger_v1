@@ -13,6 +13,7 @@
 		37373FAF24FB50C900181756 /* HistoryPointTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37373FAD24FB50C900181756 /* HistoryPointTableCell.swift */; };
 		376E3A2624FC906C007274A1 /* HistoryElectricityChargingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376E3A2524FC906C007274A1 /* HistoryElectricityChargingViewController.swift */; };
 		96A289B377796E4505BB738D /* Pods_SharingCharger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E150F99499B36EF9DEE2F892 /* Pods_SharingCharger.framework */; };
+		C65F1BA1253C53E9002F6B19 /* ChargingHistoryObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65F1BA0253C53E9002F6B19 /* ChargingHistoryObject.swift */; };
 		C6633DED252C362900F02F24 /* SearchingChargerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6633DEC252C362900F02F24 /* SearchingChargerViewController.swift */; };
 		C6633DEF252C7C4400F02F24 /* ChargeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6633DEE252C7C4400F02F24 /* ChargeViewController.swift */; };
 		C6633E062535381B00F02F24 /* MarkerObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6633E052535381B00F02F24 /* MarkerObject.swift */; };
@@ -112,6 +113,7 @@
 		37373FAD24FB50C900181756 /* HistoryPointTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryPointTableCell.swift; sourceTree = "<group>"; };
 		376E3A2524FC906C007274A1 /* HistoryElectricityChargingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryElectricityChargingViewController.swift; sourceTree = "<group>"; };
 		A2EB86E1C4E15A54970329DC /* Pods-SharingCharger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SharingCharger.release.xcconfig"; path = "Target Support Files/Pods-SharingCharger/Pods-SharingCharger.release.xcconfig"; sourceTree = "<group>"; };
+		C65F1BA0253C53E9002F6B19 /* ChargingHistoryObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargingHistoryObject.swift; sourceTree = "<group>"; };
 		C6633DEC252C362900F02F24 /* SearchingChargerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchingChargerViewController.swift; sourceTree = "<group>"; };
 		C6633DEE252C7C4400F02F24 /* ChargeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargeViewController.swift; sourceTree = "<group>"; };
 		C6633E052535381B00F02F24 /* MarkerObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerObject.swift; sourceTree = "<group>"; };
@@ -265,6 +267,7 @@
 				C6633E052535381B00F02F24 /* MarkerObject.swift */,
 				C6633E0D25357F8500F02F24 /* ReservationObject.swift */,
 				DAFED5F52535910D00D5A335 /* FavoriteObject.swift */,
+				C65F1BA0253C53E9002F6B19 /* ChargingHistoryObject.swift */,
 			);
 			name = Object;
 			sourceTree = "<group>";
@@ -596,6 +599,7 @@
 				DA09438924E146AC00671F0D /* JoinViewController.swift in Sources */,
 				C6633DEF252C7C4400F02F24 /* ChargeViewController.swift in Sources */,
 				C6633E062535381B00F02F24 /* MarkerObject.swift in Sources */,
+				C65F1BA1253C53E9002F6B19 /* ChargingHistoryObject.swift in Sources */,
 				C6633DED252C362900F02F24 /* SearchingChargerViewController.swift in Sources */,
 				DAAC21D32521D4E20086055F /* LeftMenuViewController.swift in Sources */,
 				DA0AF3DC2531A62400FE5FF7 /* JoinObject.swift in Sources */,
@@ -764,7 +768,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.0.0;
-				DEVELOPMENT_TEAM = C846JVNTZN;
+				DEVELOPMENT_TEAM = SW97KU77ZP;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/SharingCharger/Library/DaumMap.embeddedframework",
@@ -792,7 +796,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.0.0;
-				DEVELOPMENT_TEAM = C846JVNTZN;
+				DEVELOPMENT_TEAM = SW97KU77ZP;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/SharingCharger/Library/DaumMap.embeddedframework",
