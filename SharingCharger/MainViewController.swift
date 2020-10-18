@@ -13,7 +13,7 @@ import GoneVisible
 import Alamofire
 import Toast_Swift
 
-class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditionProtocol {
+class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditionProtocol, FavoriteProtocol {
     
     @IBOutlet var mapView: UIView!
     var mTMapView: MTMapView?
@@ -34,6 +34,10 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
     
     var utils: Utils?
     var activityIndicator: UIActivityIndicatorView?
+    
+    var poiArray = Array<MTMapPOIItem>()
+    
+    var receivedFavoriteObject: FavoriteObject? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,6 +61,7 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         addView(width: nil, height: 110, top: nil, left: 15, right: -15, bottom: 0, target: mapView)
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateSearchingCondition(_:)), name: .updateSearchingCondition, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(lookFavorite(_:)), name: .lookFavorite, object: nil)
         
         //로딩 뷰
         utils = Utils(superView: self.view)
@@ -76,10 +81,12 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         
         print("poi selected : \(poiItem.tag)")
         
+        mTMapView?.setMapCenter(poiItem.mapPoint, zoomLevel: 1, animated: true)
+        
         //현재 선택된 마커가 있을 때 -> 뷰는 고정시킨 채로 데이터만 바꿔줌
         if currentSelectedPoiItem != nil {
             
-            chargerContentView.changeValue(chargerNameText: poiItem.itemName)
+            chargerContentView.changeValue(chargerNameText: poiItem.itemName, chargerId: poiItem.tag)
         }
         
         //검색 조건 버튼 숨기고 충전기 화면 올라옴
@@ -100,7 +107,7 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
             
             chargerView?.present(in: view)
             
-            chargerContentView.changeValue(chargerNameText: poiItem.itemName)
+            chargerContentView.changeValue(chargerNameText: poiItem.itemName, chargerId: poiItem.tag)
         }
         
         //현재 선택된 마커 저장
@@ -132,75 +139,76 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
     }
     
     private func addPoiItem() {
-         
-         var code: Int! = 0
-         let url = "http://test.jinwoosi.co.kr:6066/api/v1/chargers"
-
-         let parameters: Parameters = [
-             "sort":"ASC",
-             "acceptType":"ALL",
-             "currentStatusType":"ALL",
-             "page":1,
-             "size":10
-         ]
-         
-         
-         AF.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, interceptor: Interceptor(indicator: activityIndicator!)).validate().responseJSON(completionHandler: { response in
-             
-             code = response.response?.statusCode
-             
-             switch response.result {
-             
-             case .success(let obj):
-                 
-                 print("obj : \(obj)")
-                 do {
-                     
-                     var JSONData = try JSONSerialization.data(withJSONObject: obj, options: .prettyPrinted)
-                     let instanceData = try JSONDecoder().decode(MarkersObject.self, from: JSONData)
-                     
-                     var poiArray = Array<MTMapPOIItem>()
-                     
-                     for content in instanceData.content {
-                         
-                         if(content.name != nil && content.gpsX != nil && content.gpsY != nil && content.id != nil){
-                             
-                             let poiItem: MTMapPOIItem = MTMapPOIItem()
-                             poiItem.itemName = content.name
-                             poiItem.mapPoint = MTMapPoint(geoCoord: MTMapPointGeo(latitude: content.gpsY!, longitude: content.gpsX!))
-                             poiItem.markerType = MTMapPOIItemMarkerType.bluePin
-                             poiItem.tag = content.id!
-                             poiArray.append(poiItem)
-
-                         }
-                     }
-
-                     self.mTMapView?.addPOIItems(poiArray)
-                     
-                 } catch {
-                     print("error : \(error.localizedDescription)")
-                     print("서버와 통신이 원활하지 않습니다. 고객센터로 문의주십시오. code : \(code!)")
-                 }
-                 
-             case .failure(let err):
-                 
-                 print("error is \(String(describing: err))")
-                 
-                 if code == 400 {
-                     print("400 Error.")
-                     self.view.makeToast("400 Error", duration: 2.0, position: .bottom)
-
-                 } else {
-                     print("Error : \(code!)")
-                     self.view.makeToast("Error.", duration: 2.0, position: .bottom)
-                 }
-             }
-             
-             self.activityIndicator!.stopAnimating()
-             self.activityIndicator!.isHidden = true
-         })
-         
-     }
+        
+        var code: Int! = 0
+        let url = "http://test.jinwoosi.co.kr:6066/api/v1/chargers"
+        
+        let parameters: Parameters = [
+            "sort":"ASC",
+            "acceptType":"ALL",
+            "currentStatusType":"ALL",
+            "page":1,
+            "size":10
+        ]
+        
+        
+        AF.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, interceptor: Interceptor(indicator: activityIndicator!)).validate().responseJSON(completionHandler: { response in
+            
+            code = response.response?.statusCode
+            
+            switch response.result {
+            
+            case .success(let obj):
+                
+                print("obj : \(obj)")
+                do {
+                    
+                    let JSONData = try JSONSerialization.data(withJSONObject: obj, options: .prettyPrinted)
+                    let instanceData = try JSONDecoder().decode(MarkersObject.self, from: JSONData)
+                    
+                    self.poiArray = Array<MTMapPOIItem>()
+                    
+                    for content in instanceData.content {
+                        
+                        if(content.name != nil && content.gpsX != nil && content.gpsY != nil && content.id != nil){
+                            
+                            let poiItem: MTMapPOIItem = MTMapPOIItem()
+                            poiItem.itemName = content.name
+                            poiItem.mapPoint = MTMapPoint(geoCoord: MTMapPointGeo(latitude: content.gpsY!, longitude: content.gpsX!))
+                            poiItem.markerType = MTMapPOIItemMarkerType.bluePin
+                            poiItem.tag = content.id!
+                            self.poiArray.append(poiItem)
+                            
+                        }
+                    }
+                    
+                    self.mTMapView?.addPOIItems(self.poiArray)
+                    
+                } catch {
+                    print("error : \(error.localizedDescription)")
+                    print("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)")
+                    self.view.makeToast("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)", duration: 2.0, position: .bottom)
+                }
+                
+            case .failure(let err):
+                
+                print("error is \(String(describing: err))")
+                
+                if code == 400 {
+                    print("400 Error.")
+                    self.view.makeToast("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)", duration: 2.0, position: .bottom)
+                    
+                } else {
+                    print("Error : \(code!)")
+                    self.view.makeToast("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)", duration: 2.0, position: .bottom)
+                }
+            }
+            
+            self.activityIndicator!.stopAnimating()
+            self.activityIndicator!.isHidden = true
+        })
+        
+    }
     
     @objc func reservationButton(sender: UIButton!) {
         print("MainViewController - Button tapped")
@@ -304,6 +312,7 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         view.setAttributes(buttonName: buttonName, width: width, height: height, top: top, left: left, right: right, bottom: bottom, target: target)
     }
     
+    //검색조건 세팅
     func searchingConditionDelegate(data: SearchingConditionObject) {
         
         print("data.chargingTime : \(data.chargingTime)")
@@ -318,6 +327,17 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         print("data : \(data)")
         
         searchingConditionView.setLabelText(chargingTimeText: data.chargingTime, chargingDateText: data.chargingPeriod)
+    }
+    
+    //즐겨찾기에서 지도보기 클릭
+    func favoriteDelegate(data: FavoriteObject) {
+        
+        NotificationCenter.default.post(name: .lookFavorite, object: data, userInfo: nil)
+    }
+    
+    @objc func lookFavorite(_ notification: Notification) {
+        
+        receivedFavoriteObject = notification.object as? FavoriteObject
     }
     
     func mapView(_ mapView: MTMapView!, updateCurrentLocation location: MTMapPoint!, withAccuracy accuracy: MTMapLocationAccuracy) {
@@ -370,8 +390,28 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         super.viewWillAppear(animated)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        
+        super.viewDidAppear(animated)
+        
+        //즐겨찾기에서 지도보기 클릭 후 다시 메인으로 온 경우
+        if receivedFavoriteObject != nil {
+            
+            for item in poiArray {
+                
+                if item.tag == receivedFavoriteObject?.chargerId {
+                    
+                    mTMapView?.setMapCenter(item.mapPoint, zoomLevel: 1, animated: true)
+                    
+                    receivedFavoriteObject = nil
+                    break
+                }
+            }
+        }
+    }
 }
 
 extension Notification.Name {
     static let updateSearchingCondition = Notification.Name("updateSearchingCondition")
+    static let lookFavorite = Notification.Name("lookFavorite")
 }

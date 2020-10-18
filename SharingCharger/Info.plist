@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>KakaoMap</string>
+	</array>
 	<key>KAKAO_APP_KEY</key>
 	<string>8c076cd238736c78c5f2a703adf2c1ff</string>
 	<key>NSAppTransportSecurity</key>
@@ -9,14 +13,12 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
-    
-    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-    <string>Used to Location&apos;s Info always for Using Beacon.</string>
-    <key>NSLocationAlwaysUsageDescription</key>
-    <string>Used to Location&apos;s Info always for Using Beacon.</string>
-    <key>NSLocationWhenInUseUsageDescription</key>
-    <string>Used to Location&apos;s Info for Using Beacon when In Use.</string>
-    
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Used to Location&apos;s Info always for Using Beacon.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Used to Location&apos;s Info always for Using Beacon.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Used to Location&apos;s Info for Using Beacon when In Use.</string>
 	<key>NSBluetoothPeripheralUsageDescription</key>
 	<string>충전기와 통신을 위해 블루투스 권한이 필요합니다.</string>
 	<key>NSBluetoothAlwaysUsageDescription</key>

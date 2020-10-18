@@ -10,6 +10,7 @@ target 'SharingCharger' do
   pod 'SideMenu'
 	pod 'GoneVisible'
   pod 'Toast-Swift'
+  pod 'RealmSwift'
 
   # Pods for SharingCharger
 
