@@ -30,6 +30,11 @@ PODS:
     - MaterialComponents/private/Color
     - MaterialComponents/private/Math
     - MaterialComponents/ShadowLayer
+  - Realm (5.4.7):
+    - Realm/Headers (= 5.4.7)
+  - Realm/Headers (5.4.7)
+  - RealmSwift (5.4.7):
+    - Realm (= 5.4.7)
   - SideMenu (6.4.9)
   - Toast-Swift (5.0.1)
 
@@ -37,6 +42,7 @@ DEPENDENCIES:
   - Alamofire (~> 5.2.2)
   - GoneVisible
   - MaterialComponents/BottomSheet
+  - RealmSwift
   - SideMenu
   - Toast-Swift
 
@@ -45,6 +51,8 @@ SPEC REPOS:
     - Alamofire
     - GoneVisible
     - MaterialComponents
+    - Realm
+    - RealmSwift
     - SideMenu
     - Toast-Swift
 
@@ -52,9 +60,11 @@ SPEC CHECKSUMS:
   Alamofire: 814429acc853c6c54ff123fc3d2ef66803823ce0
   GoneVisible: c552940cd9df7548427f6bffd000dcbcc6de187f
   MaterialComponents: ed63ad5df885bcf0f06751adc1ee97d73464ef9c
+  Realm: 4bfc08e376b2e30c84ec3200ebe715574da05cc0
+  RealmSwift: ed40f371b62e8677141939e05b44a0c1a0a2d965
   SideMenu: 8ef57a3cfc024a2d3fc1c036c7fe98537baec9e0
   Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
 
-PODFILE CHECKSUM: dde2b5e46c173db821788cb510cd225279ef9391
+PODFILE CHECKSUM: c32edbe754f9047d861e5d235c0ae0e07cb72cc0
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.10.0.beta.2

@@ -32,6 +32,7 @@
 		DA341674250B7AF00031999F /* ShadowCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA341673250B7AF00031999F /* ShadowCircleView.swift */; };
 		DA41A08C24EBB35400E7BB93 /* AppendStar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA41A08B24EBB35400E7BB93 /* AppendStar.swift */; };
 		DA41A1F024ECF71200E7BB93 /* PasswordInitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA41A1EF24ECF71200E7BB93 /* PasswordInitViewController.swift */; };
+		DA4C26E6253B204500E3E79C /* FavoriteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4C26E5253B204500E3E79C /* FavoriteCell.swift */; };
 		DAAC21D32521D4E20086055F /* LeftMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAC21D22521D4E20086055F /* LeftMenuViewController.swift */; };
 		DABC41A824CE73F500DD366F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC41A724CE73F500DD366F /* AppDelegate.swift */; };
 		DABC41AA24CE73F500DD366F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC41A924CE73F500DD366F /* SceneDelegate.swift */; };
@@ -85,6 +86,8 @@
 		DAF4D9D2252C360700B4D218 /* BottomSheetCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF4D9CE252C360700B4D218 /* BottomSheetCalculator.swift */; };
 		DAF4D9D3252C360700B4D218 /* TranslationTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF4D9CF252C360700B4D218 /* TranslationTarget.swift */; };
 		DAF4D9D5252C56E300B4D218 /* ChargerContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF4D9D4252C56E300B4D218 /* ChargerContentView.swift */; };
+		DAFED5EA253567D400D5A335 /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFED5E9253567D400D5A335 /* FavoriteViewController.swift */; };
+		DAFED5F62535910D00D5A335 /* FavoriteObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFED5F52535910D00D5A335 /* FavoriteObject.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -128,6 +131,7 @@
 		DA341673250B7AF00031999F /* ShadowCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowCircleView.swift; sourceTree = "<group>"; };
 		DA41A08B24EBB35400E7BB93 /* AppendStar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppendStar.swift; sourceTree = "<group>"; };
 		DA41A1EF24ECF71200E7BB93 /* PasswordInitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordInitViewController.swift; sourceTree = "<group>"; };
+		DA4C26E5253B204500E3E79C /* FavoriteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCell.swift; sourceTree = "<group>"; };
 		DAAC21D22521D4E20086055F /* LeftMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftMenuViewController.swift; sourceTree = "<group>"; };
 		DABC41A424CE73F500DD366F /* SharingCharger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SharingCharger.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DABC41A724CE73F500DD366F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -192,6 +196,8 @@
 		DAF4D9CE252C360700B4D218 /* BottomSheetCalculator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomSheetCalculator.swift; sourceTree = "<group>"; };
 		DAF4D9CF252C360700B4D218 /* TranslationTarget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TranslationTarget.swift; sourceTree = "<group>"; };
 		DAF4D9D4252C56E300B4D218 /* ChargerContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargerContentView.swift; sourceTree = "<group>"; };
+		DAFED5E9253567D400D5A335 /* FavoriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewController.swift; sourceTree = "<group>"; };
+		DAFED5F52535910D00D5A335 /* FavoriteObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteObject.swift; sourceTree = "<group>"; };
 		E150F99499B36EF9DEE2F892 /* Pods_SharingCharger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SharingCharger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -258,6 +264,7 @@
 				DA1D837F251DD77B00855000 /* SearchingConditionObject.swift */,
 				C6633E052535381B00F02F24 /* MarkerObject.swift */,
 				C6633E0D25357F8500F02F24 /* ReservationObject.swift */,
+				DAFED5F52535910D00D5A335 /* FavoriteObject.swift */,
 			);
 			name = Object;
 			sourceTree = "<group>";
@@ -282,6 +289,7 @@
 			isa = PBXGroup;
 			children = (
 				C6633DEE252C7C4400F02F24 /* ChargeViewController.swift */,
+				DAFED5E9253567D400D5A335 /* FavoriteViewController.swift */,
 				376E3A2524FC906C007274A1 /* HistoryElectricityChargingViewController.swift */,
 				37201B7824FC95DD000A3F08 /* HistoryElectricityTableCell.swift */,
 				37373FAD24FB50C900181756 /* HistoryPointTableCell.swift */,
@@ -311,6 +319,14 @@
 			name = Storyboard;
 			sourceTree = "<group>";
 		};
+		DA4C26E4253B1F9500E3E79C /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				DA4C26E5253B204500E3E79C /* FavoriteCell.swift */,
+			);
+			name = Cell;
+			sourceTree = "<group>";
+		};
 		DABC419B24CE73F500DD366F = {
 			isa = PBXGroup;
 			children = (
@@ -336,6 +352,7 @@
 				DABC41B324CE73F700DD366F /* Assets.xcassets */,
 				DABC41B824CE73F700DD366F /* Info.plist */,
 				DAD320BD250748F40047A446 /* KakaoMapBridgingHeader.h */,
+				DA4C26E4253B1F9500E3E79C /* Cell */,
 				DA26FB2624FCD20500D76753 /* Library */,
 				DABC41A924CE73F500DD366F /* SceneDelegate.swift */,
 				DABC41B024CE73F500DD366F /* SharingCharger.xcdatamodeld */,
@@ -584,10 +601,13 @@
 				DA0AF3DC2531A62400FE5FF7 /* JoinObject.swift in Sources */,
 				DADCD4C724F4E2080026EFAD /* MainViewController.swift in Sources */,
 				DAF4D9D0252C360700B4D218 /* BottomSheetView.swift in Sources */,
+				DAFED5EA253567D400D5A335 /* FavoriteViewController.swift in Sources */,
 				37373FAE24FB50C900181756 /* HistoryPointViewController.swift in Sources */,
 				DA09438324E1214B00671F0D /* CustomTextField.swift in Sources */,
 				DA0AF4232531D12C00FE5FF7 /* Interceptor.swift in Sources */,
+				DAFED5F62535910D00D5A335 /* FavoriteObject.swift in Sources */,
 				DAF4D9D5252C56E300B4D218 /* ChargerContentView.swift in Sources */,
+				DA4C26E6253B204500E3E79C /* FavoriteCell.swift in Sources */,
 				DA41A08C24EBB35400E7BB93 /* AppendStar.swift in Sources */,
 				DAF4D9D2252C360700B4D218 /* BottomSheetCalculator.swift in Sources */,
 				372D309224F6324000CEB232 /* SettingViewController.swift in Sources */,
@@ -744,7 +764,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.0.0;
-				DEVELOPMENT_TEAM = SW97KU77ZP;
+				DEVELOPMENT_TEAM = C846JVNTZN;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/SharingCharger/Library/DaumMap.embeddedframework",
@@ -772,7 +792,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.0.0;
-				DEVELOPMENT_TEAM = SW97KU77ZP;
+				DEVELOPMENT_TEAM = C846JVNTZN;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/SharingCharger/Library/DaumMap.embeddedframework",

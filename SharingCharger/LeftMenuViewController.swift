@@ -90,6 +90,10 @@ class LeftMenuViewController: UIViewController {
     @objc func favoriteButton(_ sender: UITapGestureRecognizer) {
         
         print("favoriteButton")
+        
+        guard let uvc = self.storyboard?.instantiateViewController(withIdentifier: "Favorite") else { return }
+        
+        self.navigationController?.pushViewController(uvc, animated: true)
 
     }
     

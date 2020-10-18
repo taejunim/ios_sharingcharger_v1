@@ -7,9 +7,11 @@
 //
 
 import UIKit
+import RealmSwift
 
 class ChargerContentView: UIView {
 
+    var chargerId: Int?
     var chargerName = UILabel()
     var chargerAddress = UILabel()
     var chargingFee = UILabel()
@@ -26,10 +28,14 @@ class ChargerContentView: UIView {
     var availablePeriodBar = UIView()
     var availableChargingPeriod = UILabel()
     var availableChargingPeriodText = UILabel()
-
+    
+    var favoriteButton = UIImageView()
+    
     let bigFont = UIFont.boldSystemFont(ofSize: 22)
     let mediumFont = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.light)
     let smallFont = UIFont.systemFont(ofSize: 13, weight: UIFont.Weight.light)
+    let starOnImage = UIImage(named: "star_on")
+    let starOffImage = UIImage(named: "star_off")
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -46,12 +52,19 @@ class ChargerContentView: UIView {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.backgroundColor = .white
 
-        //let label = UILabel()
         chargerName.translatesAutoresizingMaskIntoConstraints = false
         chargerName.text = "test1 test2"
         chargerName.textAlignment = .left
         chargerName.textColor = .darkText
         chargerName.font = bigFont
+        
+        favoriteButton.translatesAutoresizingMaskIntoConstraints = false
+        favoriteButton.backgroundColor = .white
+        favoriteButton.image = starOffImage
+        
+        let favoriteButtonGesture = UITapGestureRecognizer(target: self, action: #selector(self.addFavorite(_:)))
+        favoriteButton.isUserInteractionEnabled = true
+        favoriteButton.addGestureRecognizer(favoriteButtonGesture)
         
         chargerAddress.translatesAutoresizingMaskIntoConstraints = false
         chargerAddress.text = "첨단과학단지로 1003"
@@ -99,6 +112,7 @@ class ChargerContentView: UIView {
         availableChargingPeriodText.font = mediumFont
         
         self.addSubview(chargerName)
+        self.addSubview(favoriteButton)
         self.addSubview(chargerAddress)
         self.addSubview(chargingFee)
         self.addSubview(chargingPeriod)
@@ -118,6 +132,11 @@ class ChargerContentView: UIView {
         NSLayoutConstraint.activate([
             chargerName.topAnchor.constraint(equalTo: self.topAnchor, constant: 15),
             chargerName.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
+            
+            favoriteButton.leftAnchor.constraint(equalTo: chargerName.rightAnchor, constant: 20),
+            favoriteButton.widthAnchor.constraint(equalToConstant: 30),
+            favoriteButton.heightAnchor.constraint(equalToConstant: 30),
+            favoriteButton.centerYAnchor.constraint(equalTo: chargerName.centerYAnchor),
             
             chargerAddress.topAnchor.constraint(equalTo: chargerName.bottomAnchor, constant: 5),
             chargerAddress.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
@@ -162,8 +181,70 @@ class ChargerContentView: UIView {
         ])
     }
     
-    public func changeValue(chargerNameText: String?) {
+    public func changeValue(chargerNameText: String?, chargerId: Int?) {
         chargerName.text = chargerNameText
+        self.chargerId = chargerId
         
+        setStarImage(chargerId: self.chargerId!)
+    }
+    
+    private func setStarImage(chargerId: Int?) {
+        
+        let originFavorite = getFavoriteObject(chargerId: chargerId)
+        
+        if originFavorite != nil {
+            
+            favoriteButton.image = starOnImage
+            
+        } else {
+            
+            favoriteButton.image = starOffImage
+        }
+    }
+    
+    @objc func addFavorite(_ sender: UITapGestureRecognizer) {
+        
+        let realm = try! Realm()
+        
+        let originFavorite = getFavoriteObject(chargerId: self.chargerId!)
+        
+        //즐겨찾기 추가된것을 삭제
+        if originFavorite != nil {
+            
+            try! realm.write {
+                realm.delete(originFavorite!)
+            }
+            
+            favoriteButton.image = starOffImage
+        }
+        
+        //즐겨찾기 추가
+        else {
+            
+            let favorite = FavoriteObject()
+            
+            favorite.chargerId = self.chargerId!
+            favorite.chargerName = self.chargerName.text!
+            favorite.chargerAddress = self.chargerAddress.text!
+            
+            try! realm.write {
+                realm.add(favorite)
+            }
+            
+            favoriteButton.image = starOnImage
+        }
+    }
+    
+    private func getFavoriteObject(chargerId: Int?) -> Results<FavoriteObject>? {
+        
+        let realm = try! Realm()
+        
+        let favoriteObject = realm.objects(FavoriteObject.self).filter("chargerId == \(chargerId!)")
+        
+        if favoriteObject.first?.chargerId != nil {
+            return favoriteObject
+        } else {
+            return nil
+        }
     }
 }
