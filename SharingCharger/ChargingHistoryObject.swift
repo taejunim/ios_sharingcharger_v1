@@ -1,5 +1,5 @@
 //
-//  RechargeObject.swift
+//  ChargingHistoryObject.swift
 //  SharingCharger
 //
 //  Created by 조유영 on 2020/10/18.
@@ -11,21 +11,17 @@ class ChargingHistoryObject: Codable {
     var content      : [InnerItem]
     
     struct InnerItem : Codable {
+        var id                   : Int?
         var chargerId            : Int?
         var chargerName          : String?
-        var created              : String?
-        var endRechargeDate      : String?
-        var chargerZipcode       : String?
-        var endDate              : String?
-        var expectPoint          : Int?
-        var gpsX                 : Double?
-        var gpsY                 : Double?
-        var id                   : Int?
-        var rangeOfFee           : String?
-        var startDate            : String?
-        var state                : String?
-        var updated              : String?
-        var userId               : Int?
         var username             : String?
+        var reservationStartDate : String?
+        var reservationEndDate   : String?
+        var startRechargeDate    : String?
+        var endRechargeDate      : String?
+        var reservationPoint     : Int?
+        var rechargePoint        : Int?
+        var created              : String?
+        var updated              : String?
     }
 }

@@ -14,6 +14,8 @@
 		376E3A2624FC906C007274A1 /* HistoryElectricityChargingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376E3A2524FC906C007274A1 /* HistoryElectricityChargingViewController.swift */; };
 		96A289B377796E4505BB738D /* Pods_SharingCharger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E150F99499B36EF9DEE2F892 /* Pods_SharingCharger.framework */; };
 		C65F1BA1253C53E9002F6B19 /* ChargingHistoryObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65F1BA0253C53E9002F6B19 /* ChargingHistoryObject.swift */; };
+		C65F1BAB253C72A5002F6B19 /* SearchChargeHistoryCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65F1BAA253C72A5002F6B19 /* SearchChargeHistoryCondition.swift */; };
+		C65F1BAD253E87FC002F6B19 /* SearchingHistoryConditionObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65F1BAC253E87FC002F6B19 /* SearchingHistoryConditionObject.swift */; };
 		C6633DED252C362900F02F24 /* SearchingChargerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6633DEC252C362900F02F24 /* SearchingChargerViewController.swift */; };
 		C6633DEF252C7C4400F02F24 /* ChargeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6633DEE252C7C4400F02F24 /* ChargeViewController.swift */; };
 		C6633E062535381B00F02F24 /* MarkerObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6633E052535381B00F02F24 /* MarkerObject.swift */; };
@@ -114,6 +116,8 @@
 		376E3A2524FC906C007274A1 /* HistoryElectricityChargingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryElectricityChargingViewController.swift; sourceTree = "<group>"; };
 		A2EB86E1C4E15A54970329DC /* Pods-SharingCharger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SharingCharger.release.xcconfig"; path = "Target Support Files/Pods-SharingCharger/Pods-SharingCharger.release.xcconfig"; sourceTree = "<group>"; };
 		C65F1BA0253C53E9002F6B19 /* ChargingHistoryObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargingHistoryObject.swift; sourceTree = "<group>"; };
+		C65F1BAA253C72A5002F6B19 /* SearchChargeHistoryCondition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchChargeHistoryCondition.swift; sourceTree = "<group>"; };
+		C65F1BAC253E87FC002F6B19 /* SearchingHistoryConditionObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchingHistoryConditionObject.swift; sourceTree = "<group>"; };
 		C6633DEC252C362900F02F24 /* SearchingChargerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchingChargerViewController.swift; sourceTree = "<group>"; };
 		C6633DEE252C7C4400F02F24 /* ChargeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargeViewController.swift; sourceTree = "<group>"; };
 		C6633E052535381B00F02F24 /* MarkerObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerObject.swift; sourceTree = "<group>"; };
@@ -268,6 +272,7 @@
 				C6633E0D25357F8500F02F24 /* ReservationObject.swift */,
 				DAFED5F52535910D00D5A335 /* FavoriteObject.swift */,
 				C65F1BA0253C53E9002F6B19 /* ChargingHistoryObject.swift */,
+				C65F1BAC253E87FC002F6B19 /* SearchingHistoryConditionObject.swift */,
 			);
 			name = Object;
 			sourceTree = "<group>";
@@ -308,6 +313,7 @@
 				C6633DEC252C362900F02F24 /* SearchingChargerViewController.swift */,
 				DAF0F3F7250E1E540055226F /* SearchingConditionViewController.swift */,
 				372D309124F6324000CEB232 /* SettingViewController.swift */,
+				C65F1BAA253C72A5002F6B19 /* SearchChargeHistoryCondition.swift */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -603,6 +609,7 @@
 				C6633DED252C362900F02F24 /* SearchingChargerViewController.swift in Sources */,
 				DAAC21D32521D4E20086055F /* LeftMenuViewController.swift in Sources */,
 				DA0AF3DC2531A62400FE5FF7 /* JoinObject.swift in Sources */,
+				C65F1BAB253C72A5002F6B19 /* SearchChargeHistoryCondition.swift in Sources */,
 				DADCD4C724F4E2080026EFAD /* MainViewController.swift in Sources */,
 				DAF4D9D0252C360700B4D218 /* BottomSheetView.swift in Sources */,
 				DAFED5EA253567D400D5A335 /* FavoriteViewController.swift in Sources */,
@@ -611,6 +618,7 @@
 				DA0AF4232531D12C00FE5FF7 /* Interceptor.swift in Sources */,
 				DAFED5F62535910D00D5A335 /* FavoriteObject.swift in Sources */,
 				DAF4D9D5252C56E300B4D218 /* ChargerContentView.swift in Sources */,
+				C65F1BAD253E87FC002F6B19 /* SearchingHistoryConditionObject.swift in Sources */,
 				DA4C26E6253B204500E3E79C /* FavoriteCell.swift in Sources */,
 				DA41A08C24EBB35400E7BB93 /* AppendStar.swift in Sources */,
 				DAF4D9D2252C360700B4D218 /* BottomSheetCalculator.swift in Sources */,
