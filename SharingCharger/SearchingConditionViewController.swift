@@ -509,7 +509,6 @@ class SearchingConditionViewController: UIViewController, UIPickerViewDelegate, 
         searchingConditionObject.chargingEndDate = chargingEndDate
         searchingConditionObject.chargingTime = chargingTime.text!
         searchingConditionObject.chargingPeriod = chargingPeriod.text!
-        searchingConditionObject.abcd = "됨?"
         
         delegate?.searchingConditionDelegate(data: searchingConditionObject)
         self.dismiss(animated: true, completion: nil)
