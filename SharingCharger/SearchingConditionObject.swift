@@ -13,5 +13,4 @@ class SearchingConditionObject {
     var chargingPeriod: String = ""
     var chargingEndDate: String = ""
     var chargingTime: String = ""
-    var abcd: String = ""
 }
