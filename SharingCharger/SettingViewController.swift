@@ -18,6 +18,7 @@ class SettingViewController: UIViewController {
         
         print("logoutButton")
         UserDefaults.standard.set(false, forKey: "isLogin")
+        UserDefaults.standard.set(0, forKey: "userId")
         UserDefaults.standard.set("", forKey: "name")
         UserDefaults.standard.set("", forKey: "email")
         UserDefaults.standard.set("", forKey: "password")

@@ -17,7 +17,6 @@ class ChargerContentView: UIView {
     var chargingFee = UILabel()
     
     let chargingFeeText = "충전 요금 : 시간당 "
-    var fee = ""
     
     var selectedChargingPeriodBar = UIView()
     var chargingPeriod = UILabel()
@@ -181,9 +180,16 @@ class ChargerContentView: UIView {
         ])
     }
     
-    public func changeValue(chargerNameText: String?, chargerId: Int?) {
+    public func changeValue(chargerNameText: String?, chargerId: Int?, chargerAddressText: String?, rangeOfFeeText: String?) {
         chargerName.text = chargerNameText
         self.chargerId = chargerId
+        chargerAddress.text = chargerAddressText
+        
+        if let fee = rangeOfFeeText {
+            chargingFee.text = chargingFeeText + fee + "원"
+        } else {
+            chargingFee.text = chargingFeeText + "- 원"
+        }
         
         setStarImage(chargerId: self.chargerId!)
     }

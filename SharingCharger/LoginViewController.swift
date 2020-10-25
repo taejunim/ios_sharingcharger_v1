@@ -69,6 +69,7 @@ class LoginViewController: UIViewController {
                             self.view.makeToast("환영합니다!", duration: 0.5, position: .bottom) {didTap in
                                 
                                 UserDefaults.standard.set(true, forKey: "isLogin")
+                                UserDefaults.standard.set(instanceData.id, forKey: "userId")
                                 UserDefaults.standard.set(instanceData.name, forKey: "name")
                                 UserDefaults.standard.set(instanceData.email, forKey: "email")
                                 UserDefaults.standard.set(instanceData.password, forKey: "password")
@@ -132,16 +133,16 @@ class LoginViewController: UIViewController {
     
     @IBAction func joinButton(_ sender: Any) {
         
-        guard let uvc = self.storyboard?.instantiateViewController(withIdentifier: "Join") else { return }
+        guard let viewController = self.storyboard?.instantiateViewController(withIdentifier: "Join") else { return }
         
-        self.navigationController?.pushViewController(uvc, animated: true)
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
     
     @IBAction func passwordInitButton(_ sender: Any) {
         
-        guard let uvc = self.storyboard?.instantiateViewController(withIdentifier: "PasswordInit") else { return }
+        guard let viewController = self.storyboard?.instantiateViewController(withIdentifier: "PasswordInit") else { return }
         
-        self.navigationController?.pushViewController(uvc, animated: true)
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
     
     override func viewWillDisappear(_ animated: Bool) {

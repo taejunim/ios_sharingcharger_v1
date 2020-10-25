@@ -10,7 +10,7 @@ import UIKit
 
 class CustomButton: UIButton {
 
-    public func setAttributes(buttonName: String?, width: CGFloat?, height: CGFloat?, top: CGFloat?, left: CGFloat?, right: CGFloat?, bottom: CGFloat?, target: AnyObject) {
+    public func setAttributes(buttonName: String?, width: CGFloat?, height: CGFloat?, top: CGFloat?, left: CGFloat?, right: CGFloat?, bottom: CGFloat?, target: AnyObject, targetViewController: AnyObject) {
     
         self.translatesAutoresizingMaskIntoConstraints = false
         
@@ -26,7 +26,7 @@ class CustomButton: UIButton {
             
             layer.addSublayer(imageLayer)
             
-            self.addTarget(SearchingConditionViewController(), action: #selector(SearchingConditionViewController.closeButton), for: .touchUpInside)
+            self.addTarget(targetViewController, action: #selector(targetViewController.closeButton), for: .touchUpInside)
             
             break
             
@@ -46,7 +46,7 @@ class CustomButton: UIButton {
             
         case "reservation":
             
-            self.layer.cornerRadius = 7           //완료 버튼 둥글게
+            self.layer.cornerRadius = 7
             self.backgroundColor = UIColor(named: "Color_3498DB")
             self.titleLabel?.font = UIFont.boldSystemFont(ofSize: CGFloat(18))
             self.setTitleColor(.white, for: .normal)

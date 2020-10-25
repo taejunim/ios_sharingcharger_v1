@@ -6,29 +6,25 @@
 //  Copyright © 2020 metisinfo. All rights reserved.
 //
 class ReservationObject: Codable {
-
     
-    var content      : [InnerItem]
-    
-    struct InnerItem : Codable {
-        var bleNumber            : String?
-        var cancelDate           : String?
-        var chargerAddress       : String?
-        var chargerDetailAddress : String?
-        var chargerId            : Int?
-        var chargerName          : String?
-        var chargerZipcode       : String?
-        var created              : String?
-        var endDate              : String?
-        var expectPoint          : Int?
-        var gpsX                 : Double?
-        var gpsY                 : Double?
-        var id                   : Int?
-        var rangeOfFee           : String?
-        var startDate            : String?
-        var state                : String?
-        var updated              : String?
-        var userId               : Int?
-        var username             : String?
-    }
+    var bleNumber: String?
+    var cancelDate: String?
+    var chargerId: Int?
+    var chargerName: String?
+    var created: String?
+    var endDate: String?
+    var expectPoint: Int?
+    var id: Int?
+    var startDate: String?
+    var state: String?
+    var updated: String?
+    var userId: Int?
+    var username: String?
+    var gpsX: Double?
+    var gpsY: Double?
+    var reservationType: String?
+    var chargerZipcode: String?
+    var chargerAddress: String?
+    var chargerDetailAddress: String?
+    var rangeOfFee: String?
 }

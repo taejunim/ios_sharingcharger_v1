@@ -60,7 +60,6 @@ class HistoryElectricityChargingViewController: UIViewController, UITableViewDel
     }
     @objc func rightMenu() {
         
-        
         print("검색조건 -  tapped")
         
         guard let viewController = self.storyboard?.instantiateViewController(withIdentifier: "SearchingChargeCondition") else { return }
@@ -74,9 +73,10 @@ class HistoryElectricityChargingViewController: UIViewController, UITableViewDel
         bottomSheet.setShapeGenerator(shapeGenerator, for: .closed)
         
         present(bottomSheet, animated: true, completion: nil)
-        
-        
-        
+
+        guard let viewController = self.storyboard?.instantiateViewController(withIdentifier: "Setting") else { return }
+            
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

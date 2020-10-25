@@ -34,9 +34,9 @@ class SearchingChargerViewController: UIViewController {
     
     @objc func charge(sender: UIView!) {
         
-        guard let uvc = self.storyboard?.instantiateViewController(withIdentifier: "Charge") else { return }
+        guard let viewController = self.storyboard?.instantiateViewController(withIdentifier: "Charge") else { return }
         
-        self.navigationController?.pushViewController(uvc, animated: true)
+        self.navigationController?.pushViewController(viewController, animated: true)
         
     }
     

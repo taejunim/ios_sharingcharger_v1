@@ -14,6 +14,7 @@ class ShadowView: UIControl {
     let clockLayer = CALayer()
     let chargingTimeTextLayer = CATextLayer()
     let chargingDateTextLayer = CATextLayer()
+    let reservationTextLayer = LCTextLayer()
     
     let calendar = Calendar.current
     let dateFormatter = DateFormatter()
@@ -21,6 +22,11 @@ class ShadowView: UIControl {
     
     let bigFont = UIFont.systemFont(ofSize: 15)
     var smallFont = UIFont()
+    
+    let clockImage = UIImage(named: "clock")?.cgImage
+    let chargeImage = UIImage(named: "charge")?.cgImage
+    
+    let Color3498DB: UIColor! = UIColor(named: "Color_3498DB")
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -42,37 +48,76 @@ class ShadowView: UIControl {
             //layer.insertSublayer(shadowLayer, below: nil) // also works
             addClockLayer()
             addChargingTimeTextLayer()
-            addChargingDateTextLayer()
+            addChargingPeriodTextLayer()
             addMainArrowLayer()
         }
     }
     
+    //시계 이미지
     private func addClockLayer() {
         
         clockLayer.frame = CGRect(x:20, y:20, width: 70, height: 70)
         clockLayer.bounds = clockLayer.frame.insetBy(dx: 5.0, dy: 5.0)
-        clockLayer.contents = UIImage(named: "clock")?.cgImage
+        clockLayer.contents = clockImage
         
         layer.addSublayer(clockLayer)
         
         self.addTarget(MainViewController(), action: #selector(MainViewController.searchingConditionButton), for: .touchUpInside)
     }
     
+    //검색 조건 버튼으로 초기화
+    public func initializeLayer() {
+     
+        clockLayer.contents = clockImage
+        shadowLayer.fillColor = UIColor.white.cgColor
+        
+        setLabelText(chargingTimeText: "30분", chargingPeriodText: initializeChargingPeriod())
+        reservationTextLayer.isHidden = true
+    }
+    
+    //예약 내용 set
+    public func setReservation(chargingTimeText: String?, chargingPeriodText: String?) {
+        
+        clockLayer.contents = chargeImage
+        shadowLayer.fillColor = Color3498DB.cgColor
+        
+        setLabelText(chargingTimeText: chargingTimeText, chargingPeriodText: chargingPeriodText)
+        reservationTextLayer.isHidden = false
+    }
+    
+    //충전할 시간 layer
     private func addChargingTimeTextLayer() {
         
         chargingTimeTextLayer.frame = CGRect(x: clockLayer.frame.maxX, y: 20, width: layer.frame.width - (clockLayer.frame.maxX * 2), height: layer.frame.height/2)
         chargingTimeTextLayer.alignmentMode = .center
         chargingTimeTextLayer.contentsScale = UIScreen.main.scale
         chargingTimeTextLayer.string = chargingTimeTextAttribute(text: "30분")
+        chargingTimeTextLayer.addSublayer(reservationTextLayer)
+        
+        reservationTextLayer.frame = CGRect(x: chargingTimeTextLayer.frame.width * 0.8, y: 0, width: 60, height: chargingTimeTextLayer.frame.height / 2)
+        reservationTextLayer.alignmentMode = CATextLayerAlignmentMode.center
+        reservationTextLayer.contentsScale = UIScreen.main.scale
+        reservationTextLayer.string = reservationTextAttribute(text: "예약")
+        reservationTextLayer.backgroundColor = UIColor(named: "Color_1ABC9C")?.cgColor
+        reservationTextLayer.cornerRadius = reservationTextLayer.frame.height / 2
         
         layer.addSublayer(chargingTimeTextLayer)
     }
     
-    private func addChargingDateTextLayer() {
+    //충전 기간 layer
+    private func addChargingPeriodTextLayer() {
         
         chargingDateTextLayer.frame = CGRect(x: clockLayer.frame.maxX, y: chargingTimeTextLayer.frame.height, width: layer.frame.width - (clockLayer.frame.maxX * 2), height: layer.frame.height - chargingTimeTextLayer.frame.maxY)
         chargingDateTextLayer.alignmentMode = .center
         chargingDateTextLayer.contentsScale = UIScreen.main.scale
+
+        chargingDateTextLayer.string = chargingDateTextAttribute(text: initializeChargingPeriod())
+        
+        layer.addSublayer(chargingDateTextLayer)
+    }
+    
+    //충전기간 초기화
+    private func initializeChargingPeriod() -> String {
         
         dateFormatter.locale = Locale(identifier: "ko")
         dateFormatter.dateFormat = "MM/dd (E) HH:mm"
@@ -100,11 +145,11 @@ class ShadowView: UIControl {
         }
         
         let endDate = Calendar.current.date(byAdding: .minute, value: 30, to: availableDate)!
-        chargingDateTextLayer.string = chargingDateTextAttribute(text: "\(dateFormatter.string(from: availableDate)) ~ \(timeFormatter.string(from: endDate))")
         
-        layer.addSublayer(chargingDateTextLayer)
+        return "\(dateFormatter.string(from: availableDate)) ~ \(timeFormatter.string(from: endDate))"
     }
     
+    //화살표 layer
     private func addMainArrowLayer() {
         
         let mainArrowImageLayer = CALayer()
@@ -145,17 +190,31 @@ class ShadowView: UIControl {
         }
     }
     
-    public func setLabelText(chargingTimeText: String?, chargingDateText: String?) {
+    public func setLabelText(chargingTimeText: String?, chargingPeriodText: String?) {
         
         chargingTimeTextLayer.string = chargingTimeTextAttribute(text: chargingTimeText)
-        chargingDateTextLayer.string = chargingDateTextAttribute(text: chargingDateText)
+        chargingDateTextLayer.string = chargingDateTextAttribute(text: chargingPeriodText)
     }
     
     private func chargingTimeTextAttribute(text: String?) -> NSAttributedString {
         
+        let foregroundColor: UIColor!
+        let reservationId = UserDefaults.standard.integer(forKey: "reservationId")
+        
+        if reservationId > 0 {
+            print("chargingTimeTextAttribute reservationId : \(reservationId)")
+            
+            foregroundColor = UIColor.white
+            
+        } else {
+            print("chargingTimeTextAttribute reservationId : \(reservationId)")
+            
+            foregroundColor = UIColor.darkText
+        }
+        
         let attributedString = NSAttributedString(
             string: "총 \(text!) 충전",
-            attributes: [ .font: UIFont.boldSystemFont(ofSize: 22), .foregroundColor: UIColor.darkText]
+            attributes: [ .font: UIFont.boldSystemFont(ofSize: 22), .foregroundColor: foregroundColor!]
         )
         
         return attributedString
@@ -171,9 +230,33 @@ class ShadowView: UIControl {
             font = bigFont
         }
         
+        let foregroundColor: UIColor!
+        let reservationId = UserDefaults.standard.integer(forKey: "reservationId")
+        
+        if reservationId > 0 {
+            print("chargingTimeTextAttribute reservationId : \(reservationId)")
+            
+            foregroundColor = UIColor.white
+            
+        } else {
+            print("chargingTimeTextAttribute reservationId : \(reservationId)")
+            
+            foregroundColor = UIColor.darkText
+        }
+        
         let attributedString = NSAttributedString(
             string: text!,
-            attributes: [ .font: font, .foregroundColor: UIColor.darkText]
+            attributes: [ .font: font, .foregroundColor: foregroundColor!]
+        )
+        
+        return attributedString
+    }
+    
+    private func reservationTextAttribute(text: String?) -> NSAttributedString {
+        
+        let attributedString = NSAttributedString(
+            string: text!,
+            attributes: [ .font: UIFont.boldSystemFont(ofSize: 18), .foregroundColor: UIColor.white]
         )
         
         return attributedString
@@ -219,5 +302,24 @@ class ShadowView: UIControl {
         }
         
         return font
+    }
+}
+
+//CATextLayer 중앙 정렬
+class LCTextLayer : CATextLayer {
+
+    // REF: http://lists.apple.com/archives/quartz-dev/2008/Aug/msg00016.html
+    // CREDIT: David Hoerl - https://github.com/dhoerl
+    // USAGE: To fix the vertical alignment issue that currently exists within the CATextLayer class. Change made to the yDiff calculation.
+
+    override func draw(in context: CGContext) {
+        let height = self.bounds.size.height
+        let fontSize = 18
+        let yDiff = (Int(height)-fontSize)/2 - fontSize/10
+
+        context.saveGState()
+        context.translateBy(x: 0, y: CGFloat(yDiff)) // Use -yDiff when in non-flipped coordinates (like macOS's default)
+        super.draw(in: context)
+        context.restoreGState()
     }
 }

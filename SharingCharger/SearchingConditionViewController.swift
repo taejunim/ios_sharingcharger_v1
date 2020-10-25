@@ -52,14 +52,23 @@ class SearchingConditionViewController: UIViewController, UIPickerViewDelegate, 
     var isChargingTimePickerViewShowing: Bool = false
     var isRangePickerViewShowing: Bool = false
     var isFeePickerViewShowing: Bool = false
+    var isInstantCharge: Bool = true
     
     @IBOutlet var scrollView: UIScrollView!
+    
+    let locale = Locale(identifier: "ko")
     
     let dateFormatter = DateFormatter()
     let timeFormatter = DateFormatter()
     let HHMMFormatter = DateFormatter()
     let HHFormatter = DateFormatter()
     let MMFormatter = DateFormatter()
+    let realDateFormatter = DateFormatter()
+    let periodDateFormatter = DateFormatter()
+    
+    var realChargingStartDate = ""
+    var realChargingEndDate = ""
+    var realChargingPeriod = ""
     
     let buttonBorderWidth: CGFloat! = 1.0
     let ColorE0E0E0: UIColor! = UIColor(named: "Color_E0E0E0")
@@ -77,8 +86,8 @@ class SearchingConditionViewController: UIViewController, UIPickerViewDelegate, 
         
         self.delegate = MainViewController()    //선택한 검색 조건들을 MainViewController 로 넘김
         
-        addButton(buttonName: "close", width: 40, height: 40, top: 15, left: 15, right: nil, bottom: nil, target: self.view)
-        addButton(buttonName: "refresh", width: 40, height: 40, top: 15, left: nil, right: -15, bottom: nil, target: self.view)
+        addButton(buttonName: "close", width: 40, height: 40, top: 15, left: 15, right: nil, bottom: nil, target: self.view, targetViewController: self)
+        addButton(buttonName: "refresh", width: 40, height: 40, top: 15, left: nil, right: -15, bottom: nil, target: self.view, targetViewController: self)
         
         instantCharge.addTarget(self, action: #selector(instantChargeButton(sender:)), for: .touchUpInside)
         instantCharge.layer.borderWidth = 1.0
@@ -92,20 +101,26 @@ class SearchingConditionViewController: UIViewController, UIPickerViewDelegate, 
         chargingStartDateView.addGestureRecognizer(chargingStartDateViewGesture)
         chargingStartDateView.isEnabled = false
         
-        dateFormatter.locale = Locale(identifier: "ko")
+        dateFormatter.locale = locale
         dateFormatter.dateFormat = "MM/dd (E) HH:mm"
         
-        timeFormatter.locale = Locale(identifier: "ko")
+        timeFormatter.locale = locale
         timeFormatter.dateFormat = "HH:mm"
         
-        HHMMFormatter.locale = Locale(identifier: "ko")
+        HHMMFormatter.locale = locale
         HHMMFormatter.dateFormat = "HH시간 mm분"
         
-        HHFormatter.locale = Locale(identifier: "ko")
+        HHFormatter.locale = locale
         HHFormatter.dateFormat = "HH시간"
         
-        MMFormatter.locale = Locale(identifier: "ko")
+        MMFormatter.locale = locale
         MMFormatter.dateFormat = "mm분"
+        
+        realDateFormatter.locale = locale
+        realDateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
+        
+        periodDateFormatter.locale = locale
+        periodDateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
         
         chargingStartDate.text = "\(dateFormatter.string(from: Date()))"
         
@@ -143,6 +158,10 @@ class SearchingConditionViewController: UIViewController, UIPickerViewDelegate, 
         let endDate = calendar.date(byAdding: .minute, value: 30, to: date)!
         chargingEndDate = "\(timeFormatter.string(from: endDate))"
         chargingPeriod.text = "\(dateFormatter.string(from: date)) ~ \(chargingEndDate)"
+        
+        realChargingStartDate = realDateFormatter.string(from: Date())
+        realChargingEndDate = realDateFormatter.string(from: endDate)
+        realChargingPeriod = periodDateFormatter.string(from: Date()) + " ~ " + periodDateFormatter.string(from: endDate)
         
         let chargingTimeViewGesture = UITapGestureRecognizer(target: self, action: #selector(self.chargingTimeViewButton))
         chargingTimeView.addGestureRecognizer(chargingTimeViewGesture)
@@ -200,7 +219,12 @@ class SearchingConditionViewController: UIViewController, UIPickerViewDelegate, 
     //time 변경시
     private func timeChanged() {
         
-        calculateChargingTime(senderDate: chargingStartDatePicker.date)
+        if isInstantCharge {
+            calculateChargingTime(senderDate: Date())
+        } else {
+            calculateChargingTime(senderDate: chargingStartDatePicker.date)
+        }
+        
     }
     
     //즉시 충전 버튼
@@ -259,6 +283,8 @@ class SearchingConditionViewController: UIViewController, UIPickerViewDelegate, 
         let minute = calendar.component(.minute, from: formattedChargingTime)
         let hour = calendar.component(.hour, from: formattedChargingTime)
         
+        print("senderDate : \(dateFormatter.string(from: senderDate))")
+        
         let dateAddedHour = calendar.date(byAdding: .hour, value: hour, to: senderDate)!
         
         let endDate = calendar.date(byAdding: .minute, value: minute, to: dateAddedHour)!
@@ -273,7 +299,7 @@ class SearchingConditionViewController: UIViewController, UIPickerViewDelegate, 
             
         } else if dayOfStartDate != dayOfEndDate {
             
-            chargingEndDate = "\(dateFormatter.string(from: senderDate))"
+            chargingEndDate = "\(dateFormatter.string(from: endDate))"
             chargingPeriod.text = "\(dateFormatter.string(from: senderDate)) ~ \(dateFormatter.string(from: endDate))"
             
         } else {
@@ -281,6 +307,10 @@ class SearchingConditionViewController: UIViewController, UIPickerViewDelegate, 
             chargingEndDate = "\(dateFormatter.string(from: senderDate))"
             chargingPeriod.text = "\(dateFormatter.string(from: senderDate)) ~ \(dateFormatter.string(from: endDate))"
         }
+        
+        realChargingStartDate = realDateFormatter.string(from: senderDate)
+        realChargingEndDate = realDateFormatter.string(from: endDate)
+        realChargingPeriod = periodDateFormatter.string(from: senderDate) + " ~ " + periodDateFormatter.string(from: endDate)
     }
     
     //즉시 충전, 예약 충전 버튼 활성화시 속성 변경
@@ -318,9 +348,11 @@ class SearchingConditionViewController: UIViewController, UIPickerViewDelegate, 
         if activeButton == reservationCharge {
             chargingStartDate.textColor = UIColor.darkText
             chargingStartDateView.isEnabled = true
+            isInstantCharge = false
         } else {
             chargingStartDate.textColor = ColorE0E0E0
             chargingStartDateView.isEnabled = false
+            isInstantCharge = true
         }
         
         setChargingPeriod(activeButton: activeButton)
@@ -506,20 +538,26 @@ class SearchingConditionViewController: UIViewController, UIPickerViewDelegate, 
     @objc func confirmButton(sender: UIButton!) {
         
         let searchingConditionObject = SearchingConditionObject()
+        
+        searchingConditionObject.chargingStartDate = chargingStartDate.text!
         searchingConditionObject.chargingEndDate = chargingEndDate
         searchingConditionObject.chargingTime = chargingTime.text!
         searchingConditionObject.chargingPeriod = chargingPeriod.text!
+        searchingConditionObject.isInstantCharge = isInstantCharge
+        searchingConditionObject.realChargingStartDate = realChargingStartDate
+        searchingConditionObject.realChargingEndDate = realChargingEndDate
+        searchingConditionObject.realChargingPeriod = realChargingPeriod
         
         delegate?.searchingConditionDelegate(data: searchingConditionObject)
         self.dismiss(animated: true, completion: nil)
     }
     
-    private func addButton(buttonName: String?, width: CGFloat?, height: CGFloat?, top: CGFloat?, left: CGFloat?, right: CGFloat?, bottom: CGFloat?, target: AnyObject) {
+    private func addButton(buttonName: String?, width: CGFloat?, height: CGFloat?, top: CGFloat?, left: CGFloat?, right: CGFloat?, bottom: CGFloat?, target: AnyObject, targetViewController: AnyObject) {
         
         let button = CustomButton(type: .system)
         
         self.view.addSubview(button)
         
-        button.setAttributes(buttonName: buttonName, width: width, height: height, top: top, left: left, right: right, bottom: bottom, target: target)
+        button.setAttributes(buttonName: buttonName, width: width, height: height, top: top, left: left, right: right, bottom: bottom, target: target, targetViewController: targetViewController)
     }
 }

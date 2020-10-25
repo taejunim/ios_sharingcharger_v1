@@ -13,7 +13,9 @@ import GoneVisible
 import Alamofire
 import Toast_Swift
 
-class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditionProtocol, FavoriteProtocol {
+class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditionProtocol, FavoriteProtocol, ReservationPopupProtocol {
+    
+    var delegate: SearchingConditionProtocol?
     
     @IBOutlet var mapView: UIView!
     var mTMapView: MTMapView?
@@ -37,7 +39,12 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
     
     var poiArray = Array<MTMapPOIItem>()
     
+    var selectedChargerObject: ChargerObject?
+    var receivedSearchingConditionObject: SearchingConditionObject! = SearchingConditionObject()
     var receivedFavoriteObject: FavoriteObject? = nil
+    
+    let dateFormatter = DateFormatter()
+    let realDateFormatter = DateFormatter()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,12 +63,13 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         
         addButton(buttonName: "menu", width: 40, height: 40, top: 15, left: 15, right: nil, bottom: nil, target: mapView)
         addButton(buttonName: "address", width: nil, height: 40, top: 15, left: 70, right: -15, bottom: nil, target: mapView)
-        addReservationButton(buttonName: "reservation", width: nil, height: 40, top: nil, left: 0, right: 0, bottom: 0, target: self.view)
+        addReservationButton(buttonName: "reservation", width: nil, height: 40, top: nil, left: 0, right: 0, bottom: 0, target: self.view, targetViewController: self)
         addCurrentLocationButton(buttonName: "currentLocation", width: 40, height: 40, top: 70, left: nil, right: -15, bottom: nil, target: mapView)
         addView(width: nil, height: 110, top: nil, left: 15, right: -15, bottom: 0, target: mapView)
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateSearchingCondition(_:)), name: .updateSearchingCondition, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(lookFavorite(_:)), name: .lookFavorite, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(reservationPopup(_:)), name: .reservationPopup, object: nil)
         
         //로딩 뷰
         utils = Utils(superView: self.view)
@@ -73,47 +81,109 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         chargerViewMinimumHeight = mapView.frame.height * 0.3
         chargerViewMaximumHeight = mapView.frame.height * 0.6
         
-        print("chargerViewMinimumHeight : \(chargerViewMinimumHeight), chargerViewMaximumHeight : \(chargerViewMaximumHeight)")
-        print("email : \(myUserDefaults.string(forKey: "email"))")
+        viewWillInitializeObjects()
+    }
+    
+    private func viewWillInitializeObjects() {
+        
+        let date = Date()
+        let locale = Locale(identifier: "ko")
+        
+        dateFormatter.locale = locale
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
+        
+        realDateFormatter.locale = locale
+        realDateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
+        receivedSearchingConditionObject.realChargingStartDate = realDateFormatter.string(from: date)
+
+        let endDate = Calendar.current.date(byAdding: .minute, value: 30, to: date)!
+        receivedSearchingConditionObject.realChargingEndDate = realDateFormatter.string(from: endDate)
+        
+        receivedSearchingConditionObject.realChargingPeriod = dateFormatter.string(from: date) + " ~ " + dateFormatter.string(from: endDate)
     }
     
     func mapView(_ mapView: MTMapView!, selectedPOIItem poiItem: MTMapPOIItem!) -> Bool {
         
         print("poi selected : \(poiItem.tag)")
         
-        mTMapView?.setMapCenter(poiItem.mapPoint, zoomLevel: 1, animated: true)
+        var code: Int! = 0
         
-        //현재 선택된 마커가 있을 때 -> 뷰는 고정시킨 채로 데이터만 바꿔줌
-        if currentSelectedPoiItem != nil {
-            
-            chargerContentView.changeValue(chargerNameText: poiItem.itemName, chargerId: poiItem.tag)
-        }
+        let chargerId = poiItem.tag
+        let url = "http://test.jinwoosi.co.kr:6066/api/v1/chargers/\(chargerId)"
         
-        //검색 조건 버튼 숨기고 충전기 화면 올라옴
-        else {
-            searchingConditionView.isHidden = true
-            searchingConditionView.gone()
+        AF.request(url, method: .get, encoding: URLEncoding.default, interceptor: Interceptor(indicator: activityIndicator!)).validate().responseJSON(completionHandler: { response in
             
-            reservationView.visible()
+            code = response.response?.statusCode
             
-            UIView.animate(withDuration: 0.3) { self.view.layoutIfNeeded() }
+            switch response.result {
             
-            usleep(1000)
+            case .success(let obj):
+                
+                print("obj : \(obj)")
+                do {
+                    
+                    let JSONData = try JSONSerialization.data(withJSONObject: obj, options: .prettyPrinted)
+                    let instanceData = try JSONDecoder().decode(ChargerObject.self, from: JSONData)
+                    
+                    self.selectedChargerObject = instanceData
+                    
+                } catch {
+                    print("error : \(error.localizedDescription)")
+                    print("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)")
+                    self.view.makeToast("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)", duration: 2.0, position: .bottom)
+                }
+                
+            case .failure(let err):
+                
+                print("error is \(String(describing: err))")
+                
+                if code == 400 {
+                    print("400 Error.")
+                    self.view.makeToast("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)", duration: 2.0, position: .bottom)
+                    
+                } else {
+                    print("Error : \(code!)")
+                    self.view.makeToast("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)", duration: 2.0, position: .bottom)
+                }
+            }
             
-            chargerView = BottomSheetView(
-                contentView: chargerContentView,
-                contentHeights: [chargerViewMinimumHeight, chargerViewMaximumHeight]
-            )
+            self.mTMapView?.setMapCenter(poiItem.mapPoint, zoomLevel: 1, animated: true)
             
-            chargerView?.present(in: view)
+            //현재 선택된 마커가 있을 때 -> 뷰는 고정시킨 채로 데이터만 바꿔줌
+            if self.currentSelectedPoiItem != nil {
+                
+                self.chargerContentView.changeValue(chargerNameText: poiItem.itemName, chargerId: poiItem.tag, chargerAddressText: self.selectedChargerObject?.address, rangeOfFeeText: self.selectedChargerObject?.rangeOfFee)
+            }
             
-            chargerContentView.changeValue(chargerNameText: poiItem.itemName, chargerId: poiItem.tag)
-        }
-        
-        //현재 선택된 마커 저장
-        currentSelectedPoiItem = poiItem
-        
-        self.view.bringSubviewToFront(reservationView)
+            //검색 조건 버튼 숨기고 충전기 화면 올라옴
+            else {
+                self.searchingConditionView.isHidden = true
+                self.searchingConditionView.gone()
+                
+                self.reservationView.visible()
+                
+                UIView.animate(withDuration: 0.3) { self.view.layoutIfNeeded() }
+                
+                usleep(1000)
+                
+                self.chargerView = BottomSheetView(
+                    contentView: self.chargerContentView,
+                    contentHeights: [self.chargerViewMinimumHeight, self.chargerViewMaximumHeight]
+                )
+                
+                self.chargerView?.present(in: self.view)
+                
+                self.chargerContentView.changeValue(chargerNameText: poiItem.itemName, chargerId: poiItem.tag, chargerAddressText: self.selectedChargerObject?.address, rangeOfFeeText: self.selectedChargerObject?.rangeOfFee)
+            }
+            
+            //현재 선택된 마커 저장
+            self.currentSelectedPoiItem = poiItem
+            
+            self.view.bringSubviewToFront(self.reservationView)
+            
+            self.activityIndicator!.stopAnimating()
+            self.activityIndicator!.isHidden = true
+        })
         
         return false
     }
@@ -123,6 +193,12 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         
         print("singleTapOn ")
         
+        showSearchingConditionView()
+        
+        selectedChargerObject = nil
+    }
+    
+    private func showSearchingConditionView() {
         //충전기 화면 사라짐
         chargerView?.dismiss()
         
@@ -136,6 +212,8 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         
         //현재 선택된 마커 지움
         currentSelectedPoiItem = nil
+        
+        self.view.sendSubviewToBack(reservationView)
     }
     
     private func addPoiItem() {
@@ -211,12 +289,17 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
     }
     
     @objc func reservationButton(sender: UIButton!) {
-        print("MainViewController - Button tapped")
+        print("MainViewController - reservationButton tapped")
         
-        guard let uvc = self.storyboard?.instantiateViewController(withIdentifier: "Reservation") else { return }
+        guard let viewController = self.storyboard?.instantiateViewController(withIdentifier: "Reservation") as? ReservationViewController else { return }
+        receivedSearchingConditionObject.chargerId = currentSelectedPoiItem!.tag
+        receivedSearchingConditionObject.chargerName = currentSelectedPoiItem!.itemName
+        receivedSearchingConditionObject.chargerAddress = selectedChargerObject?.address ?? ""
+        receivedSearchingConditionObject.fee = selectedChargerObject?.rangeOfFee ?? "-"
+        viewController.receivedSearchingConditionObject = receivedSearchingConditionObject
+        viewController.chargerId = currentSelectedPoiItem!.tag
         
-        self.navigationController?.pushViewController(uvc, animated: true)
-        
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
     
     //Side Menu
@@ -258,16 +341,33 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
     //주소 찾기 버튼
     @objc func addressButton(sender: UIButton!) {
         print("MainViewController - addressButton tapped")
+        UserDefaults.standard.set(0, forKey: "reservationId")
+        UserDefaults.standard.set(nil, forKey: "reservationInfo")
+        
     }
     
     //검색 조건 버튼
     @objc func searchingConditionButton(sender: UIView!) {
         print("MainViewController - searchingConditionButton tapped")
         
-        guard let viewController = self.storyboard?.instantiateViewController(withIdentifier: "SearchingCondition") else { return }
+        let viewController: UIViewController!
+        let bottomSheet: MDCBottomSheetController!
         
-        let bottomSheet: MDCBottomSheetController = MDCBottomSheetController(contentViewController: viewController)
-        bottomSheet.preferredContentSize = CGSize(width: mapView.frame.size.width, height: mapView.frame.size.height)
+        let reservationId = myUserDefaults.integer(forKey: "reservationId")
+        
+        //예약이 있을 경우 예약 팝업
+        if reservationId > 0 {
+            viewController = self.storyboard?.instantiateViewController(withIdentifier: "ReservationPopup")
+            bottomSheet = MDCBottomSheetController(contentViewController: viewController)
+            bottomSheet.preferredContentSize = CGSize(width: mapView.frame.size.width, height: mapView.frame.size.height / 2)
+        }
+        
+        //예약이 없으면 검색 조건 팝업
+        else {
+            viewController = self.storyboard?.instantiateViewController(withIdentifier: "SearchingCondition")
+            bottomSheet = MDCBottomSheetController(contentViewController: viewController)
+            bottomSheet.preferredContentSize = CGSize(width: mapView.frame.size.width, height: mapView.frame.size.height)
+        }
         
         let shapeGenerator = MDCCurvedRectShapeGenerator(cornerSize: CGSize(width: 15, height: 15))
         bottomSheet.setShapeGenerator(shapeGenerator, for: .preferred)
@@ -288,12 +388,13 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
     }
     
     //예약하기 버튼
-    private func addReservationButton(buttonName: String?, width: CGFloat?, height: CGFloat?, top: CGFloat?, left: CGFloat?, right: CGFloat?, bottom: CGFloat?, target: AnyObject) {
+    private func addReservationButton(buttonName: String?, width: CGFloat?, height: CGFloat?, top: CGFloat?, left: CGFloat?, right: CGFloat?, bottom: CGFloat?, target: AnyObject, targetViewController: AnyObject) {
         
         self.view.addSubview(reservationView)
         
-        reservationView.setAttributes(buttonName: buttonName, width: width, height: height, top: top, left: left, right: right, bottom: bottom, target: target)
+        reservationView.setAttributes(buttonName: buttonName, width: width, height: height, top: top, left: left, right: right, bottom: bottom, target: target, targetViewController: targetViewController)
         reservationView.gone()
+        self.view.sendSubviewToBack(reservationView)
     }
     
     private func addView(width: CGFloat?, height: CGFloat?, top: CGFloat?, left: CGFloat?, right: CGFloat?, bottom: CGFloat?, target: AnyObject) {
@@ -323,10 +424,9 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
     
     @objc func updateSearchingCondition(_ notification: Notification) {
         
-        let data = notification.object as! SearchingConditionObject
-        print("data : \(data)")
+        receivedSearchingConditionObject = notification.object as? SearchingConditionObject
         
-        searchingConditionView.setLabelText(chargingTimeText: data.chargingTime, chargingDateText: data.chargingPeriod)
+        searchingConditionView.setLabelText(chargingTimeText: receivedSearchingConditionObject.chargingTime, chargingPeriodText: receivedSearchingConditionObject.chargingPeriod)
     }
     
     //즐겨찾기에서 지도보기 클릭
@@ -338,6 +438,16 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
     @objc func lookFavorite(_ notification: Notification) {
         
         receivedFavoriteObject = notification.object as? FavoriteObject
+    }
+    
+    func reservationPopupDelegate() {
+        NotificationCenter.default.post(name: .reservationPopup, object: nil, userInfo: nil)
+    }
+    
+    @objc func reservationPopup(_ notification: Notification) {
+        
+        print("예약 취소 - 현재 예약 없음")
+        searchingConditionView.initializeLayer()
     }
     
     func mapView(_ mapView: MTMapView!, updateCurrentLocation location: MTMapPoint!, withAccuracy accuracy: MTMapLocationAccuracy) {
@@ -390,8 +500,143 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         super.viewWillAppear(animated)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    private func getReservation() {
+     
+        let locale = Locale(identifier: "ko")
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = locale
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
         
+        var code: Int! = 0
+        
+        let userId = myUserDefaults.integer(forKey: "userId")
+        let url = "http://test.jinwoosi.co.kr:6066/api/v1/reservation/user/\(userId)/currently"
+        
+        AF.request(url, method: .get, encoding: URLEncoding.default, interceptor: Interceptor(indicator: activityIndicator!)).validate().responseJSON(completionHandler: { response in
+            
+            code = response.response?.statusCode
+            
+            switch response.result {
+            
+            case .success(let obj):
+                
+                do {
+                    
+                    let JSONData = try JSONSerialization.data(withJSONObject: obj, options: .prettyPrinted)
+                    let instanceData = try JSONDecoder().decode(ReservationObject.self, from: JSONData)
+                    
+                    if instanceData.id! > 0 && code == 200 {
+                        let reservationInfo: SearchingConditionObject! = SearchingConditionObject()
+                        reservationInfo.realChargingStartDate = instanceData.startDate!
+                        reservationInfo.realChargingEndDate = instanceData.endDate!
+                        reservationInfo.chargerAddress = instanceData.chargerAddress!
+                        reservationInfo.chargerId = instanceData.chargerId!
+                        reservationInfo.chargerName = instanceData.chargerName!
+                        reservationInfo.fee = instanceData.rangeOfFee!
+                        
+                        let calendar = Calendar.current
+                        
+                        let startDate = dateFormatter.date(from: instanceData.startDate!)
+                        let endDate = dateFormatter.date(from: instanceData.endDate!)
+                        
+                        let offsetComps = calendar.dateComponents([.hour,.minute], from:startDate!, to:endDate!)
+                        if case let (hour?, minute?) = (offsetComps.hour, offsetComps.minute) {
+                            
+                            //30분
+                            if hour == 0 && minute != 0 {
+                                reservationInfo.chargingTime = String(minute) + "분"
+                            }
+                            
+                            //1시간 .. 2시간
+                            else if hour != 0 && minute == 0 {
+                                reservationInfo.chargingTime = String(hour) + "시간"
+                            }
+                            
+                            //1시간 30분 .. 2시간 30분
+                            else if hour != 0 && minute != 0 {
+                                reservationInfo.chargingTime = String(hour) + "시간 " + String(minute) + "분"
+                            }
+                        }
+                        
+                        dateFormatter.dateFormat = "MM/dd (E) HH:mm"
+                        
+                        let dayOfStartDate = calendar.component(.day, from: startDate!)
+                        let dayOfEndDate = calendar.component(.day, from: endDate!)
+                        
+                        if dayOfStartDate == dayOfEndDate {
+                            
+                            let timeFormatter = DateFormatter()
+                            timeFormatter.locale = locale
+                            timeFormatter.dateFormat = "HH:mm"
+                            
+                            let chargingEndDate = timeFormatter.string(from: endDate!)
+                            reservationInfo.chargingPeriod = "\(dateFormatter.string(from: startDate!)) ~ \(chargingEndDate)"
+                            
+                        } else if dayOfStartDate != dayOfEndDate {
+                            
+                            reservationInfo.chargingPeriod = "\(dateFormatter.string(from: startDate!)) ~ \(dateFormatter.string(from: endDate!))"
+                            
+                        } else {
+                            
+                            reservationInfo.chargingPeriod = "\(dateFormatter.string(from: startDate!)) ~ \(dateFormatter.string(from: endDate!))"
+                        }
+                        
+                        //현재 예약 정보 메모리에 저장
+                        self.myUserDefaults.set(instanceData.id, forKey: "reservationId")
+                        self.myUserDefaults.set(try? PropertyListEncoder().encode(reservationInfo), forKey: "reservationInfo")
+                    }
+                    
+                } catch {
+                    print("error : \(error.localizedDescription)")
+                    print("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)")
+                }
+            
+            //예약이 없을 때
+            case .failure(let err):
+                
+                print("error is \(String(describing: err))")
+                
+                if code == 400 {
+                    print("예약 없음")
+                    self.searchingConditionView.initializeLayer()
+                    
+                } else {
+                    print("Error : \(code!)")
+                }
+            }
+            
+            //메모리에 저장된 예약 정보 가져와서 예약한 화면 구성
+            if let data = self.myUserDefaults.value(forKey: "reservationInfo") as? Data {
+                let reservationInfo: SearchingConditionObject? = try? PropertyListDecoder().decode(SearchingConditionObject.self, from: data)
+                
+                dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+                
+                //충전 종료 일시
+                let realChargingEndDate = dateFormatter.date(from: reservationInfo!.realChargingEndDate)
+                
+                //현재 시간이 예약 종료 일시 보다 작으면 충전할 수 있게
+                if Date() < realChargingEndDate! {
+                    
+                    self.searchingConditionView.setReservation(chargingTimeText: reservationInfo?.chargingTime, chargingPeriodText: reservationInfo?.chargingPeriod)
+                    self.showSearchingConditionView()
+                }
+                
+                //현재 시간이 예약 종료 일시보다 큰 경우 메모리의 예약 정보 초기화하고 검색조건 버튼 보이게
+                else {
+                    
+                    self.myUserDefaults.set(0, forKey: "reservationId")
+                    self.myUserDefaults.set(nil, forKey: "reservationInfo")
+                    self.searchingConditionView.initializeLayer()
+                }
+            }
+            
+            self.activityIndicator!.stopAnimating()
+            self.activityIndicator!.isHidden = true
+        })
+    }
+    
+    //view 가 나타난 후
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         //즐겨찾기에서 지도보기 클릭 후 다시 메인으로 온 경우
@@ -408,10 +653,14 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                 }
             }
         }
+        
+        //예약 정보 가져오기
+        getReservation()
     }
 }
 
 extension Notification.Name {
     static let updateSearchingCondition = Notification.Name("updateSearchingCondition")
     static let lookFavorite = Notification.Name("lookFavorite")
+    static let reservationPopup = Notification.Name("reservationPopup")
 }

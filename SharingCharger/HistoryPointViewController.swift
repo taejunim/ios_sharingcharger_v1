@@ -35,9 +35,9 @@ class HistoryPointViewController: UIViewController, UITableViewDelegate, UITable
 
     @objc func rightMenu() {
         
-        guard let uvc = self.storyboard?.instantiateViewController(withIdentifier: "Setting") else { return }
+        guard let viewController = self.storyboard?.instantiateViewController(withIdentifier: "Setting") else { return }
             
-        self.navigationController?.pushViewController(uvc, animated: true)
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {

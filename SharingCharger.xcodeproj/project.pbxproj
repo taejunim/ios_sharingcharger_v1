@@ -89,6 +89,8 @@
 		DAF4D9D2252C360700B4D218 /* BottomSheetCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF4D9CE252C360700B4D218 /* BottomSheetCalculator.swift */; };
 		DAF4D9D3252C360700B4D218 /* TranslationTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF4D9CF252C360700B4D218 /* TranslationTarget.swift */; };
 		DAF4D9D5252C56E300B4D218 /* ChargerContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF4D9D4252C56E300B4D218 /* ChargerContentView.swift */; };
+		DAF563D125426F1800BDE08D /* ReservationPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF563D025426F1800BDE08D /* ReservationPopupViewController.swift */; };
+		DAF563D32542CEC100BDE08D /* ChargerObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF563D22542CEC100BDE08D /* ChargerObject.swift */; };
 		DAFED5EA253567D400D5A335 /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFED5E9253567D400D5A335 /* FavoriteViewController.swift */; };
 		DAFED5F62535910D00D5A335 /* FavoriteObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFED5F52535910D00D5A335 /* FavoriteObject.swift */; };
 /* End PBXBuildFile section */
@@ -202,6 +204,8 @@
 		DAF4D9CE252C360700B4D218 /* BottomSheetCalculator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomSheetCalculator.swift; sourceTree = "<group>"; };
 		DAF4D9CF252C360700B4D218 /* TranslationTarget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TranslationTarget.swift; sourceTree = "<group>"; };
 		DAF4D9D4252C56E300B4D218 /* ChargerContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargerContentView.swift; sourceTree = "<group>"; };
+		DAF563D025426F1800BDE08D /* ReservationPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservationPopupViewController.swift; sourceTree = "<group>"; };
+		DAF563D22542CEC100BDE08D /* ChargerObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargerObject.swift; sourceTree = "<group>"; };
 		DAFED5E9253567D400D5A335 /* FavoriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewController.swift; sourceTree = "<group>"; };
 		DAFED5F52535910D00D5A335 /* FavoriteObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteObject.swift; sourceTree = "<group>"; };
 		E150F99499B36EF9DEE2F892 /* Pods_SharingCharger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SharingCharger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -273,6 +277,7 @@
 				DAFED5F52535910D00D5A335 /* FavoriteObject.swift */,
 				C65F1BA0253C53E9002F6B19 /* ChargingHistoryObject.swift */,
 				C65F1BAC253E87FC002F6B19 /* SearchingHistoryConditionObject.swift */,
+				DAF563D22542CEC100BDE08D /* ChargerObject.swift */,
 			);
 			name = Object;
 			sourceTree = "<group>";
@@ -307,6 +312,7 @@
 				DABC41AB24CE73F500DD366F /* LoginViewController.swift */,
 				DADCD4C624F4E2080026EFAD /* MainViewController.swift */,
 				DA41A1EF24ECF71200E7BB93 /* PasswordInitViewController.swift */,
+				DAF563D025426F1800BDE08D /* ReservationPopupViewController.swift */,
 				DADCD4F124F554710026EFAD /* ReservationViewController.swift */,
 				DA26FB2424FCC0FF00D76753 /* SampleTableViewCell.swift */,
 				DA26FB2224FCC0CC00D76753 /* SampleViewController.swift */,
@@ -590,6 +596,7 @@
 				DA341674250B7AF00031999F /* ShadowCircleView.swift in Sources */,
 				DABC41AC24CE73F500DD366F /* LoginViewController.swift in Sources */,
 				DABC41A824CE73F500DD366F /* AppDelegate.swift in Sources */,
+				DAF563D125426F1800BDE08D /* ReservationPopupViewController.swift in Sources */,
 				C6633E0E25357F8600F02F24 /* ReservationObject.swift in Sources */,
 				DAF4D9D1252C360700B4D218 /* SpringAnimator.swift in Sources */,
 				DA3416662508D64C0031999F /* ShadowButton.swift in Sources */,
@@ -627,6 +634,7 @@
 				DAF4D9D3252C360700B4D218 /* TranslationTarget.swift in Sources */,
 				DA0AF40A2531BFAE00FE5FF7 /* Utils.swift in Sources */,
 				DA341672250A20620031999F /* ShadowView.swift in Sources */,
+				DAF563D32542CEC100BDE08D /* ChargerObject.swift in Sources */,
 				37201B7924FC95DD000A3F08 /* HistoryElectricityTableCell.swift in Sources */,
 				DAF0F3F8250E1E540055226F /* SearchingConditionViewController.swift in Sources */,
 			);
@@ -704,7 +712,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -758,7 +766,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -776,13 +784,13 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.0.0;
-				DEVELOPMENT_TEAM = SW97KU77ZP;
+				DEVELOPMENT_TEAM = C846JVNTZN;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/SharingCharger/Library/DaumMap.embeddedframework",
 				);
 				INFOPLIST_FILE = SharingCharger/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -804,13 +812,13 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.0.0;
-				DEVELOPMENT_TEAM = SW97KU77ZP;
+				DEVELOPMENT_TEAM = C846JVNTZN;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/SharingCharger/Library/DaumMap.embeddedframework",
 				);
 				INFOPLIST_FILE = SharingCharger/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

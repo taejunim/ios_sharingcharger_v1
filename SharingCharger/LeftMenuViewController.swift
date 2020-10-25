@@ -56,9 +56,9 @@ class LeftMenuViewController: UIViewController {
     
     @IBAction func settingButton(_ sender: Any) {
         print("LeftMenuViewController - Button tapped")
-        guard let uvc = self.storyboard?.instantiateViewController(withIdentifier: "Setting") else { return }
+        guard let viewController = self.storyboard?.instantiateViewController(withIdentifier: "Setting") else { return }
         
-        self.navigationController?.pushViewController(uvc, animated: true)
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
     
     @objc func pointChargeButton(sender: UIView!) {
@@ -71,9 +71,9 @@ class LeftMenuViewController: UIViewController {
         
         print("chargingHistoryButton")
         
-        guard let uvc = self.storyboard?.instantiateViewController(withIdentifier: "ChargingHistory") else { return }
+        guard let viewController = self.storyboard?.instantiateViewController(withIdentifier: "ChargingHistory") else { return }
         
-        self.navigationController?.pushViewController(uvc, animated: true)
+        self.navigationController?.pushViewController(viewController, animated: true)
 
     }
     
@@ -81,9 +81,9 @@ class LeftMenuViewController: UIViewController {
         
         print("pointHistoryButton")
         
-        guard let uvc = self.storyboard?.instantiateViewController(withIdentifier: "PointHistory") else { return }
+        guard let viewController = self.storyboard?.instantiateViewController(withIdentifier: "PointHistory") else { return }
         
-        self.navigationController?.pushViewController(uvc, animated: true)
+        self.navigationController?.pushViewController(viewController, animated: true)
 
     }
     
@@ -91,9 +91,9 @@ class LeftMenuViewController: UIViewController {
         
         print("favoriteButton")
         
-        guard let uvc = self.storyboard?.instantiateViewController(withIdentifier: "Favorite") else { return }
+        guard let viewController = self.storyboard?.instantiateViewController(withIdentifier: "Favorite") else { return }
         
-        self.navigationController?.pushViewController(uvc, animated: true)
+        self.navigationController?.pushViewController(viewController, animated: true)
 
     }
     
