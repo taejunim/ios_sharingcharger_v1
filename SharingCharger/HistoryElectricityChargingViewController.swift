@@ -74,8 +74,6 @@ class HistoryElectricityChargingViewController: UIViewController, UITableViewDel
         
         present(bottomSheet, animated: true, completion: nil)
 
-        guard let viewController = self.storyboard?.instantiateViewController(withIdentifier: "Setting") else { return }
-            
         self.navigationController?.pushViewController(viewController, animated: true)
     }
     

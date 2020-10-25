@@ -14,7 +14,7 @@ class SearchingConditionObject: Codable {
     var chargingStartDate: String = ""
     var chargingEndDate: String = ""
     var chargingTime: String = ""
-    var chargingTime: String = "30분"
+    //var chargingTime: String = "30분"
     var isInstantCharge: Bool = true
     
     //예약 화면용 변수
