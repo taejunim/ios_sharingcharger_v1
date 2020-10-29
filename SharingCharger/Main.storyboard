@@ -1419,7 +1419,7 @@
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" style="wheels" useCurrentDate="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J1k-Ar-KWv" userLabel="StartDatePicker">
-                                                                <rect key="frame" x="0.0" y="70.333333333333371" width="414" height="100"/>
+                                                                <rect key="frame" x="0.0" y="70" width="414" height="100"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="100" id="aM6-g7-rTS"/>
                                                                 </constraints>
@@ -1430,8 +1430,8 @@
                                                                     <action selector="changeDate:" destination="LDz-0V-aAc" eventType="valueChanged" id="rbk-7M-JfA"/>
                                                                 </connections>
                                                             </datePicker>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="끝 일시" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yzn-AS-TBw" userLabel="끝 일시">
-                                                                <rect key="frame" x="24.999999999999996" y="195.33333333333337" width="48.666666666666657" height="20.333333333333343"/>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="종료일시" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yzn-AS-TBw" userLabel="끝 일시">
+                                                                <rect key="frame" x="25" y="195.33333333333337" width="59" height="20.333333333333343"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <nil key="highlightedColor"/>
@@ -1621,7 +1621,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Eql-6W-OYQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1632" y="2337"/>
+            <point key="canvasLocation" x="1631.8840579710147" y="2336.3839285714284"/>
         </scene>
         <!--포인트 이력-->
         <scene sceneID="r83-mL-1i2">
