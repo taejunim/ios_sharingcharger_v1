@@ -40,7 +40,7 @@ class CustomButton: UIButton {
             
             layer.addSublayer(imageLayer)
             
-            self.addTarget(SearchingConditionViewController(), action: #selector(SearchingConditionViewController.closeButton), for: .touchUpInside)
+            self.addTarget(targetViewController, action: #selector(targetViewController.refreshButton), for: .touchUpInside)
             
             break
             

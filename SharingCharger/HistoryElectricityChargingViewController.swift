@@ -14,53 +14,77 @@ import Toast_Swift
 class HistoryElectricityChargingViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, SearchingChargeConditionProtocol {
     
     func searchingChargeConditionDelegate(data: SearchingHistoryConditionObject) {
-        print("data.chargingPeriod : \(data.startDate)")
-        print("data.sort : \(data.sort)")
-        
         NotificationCenter.default.post(name: .updateChargeSearchingCondition, object: data, userInfo: nil)
     }
     
     
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var tableView  : UITableView!
     
-    var utils: Utils?
-    var activityIndicator: UIActivityIndicatorView?
+    var utils                     : Utils?
+    var activityIndicator         : UIActivityIndicatorView?
     
-    let myUserDefaults = UserDefaults.standard
+    let leftMenuImage             : UIImage!  = UIImage(named: "menu")
+    
+    let dateFormatter                         = DateFormatter()
+    let calendar                              = Calendar.current
+    var date                                  = Date()
+    
+    let myUserDefaults                        = UserDefaults.standard
+    
+    var startDate                             = ""
+    var endDate                               = ""
+    var sort                                  = ""
+    
+    let size                                  = 10
+    var page                                  = 1
+    
+    var moreLoadFlag                          = false
     
     var arr:[ChargingHistoryObject.InnerItem] = []
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let rightBarButton = UIBarButtonItem.init(title: "right", style: .done, target: self, action: #selector(rightMenu))
+        dateFormatter.locale        = Locale(identifier: "ko")
+        dateFormatter.dateFormat    = "yyyy-MM-dd"
+        
+        startDate = dateFormatter.string(from : calendar.date(byAdding: .month,value: -1, to: date)!)
+        endDate   = dateFormatter.string(from: date)
+        sort      = "ASC"
+        
+        let rightBarButton = UIBarButtonItem.init(image: leftMenuImage ,style: .done, target: self, action: #selector(rightMenu))
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateChargeSearchingCondition(_:)), name: .updateChargeSearchingCondition, object: nil)
         
         //로딩 뷰
-        utils = Utils(superView: self.view)
+        utils             = Utils(superView: self.view)
         activityIndicator = utils!.activityIndicator
         self.view.addSubview(activityIndicator!)
         
-        getChargingHistData()
+        getChargingHistoryData()
         
-        navigationItem.rightBarButtonItem = rightBarButton
+        navigationItem.rightBarButtonItem   = rightBarButton
         
-        self.tableView.delegate = self
-        self.tableView.dataSource = self
-        self.tableView.allowsSelection = false
-        
+        self.tableView.delegate             = self
+        self.tableView.dataSource           = self
+        self.tableView.allowsSelection      = false
+
     }
     
     @objc func updateChargeSearchingCondition(_ notification: Notification) {
         
         let data = notification.object as! SearchingHistoryConditionObject
-        print("data : \(data)")
+        
+        startDate = data.startDate
+        endDate   = data.endDate
+        sort      = data.sort
+        
+        arr.removeAll()
+        getChargingHistoryData()
 
     }
     @objc func rightMenu() {
-        
-        print("검색조건 -  tapped")
         
         guard let viewController = self.storyboard?.instantiateViewController(withIdentifier: "SearchingChargeCondition") else { return }
         
@@ -73,7 +97,7 @@ class HistoryElectricityChargingViewController: UIViewController, UITableViewDel
         bottomSheet.setShapeGenerator(shapeGenerator, for: .closed)
         
         present(bottomSheet, animated: true, completion: nil)
-
+            
         self.navigationController?.pushViewController(viewController, animated: true)
     }
     
@@ -86,22 +110,34 @@ class HistoryElectricityChargingViewController: UIViewController, UITableViewDel
        
         let row = self.arr[indexPath.section]
         let Cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for:indexPath) as! HistoryElectricityTableCell
+    
+        if(row.chargerName != nil){
+            Cell.chargingSpotNm?.text  = row.chargerName
+        } else {
+            Cell.chargingSpotNm?.text  = "충전기 이름 정보가 없습니다."
+        }
         
-
-        
-        
-        Cell.chargingSpotNm?.text = row.chargerName
-        
-        if(row.startRechargeDate != nil && row.endRechargeDate != nil){
+        if(row.startRechargeDate == nil || row.endRechargeDate == nil){
+            Cell.chargingDate?.text   = "충전 기간 정보가 유효하지 않습니다."
+        } else {
             Cell.chargingDate?.text   = String(row.startRechargeDate!).replacingOccurrences(of: "T", with: " ") + " ~ " + String(row.endRechargeDate!).replacingOccurrences(of: "T", with: " ")
         }
+        
+        
         if(row.rechargePoint != nil){
             Cell.chargingUsePoint?.text = String(row.rechargePoint!) + " 포인트 사용"
+        } else {
+            Cell.chargingUsePoint?.text =  "포인트 사용 정보가 없습니다."
         }
         
         Cell.chargingSpotNm?.font = UIFont.systemFont(ofSize: 14)
         Cell.chargingDate?.font = UIFont.systemFont(ofSize: 14)
         Cell.chargingUsePoint?.font = UIFont.systemFont(ofSize: 14)
+    
+        if(indexPath[0] == arr.count-1 && moreLoadFlag){
+            
+            getChargingHistoryData()
+        }
         
         return Cell
     }
@@ -117,24 +153,20 @@ class HistoryElectricityChargingViewController: UIViewController, UITableViewDel
         return 120
     }
     
-    func getChargingHistData(){
-        
-        
-        var code: Int! = 0
-        let url = "http://test.jinwoosi.co.kr:6066/api/v1/recharges"
-        
-        /*let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-mm-dd"*/
 
+    
+    func getChargingHistoryData(){
         
-        print(myUserDefaults.string(forKey: "email")!)
+        var code: Int!  = 0
+        let url         = "http://test.jinwoosi.co.kr:6066/api/v1/recharges"
+        
         let parameters: Parameters = [
-            "sort":"ASC",
-            "page":1,
-            "size":10,
-            "username":myUserDefaults.string(forKey: "email")!,
-            "startDate":"2020-08-01",
-            "endDate":"2020-10-20"
+            "sort"      :sort,
+            "page"      :page,
+            "size"      :size,
+            "username"  :myUserDefaults.string(forKey: "email")!,
+            "startDate" :startDate,
+            "endDate"   :endDate
         ]
         
         
@@ -147,23 +179,42 @@ class HistoryElectricityChargingViewController: UIViewController, UITableViewDel
                 case .success(let obj):
                 
                 do {
-                
 
-                    var JSONData = try JSONSerialization.data(withJSONObject: obj, options: .prettyPrinted)
+                        let JSONData = try JSONSerialization.data(withJSONObject: obj, options: .prettyPrinted)
                         let instanceData = try JSONDecoder().decode(ChargingHistoryObject.self, from: JSONData)
-                    
-                
-                        for content in instanceData.content {
                         
-                            self.arr.append(content)
+                    if instanceData.numberOfElements != self.size {
+                        
+                        self.moreLoadFlag = false
+                        
+                    }else {
+                        
+                        self.moreLoadFlag = true
+                        
+                    }
+                    for content in instanceData.content {
+                        
+                        self.arr.append(content)
                       
-                        }
-                        self.tableView.dataSource = self
+                    }
+                    self.tableView.dataSource = self
                     
-                        DispatchQueue.main.async {
-                            self.tableView.reloadData()
-                        }
+                    DispatchQueue.main.async {
+                            
+                        self.tableView.delegate             = self
+                        self.tableView.dataSource           = self
+                        self.tableView.allowsSelection      = false
+                        self.tableView.reloadData()
+                    }
                     
+                    if(self.moreLoadFlag == false){
+                        
+                        self.activityIndicator!.stopAnimating()
+                        self.activityIndicator!.isHidden = true
+                        return
+                    }
+                    
+                    self.page += 1
                 } catch {
                     print("error : \(error.localizedDescription)")
                     print("서버와 통신이 원활하지 않습니다. 고객센터로 문의주십시오. code : \(code!)")
@@ -188,6 +239,7 @@ class HistoryElectricityChargingViewController: UIViewController, UITableViewDel
         })
         
     }
+    
 }
 extension Notification.Name {
     static let updateChargeSearchingCondition = Notification.Name("updateChargeSearchingCondition")

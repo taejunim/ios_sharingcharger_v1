@@ -8,9 +8,10 @@
 class ChargingHistoryObject: Codable {
 
     
-    var content      : [InnerItem]
+    var numberOfElements    : Int?
+    var content             : [InnerItem]
     
-    struct InnerItem : Codable {
+    struct InnerItem        : Codable {
         var id                   : Int?
         var chargerId            : Int?
         var chargerName          : String?
