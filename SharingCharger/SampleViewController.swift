@@ -23,7 +23,8 @@ class SampleViewController: UIViewController {
                                 "SetTagData",
                                 "GetTagData",
                                 "DeleteAllTag",
-                                "DeleteTargetTag")
+                                "DeleteTargetTag",
+                                "Reset")
     
     var searchInfos: Array<String> = []
     
@@ -124,6 +125,10 @@ extension SampleViewController:UITableViewDelegate, UITableViewDataSource {
             self.tvLog.text.append(contentsOf: "충전기에 저장된 태그(요청한 태그값) 삭제 요청\n")
             BleManager.shared.bleDeleteTargetTag(tag: "1234567890123")
             break
+        case 12: // Reset
+            self.tvLog.text.append(contentsOf: "초기화 요청\n")
+            BleManager.shared.bleReset()
+            break;
         default:
             break
         }
@@ -182,6 +187,12 @@ extension SampleViewController: BleDelegate {
             case .BleChargeStart:
                 self.tvLog.text.append(contentsOf: "충전 시작 성공\n")
                 break
+            case .BleUnPlug:
+                self.tvLog.text.append(contentsOf: "충전 시작 실패, 플러그 연결 확인 후 재 접속 후 충전을 시작해주세요.\n")
+                break
+            case .BleAgainOtpAtuh:
+                self.tvLog.text.append(contentsOf: "충전 시작 실패, 접속 종료 후 다시 충전기에 연결을 해주세요.\n")
+                break
             case .BleChargeStop:
                 self.tvLog.text.append(contentsOf: "충전 종료 성공\n")
                 break
@@ -189,7 +200,7 @@ extension SampleViewController: BleDelegate {
                 self.tvLog.text.append(contentsOf: "충전 시작 실패\n")
                 break
             case .BleChargeStopFail:
-                self.tvLog.text.append(contentsOf: "충전 종료 실패\n")
+                self.tvLog.text.append(contentsOf: "충전 종료 실패(태그 설정을 안하거나, 정상 종료처리가 안되었음)\n")
                 break
             case .BleSetTag:
                 self.tvLog.text.append(contentsOf: "태그 설정 성공\n")

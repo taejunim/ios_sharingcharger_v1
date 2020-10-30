@@ -1,0 +1,11 @@
+framework module EvzBLEKit {
+  umbrella header "EvzBLEKit.h"
+
+  export *
+  module * { export * }
+}
+
+module EvzBLEKit.Swift {
+    header "EvzBLEKit-Swift.h"
+    requires objc
+}
