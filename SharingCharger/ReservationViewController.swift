@@ -40,6 +40,7 @@ class ReservationViewController: UIViewController {
         utils = Utils(superView: self.view)
         activityIndicator = utils!.activityIndicator
         self.view.addSubview(activityIndicator!)
+        self.activityIndicator!.hidesWhenStopped = true
     }
     
     @objc func setMyPointLabel() {
@@ -80,10 +81,9 @@ class ReservationViewController: UIViewController {
                     do {
                         
                         let JSONData = try JSONSerialization.data(withJSONObject: obj, options: .prettyPrinted)
-                        
                         let instanceData = try JSONDecoder().decode(ReservationObject.self, from: JSONData)
-                        print("instanceData : \(instanceData)")
-                        print("receivedSearchingConditionObject : \(self.receivedSearchingConditionObject)")
+                        
+                        self.receivedSearchingConditionObject.bleNumber = instanceData.bleNumber!
                         
                         self.view.makeToast("예약이 완료되었습니다.", duration: 0.5, position: .bottom) {didTap in
                             
@@ -122,7 +122,6 @@ class ReservationViewController: UIViewController {
             }
             
             self.activityIndicator!.stopAnimating()
-            self.activityIndicator!.isHidden = true
         })
     }
 }

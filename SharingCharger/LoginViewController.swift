@@ -29,6 +29,7 @@ class LoginViewController: UIViewController {
         utils = Utils(superView: self.view)
         activityIndicator = utils!.activityIndicator
         self.view.addSubview(activityIndicator!)
+        self.activityIndicator!.hidesWhenStopped = true
     }
     
     @IBAction func loginButton(_ sender: Any) {
@@ -112,7 +113,6 @@ class LoginViewController: UIViewController {
                 }
                 
                 self.activityIndicator!.stopAnimating()
-                self.activityIndicator!.isHidden = true
             })
         }
     }

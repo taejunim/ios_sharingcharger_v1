@@ -14,31 +14,31 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		PaqKLCIchqEGmxBLfkI4UGcrOjo=
+		MGKYrl4dU65Lz1ZIgbbE5LLGHwE=
 		</data>
 		<key>Modules/EvzBLEKit.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		FfJFBd4/CO36cB/ur1WUtACCdb4=
+		q/e8MOTDWN2TzE7fpdAHy9L5rJg=
 		</data>
 		<key>Modules/EvzBLEKit.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		7uWuxpmzoNQYPFI071sNqAQ0a2w=
+		yEJlqzgcmiYjU94tZn/gPpTtNEM=
 		</data>
 		<key>Modules/EvzBLEKit.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		JpKiOWvn/TGPGg9ZM+YdmmHlU7w=
+		m8NSFBIZOYTD6feScewVfvFC1as=
 		</data>
 		<key>Modules/EvzBLEKit.swiftmodule/x86_64.swiftdoc</key>
 		<data>
-		FfJFBd4/CO36cB/ur1WUtACCdb4=
+		q/e8MOTDWN2TzE7fpdAHy9L5rJg=
 		</data>
 		<key>Modules/EvzBLEKit.swiftmodule/x86_64.swiftinterface</key>
 		<data>
-		7uWuxpmzoNQYPFI071sNqAQ0a2w=
+		yEJlqzgcmiYjU94tZn/gPpTtNEM=
 		</data>
 		<key>Modules/EvzBLEKit.swiftmodule/x86_64.swiftmodule</key>
 		<data>
-		JpKiOWvn/TGPGg9ZM+YdmmHlU7w=
+		m8NSFBIZOYTD6feScewVfvFC1as=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -65,42 +65,42 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			BNU+9azCJm8gaIwLP0oZvojH3GcXOFugNHo9whXwmac=
+			Q29wYjAJRZ7YU1CjrjKe6Sl6el7qC8O+u6x/HTRw5LM=
 			</data>
 		</dict>
 		<key>Modules/EvzBLEKit.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			1E6jasjuFK76MRt86aofjm6NYtZSn7YAET/+59jV42I=
+			9Yc0S8OrgHq/wsdpSeSFZfgb3xDbBo5Au/3XBATVBW4=
 			</data>
 		</dict>
 		<key>Modules/EvzBLEKit.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			jcbJ96buwMTVZ8sy9xUH7Lx1XiZAkEtt15AU+WLqCq8=
+			pBsQge+bQhO9OWuBdMT5JoeESVzLckdqHXomLHr1aoE=
 			</data>
 		</dict>
 		<key>Modules/EvzBLEKit.swiftmodule/x86_64.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			BNU+9azCJm8gaIwLP0oZvojH3GcXOFugNHo9whXwmac=
+			Q29wYjAJRZ7YU1CjrjKe6Sl6el7qC8O+u6x/HTRw5LM=
 			</data>
 		</dict>
 		<key>Modules/EvzBLEKit.swiftmodule/x86_64.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			1E6jasjuFK76MRt86aofjm6NYtZSn7YAET/+59jV42I=
+			9Yc0S8OrgHq/wsdpSeSFZfgb3xDbBo5Au/3XBATVBW4=
 			</data>
 		</dict>
 		<key>Modules/EvzBLEKit.swiftmodule/x86_64.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			jcbJ96buwMTVZ8sy9xUH7Lx1XiZAkEtt15AU+WLqCq8=
+			pBsQge+bQhO9OWuBdMT5JoeESVzLckdqHXomLHr1aoE=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

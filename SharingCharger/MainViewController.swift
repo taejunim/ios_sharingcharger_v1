@@ -70,11 +70,13 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         NotificationCenter.default.addObserver(self, selector: #selector(updateSearchingCondition(_:)), name: .updateSearchingCondition, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(lookFavorite(_:)), name: .lookFavorite, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(reservationPopup(_:)), name: .reservationPopup, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(startCharge(_:)), name: .startCharge, object: nil)
         
         //로딩 뷰
         utils = Utils(superView: self.view)
         activityIndicator = utils!.activityIndicator
         self.view.addSubview(activityIndicator!)
+        self.activityIndicator!.hidesWhenStopped = true
         
         addPoiItem()
         
@@ -182,7 +184,6 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
             self.view.bringSubviewToFront(self.reservationView)
             
             self.activityIndicator!.stopAnimating()
-            self.activityIndicator!.isHidden = true
         })
         
         return false
@@ -283,7 +284,6 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
             }
             
             self.activityIndicator!.stopAnimating()
-            self.activityIndicator!.isHidden = true
         })
         
     }
@@ -450,6 +450,18 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         searchingConditionView.initializeLayer()
     }
     
+    func startChargeDelegate() {
+        NotificationCenter.default.post(name: .startCharge, object: nil, userInfo: nil)
+    }
+    
+    @objc func startCharge(_ notification: Notification) {
+        
+        print("충전 시작 ")
+        guard let viewController = self.storyboard?.instantiateViewController(withIdentifier: "SearchingCharger") as? SearchingChargerViewController else { return }
+        
+        self.navigationController?.pushViewController(viewController, animated: true)
+    }
+    
     func mapView(_ mapView: MTMapView!, updateCurrentLocation location: MTMapPoint!, withAccuracy accuracy: MTMapLocationAccuracy) {
         
         let currentLocation = location?.mapPointGeo()
@@ -533,6 +545,7 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                         reservationInfo.chargerId = instanceData.chargerId!
                         reservationInfo.chargerName = instanceData.chargerName!
                         reservationInfo.fee = instanceData.rangeOfFee!
+                        reservationInfo.bleNumber = instanceData.bleNumber!
                         
                         let calendar = Calendar.current
                         
@@ -545,16 +558,19 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                             //30분
                             if hour == 0 && minute != 0 {
                                 reservationInfo.chargingTime = String(minute) + "분"
+                                reservationInfo.realChargingTime = String(minute)
                             }
                             
                             //1시간 .. 2시간
                             else if hour != 0 && minute == 0 {
                                 reservationInfo.chargingTime = String(hour) + "시간"
+                                reservationInfo.realChargingTime = String(hour * 2 * 30)
                             }
                             
                             //1시간 30분 .. 2시간 30분
                             else if hour != 0 && minute != 0 {
                                 reservationInfo.chargingTime = String(hour) + "시간 " + String(minute) + "분"
+                                reservationInfo.realChargingTime = String(hour * 2 * 30 + minute)
                             }
                         }
                         
@@ -589,6 +605,8 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                 } catch {
                     print("error : \(error.localizedDescription)")
                     print("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)")
+                    
+                    self.searchingConditionView.initializeLayer()
                 }
             
             //예약이 없을 때
@@ -598,11 +616,12 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                 
                 if code == 400 {
                     print("예약 없음")
-                    self.searchingConditionView.initializeLayer()
                     
                 } else {
                     print("Error : \(code!)")
                 }
+                
+                self.searchingConditionView.initializeLayer()
             }
             
             //메모리에 저장된 예약 정보 가져와서 예약한 화면 구성
@@ -631,7 +650,6 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
             }
             
             self.activityIndicator!.stopAnimating()
-            self.activityIndicator!.isHidden = true
         })
     }
     
@@ -663,4 +681,5 @@ extension Notification.Name {
     static let updateSearchingCondition = Notification.Name("updateSearchingCondition")
     static let lookFavorite = Notification.Name("lookFavorite")
     static let reservationPopup = Notification.Name("reservationPopup")
+    static let startCharge = Notification.Name("startCharge")
 }

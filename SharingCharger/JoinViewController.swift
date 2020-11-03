@@ -43,6 +43,7 @@ class JoinViewController: UIViewController, UITextFieldDelegate {
         utils = Utils(superView: self.view)
         activityIndicator = utils!.activityIndicator
         self.view.addSubview(activityIndicator!)
+        self.activityIndicator!.hidesWhenStopped = true
     }
     
     @objc func joinButton(sender: UIButton!) {
@@ -109,7 +110,6 @@ class JoinViewController: UIViewController, UITextFieldDelegate {
                 }
                 
                 self.activityIndicator!.stopAnimating()
-                self.activityIndicator!.isHidden = true
             })
         }
     }

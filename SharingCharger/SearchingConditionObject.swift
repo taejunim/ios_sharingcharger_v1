@@ -21,11 +21,14 @@ class SearchingConditionObject: Codable {
     var realChargingStartDate: String = ""
     var realChargingEndDate: String = ""
     var realChargingPeriod: String = ""
+    var realChargingTime: String = ""
     
     var chargerId: Int = 0
     var chargerAddress: String = ""
     var chargerName: String = ""
     var fee: String = ""
+    
+    var bleNumber: String = ""
     
     init() {
         let date = Date()

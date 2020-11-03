@@ -102,8 +102,8 @@ extension SampleViewController:UITableViewDelegate, UITableViewDataSource {
             BleManager.shared.bleDisConnect()
             break
         case 6: // Charger Start
-            self.tvLog.text.append(contentsOf: "충전 시작 요청 사용 시간 5분\n")
-            BleManager.shared.bleChargerStart(useTime: "5")
+            self.tvLog.text.append(contentsOf: "충전 시작 요청 사용 시간 30분\n")
+            BleManager.shared.bleChargerStart(useTime: "30")
             break
         case 7: // Charger Stop
             self.tvLog.text.append(contentsOf: "충전 종료 요청\n")

@@ -12,6 +12,7 @@ import Alamofire
 
 protocol ReservationPopupProtocol {
     func reservationPopupDelegate()
+    func startChargeDelegate()
 }
 
 class ReservationPopupViewController: UIViewController {
@@ -52,11 +53,13 @@ class ReservationPopupViewController: UIViewController {
         utils = Utils(superView: self.view)
         activityIndicator = utils!.activityIndicator
         self.view.addSubview(activityIndicator!)
+        self.activityIndicator!.hidesWhenStopped = true
         
         cancelButton.layer.cornerRadius = 7
         startButton.layer.cornerRadius = 7
         
         cancelButton.addTarget(self, action: #selector(self.cancelReservation), for: .touchUpInside)
+        startButton.addTarget(self, action: #selector(self.startCharge), for: .touchUpInside)
         
         addButton(buttonName: "close", width: 40, height: 40, top: 15, left: 15, right: nil, bottom: nil, target: self.view, targetViewController: self)
         
@@ -141,7 +144,6 @@ class ReservationPopupViewController: UIViewController {
                 }
                 
                 self.activityIndicator!.stopAnimating()
-                self.activityIndicator!.isHidden = true
             })
         }))
         
@@ -152,6 +154,24 @@ class ReservationPopupViewController: UIViewController {
         present(refreshAlert, animated: true, completion: nil)
         
         
+    }
+    
+    @objc func startCharge() {
+        
+        let refreshAlert = UIAlertController(title: "충전 시작", message: "충전을 시작하면 예약 취소 및 환불이 불가능합니다.\n충전을 시작하시겠습니까?", preferredStyle: UIAlertController.Style.alert)
+        
+        refreshAlert.addAction(UIAlertAction(title: "충전 시작", style: .destructive,  handler: { (action: UIAlertAction!) in
+            
+            print("충전 시작 버튼 클릭")
+            self.dismiss(animated: true, completion: nil)
+            self.delegate?.startChargeDelegate()
+        }))
+        
+        refreshAlert.addAction(UIAlertAction(title: "닫기", style: .cancel, handler: { (action: UIAlertAction!) in
+            
+        }))
+        
+        present(refreshAlert, animated: true, completion: nil)
     }
 
     //즐겨찾기 추가/삭제

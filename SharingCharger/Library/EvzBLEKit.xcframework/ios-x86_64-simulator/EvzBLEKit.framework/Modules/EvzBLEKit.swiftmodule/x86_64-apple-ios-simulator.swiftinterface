@@ -46,6 +46,7 @@ public enum BleResultCode : Swift.Int {
   case BleNotConnect
   case BleUnknownError
   case BleUnSupport
+  case BleUnPlug
   public typealias RawValue = Swift.Int
   public init?(rawValue: Swift.Int)
   public var rawValue: Swift.Int {
@@ -74,6 +75,7 @@ extension BleManager {
   public func bleGetTag()
   public func bleDeleteAllTag()
   public func bleDeleteTargetTag(tag: Swift.String)
+  public func bleReset()
 }
 public protocol BleDelegate {
   func bleResult(code: EvzBLEKit.BleResultCode, result: Any?)

@@ -34,9 +34,9 @@
 		DA41A08C24EBB35400E7BB93 /* AppendStar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA41A08B24EBB35400E7BB93 /* AppendStar.swift */; };
 		DA41A1F024ECF71200E7BB93 /* PasswordInitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA41A1EF24ECF71200E7BB93 /* PasswordInitViewController.swift */; };
 		DA4C26E6253B204500E3E79C /* FavoriteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4C26E5253B204500E3E79C /* FavoriteCell.swift */; };
+		DA96CDA52546BFBE005DD955 /* ChargerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA96CDA42546BFBE005DD955 /* ChargerCell.swift */; };
+		DA96CDA725480E6E005DD955 /* ChargeObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA96CDA625480E6E005DD955 /* ChargeObject.swift */; };
 		DAAC21D32521D4E20086055F /* LeftMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAC21D22521D4E20086055F /* LeftMenuViewController.swift */; };
-		DAB8C2FF254BAC500000FC79 /* EvzBLEKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAB8C2FD254BAC3F0000FC79 /* EvzBLEKit.xcframework */; };
-		DAB8C300254BAC500000FC79 /* EvzBLEKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DAB8C2FD254BAC3F0000FC79 /* EvzBLEKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DABC41A824CE73F500DD366F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC41A724CE73F500DD366F /* AppDelegate.swift */; };
 		DABC41AA24CE73F500DD366F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC41A924CE73F500DD366F /* SceneDelegate.swift */; };
 		DABC41AC24CE73F500DD366F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC41AB24CE73F500DD366F /* LoginViewController.swift */; };
@@ -44,6 +44,8 @@
 		DABC41B224CE73F500DD366F /* SharingCharger.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DABC41B024CE73F500DD366F /* SharingCharger.xcdatamodeld */; };
 		DABC41B424CE73F700DD366F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DABC41B324CE73F700DD366F /* Assets.xcassets */; };
 		DABC41B724CE73F700DD366F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DABC41B524CE73F700DD366F /* LaunchScreen.storyboard */; };
+		DACA05C7254FF3CE008C9619 /* EvzBLEKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = DACA05C5254FF3C6008C9619 /* EvzBLEKit.xcframework */; };
+		DACA05C8254FF3CE008C9619 /* EvzBLEKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DACA05C5254FF3C6008C9619 /* EvzBLEKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DAD3201825070D410047A446 /* map_pinup_custom@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = DAD31FF325070D410047A446 /* map_pinup_custom@3x.png */; };
 		DAD3201925070D410047A446 /* map_pin_custom.png in Resources */ = {isa = PBXBuildFile; fileRef = DAD31FF425070D410047A446 /* map_pin_custom.png */; };
 		DAD3201A25070D410047A446 /* shadow_balloon.png in Resources */ = {isa = PBXBuildFile; fileRef = DAD31FF525070D410047A446 /* shadow_balloon.png */; };
@@ -102,7 +104,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				DAB8C300254BAC500000FC79 /* EvzBLEKit.xcframework in Embed Frameworks */,
+				DACA05C8254FF3CE008C9619 /* EvzBLEKit.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -139,8 +141,9 @@
 		DA41A08B24EBB35400E7BB93 /* AppendStar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppendStar.swift; sourceTree = "<group>"; };
 		DA41A1EF24ECF71200E7BB93 /* PasswordInitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordInitViewController.swift; sourceTree = "<group>"; };
 		DA4C26E5253B204500E3E79C /* FavoriteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCell.swift; sourceTree = "<group>"; };
+		DA96CDA42546BFBE005DD955 /* ChargerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargerCell.swift; sourceTree = "<group>"; };
+		DA96CDA625480E6E005DD955 /* ChargeObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargeObject.swift; sourceTree = "<group>"; };
 		DAAC21D22521D4E20086055F /* LeftMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftMenuViewController.swift; sourceTree = "<group>"; };
-		DAB8C2FD254BAC3F0000FC79 /* EvzBLEKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = EvzBLEKit.xcframework; sourceTree = "<group>"; };
 		DABC41A424CE73F500DD366F /* SharingCharger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SharingCharger.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DABC41A724CE73F500DD366F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DABC41A924CE73F500DD366F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -150,6 +153,7 @@
 		DABC41B324CE73F700DD366F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DABC41B624CE73F700DD366F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DABC41B824CE73F700DD366F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DACA05C5254FF3C6008C9619 /* EvzBLEKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = EvzBLEKit.xcframework; path = "../../../../../../Documents/02.업무/05.전기차 충전 서비스 특구/03.구현/BLE/IOS_SDK_11_02/EvzBLEKit.xcframework"; sourceTree = "<group>"; };
 		DAD31FF325070D410047A446 /* map_pinup_custom@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "map_pinup_custom@3x.png"; sourceTree = "<group>"; };
 		DAD31FF425070D410047A446 /* map_pin_custom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = map_pin_custom.png; sourceTree = "<group>"; };
 		DAD31FF525070D410047A446 /* shadow_balloon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shadow_balloon.png; sourceTree = "<group>"; };
@@ -220,7 +224,7 @@
 				DAD320BA2507482D0047A446 /* libxml2.tbd in Frameworks */,
 				DAD320B8250748230047A446 /* libc++.tbd in Frameworks */,
 				DAD320B6250747E60047A446 /* SystemConfiguration.framework in Frameworks */,
-				DAB8C2FF254BAC500000FC79 /* EvzBLEKit.xcframework in Frameworks */,
+				DACA05C7254FF3CE008C9619 /* EvzBLEKit.xcframework in Frameworks */,
 				DAD320B4250747DC0047A446 /* CoreLocation.framework in Frameworks */,
 				DAD320B2250747D60047A446 /* QuartzCore.framework in Frameworks */,
 				DAD320B0250747CD0047A446 /* Metal.framework in Frameworks */,
@@ -260,6 +264,7 @@
 		DA26FB2624FCD20500D76753 /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				DACA05C5254FF3C6008C9619 /* EvzBLEKit.xcframework */,
 				DAF4D9CB252C35B300B4D218 /* BottomSheet */,
 				DAD31FF125070D410047A446 /* DaumMap.embeddedframework */,
 			);
@@ -277,6 +282,7 @@
 				C65F1BA0253C53E9002F6B19 /* ChargingHistoryObject.swift */,
 				C65F1BAC253E87FC002F6B19 /* SearchingHistoryConditionObject.swift */,
 				DAF563D22542CEC100BDE08D /* ChargerObject.swift */,
+				DA96CDA625480E6E005DD955 /* ChargeObject.swift */,
 			);
 			name = Object;
 			sourceTree = "<group>";
@@ -315,10 +321,10 @@
 				DADCD4F124F554710026EFAD /* ReservationViewController.swift */,
 				DA26FB2424FCC0FF00D76753 /* SampleTableViewCell.swift */,
 				DA26FB2224FCC0CC00D76753 /* SampleViewController.swift */,
+				C65F1BAA253C72A5002F6B19 /* SearchChargeHistoryCondition.swift */,
 				C6633DEC252C362900F02F24 /* SearchingChargerViewController.swift */,
 				DAF0F3F7250E1E540055226F /* SearchingConditionViewController.swift */,
 				372D309124F6324000CEB232 /* SettingViewController.swift */,
-				C65F1BAA253C72A5002F6B19 /* SearchChargeHistoryCondition.swift */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -337,6 +343,7 @@
 			isa = PBXGroup;
 			children = (
 				DA4C26E5253B204500E3E79C /* FavoriteCell.swift */,
+				DA96CDA42546BFBE005DD955 /* ChargerCell.swift */,
 			);
 			name = Cell;
 			sourceTree = "<group>";
@@ -368,7 +375,6 @@
 				DAD320BD250748F40047A446 /* KakaoMapBridgingHeader.h */,
 				DA4C26E4253B1F9500E3E79C /* Cell */,
 				DA26FB2624FCD20500D76753 /* Library */,
-				DAB8C2FD254BAC3F0000FC79 /* EvzBLEKit.xcframework */,
 				DABC41A924CE73F500DD366F /* SceneDelegate.swift */,
 				DABC41B024CE73F500DD366F /* SharingCharger.xcdatamodeld */,
 				DA41A1EE24EBDA3A00E7BB93 /* Storyboard */,
@@ -609,6 +615,7 @@
 				DA1D8380251DD77B00855000 /* SearchingConditionObject.swift in Sources */,
 				376E3A2624FC906C007274A1 /* HistoryElectricityChargingViewController.swift in Sources */,
 				DADCD4F224F554710026EFAD /* ReservationViewController.swift in Sources */,
+				DA96CDA725480E6E005DD955 /* ChargeObject.swift in Sources */,
 				DA09438924E146AC00671F0D /* JoinViewController.swift in Sources */,
 				C6633DEF252C7C4400F02F24 /* ChargeViewController.swift in Sources */,
 				C6633E062535381B00F02F24 /* MarkerObject.swift in Sources */,
@@ -634,6 +641,7 @@
 				DAF4D9D3252C360700B4D218 /* TranslationTarget.swift in Sources */,
 				DA0AF40A2531BFAE00FE5FF7 /* Utils.swift in Sources */,
 				DA341672250A20620031999F /* ShadowView.swift in Sources */,
+				DA96CDA52546BFBE005DD955 /* ChargerCell.swift in Sources */,
 				DAF563D32542CEC100BDE08D /* ChargerObject.swift in Sources */,
 				37201B7924FC95DD000A3F08 /* HistoryElectricityTableCell.swift in Sources */,
 				DAF0F3F8250E1E540055226F /* SearchingConditionViewController.swift in Sources */,

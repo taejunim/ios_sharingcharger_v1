@@ -61,6 +61,7 @@ class HistoryElectricityChargingViewController: UIViewController, UITableViewDel
         utils             = Utils(superView: self.view)
         activityIndicator = utils!.activityIndicator
         self.view.addSubview(activityIndicator!)
+        self.activityIndicator!.hidesWhenStopped = true
         
         getChargingHistoryData()
         
@@ -235,7 +236,6 @@ class HistoryElectricityChargingViewController: UIViewController, UITableViewDel
             }
             
             self.activityIndicator!.stopAnimating()
-            self.activityIndicator!.isHidden = true
         })
         
     }
