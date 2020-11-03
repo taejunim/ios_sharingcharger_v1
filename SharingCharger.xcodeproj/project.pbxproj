@@ -20,6 +20,8 @@
 		C6633DEF252C7C4400F02F24 /* ChargeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6633DEE252C7C4400F02F24 /* ChargeViewController.swift */; };
 		C6633E062535381B00F02F24 /* MarkerObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6633E052535381B00F02F24 /* MarkerObject.swift */; };
 		C6633E0E25357F8600F02F24 /* ReservationObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6633E0D25357F8500F02F24 /* ReservationObject.swift */; };
+		C6E94F2C25513E5D00668994 /* EvzBLEKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6E94F2A25513E5800668994 /* EvzBLEKit.xcframework */; };
+		C6E94F2D25513E5D00668994 /* EvzBLEKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C6E94F2A25513E5800668994 /* EvzBLEKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA09438324E1214B00671F0D /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA09438224E1214B00671F0D /* CustomTextField.swift */; };
 		DA09438924E146AC00671F0D /* JoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA09438824E146AC00671F0D /* JoinViewController.swift */; };
 		DA0AF3DC2531A62400FE5FF7 /* JoinObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0AF3DB2531A62400FE5FF7 /* JoinObject.swift */; };
@@ -44,8 +46,6 @@
 		DABC41B224CE73F500DD366F /* SharingCharger.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DABC41B024CE73F500DD366F /* SharingCharger.xcdatamodeld */; };
 		DABC41B424CE73F700DD366F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DABC41B324CE73F700DD366F /* Assets.xcassets */; };
 		DABC41B724CE73F700DD366F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DABC41B524CE73F700DD366F /* LaunchScreen.storyboard */; };
-		DACA05C7254FF3CE008C9619 /* EvzBLEKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = DACA05C5254FF3C6008C9619 /* EvzBLEKit.xcframework */; };
-		DACA05C8254FF3CE008C9619 /* EvzBLEKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DACA05C5254FF3C6008C9619 /* EvzBLEKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DAD3201825070D410047A446 /* map_pinup_custom@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = DAD31FF325070D410047A446 /* map_pinup_custom@3x.png */; };
 		DAD3201925070D410047A446 /* map_pin_custom.png in Resources */ = {isa = PBXBuildFile; fileRef = DAD31FF425070D410047A446 /* map_pin_custom.png */; };
 		DAD3201A25070D410047A446 /* shadow_balloon.png in Resources */ = {isa = PBXBuildFile; fileRef = DAD31FF525070D410047A446 /* shadow_balloon.png */; };
@@ -104,7 +104,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				DACA05C8254FF3CE008C9619 /* EvzBLEKit.xcframework in Embed Frameworks */,
+				C6E94F2D25513E5D00668994 /* EvzBLEKit.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -126,6 +126,7 @@
 		C6633DEE252C7C4400F02F24 /* ChargeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargeViewController.swift; sourceTree = "<group>"; };
 		C6633E052535381B00F02F24 /* MarkerObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerObject.swift; sourceTree = "<group>"; };
 		C6633E0D25357F8500F02F24 /* ReservationObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservationObject.swift; sourceTree = "<group>"; };
+		C6E94F2A25513E5800668994 /* EvzBLEKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = EvzBLEKit.xcframework; path = ../../../../../../../Downloads/IOS_SDK_11_02/EvzBLEKit.xcframework; sourceTree = "<group>"; };
 		DA09438224E1214B00671F0D /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		DA09438824E146AC00671F0D /* JoinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinViewController.swift; sourceTree = "<group>"; };
 		DA0AF3DB2531A62400FE5FF7 /* JoinObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinObject.swift; sourceTree = "<group>"; };
@@ -153,7 +154,6 @@
 		DABC41B324CE73F700DD366F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DABC41B624CE73F700DD366F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DABC41B824CE73F700DD366F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		DACA05C5254FF3C6008C9619 /* EvzBLEKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = EvzBLEKit.xcframework; path = "../../../../../../Documents/02.업무/05.전기차 충전 서비스 특구/03.구현/BLE/IOS_SDK_11_02/EvzBLEKit.xcframework"; sourceTree = "<group>"; };
 		DAD31FF325070D410047A446 /* map_pinup_custom@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "map_pinup_custom@3x.png"; sourceTree = "<group>"; };
 		DAD31FF425070D410047A446 /* map_pin_custom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = map_pin_custom.png; sourceTree = "<group>"; };
 		DAD31FF525070D410047A446 /* shadow_balloon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shadow_balloon.png; sourceTree = "<group>"; };
@@ -224,7 +224,7 @@
 				DAD320BA2507482D0047A446 /* libxml2.tbd in Frameworks */,
 				DAD320B8250748230047A446 /* libc++.tbd in Frameworks */,
 				DAD320B6250747E60047A446 /* SystemConfiguration.framework in Frameworks */,
-				DACA05C7254FF3CE008C9619 /* EvzBLEKit.xcframework in Frameworks */,
+				C6E94F2C25513E5D00668994 /* EvzBLEKit.xcframework in Frameworks */,
 				DAD320B4250747DC0047A446 /* CoreLocation.framework in Frameworks */,
 				DAD320B2250747D60047A446 /* QuartzCore.framework in Frameworks */,
 				DAD320B0250747CD0047A446 /* Metal.framework in Frameworks */,
@@ -264,7 +264,7 @@
 		DA26FB2624FCD20500D76753 /* Library */ = {
 			isa = PBXGroup;
 			children = (
-				DACA05C5254FF3C6008C9619 /* EvzBLEKit.xcframework */,
+				C6E94F2A25513E5800668994 /* EvzBLEKit.xcframework */,
 				DAF4D9CB252C35B300B4D218 /* BottomSheet */,
 				DAD31FF125070D410047A446 /* DaumMap.embeddedframework */,
 			);
