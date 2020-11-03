@@ -23,7 +23,7 @@ class HistoryElectricityChargingViewController: UIViewController, UITableViewDel
     var utils                     : Utils?
     var activityIndicator         : UIActivityIndicatorView?
     
-    let leftMenuImage             : UIImage!  = UIImage(named: "menu")
+    let rightMenuImage            : UIImage!  = UIImage(named: "menu_list")
     
     let dateFormatter                         = DateFormatter()
     let calendar                              = Calendar.current
@@ -53,7 +53,7 @@ class HistoryElectricityChargingViewController: UIViewController, UITableViewDel
         endDate   = dateFormatter.string(from: date)
         sort      = "ASC"
         
-        let rightBarButton = UIBarButtonItem.init(image: leftMenuImage ,style: .done, target: self, action: #selector(rightMenu))
+        let rightBarButton = UIBarButtonItem.init(image: rightMenuImage ,style: .done, target: self, action: #selector(rightMenu))
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateChargeSearchingCondition(_:)), name: .updateChargeSearchingCondition, object: nil)
         
@@ -87,7 +87,7 @@ class HistoryElectricityChargingViewController: UIViewController, UITableViewDel
     }
     @objc func rightMenu() {
         
-        guard let viewController = self.storyboard?.instantiateViewController(withIdentifier: "SearchingChargeCondition") else { return }
+        guard let viewController = self.storyboard?.instantiateViewController(withIdentifier: "SearchingChargeHistoryCondition") else { return }
         
         let bottomSheet: MDCBottomSheetController = MDCBottomSheetController(contentViewController: viewController)
         bottomSheet.preferredContentSize = CGSize(width: tableView.frame.size.width, height: tableView.frame.size.height)

@@ -1,5 +1,5 @@
 //
-//  SearchChargeHistoryViewController.swift
+//  SearchPointHistoryViewController.swift
 //  SharingCharger
 //
 //  Created by 조유영 on 2020/10/18.
@@ -8,12 +8,12 @@
 
 import Foundation
 
-protocol SearchingChargeConditionProtocol {
-    func searchingChargeConditionDelegate(data: SearchingHistoryConditionObject)
+protocol SearchingPointConditionProtocol {
+    func searchingPointConditionDelegate(data: SearchingHistoryConditionObject)
 }
-class SearchChargeHistoryCondition: UIViewController {
+class SearchingPointHistoryCondition: UIViewController {
    
-    var delegate: SearchingChargeConditionProtocol?
+    var delegate: SearchingPointConditionProtocol?
     
     @IBOutlet var oneMonth       : UIButton!
     @IBOutlet var threeMonth     : UIButton!
@@ -23,21 +23,27 @@ class SearchChargeHistoryCondition: UIViewController {
     @IBOutlet var asc            : UIButton!
     @IBOutlet var desc           : UIButton!
     
+    @IBOutlet var pointAll       : UIButton!
+    @IBOutlet var pointCharge    : UIButton!
+    @IBOutlet var pointUse       : UIButton!
+    @IBOutlet var pointRefund    : UIButton!
+    
     @IBOutlet var adjustButton   : UIButton!
      
     @IBOutlet var startDateLabel : UILabel!
     @IBOutlet var endDateLabel   : UILabel!
 
-    @IBOutlet var datepickerView : UIView!
+    @IBOutlet var datePickerView : UIView!
     @IBOutlet var startDatePicker: UIDatePicker!
     @IBOutlet var endDatePicker  : UIDatePicker!
     
     
     var periodButtonArray        : [UIButton] = []
     var sortButtonArray          : [UIButton] = []
-    
+    var pointButtonArray         : [UIButton] = []
     
     let sortArray                : [String]   = ["ASC", "DESC"]
+    let pointArray               : [String]   = ["ALL","PURCHASE","USED","REFUND"]
     
 
     let buttonBorderWidth        : CGFloat!   = 1.0
@@ -45,8 +51,8 @@ class SearchChargeHistoryCondition: UIViewController {
     let Color3498DB              : UIColor!   = UIColor(named: "Color_3498DB")
     let ColorWhite               : UIColor!   = UIColor.white
     
-    let myUserDefaults                        = UserDefaults.standard
     var selectedSort                          = 0
+    var selectedPoint                         = 0
     
     let calendar                              = Calendar.current
     let date                                  = Date()
@@ -65,7 +71,7 @@ class SearchChargeHistoryCondition: UIViewController {
     func initialize(){
                 
         
-        self.delegate                = HistoryElectricityChargingViewController()
+        self.delegate                = HistoryPointViewController()
         
         addButton(buttonName: "close", width: 40, height: 40, top: 15, left: 15, right: nil, bottom: nil, target: self.view, targetViewController: self)
         addButton(buttonName: "refresh", width: 40, height: 40, top: 15, left: nil, right: -15, bottom: nil, target: self.view, targetViewController: self)
@@ -86,6 +92,11 @@ class SearchChargeHistoryCondition: UIViewController {
         
         sortButtonArray.append(asc)
         sortButtonArray.append(desc)
+        
+        pointButtonArray.append(pointAll)
+        pointButtonArray.append(pointCharge)
+        pointButtonArray.append(pointUse)
+        pointButtonArray.append(pointRefund)
 
         for button in self.periodButtonArray {
             
@@ -96,11 +107,17 @@ class SearchChargeHistoryCondition: UIViewController {
             button.addTarget(self, action: #selector(setSortButton(_:)), for: .touchUpInside)
         }
         
+        for button in self.pointButtonArray {
+            
+            button.addTarget(self, action: #selector(setPointButton(_:)), for: .touchUpInside)
+        }
+        
         adjustButton.addTarget(self, action: #selector(adjustButton(_:)), for: .touchUpInside)
         adjustButton.layer.cornerRadius = 7
         
         setPeriodButton(oneMonth)
         setSortButton(asc)
+        setPointButton(pointAll)
     }
     
     @IBAction func setPeriodButton(_ sender: UIButton) {
@@ -122,8 +139,6 @@ class SearchChargeHistoryCondition: UIViewController {
                 periodButtonArray[index].layer.borderColor = ColorE0E0E0?.cgColor
                 periodButtonArray[index].layer.backgroundColor = ColorWhite?.cgColor
                 periodButtonArray[index].setTitleColor(ColorE0E0E0, for: .normal)
-                
-                
                 
             }
         }
@@ -151,9 +166,28 @@ class SearchChargeHistoryCondition: UIViewController {
             
             }
         }
-        
     }
-    
+    @IBAction func setPointButton(_ sender: UIButton) {
+        
+        for index in 0...3 {
+            if(index == pointButtonArray.firstIndex(of: sender)){
+            
+                pointButtonArray[index].layer.borderWidth = 1.0
+                pointButtonArray[index].layer.borderColor = Color3498DB?.cgColor
+                pointButtonArray[index].layer.backgroundColor = Color3498DB?.cgColor
+                pointButtonArray[index].setTitleColor(ColorWhite, for: .normal)
+                selectedPoint = index
+            
+            } else{
+
+                pointButtonArray[index].layer.borderWidth = 1.0
+                pointButtonArray[index].layer.borderColor = ColorE0E0E0?.cgColor
+                pointButtonArray[index].layer.backgroundColor = ColorWhite?.cgColor
+                pointButtonArray[index].setTitleColor(ColorE0E0E0, for: .normal)
+            
+            }
+        }
+    }
     func onPeriodButtonClick(_ range : UIButton){
 
         
@@ -189,13 +223,13 @@ class SearchChargeHistoryCondition: UIViewController {
     private func activateView(active: Bool!) {
         
         switch active {
-            case true  :    datepickerView.isHidden = false
-                            datepickerView.visible()
+            case true  :    datePickerView.isHidden = false
+                            datePickerView.visible()
                             startDatePicker.setDate(dateFormatter.date(from: startDateLabel.text!)! , animated: true)
                             endDatePicker.setDate(dateFormatter.date(from: endDateLabel.text!)! , animated: true)
                             break
-            case false :    datepickerView.isHidden = true
-                            datepickerView.gone()
+            case false :    datePickerView.isHidden = true
+                            datePickerView.gone()
                             
                             break
             default    :    break
@@ -245,12 +279,13 @@ class SearchChargeHistoryCondition: UIViewController {
 
     @IBAction func adjustButton(_ sender: UIButton){
         
-        let searchingHistoryConditionObject          = SearchingHistoryConditionObject()
-        searchingHistoryConditionObject.startDate    = startDateLabel.text!
-        searchingHistoryConditionObject.endDate      = endDateLabel.text!
-        searchingHistoryConditionObject.sort         = sortArray[selectedSort]
+        let searchingHistoryConditionObject            = SearchingHistoryConditionObject()
+        searchingHistoryConditionObject.startDate      = startDateLabel.text!
+        searchingHistoryConditionObject.endDate        = endDateLabel.text!
+        searchingHistoryConditionObject.sort           = sortArray[selectedSort]
+        searchingHistoryConditionObject.pointUsedType  = pointArray[selectedPoint]
         
-        delegate?.searchingChargeConditionDelegate(data: searchingHistoryConditionObject)
+        delegate?.searchingPointConditionDelegate(data: searchingHistoryConditionObject)
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -273,5 +308,6 @@ class SearchChargeHistoryCondition: UIViewController {
         
         setPeriodButton(oneMonth)
         setSortButton(asc)
+        setSortButton(pointAll)
     }
 }

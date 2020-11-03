@@ -8,7 +8,8 @@
 
 class SearchingHistoryConditionObject {
 
-    var startDate  : String = ""
-    var endDate    : String = ""
-    var sort       : String = ""
+    var startDate       : String = ""
+    var endDate         : String = ""
+    var sort            : String = ""
+    var pointUsedType   : String = ""
 }

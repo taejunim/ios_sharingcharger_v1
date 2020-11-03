@@ -15,7 +15,5 @@ class HistoryPointTableCell:UITableViewCell {
     @IBOutlet weak var pointStateNm: UILabel!
     @IBOutlet weak var usePoint: UILabel!
     @IBOutlet weak var pointDate: UILabel!
-    @IBOutlet weak var currentPoint: UILabel!
-    
     
 }
