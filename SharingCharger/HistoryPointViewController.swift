@@ -94,6 +94,7 @@ class HistoryPointViewController: UIViewController, UITableViewDelegate, UITable
         
         arr.removeAll()
         
+        page      = 1
         getChargingHistoryData()
 
     }
@@ -195,7 +196,7 @@ class HistoryPointViewController: UIViewController, UITableViewDelegate, UITable
             "endDate"   :endDate
         ]
         
-        
+
         AF.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, interceptor: Interceptor(indicator: activityIndicator!)).validate().responseJSON(completionHandler: { response in
             
             code = response.response?.statusCode
@@ -204,7 +205,6 @@ class HistoryPointViewController: UIViewController, UITableViewDelegate, UITable
             
                 case .success(let obj):
                 
-                    print(obj)
                 do {
 
                         let JSONData = try JSONSerialization.data(withJSONObject: obj, options: .prettyPrinted)

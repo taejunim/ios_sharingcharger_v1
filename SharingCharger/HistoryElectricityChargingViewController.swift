@@ -82,6 +82,7 @@ class HistoryElectricityChargingViewController: UIViewController, UITableViewDel
         sort      = data.sort
         
         arr.removeAll()
+        page      = 1
         getChargingHistoryData()
 
     }
@@ -169,7 +170,6 @@ class HistoryElectricityChargingViewController: UIViewController, UITableViewDel
             "startDate" :startDate,
             "endDate"   :endDate
         ]
-        
         
         AF.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, interceptor: Interceptor(indicator: activityIndicator!)).validate().responseJSON(completionHandler: { response in
             

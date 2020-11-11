@@ -341,9 +341,16 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
     //주소 찾기 버튼
     @objc func addressButton(sender: UIButton!) {
         print("MainViewController - addressButton tapped")
-        UserDefaults.standard.set(0, forKey: "reservationId")
-        UserDefaults.standard.set(nil, forKey: "reservationInfo")
+        //UserDefaults.standard.set(0, forKey: "reservationId")
+        //UserDefaults.standard.set(nil, forKey: "reservationInfo")
+        let viewController: UIViewController!
+        let bottomSheet: MDCBottomSheetController!
         
+        viewController = self.storyboard?.instantiateViewController(withIdentifier: "AddressPopup")
+        bottomSheet = MDCBottomSheetController(contentViewController: viewController)
+        bottomSheet.preferredContentSize = CGSize(width: mapView.frame.size.width, height: mapView.frame.size.height)
+        
+        present(bottomSheet, animated: true, completion: nil)
     }
     
     //검색 조건 버튼
