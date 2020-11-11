@@ -39,6 +39,8 @@
 		DA41A08C24EBB35400E7BB93 /* AppendStar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA41A08B24EBB35400E7BB93 /* AppendStar.swift */; };
 		DA41A1F024ECF71200E7BB93 /* PasswordInitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA41A1EF24ECF71200E7BB93 /* PasswordInitViewController.swift */; };
 		DA4C26E6253B204500E3E79C /* FavoriteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4C26E5253B204500E3E79C /* FavoriteCell.swift */; };
+		DA9676D7255BD20B007D2FFC /* EvzBLEKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA9676D5255BD205007D2FFC /* EvzBLEKit.xcframework */; };
+		DA9676D8255BD20B007D2FFC /* EvzBLEKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA9676D5255BD205007D2FFC /* EvzBLEKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA96CDA52546BFBE005DD955 /* ChargerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA96CDA42546BFBE005DD955 /* ChargerCell.swift */; };
 		DA96CDA725480E6E005DD955 /* ChargeObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA96CDA625480E6E005DD955 /* ChargeObject.swift */; };
 		DAAC21D32521D4E20086055F /* LeftMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAC21D22521D4E20086055F /* LeftMenuViewController.swift */; };
@@ -107,7 +109,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				C6E94F2D25513E5D00668994 /* EvzBLEKit.xcframework in Embed Frameworks */,
+				DA9676D8255BD20B007D2FFC /* EvzBLEKit.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -148,6 +150,7 @@
 		DA41A08B24EBB35400E7BB93 /* AppendStar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppendStar.swift; sourceTree = "<group>"; };
 		DA41A1EF24ECF71200E7BB93 /* PasswordInitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordInitViewController.swift; sourceTree = "<group>"; };
 		DA4C26E5253B204500E3E79C /* FavoriteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCell.swift; sourceTree = "<group>"; };
+		DA9676D5255BD205007D2FFC /* EvzBLEKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = EvzBLEKit.xcframework; path = "../../../../../../Documents/02.업무/05.전기차 충전 서비스 특구/03.구현/BLE/IOS_SDK_11_02/EvzBLEKit.xcframework"; sourceTree = "<group>"; };
 		DA96CDA42546BFBE005DD955 /* ChargerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargerCell.swift; sourceTree = "<group>"; };
 		DA96CDA625480E6E005DD955 /* ChargeObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargeObject.swift; sourceTree = "<group>"; };
 		DAAC21D22521D4E20086055F /* LeftMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftMenuViewController.swift; sourceTree = "<group>"; };
@@ -230,7 +233,7 @@
 				DAD320BA2507482D0047A446 /* libxml2.tbd in Frameworks */,
 				DAD320B8250748230047A446 /* libc++.tbd in Frameworks */,
 				DAD320B6250747E60047A446 /* SystemConfiguration.framework in Frameworks */,
-				C6E94F2C25513E5D00668994 /* EvzBLEKit.xcframework in Frameworks */,
+				DA9676D7255BD20B007D2FFC /* EvzBLEKit.xcframework in Frameworks */,
 				DAD320B4250747DC0047A446 /* CoreLocation.framework in Frameworks */,
 				DAD320B2250747D60047A446 /* QuartzCore.framework in Frameworks */,
 				DAD320B0250747CD0047A446 /* Metal.framework in Frameworks */,
@@ -270,7 +273,7 @@
 		DA26FB2624FCD20500D76753 /* Library */ = {
 			isa = PBXGroup;
 			children = (
-				C6E94F2A25513E5800668994 /* EvzBLEKit.xcframework */,
+				DA9676D5255BD205007D2FFC /* EvzBLEKit.xcframework */,
 				DAF4D9CB252C35B300B4D218 /* BottomSheet */,
 				DAD31FF125070D410047A446 /* DaumMap.embeddedframework */,
 			);
@@ -804,7 +807,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.0.0;
-				DEVELOPMENT_TEAM = SW97KU77ZP;
+				DEVELOPMENT_TEAM = C846JVNTZN;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/SharingCharger/Library/DaumMap.embeddedframework",
@@ -832,7 +835,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.0.0;
-				DEVELOPMENT_TEAM = SW97KU77ZP;
+				DEVELOPMENT_TEAM = C846JVNTZN;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/SharingCharger/Library/DaumMap.embeddedframework",

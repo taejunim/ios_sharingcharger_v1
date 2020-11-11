@@ -43,7 +43,7 @@ class LoginViewController: UIViewController {
         
             var code: Int! = 0
             
-            let url = "http://test.jinwoosi.co.kr:6066/api/v1/login"
+            let url = "http://211.253.37.97:8101/api/v1/login"
             
             let parameters: Parameters = [
                 "loginId": loginEmail.text!,

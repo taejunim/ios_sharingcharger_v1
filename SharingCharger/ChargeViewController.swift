@@ -230,7 +230,7 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 if isOnBluetooth() {
                     
                     let chargerId: Int! = reservationInfo!.chargerId
-                    let url = "http://test.jinwoosi.co.kr:6066/api/v1/recharge/authenticate/charger/\(chargerId!)"
+                    let url = "http://211.253.37.97:8101/api/v1/recharge/authenticate/charger/\(chargerId!)"
                     
                     postChargeStartData(postUrl: url)
                     
@@ -422,7 +422,6 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
     private func getReservation() {
         
         self.activityIndicator!.startAnimating()
-        //self.activityIndicator!.isHidden = false
         
         let locale = Locale(identifier: "ko")
         let dateFormatter = DateFormatter()
@@ -432,7 +431,7 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
         var code: Int! = 0
         
         let userId = myUserDefaults.integer(forKey: "userId")
-        let url = "http://test.jinwoosi.co.kr:6066/api/v1/reservation/user/\(userId)/currently"
+        let url = "http://211.253.37.97:8101/api/v1/reservation/user/\(userId)/currently"
         
         AF.request(url, method: .get, encoding: URLEncoding.default, interceptor: Interceptor(indicator: activityIndicator!)).validate().responseJSON(completionHandler: { response in
             
@@ -853,7 +852,7 @@ extension ChargeViewController: BleDelegate {
             showAlert(title: "충전 시작", message: "충전이 시작되었습니다.\n충전이 완료될 때까지 플러그를 제거하지마십시오.", positiveTitle: "확인", negativeTitle: nil)
             
             let chargerId:Int! = reservationInfo!.chargerId
-            let url = "http://test.jinwoosi.co.kr:6066/api/v1/recharge/start/charger/\(chargerId!)"
+            let url = "http://211.253.37.97:8101/api/v1/recharge/start/charger/\(chargerId!)"
             
             postChargeStartData(postUrl: url)
             
@@ -915,7 +914,7 @@ extension ChargeViewController: BleDelegate {
                     //                        myUserDefaults.set(useTime!, forKey: "useTime")
                     
                     let chargerId: Int! = reservationInfo!.chargerId
-                    let url = "http://test.jinwoosi.co.kr:6066/api/v1/recharge/end/charger/\(chargerId!)"
+                    let url = "http://211.253.37.97:8101/api/v1/recharge/end/charger/\(chargerId!)"
                     
                     postChargeEndData(postUrl: url, rechargeId: tagNumber!, rechargeMinute: useTime!, rechargeWh: kwh!, count: tags.count, index: index!)
                 }

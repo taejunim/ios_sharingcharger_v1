@@ -214,9 +214,12 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="chargerNameLabel" destination="dXM-xC-g6N" id="r4g-6f-r99"/>
                         <outlet property="chargingPeriodLabel" destination="GGB-mt-rUt" id="t1T-mJ-JFS"/>
-                        <outlet property="confirmReservation" destination="Ogn-DW-M52" id="jVt-G6-YkZ"/>
-                        <outlet property="myPoint" destination="KmZ-Ok-duj" id="EjF-ZQ-aHe"/>
+                        <outlet property="currentPointLabel" destination="KmZ-Ok-duj" id="Eyb-eb-T3i"/>
+                        <outlet property="expectedPointLabel" destination="rhx-1p-JRh" id="5hi-ci-yTp"/>
+                        <outlet property="reservationButton" destination="Ogn-DW-M52" id="Yyh-bb-2eL"/>
+                        <outlet property="resultPointLabel" destination="48E-0E-y08" id="i2A-Xm-SVZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w2f-zK-dPI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

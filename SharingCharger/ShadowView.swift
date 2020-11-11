@@ -15,13 +15,14 @@ class ShadowView: UIControl {
     let chargingTimeTextLayer = CATextLayer()
     let chargingDateTextLayer = CATextLayer()
     let reservationTextLayer = LCTextLayer()
+    let mainArrowImageLayer = CALayer()
     
     let calendar = Calendar.current
     let dateFormatter = DateFormatter()
     let timeFormatter = DateFormatter()
     
-    let bigFont = UIFont.systemFont(ofSize: 15)
-    var smallFont = UIFont()
+    let bigChargingTimeFont = UIFont.boldSystemFont(ofSize: 20)
+    let bigChargingPeriodFont = UIFont.systemFont(ofSize: 15)
     
     let clockImage = UIImage(named: "clock")?.cgImage
     let chargeImage = UIImage(named: "charge")?.cgImage
@@ -50,6 +51,7 @@ class ShadowView: UIControl {
             addChargingTimeTextLayer()
             addChargingPeriodTextLayer()
             addMainArrowLayer()
+            addReservationTextLayer()
         }
     }
     
@@ -88,26 +90,42 @@ class ShadowView: UIControl {
     //충전할 시간 layer
     private func addChargingTimeTextLayer() {
         
-        chargingTimeTextLayer.frame = CGRect(x: clockLayer.frame.maxX, y: 20, width: layer.frame.width - (clockLayer.frame.maxX * 2), height: layer.frame.height/2)
+        chargingTimeTextLayer.frame = CGRect(x: clockLayer.frame.maxX, y: layer.frame.height * 0.25, width: layer.frame.width - (clockLayer.frame.maxX * 2), height: layer.frame.height/2)
         chargingTimeTextLayer.alignmentMode = .center
         chargingTimeTextLayer.contentsScale = UIScreen.main.scale
         chargingTimeTextLayer.string = chargingTimeTextAttribute(text: "30분")
-        chargingTimeTextLayer.addSublayer(reservationTextLayer)
+        //chargingTimeTextLayer.backgroundColor = UIColor.gray.cgColor
+        //chargingTimeTextLayer.addSublayer(reservationTextLayer)
         
-        reservationTextLayer.frame = CGRect(x: chargingTimeTextLayer.frame.width * 0.8, y: 0, width: 60, height: chargingTimeTextLayer.frame.height / 2)
+        //reservationTextLayer.frame = CGRect(x: chargingTimeTextLayer.frame.width * 0.92, y: 0, width: 50, height: chargingTimeTextLayer.frame.height / 2)
+//        updateReservationTextLayer(multiplier: 0.92)
+//        reservationTextLayer.alignmentMode = CATextLayerAlignmentMode.center
+//        reservationTextLayer.contentsScale = UIScreen.main.scale
+//        reservationTextLayer.string = reservationTextAttribute(text: "예약")
+//        reservationTextLayer.backgroundColor = UIColor(named: "Color_1ABC9C")?.cgColor
+//        reservationTextLayer.cornerRadius = reservationTextLayer.frame.height / 2
+        
+        layer.addSublayer(chargingTimeTextLayer)
+    }
+    
+    //예약 상태 layer
+    private func addReservationTextLayer() {
+        
+        //reservationTextLayer.frame = CGRect(x: chargingTimeTextLayer.frame.width * 0.92, y: 0, width: 50, height: chargingTimeTextLayer.frame.height / 2)
+        updateReservationTextLayer(multiplier: 0.92)
         reservationTextLayer.alignmentMode = CATextLayerAlignmentMode.center
         reservationTextLayer.contentsScale = UIScreen.main.scale
         reservationTextLayer.string = reservationTextAttribute(text: "예약")
         reservationTextLayer.backgroundColor = UIColor(named: "Color_1ABC9C")?.cgColor
         reservationTextLayer.cornerRadius = reservationTextLayer.frame.height / 2
         
-        layer.addSublayer(chargingTimeTextLayer)
+        layer.addSublayer(reservationTextLayer)
     }
     
     //충전 기간 layer
     private func addChargingPeriodTextLayer() {
         
-        chargingDateTextLayer.frame = CGRect(x: clockLayer.frame.maxX, y: chargingTimeTextLayer.frame.height, width: layer.frame.width - (clockLayer.frame.maxX * 2), height: layer.frame.height - chargingTimeTextLayer.frame.maxY)
+        chargingDateTextLayer.frame = CGRect(x: clockLayer.frame.maxX, y: layer.frame.height * 0.55, width: layer.frame.width - (clockLayer.frame.maxX * 2), height: layer.frame.height - chargingTimeTextLayer.frame.maxY)
         chargingDateTextLayer.alignmentMode = .center
         chargingDateTextLayer.contentsScale = UIScreen.main.scale
 
@@ -151,8 +169,6 @@ class ShadowView: UIControl {
     
     //화살표 layer
     private func addMainArrowLayer() {
-        
-        let mainArrowImageLayer = CALayer()
         
         mainArrowImageLayer.frame = CGRect(x: clockLayer.frame.maxX + chargingTimeTextLayer.frame.width + 20, y:25, width: 60, height: 60)
         mainArrowImageLayer.bounds = clockLayer.frame.insetBy(dx: 15.0, dy: 15.0)
@@ -212,12 +228,35 @@ class ShadowView: UIControl {
             foregroundColor = UIColor.darkText
         }
         
+        
+        
+        print("text.count : \(text!.count)")
+        
+        if text!.count >= 7 {
+
+            updateReservationTextLayer(multiplier: 0.8)
+
+        } else {
+
+            updateReservationTextLayer(multiplier: 0.85)
+        }
+        
         let attributedString = NSAttributedString(
             string: "총 \(text!) 충전",
-            attributes: [ .font: UIFont.boldSystemFont(ofSize: 22), .foregroundColor: foregroundColor!]
+            attributes: [ .font: bigChargingTimeFont, .foregroundColor: foregroundColor!]
         )
         
         return attributedString
+    }
+    
+    private func updateReservationTextLayer(multiplier: CGFloat!) {
+        print("chargingTimeTextLayer.frame : \(chargingTimeTextLayer.frame)")
+        print(chargingTimeTextLayer.frame.maxX)
+        print("mainArrowImageLayer.frame : \(mainArrowImageLayer.frame)")
+        print(mainArrowImageLayer.frame.minX)
+        print(chargingTimeTextLayer.frame.minY)
+        reservationTextLayer.frame = CGRect(x: mainArrowImageLayer.frame.minX - chargingTimeTextLayer.frame.height * multiplier, y: chargingTimeTextLayer
+                                                .frame.minY * 0.925, width: chargingTimeTextLayer.frame.height * 0.85 , height: chargingTimeTextLayer.frame.height / 2)
     }
     
     private func chargingDateTextAttribute(text: String?) -> NSAttributedString {
@@ -227,7 +266,7 @@ class ShadowView: UIControl {
         if text!.count >= 33 {
             font = checkDeviceFrame()
         } else {
-            font = bigFont
+            font = bigChargingPeriodFont
         }
         
         let foregroundColor: UIColor!

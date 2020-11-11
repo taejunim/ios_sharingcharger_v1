@@ -160,7 +160,7 @@ class HistoryElectricityChargingViewController: UIViewController, UITableViewDel
     func getChargingHistoryData(){
         
         var code: Int!  = 0
-        let url         = "http://test.jinwoosi.co.kr:6066/api/v1/recharges"
+        let url         = "http://211.253.37.97:8101/api/v1/recharges"
         
         let parameters: Parameters = [
             "sort"      :sort,
@@ -211,7 +211,6 @@ class HistoryElectricityChargingViewController: UIViewController, UITableViewDel
                     if(self.moreLoadFlag == false){
                         
                         self.activityIndicator!.stopAnimating()
-                        self.activityIndicator!.isHidden = true
                         return
                     }
                     

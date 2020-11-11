@@ -89,7 +89,7 @@ class ReservationPopupViewController: UIViewController {
             var code: Int! = 0
             
             let reservationId = self.myUserDefaults.integer(forKey: "reservationId")
-            let url = "http://test.jinwoosi.co.kr:6066/api/v1/reservations/\(reservationId)/cancel"
+            let url = "http://211.253.37.97:8101/api/v1/reservations/\(reservationId)/cancel"
             
             AF.request(url, method: .put, encoding: URLEncoding.default, interceptor: Interceptor(indicator: self.activityIndicator!)).validate().responseJSON(completionHandler: { response in
                 

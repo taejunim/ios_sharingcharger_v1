@@ -11,15 +11,20 @@ import Alamofire
 
 class ReservationViewController: UIViewController {
     
+    @IBOutlet var chargerNameLabel: UILabel!
     @IBOutlet var chargingPeriodLabel: UILabel!
-    @IBOutlet weak var myPoint: UILabel!
-    @IBOutlet weak var confirmReservation: UIButton!
+    @IBOutlet var currentPointLabel: UILabel!
+    @IBOutlet var expectedPointLabel: UILabel!
+    @IBOutlet var resultPointLabel: UILabel!
+    @IBOutlet var reservationButton: UIButton!
     
     var receivedSearchingConditionObject: SearchingConditionObject!
     var chargerId: Int = 0
     
     var utils: Utils?
     var activityIndicator: UIActivityIndicatorView?
+    
+    let myUserDefaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,12 +34,12 @@ class ReservationViewController: UIViewController {
     
     private func viewWillInitializeObjects() {
         
+        chargerNameLabel.text = receivedSearchingConditionObject.chargerName
         chargingPeriodLabel.text = receivedSearchingConditionObject.realChargingPeriod
         
-        setMyPointLabel()
-        
-        confirmReservation.layer.cornerRadius = 7
-        confirmReservation.addTarget(self, action: #selector(confirmReservation(sender:)), for: .touchUpInside)
+        currentPointLabel.layer.cornerRadius = 7
+        reservationButton.layer.cornerRadius = 7
+        reservationButton.addTarget(self, action: #selector(reservationButton(sender:)), for: .touchUpInside)
         
         //로딩 뷰
         utils = Utils(superView: self.view)
@@ -43,25 +48,125 @@ class ReservationViewController: UIViewController {
         self.activityIndicator!.hidesWhenStopped = true
     }
     
-    @objc func setMyPointLabel() {
+    private func getPoint(url: String!) {
         
-        myPoint.layer.cornerRadius = 7
-    }
-    
-    @objc func confirmReservation(sender: UIButton!) {
-        
-        let userId: Int = UserDefaults.standard.integer(forKey: "userId")
+        self.activityIndicator!.startAnimating()
         
         var code: Int! = 0
         
-        let url = "http://test.jinwoosi.co.kr:6066/api/v1/reservation"
+        let userId = myUserDefaults.integer(forKey: "userId")
+        
+        var parameters: Parameters!
+        
+        if url.contains("point/users") {
+            parameters = [
+                "userId" : userId
+            ]
+        } else if url.contains("point/chargers") {
+            parameters = [
+                "chargerId" : chargerId,
+                "startDate" : receivedSearchingConditionObject.realChargingStartDate,
+                "endDate" : receivedSearchingConditionObject.realChargingEndDate
+            ]
+        }
+        
+        AF.request(url, method: .get, parameters: parameters!, encoding: URLEncoding.default, interceptor: Interceptor(indicator: activityIndicator!)).validate().responseJSON(completionHandler: { response in
+            
+            code = response.response?.statusCode
+            
+            switch response.result {
+            
+            case .success(let obj):
+                
+                self.activityIndicator!.stopAnimating()
+                
+                if code == 200 {
+                    
+                    let point: Int = obj as! Int
+                    
+                    if url.contains("point/users") {
+                        
+                        self.currentPointLabel.text = self.setComma(value: point) + " p"
+                        
+                        let expectedPointUrl = "http://211.253.37.97:8101/api/v1/point/chargers/\(self.chargerId)/calculate"
+                        
+                        self.getPoint(url: expectedPointUrl)
+                        
+                    } else if url.contains("point/chargers") {
+                        
+                        self.expectedPointLabel.text = self.setComma(value: point)
+                        
+                        if self.currentPointLabel.text != "-" && self.expectedPointLabel.text != "-" {
+                            
+                            let currentPoint: Int? = Int(self.currentPointLabel.text!.replacingOccurrences(of: ",", with: "").replacingOccurrences(of: " p", with:""))
+                            let expectedPoint = point
+                            
+                            self.resultPointLabel.text = self.setComma(value: currentPoint! - expectedPoint)
+                        }
+                    }
+                    
+                } else {
+                    self.currentPointLabel.text = "-"
+                    
+                    if url.contains("point/users") {
+                        
+                        self.currentPointLabel.text = "-"
+                        
+                    } else if url.contains("point/chargers") {
+                        
+                        self.expectedPointLabel.text = "-"
+                    }
+                }
+                
+            case .failure(let err):
+                
+                print("error is \(String(describing: err))")
+                
+                if code == 400 {
+                    print("Error : \(code!)")
+                    
+                } else {
+                    print("Error : \(code!)")
+                }
+                
+                if url.contains("point/users") {
+                    
+                    self.currentPointLabel.text = "-"
+                    
+                } else if url.contains("point/chargers") {
+                    
+                    self.expectedPointLabel.text = "-"
+                }
+                
+                self.activityIndicator!.stopAnimating()
+            }
+        })
+    }
+    
+    private func setComma(value: Int) -> String{
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        let result = numberFormatter.string(from: NSNumber(value: value))!
+        
+        return result
+    }
+    
+    @objc func reservationButton(sender: UIButton!) {
+        
+        self.activityIndicator!.startAnimating()
+        
+        let userId: Int = myUserDefaults.integer(forKey: "userId")
+        
+        var code: Int! = 0
+        
+        let url = "http://211.253.37.97:8101/api/v1/reservation"
         
         let parameters: Parameters = [
             "chargerId" : chargerId,
             "startDate" : receivedSearchingConditionObject.realChargingStartDate,
             "endDate" : receivedSearchingConditionObject.realChargingEndDate,
             "cancelDate" : "",
-            "expectPoint" : 250,
+            "expectPoint" : expectedPointLabel.text!.replacingOccurrences(of: ",", with: ""),
             "userId" : userId,
             "reservationType" : "RESERVE"
             
@@ -89,7 +194,7 @@ class ReservationViewController: UIViewController {
                             
                             UserDefaults.standard.set(instanceData.id, forKey: "reservationId")
                             UserDefaults.standard.set(try? PropertyListEncoder().encode(self.receivedSearchingConditionObject), forKey: "reservationInfo")
-//
+                            //
                             if didTap {
                                 print("tap")
                                 self.navigationController?.popViewController(animated: true)
@@ -123,5 +228,17 @@ class ReservationViewController: UIViewController {
             
             self.activityIndicator!.stopAnimating()
         })
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+        super.viewWillAppear(animated)
+        print("viewWillAppear")
+        
+        //현재 포인트, 예상 포인트 가져오기
+        let userId = myUserDefaults.integer(forKey: "userId")
+        let currentPointUrl = "http://211.253.37.97:8101/api/v1/point/users/\(userId)"
+        
+        getPoint(url: currentPointUrl)
     }
 }
