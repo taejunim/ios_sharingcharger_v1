@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 import Toast_Swift
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var loginEmail: UITextField!
     @IBOutlet weak var loginPassword: UITextField!
@@ -18,29 +18,38 @@ class LoginViewController: UIViewController {
     var utils: Utils?
     var activityIndicator: UIActivityIndicatorView?
     
+    var activeTextField: UITextField?   //현재 포커싱인 textField
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))   //뷰 터치시 키보드 내리기
-        view.addGestureRecognizer(tap)
         
         //로딩 뷰
         utils = Utils(superView: self.view)
         activityIndicator = utils!.activityIndicator
         self.view.addSubview(activityIndicator!)
         self.activityIndicator!.hidesWhenStopped = true
+        
+        loginEmail.delegate = self
+        loginPassword.delegate = self
+        
+        setKeyboard()
     }
     
+    //로그인 버튼
     @IBAction func loginButton(_ sender: Any) {
+        login()
+    }
+    
+    //로그인 API
+    private func login() {
         
-        print("Login Button")
+        //빈칸 체크
+        if checkBlank(position: .center) {
         
-        let mainViewController = UIStoryboard(name:"Main", bundle: nil).instantiateViewController(withIdentifier: "Main") as! MainViewController
-        let navigationController = UINavigationController(rootViewController: mainViewController)
-        
-        if checkBlank() {
-        
+            self.activityIndicator!.startAnimating()
+            let mainViewController = UIStoryboard(name:"Main", bundle: nil).instantiateViewController(withIdentifier: "Main") as! MainViewController
+            let navigationController = UINavigationController(rootViewController: mainViewController)
+            
             var code: Int! = 0
             
             let url = "http://211.253.37.97:8101/api/v1/login"
@@ -96,8 +105,6 @@ class LoginViewController: UIViewController {
                         self.view.makeToast("일치하는 회원이 존재하지 않습니다.\n다시 확인하여 주십시오", duration: 2.0, position: .bottom)
                     }
                     
-                    
-                    
                 case .failure(let err):
                     
                     print("error is \(String(describing: err))")
@@ -118,17 +125,49 @@ class LoginViewController: UIViewController {
     }
     
     //빈칸 체크
-    private func checkBlank() -> Bool{
+    private func checkBlank(position: ToastPosition) -> Bool{
         
         if loginEmail.text!.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            self.view.makeToast("이메일을 입력하여주십시오", duration: 2.0, position: .bottom)
+            self.view.makeToast("이메일을 입력하여주십시오", duration: 2.0, position: position)
             return false
         } else if loginPassword.text!.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            self.view.makeToast("비밀번호를 입력하여주십시오", duration: 2.0, position: .bottom)
+            self.view.makeToast("비밀번호를 입력하여주십시오", duration: 2.0, position: position)
             return false
         }
         
         return true
+    }
+    
+    //keyboard 설정
+    func setKeyboard() {
+        
+        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))   //뷰 터치시 키보드 내리기
+        view.addGestureRecognizer(tap)
+    }
+    
+    //다음 버튼 누르면 아래 텍스트 필드로 포커스 이동, 마지막 텍스트 필드에서 return 누르면 키보드 내려감
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        let textFieldTag:Int = textField.tag
+        
+        if let nextTextField = self.view.viewWithTag(textFieldTag + 1) as? UITextField {
+            nextTextField.becomeFirstResponder()
+        } else {
+            textField.resignFirstResponder()
+            login()
+        }
+        
+        return true
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        
+        activeTextField = textField
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        
+        activeTextField = nil
     }
     
     @IBAction func joinButton(_ sender: Any) {

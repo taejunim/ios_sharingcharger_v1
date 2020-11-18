@@ -20,8 +20,6 @@
 		C6633E062535381B00F02F24 /* MarkerObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6633E052535381B00F02F24 /* MarkerObject.swift */; };
 		C6633E0E25357F8600F02F24 /* ReservationObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6633E0D25357F8500F02F24 /* ReservationObject.swift */; };
 		C6A4023C255BE3DF006B49D8 /* SearchingAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A4023B255BE3DF006B49D8 /* SearchingAddressViewController.swift */; };
-		C6E94F2C25513E5D00668994 /* EvzBLEKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6E94F2A25513E5800668994 /* EvzBLEKit.xcframework */; };
-		C6E94F2D25513E5D00668994 /* EvzBLEKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C6E94F2A25513E5800668994 /* EvzBLEKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C6E94F4A2551454800668994 /* SearchingChargeHistoryConditionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E94F492551454800668994 /* SearchingChargeHistoryConditionViewController.swift */; };
 		C6E94F4C255146C800668994 /* SearchingPointHistoryConditionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E94F4B255146C800668994 /* SearchingPointHistoryConditionViewController.swift */; };
 		C6E94F4E2551485100668994 /* PointHistoryObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E94F4D2551485100668994 /* PointHistoryObject.swift */; };
@@ -131,7 +129,6 @@
 		C6633E052535381B00F02F24 /* MarkerObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerObject.swift; sourceTree = "<group>"; };
 		C6633E0D25357F8500F02F24 /* ReservationObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservationObject.swift; sourceTree = "<group>"; };
 		C6A4023B255BE3DF006B49D8 /* SearchingAddressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchingAddressViewController.swift; sourceTree = "<group>"; };
-		C6E94F2A25513E5800668994 /* EvzBLEKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = EvzBLEKit.xcframework; path = ../../../../../../../Downloads/IOS_SDK_11_02/EvzBLEKit.xcframework; sourceTree = "<group>"; };
 		C6E94F492551454800668994 /* SearchingChargeHistoryConditionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchingChargeHistoryConditionViewController.swift; sourceTree = "<group>"; };
 		C6E94F4B255146C800668994 /* SearchingPointHistoryConditionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchingPointHistoryConditionViewController.swift; sourceTree = "<group>"; };
 		C6E94F4D2551485100668994 /* PointHistoryObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointHistoryObject.swift; sourceTree = "<group>"; };
@@ -735,7 +732,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -789,7 +786,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -813,13 +810,13 @@
 					"$(PROJECT_DIR)/SharingCharger/Library/DaumMap.embeddedframework",
 				);
 				INFOPLIST_FILE = SharingCharger/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = kr.co.metisinfo.SharingCharger;
+				PRODUCT_BUNDLE_IDENTIFIER = krco.metisinfo.SharingCharger;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = SharingCharger/KakaoMapBridgingHeader.h;
 				SWIFT_VERSION = 5.0;
@@ -841,13 +838,13 @@
 					"$(PROJECT_DIR)/SharingCharger/Library/DaumMap.embeddedframework",
 				);
 				INFOPLIST_FILE = SharingCharger/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = kr.co.metisinfo.SharingCharger;
+				PRODUCT_BUNDLE_IDENTIFIER = krco.metisinfo.SharingCharger;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = SharingCharger/KakaoMapBridgingHeader.h;
 				SWIFT_VERSION = 5.0;

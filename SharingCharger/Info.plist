@@ -2,27 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-		<string>KakaoMap</string>
-	</array>
-	<key>KAKAO_APP_KEY</key>
-	<string>8c076cd238736c78c5f2a703adf2c1ff</string>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
-	</dict>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Used to Location&apos;s Info always for Using Beacon.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Used to Location&apos;s Info always for Using Beacon.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Used to Location&apos;s Info for Using Beacon when In Use.</string>
-	<key>NSBluetoothPeripheralUsageDescription</key>
-	<string>충전기와 통신을 위해 블루투스 권한이 필요합니다.</string>
-	<key>NSBluetoothAlwaysUsageDescription</key>
-	<string>충전기와 통신을 위해 블루투스 권한이 필요합니다.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -39,8 +18,31 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+    <key>CFBundleIconName</key>
+    <string>AppIcon</string>
+	<key>KAKAO_APP_KEY</key>
+	<string>8c076cd238736c78c5f2a703adf2c1ff</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>KakaoMap</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>충전기와 통신을 위해 블루투스 권한이 필요합니다.</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>충전기와 통신을 위해 블루투스 권한이 필요합니다.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Used to Location's Info always for Using Beacon.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Used to Location's Info always for Using Beacon.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Used to Location's Info for Using Beacon when In Use.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -68,6 +70,8 @@
 	<array>
 		<string>armv7</string>
 	</array>
+	<key>UIStatusBarStyle</key>
+	<string>UIStatusBarStyleDarkContent</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
@@ -81,7 +85,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>UIStatusBarStyle</key>
-	<string>UIStatusBarStyleDarkContent</string>
 </dict>
 </plist>

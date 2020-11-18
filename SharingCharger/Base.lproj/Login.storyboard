@@ -24,7 +24,7 @@
                                 <accessibility key="accessibilityConfiguration" identifier="loginEmail"/>
                                 <color key="textColor" systemColor="darkTextColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <textInputTraits key="textInputTraits" keyboardType="emailAddress" textContentType="email"/>
+                                <textInputTraits key="textInputTraits" keyboardType="emailAddress" returnKeyType="next" textContentType="email"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="placeholderLabel.textColor">
                                         <color key="value" name="Color_E0E0E0"/>
@@ -38,13 +38,13 @@
                                     <constraint firstAttribute="height" constant="1" id="sZ1-lq-aEL"/>
                                 </constraints>
                             </view>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="비밀번호" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1cb-Y1-VYR">
+                            <textField opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="비밀번호" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1cb-Y1-VYR">
                                 <rect key="frame" x="30" y="437" width="354" height="22"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <accessibility key="accessibilityConfiguration" identifier="loginPassword"/>
                                 <color key="textColor" systemColor="darkTextColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <textInputTraits key="textInputTraits" textContentType="password"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="placeholderLabel.textColor">
                                         <color key="value" name="Color_E0E0E0"/>
@@ -97,28 +97,6 @@
                                 </state>
                                 <connections>
                                     <action selector="passwordInitButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="VYc-hU-iy8"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pda-uF-6WX">
-                                <rect key="frame" x="36" y="821" width="52" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" name="Color_7F7F7F"/>
-                                <state key="normal" title="블루투스">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <segue destination="YIw-Me-lVT" kind="show" id="AYW-IE-wEq"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IRQ-42-sPL">
-                                <rect key="frame" x="244" y="742" width="69" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" name="Color_7F7F7F"/>
-                                <state key="normal" title="충전기 검색">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <segue destination="7eR-De-qWH" kind="show" id="i8p-Uf-Qra"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -372,7 +350,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="771"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Nd-sL-hxl" userLabel="Content View">
-                                                <rect key="frame" x="0.0" y="0.0" width="414" height="496"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="414" height="492.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="이름*" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uas-ss-dqI" userLabel="Label Name" customClass="AppendStar" customModule="SharingCharger" customModuleProvider="target">
                                                         <rect key="frame" x="25" y="30" width="364" height="18"/>
@@ -445,20 +423,20 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textField opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0VM-e2-ViD" userLabel="Text Password" customClass="CustomTextField" customModule="SharingCharger" customModuleProvider="target">
-                                                        <rect key="frame" x="25" y="368.5" width="364" height="20"/>
+                                                        <rect key="frame" x="25" y="368.5" width="364" height="18"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                        <textInputTraits key="textInputTraits" returnKeyType="next"/>
+                                                        <textInputTraits key="textInputTraits" returnKeyType="next" secureTextEntry="YES"/>
                                                     </textField>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="비밀번호 확인*" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="raJ-f9-tbc" userLabel="Label Password" customClass="AppendStar" customModule="SharingCharger" customModuleProvider="target">
-                                                        <rect key="frame" x="25" y="418.5" width="364" height="18"/>
+                                                        <rect key="frame" x="25" y="416.5" width="364" height="18"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                         <color key="textColor" systemColor="darkTextColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textField opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="g63-hj-zOu" userLabel="Text Password" customClass="CustomTextField" customModule="SharingCharger" customModuleProvider="target">
-                                                        <rect key="frame" x="25" y="446.5" width="364" height="19.5"/>
+                                                        <rect key="frame" x="25" y="444.5" width="364" height="18"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                                     </textField>
                                                 </subviews>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
