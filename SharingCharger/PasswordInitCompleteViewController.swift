@@ -1,5 +1,5 @@
 //
-//  PasswordInitViewController.swift
+//  PasswordInitCompleteViewController.swift
 //  SharingCharger
 //
 //  Created by tjlim on 2020/08/19.
@@ -8,63 +8,42 @@
 
 import UIKit
 
-class PasswordInitViewController: UIViewController, UITextFieldDelegate {
+class PasswordInitCompleteViewController: UIViewController, UITextFieldDelegate {
 
-    @IBOutlet weak var nameTextField: CustomTextField!
-    @IBOutlet weak var phoneTextField: CustomTextField!
-    @IBOutlet weak var emailTextField: CustomTextField!
-    @IBOutlet weak var autorizationCodeTextField: CustomTextField!
-    
-    @IBOutlet weak var passwordInitButton: UIButton!    //비밀번호 초기화 버튼
-    
     var activeTextField: UITextField?    //현재 포커싱인 textField
-    
-    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet var passwordTextField: CustomTextField!
+    @IBOutlet var passwordConfirmTextField: CustomTextField!
+    @IBOutlet var scrollView: UIScrollView!
+    @IBOutlet var passwordInitCompleteButton: UIButton!
     
     let notificationCenter = NotificationCenter.default
-    
-    var isAuthorized = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
     
-        setKeyboard()
+        
         setTextFieldDelegate()
+        setKeyboard()
         
-        emailTextField.setCurrentType(type: 1, target: self)   //이메일 필드에 인증요청 버튼 추가
-        
-        passwordInitButton.layer.cornerRadius = 7           //완료 버튼 둥글게
-        passwordInitButton.addTarget(self, action: #selector(self.passwordInit), for: .touchUpInside)
-    }
-    
-    @objc func passwordInit(sender: UIButton) {
-        
-        if isAuthorized {
-            guard let viewController = self.storyboard?.instantiateViewController(withIdentifier: "PasswordInitComplete") as? PasswordInitCompleteViewController else { return }
-            self.navigationController?.pushViewController(viewController, animated: true)
-        } else {
-            print("인증해주세요")
-        }
+        passwordInitCompleteButton.layer.cornerRadius = 7           //완료 버튼 둥글게
     }
     
     //textField delegate 설정
     func setTextFieldDelegate() {
-        nameTextField.delegate = self
-        phoneTextField.delegate = self
-        emailTextField.delegate = self
-        autorizationCodeTextField.delegate = self
+        passwordTextField.delegate = self
+        passwordConfirmTextField.delegate = self
     }
     
     //keyboard 설정
     func setKeyboard() {
         
-        notificationCenter.addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(self.keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         
         let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))   //뷰 터치시 키보드 내리기
         view.addGestureRecognizer(tap)
     }
-    
+
     //다음 버튼 누르면 아래 텍스트 필드로 포커스 이동, 마지막 텍스트 필드에서 return 누르면 키보드 내려감
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
@@ -115,17 +94,9 @@ class PasswordInitViewController: UIViewController, UITextFieldDelegate {
     
     @objc func requestAuthentication(sender: UIButton!) {
         print("PasswordInitViewController - Button tapped")
-        
-        isAuthorized = true
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        self.title = "비밀번호 변경"
-        super.viewWillAppear(animated)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        self.title = ""
         super.viewWillDisappear(animated)
         
         activeTextField = nil

@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -1246,6 +1245,10 @@
                             <constraint firstItem="HPT-h6-UHX" firstAttribute="leading" secondItem="S5W-P0-pMX" secondAttribute="leading" id="xKW-d0-05n"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="cardSettingView" destination="CbF-ge-3EE" id="eCx-aj-Nov"/>
+                        <outlet property="passwordChangeView" destination="Jgn-s2-3fN" id="pNs-YY-Lbk"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6xW-ol-nRM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -2527,6 +2530,161 @@
             </objects>
             <point key="canvasLocation" x="4052" y="157"/>
         </scene>
+        <!--비밀번호 변경 완료-->
+        <scene sceneID="7RA-4D-Rjh">
+            <objects>
+                <viewController storyboardIdentifier="PasswordChange" title="비밀번호 변경 완료" id="SsX-gv-cEZ" customClass="PasswordChangeViewController" customModule="SharingCharger" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="dTB-oc-xDm">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BRB-TZ-Wyb" userLabel="Top Line">
+                                <rect key="frame" x="0.0" y="44" width="414" height="7"/>
+                                <color key="backgroundColor" name="Color_EFEFEF"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="7" id="I0E-fK-8lm"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3aZ-5z-sKN" userLabel="Frame View">
+                                <rect key="frame" x="0.0" y="51" width="414" height="771"/>
+                                <subviews>
+                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PvM-ye-BGZ">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="771"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lnf-k3-hzg" userLabel="Content VIew">
+                                                <rect key="frame" x="0.0" y="0.0" width="414" height="258"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="현재 비밀번호*" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QHo-VU-zca" userLabel="Label Current Password" customClass="AppendStar" customModule="SharingCharger" customModuleProvider="target">
+                                                        <rect key="frame" x="25" y="30" width="364" height="18"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                        <color key="textColor" systemColor="darkTextColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <textField opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jDR-d9-VbU" userLabel="Text Current Password" customClass="CustomTextField" customModule="SharingCharger" customModuleProvider="target">
+                                                        <rect key="frame" x="25" y="58" width="364" height="18"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                        <textInputTraits key="textInputTraits" returnKeyType="next" secureTextEntry="YES"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="color" keyPath="placeholderLabel.textColor">
+                                                                <color key="value" name="Color_E0E0E0"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </textField>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="새 비밀번호*" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ytj-BU-wLi" userLabel="Label Password" customClass="AppendStar" customModule="SharingCharger" customModuleProvider="target">
+                                                        <rect key="frame" x="25" y="106" width="364" height="18"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                        <color key="textColor" systemColor="darkTextColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <textField opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4jR-Cf-VAq" userLabel="Text Password" customClass="CustomTextField" customModule="SharingCharger" customModuleProvider="target">
+                                                        <rect key="frame" x="25" y="134" width="364" height="18"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                        <textInputTraits key="textInputTraits" returnKeyType="next" secureTextEntry="YES"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="color" keyPath="placeholderLabel.textColor">
+                                                                <color key="value" name="Color_E0E0E0"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </textField>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="새 비밀번호 확인*" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EeD-KQ-C74" userLabel="Label Password Confirm" customClass="AppendStar" customModule="SharingCharger" customModuleProvider="target">
+                                                        <rect key="frame" x="25" y="182" width="364" height="18"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                        <color key="textColor" systemColor="darkTextColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <textField opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fgR-k5-mk0" userLabel="Text Password Confirm" customClass="CustomTextField" customModule="SharingCharger" customModuleProvider="target">
+                                                        <rect key="frame" x="25" y="210" width="364" height="18"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                        <textInputTraits key="textInputTraits" returnKeyType="done" secureTextEntry="YES"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="color" keyPath="placeholderLabel.textColor">
+                                                                <color key="value" name="Color_E0E0E0"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </textField>
+                                                </subviews>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstItem="fgR-k5-mk0" firstAttribute="trailing" secondItem="QHo-VU-zca" secondAttribute="trailing" id="4Us-yM-vMr"/>
+                                                    <constraint firstItem="4jR-Cf-VAq" firstAttribute="leading" secondItem="QHo-VU-zca" secondAttribute="leading" id="4zR-WA-2i3"/>
+                                                    <constraint firstItem="EeD-KQ-C74" firstAttribute="leading" secondItem="QHo-VU-zca" secondAttribute="leading" id="5cI-Wb-jzZ"/>
+                                                    <constraint firstAttribute="trailing" secondItem="QHo-VU-zca" secondAttribute="trailing" constant="25" id="6Rx-Uh-A8Z"/>
+                                                    <constraint firstItem="fgR-k5-mk0" firstAttribute="top" secondItem="EeD-KQ-C74" secondAttribute="bottom" constant="10" id="7wl-ld-0QZ"/>
+                                                    <constraint firstItem="jDR-d9-VbU" firstAttribute="trailing" secondItem="QHo-VU-zca" secondAttribute="trailing" id="8Nn-d0-RWt"/>
+                                                    <constraint firstItem="4jR-Cf-VAq" firstAttribute="top" secondItem="ytj-BU-wLi" secondAttribute="bottom" constant="10" id="Bgs-PP-SqC"/>
+                                                    <constraint firstAttribute="bottom" secondItem="fgR-k5-mk0" secondAttribute="bottom" constant="30" id="Hsl-wS-GC5"/>
+                                                    <constraint firstItem="QHo-VU-zca" firstAttribute="top" secondItem="Lnf-k3-hzg" secondAttribute="top" constant="30" id="Jfr-7a-utr"/>
+                                                    <constraint firstItem="ytj-BU-wLi" firstAttribute="top" secondItem="jDR-d9-VbU" secondAttribute="bottom" constant="30" id="O5N-ks-pAu"/>
+                                                    <constraint firstItem="EeD-KQ-C74" firstAttribute="trailing" secondItem="QHo-VU-zca" secondAttribute="trailing" id="OBp-sp-DBs"/>
+                                                    <constraint firstItem="jDR-d9-VbU" firstAttribute="top" secondItem="QHo-VU-zca" secondAttribute="bottom" constant="10" id="SpX-xr-02O"/>
+                                                    <constraint firstItem="jDR-d9-VbU" firstAttribute="leading" secondItem="QHo-VU-zca" secondAttribute="leading" id="Z11-HS-fxJ"/>
+                                                    <constraint firstItem="ytj-BU-wLi" firstAttribute="leading" secondItem="QHo-VU-zca" secondAttribute="leading" id="b7z-pu-Add"/>
+                                                    <constraint firstItem="QHo-VU-zca" firstAttribute="leading" secondItem="Lnf-k3-hzg" secondAttribute="leading" constant="25" id="chj-b7-rB4"/>
+                                                    <constraint firstItem="fgR-k5-mk0" firstAttribute="leading" secondItem="QHo-VU-zca" secondAttribute="leading" id="jGa-AN-Iwt"/>
+                                                    <constraint firstItem="4jR-Cf-VAq" firstAttribute="trailing" secondItem="QHo-VU-zca" secondAttribute="trailing" id="nD8-Fi-SQ5"/>
+                                                    <constraint firstItem="ytj-BU-wLi" firstAttribute="trailing" secondItem="QHo-VU-zca" secondAttribute="trailing" id="xDG-cK-1ME"/>
+                                                    <constraint firstItem="EeD-KQ-C74" firstAttribute="top" secondItem="4jR-Cf-VAq" secondAttribute="bottom" constant="30" id="xPj-gC-Mey"/>
+                                                </constraints>
+                                            </view>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="Lnf-k3-hzg" firstAttribute="leading" secondItem="w3m-Dg-ZBQ" secondAttribute="leading" id="0EK-VA-jq5"/>
+                                            <constraint firstItem="Lnf-k3-hzg" firstAttribute="top" secondItem="w3m-Dg-ZBQ" secondAttribute="top" id="3ym-fi-0y2"/>
+                                            <constraint firstItem="Lnf-k3-hzg" firstAttribute="width" secondItem="YH6-K5-XpI" secondAttribute="width" id="Jqx-dh-hbx"/>
+                                            <constraint firstItem="Lnf-k3-hzg" firstAttribute="trailing" secondItem="w3m-Dg-ZBQ" secondAttribute="trailing" id="YGy-dq-yyt"/>
+                                            <constraint firstItem="Lnf-k3-hzg" firstAttribute="bottom" secondItem="w3m-Dg-ZBQ" secondAttribute="bottom" id="qMB-nM-iZu"/>
+                                        </constraints>
+                                        <viewLayoutGuide key="contentLayoutGuide" id="w3m-Dg-ZBQ"/>
+                                        <viewLayoutGuide key="frameLayoutGuide" id="YH6-K5-XpI"/>
+                                    </scrollView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="PvM-ye-BGZ" secondAttribute="bottom" id="Vs0-z6-bVF"/>
+                                    <constraint firstAttribute="trailing" secondItem="PvM-ye-BGZ" secondAttribute="trailing" id="W0e-8z-FVd"/>
+                                    <constraint firstItem="PvM-ye-BGZ" firstAttribute="top" secondItem="3aZ-5z-sKN" secondAttribute="top" id="bin-Q4-0Kf"/>
+                                    <constraint firstItem="PvM-ye-BGZ" firstAttribute="leading" secondItem="3aZ-5z-sKN" secondAttribute="leading" id="xto-dK-dZp"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k8i-DZ-n77">
+                                <rect key="frame" x="0.0" y="822" width="414" height="40"/>
+                                <color key="backgroundColor" name="Color_3498DB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="MkD-jK-2S0"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                <state key="normal" title="비밀번호 변경 완료">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="bgn-VG-rtA"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="k8i-DZ-n77" firstAttribute="leading" secondItem="bgn-VG-rtA" secondAttribute="leading" id="EB3-2s-ZBd"/>
+                            <constraint firstItem="BRB-TZ-Wyb" firstAttribute="leading" secondItem="bgn-VG-rtA" secondAttribute="leading" id="F8Z-3B-VBY"/>
+                            <constraint firstItem="k8i-DZ-n77" firstAttribute="top" secondItem="3aZ-5z-sKN" secondAttribute="bottom" id="Pk4-M0-S7k"/>
+                            <constraint firstItem="BRB-TZ-Wyb" firstAttribute="trailing" secondItem="bgn-VG-rtA" secondAttribute="trailing" id="QWN-9a-6Tz"/>
+                            <constraint firstItem="3aZ-5z-sKN" firstAttribute="trailing" secondItem="bgn-VG-rtA" secondAttribute="trailing" id="QyN-uc-n67"/>
+                            <constraint firstItem="3aZ-5z-sKN" firstAttribute="leading" secondItem="bgn-VG-rtA" secondAttribute="leading" id="dKo-x8-wg9"/>
+                            <constraint firstItem="3aZ-5z-sKN" firstAttribute="top" secondItem="BRB-TZ-Wyb" secondAttribute="bottom" id="iez-EB-amC"/>
+                            <constraint firstItem="bgn-VG-rtA" firstAttribute="bottom" secondItem="k8i-DZ-n77" secondAttribute="bottom" id="j3Q-vy-YlG"/>
+                            <constraint firstItem="k8i-DZ-n77" firstAttribute="trailing" secondItem="bgn-VG-rtA" secondAttribute="trailing" id="wyq-9B-2b8"/>
+                            <constraint firstItem="BRB-TZ-Wyb" firstAttribute="top" secondItem="bgn-VG-rtA" secondAttribute="top" id="xo4-ug-u02"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="currentPasswordTextField" destination="jDR-d9-VbU" id="4bM-DM-ZB6"/>
+                        <outlet property="passwordConfirmTextField" destination="fgR-k5-mk0" id="DRM-Uh-rDU"/>
+                        <outlet property="passwordInitCompleteButton" destination="k8i-DZ-n77" id="KqZ-r4-xf0"/>
+                        <outlet property="passwordTextField" destination="4jR-Cf-VAq" id="KYa-c5-UJI"/>
+                        <outlet property="scrollView" destination="PvM-ye-BGZ" id="TdT-wq-CTL"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9o9-Im-NM4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3220" y="871"/>
+        </scene>
     </scenes>
     <resources>
         <image name="Image_clock" width="85.333335876464844" height="85.333335876464844"/>
@@ -2565,6 +2723,15 @@
         <namedColor name="Color_EFEFEF">
             <color red="0.93333333333333335" green="0.93333333333333335" blue="0.93333333333333335" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <systemColor name="darkTextColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="darkTextColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="darkTextColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="darkTextColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

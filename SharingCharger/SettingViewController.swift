@@ -10,8 +10,20 @@ import UIKit
 
 class SettingViewController: UIViewController {
 
+    @IBOutlet weak var passwordChangeView: UIView!
+    @IBOutlet weak var cardSettingView: UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let passwordChangeGesture = UITapGestureRecognizer(target: self, action: #selector(self.passwordChange(_:)))
+        passwordChangeView.isUserInteractionEnabled = true
+        passwordChangeView.addGestureRecognizer(passwordChangeGesture)
+    }
+    
+    @objc func passwordChange(_ sender: UITapGestureRecognizer) {
+        guard let viewController = self.storyboard?.instantiateViewController(withIdentifier: "PasswordChange") as? PasswordChangeViewController else { return }
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
     
     @IBAction func logoutButton(_ sender: Any) {
@@ -28,5 +40,15 @@ class SettingViewController: UIViewController {
         
         UIApplication.shared.windows.first?.rootViewController = navigationController
         UIApplication.shared.windows.first?.makeKeyAndVisible()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.title = "설정"
+        super.viewWillAppear(animated)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.title = ""
+        super.viewWillDisappear(animated)
     }
 }

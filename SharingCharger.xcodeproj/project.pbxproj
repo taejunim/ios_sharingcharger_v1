@@ -37,6 +37,8 @@
 		DA41A08C24EBB35400E7BB93 /* AppendStar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA41A08B24EBB35400E7BB93 /* AppendStar.swift */; };
 		DA41A1F024ECF71200E7BB93 /* PasswordInitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA41A1EF24ECF71200E7BB93 /* PasswordInitViewController.swift */; };
 		DA4C26E6253B204500E3E79C /* FavoriteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4C26E5253B204500E3E79C /* FavoriteCell.swift */; };
+		DA5A1E8B2566AB99005D09B8 /* PasswordChangeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5A1E8A2566AB99005D09B8 /* PasswordChangeViewController.swift */; };
+		DA75C9E225662F380012CAFE /* PasswordInitCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA75C9E125662F380012CAFE /* PasswordInitCompleteViewController.swift */; };
 		DA9676D7255BD20B007D2FFC /* EvzBLEKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA9676D5255BD205007D2FFC /* EvzBLEKit.xcframework */; };
 		DA9676D8255BD20B007D2FFC /* EvzBLEKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA9676D5255BD205007D2FFC /* EvzBLEKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA96CDA52546BFBE005DD955 /* ChargerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA96CDA42546BFBE005DD955 /* ChargerCell.swift */; };
@@ -147,6 +149,8 @@
 		DA41A08B24EBB35400E7BB93 /* AppendStar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppendStar.swift; sourceTree = "<group>"; };
 		DA41A1EF24ECF71200E7BB93 /* PasswordInitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordInitViewController.swift; sourceTree = "<group>"; };
 		DA4C26E5253B204500E3E79C /* FavoriteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCell.swift; sourceTree = "<group>"; };
+		DA5A1E8A2566AB99005D09B8 /* PasswordChangeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordChangeViewController.swift; sourceTree = "<group>"; };
+		DA75C9E125662F380012CAFE /* PasswordInitCompleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordInitCompleteViewController.swift; sourceTree = "<group>"; };
 		DA9676D5255BD205007D2FFC /* EvzBLEKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = EvzBLEKit.xcframework; path = "../../../../../../Documents/02.업무/05.전기차 충전 서비스 특구/03.구현/BLE/IOS_SDK_11_02/EvzBLEKit.xcframework"; sourceTree = "<group>"; };
 		DA96CDA42546BFBE005DD955 /* ChargerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargerCell.swift; sourceTree = "<group>"; };
 		DA96CDA625480E6E005DD955 /* ChargeObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargeObject.swift; sourceTree = "<group>"; };
@@ -323,17 +327,19 @@
 				DAAC21D22521D4E20086055F /* LeftMenuViewController.swift */,
 				DABC41AB24CE73F500DD366F /* LoginViewController.swift */,
 				DADCD4C624F4E2080026EFAD /* MainViewController.swift */,
+				DA75C9E125662F380012CAFE /* PasswordInitCompleteViewController.swift */,
 				DA41A1EF24ECF71200E7BB93 /* PasswordInitViewController.swift */,
 				DAF563D025426F1800BDE08D /* ReservationPopupViewController.swift */,
 				DADCD4F124F554710026EFAD /* ReservationViewController.swift */,
 				DA26FB2424FCC0FF00D76753 /* SampleTableViewCell.swift */,
 				DA26FB2224FCC0CC00D76753 /* SampleViewController.swift */,
+				C6A4023B255BE3DF006B49D8 /* SearchingAddressViewController.swift */,
+				C6E94F492551454800668994 /* SearchingChargeHistoryConditionViewController.swift */,
 				C6633DEC252C362900F02F24 /* SearchingChargerViewController.swift */,
 				DAF0F3F7250E1E540055226F /* SearchingConditionViewController.swift */,
-				372D309124F6324000CEB232 /* SettingViewController.swift */,
-				C6E94F492551454800668994 /* SearchingChargeHistoryConditionViewController.swift */,
 				C6E94F4B255146C800668994 /* SearchingPointHistoryConditionViewController.swift */,
-				C6A4023B255BE3DF006B49D8 /* SearchingAddressViewController.swift */,
+				372D309124F6324000CEB232 /* SettingViewController.swift */,
+				DA5A1E8A2566AB99005D09B8 /* PasswordChangeViewController.swift */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -611,6 +617,7 @@
 				DA341674250B7AF00031999F /* ShadowCircleView.swift in Sources */,
 				DABC41AC24CE73F500DD366F /* LoginViewController.swift in Sources */,
 				DABC41A824CE73F500DD366F /* AppDelegate.swift in Sources */,
+				DA5A1E8B2566AB99005D09B8 /* PasswordChangeViewController.swift in Sources */,
 				DAF563D125426F1800BDE08D /* ReservationPopupViewController.swift in Sources */,
 				C6E94F4A2551454800668994 /* SearchingChargeHistoryConditionViewController.swift in Sources */,
 				C6633E0E25357F8600F02F24 /* ReservationObject.swift in Sources */,
@@ -652,6 +659,7 @@
 				DAF4D9D3252C360700B4D218 /* TranslationTarget.swift in Sources */,
 				DA0AF40A2531BFAE00FE5FF7 /* Utils.swift in Sources */,
 				DA341672250A20620031999F /* ShadowView.swift in Sources */,
+				DA75C9E225662F380012CAFE /* PasswordInitCompleteViewController.swift in Sources */,
 				DA96CDA52546BFBE005DD955 /* ChargerCell.swift in Sources */,
 				DAF563D32542CEC100BDE08D /* ChargerObject.swift in Sources */,
 				37201B7924FC95DD000A3F08 /* HistoryElectricityTableCell.swift in Sources */,
