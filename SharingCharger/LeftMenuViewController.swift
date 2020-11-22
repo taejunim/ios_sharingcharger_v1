@@ -27,6 +27,8 @@ class LeftMenuViewController: UIViewController {
     var utils: Utils?
     var activityIndicator: UIActivityIndicatorView?
     
+    let callCenterNumber = "064-725-6800"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -302,7 +304,19 @@ class LeftMenuViewController: UIViewController {
     @objc func callCenterButton(_ sender: UITapGestureRecognizer) {
         
         print("callCenterButton")
-        
+
+        let url = URL(string: "telprompt://\(callCenterNumber)")!
+        let shared = UIApplication.shared
+
+        if shared.canOpenURL(url) {
+            
+            shared.open(url, options: [:], completionHandler: nil)
+            
+        }else {
+            
+            print("전화 url을 열수 없습니다.")
+            
+        }
     }
     
     @objc func userCertificationButton(_ sender: UITapGestureRecognizer){
