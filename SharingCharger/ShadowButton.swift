@@ -11,7 +11,7 @@ import UIKit
 class ShadowButton: UIButton {
 
     private var shadowLayer: CAShapeLayer!
-
+    
     override func layoutSubviews() {
         super.layoutSubviews()
 
@@ -54,9 +54,9 @@ class ShadowButton: UIButton {
         case "address":
             
             self.titleLabel?.font = UIFont.systemFont(ofSize: CGFloat(18))
-            self.setTitle("제주시 이도이동", for: .normal)
+            //self.setTitle("", for: .normal)
             self.addTarget(MainViewController(), action: #selector(MainViewController.addressButton), for: .touchUpInside)
-            
+
             break
             
         default:
@@ -87,4 +87,5 @@ class ShadowButton: UIButton {
             self.bottomAnchor.constraint(equalTo: target.bottomAnchor, constant: bottom!).isActive = true
         }
      }
+    
 }

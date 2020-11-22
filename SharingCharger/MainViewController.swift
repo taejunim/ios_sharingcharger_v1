@@ -12,9 +12,10 @@ import SideMenu
 import GoneVisible
 import Alamofire
 import Toast_Swift
+import CoreLocation
 
-class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditionProtocol, FavoriteProtocol, ReservationPopupProtocol {
-    
+class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditionProtocol, FavoriteProtocol, ReservationPopupProtocol , SearchingAddressProtocol{
+
     var delegate: SearchingConditionProtocol?
     
     @IBOutlet var mapView: UIView!
@@ -23,11 +24,12 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
     var chargerView: BottomSheetView?
     var chargerContentView = ChargerContentView()
     
+    var shadowButton = ShadowButton()
+    
     var chargerViewMinimumHeight: CGFloat = 0       //충전기 화면 최소 높이
     var chargerViewMaximumHeight: CGFloat = 0       //충전기 화면 최대 높이
     
     var currentSelectedPoiItem: MTMapPOIItem?       //현재 선택된 마커
-    
     var reservationView = CustomButton(type: .system)
     
     var isCurrentLocationTrackingMode = false
@@ -42,9 +44,18 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
     var selectedChargerObject: ChargerObject?
     var receivedSearchingConditionObject: SearchingConditionObject! = SearchingConditionObject()
     var receivedFavoriteObject: FavoriteObject? = nil
-    
+    var selectedAddressObject: SelectedPositionObject? = nil
+
     let dateFormatter = DateFormatter()
     let realDateFormatter = DateFormatter()
+    
+    let geoCoder = CLGeocoder()
+    
+    let addressView = ShadowButton(type: .system)
+    var labelChange = true
+    var currentLocationInit = true
+    
+    let locationManager = CLLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,21 +67,25 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
             mTMapView.baseMapType = .standard
             mapView.addSubview(mTMapView)
         }
+                
+        if let defaultLatitude = locationManager.location?.coordinate.latitude , let defaultLongitude = locationManager.location?.coordinate.longitude{
         
-        let DEFAULT_POSITION = MTMapPointGeo(latitude: 33.4524448, longitude: 126.5676508)
-        
-        mTMapView?.setMapCenter(MTMapPoint(geoCoord: DEFAULT_POSITION), zoomLevel: 1, animated: true)
+            let DEFAULT_POSITION = MTMapPointGeo(latitude: defaultLatitude, longitude: defaultLongitude)
+            mTMapView?.setMapCenter(MTMapPoint(geoCoord: DEFAULT_POSITION), zoomLevel: 1, animated: true)
+            
+        }
         
         addButton(buttonName: "menu", width: 40, height: 40, top: 15, left: 15, right: nil, bottom: nil, target: mapView)
         addButton(buttonName: "address", width: nil, height: 40, top: 15, left: 70, right: -15, bottom: nil, target: mapView)
         addReservationButton(buttonName: "reservation", width: nil, height: 40, top: nil, left: 0, right: 0, bottom: 0, target: self.view, targetViewController: self)
         addCurrentLocationButton(buttonName: "currentLocation", width: 40, height: 40, top: 70, left: nil, right: -15, bottom: nil, target: mapView)
         addView(width: nil, height: 110, top: nil, left: 15, right: -15, bottom: 0, target: mapView)
-        
+    
         NotificationCenter.default.addObserver(self, selector: #selector(updateSearchingCondition(_:)), name: .updateSearchingCondition, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(lookFavorite(_:)), name: .lookFavorite, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(reservationPopup(_:)), name: .reservationPopup, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(startCharge(_:)), name: .startCharge, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(searchingAddress(_:)), name: .searchAddress, object: nil)
         
         //로딩 뷰
         utils = Utils(superView: self.view)
@@ -214,7 +229,7 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         
         return false
     }
-
+    
     //지도 클릭했을 때
     func mapView(_ mapView: MTMapView!, singleTapOn mapPoint: MTMapPoint!) {
         
@@ -224,7 +239,15 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         
         selectedChargerObject = nil
     }
-    
+
+    func mapView(_ mapView: MTMapView!, finishedMapMoveAnimation mapCenterPoint: MTMapPoint!) {
+        print("finishedMapMoveAnimation \(mapCenterPoint.mapPointGeo())")
+        
+        changeAddressButtonText(latitude: mapCenterPoint.mapPointGeo().latitude, longitude: mapCenterPoint.mapPointGeo().longitude, placeName: nil)
+        labelChange = true
+        
+    }
+
     private func showSearchingConditionView() {
         //충전기 화면 사라짐
         chargerView?.dismiss()
@@ -337,6 +360,26 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                 sideMenuNavigationController.settings = makeSettings()
             }
         }
+        
+        if segue.identifier == "segueToAddress" {
+            if let searchingAddressViewController = segue.destination as? SearchingAddressViewController {
+                
+                if let userLatitude = locationManager.location?.coordinate.latitude , let userLongitude = locationManager.location?.coordinate.longitude{
+                
+                    searchingAddressViewController.userLatitude = userLatitude
+                    searchingAddressViewController.userLongitude = userLongitude
+                }
+                if let mapLatitude = mTMapView?.mapCenterPoint.mapPointGeo().latitude , let mapLongitude = mTMapView?.mapCenterPoint.mapPointGeo().longitude{
+                    
+                    searchingAddressViewController.mapLatitude = mapLatitude
+                    searchingAddressViewController.mapLongitude = mapLongitude
+                    
+                }
+
+                searchingAddressViewController.defaultAddress = (self.addressView.titleLabel?.text)!
+                searchingAddressViewController.delegate       = self
+            }
+        }
     }
     
     private func selectedPresentationStyle() -> SideMenuPresentationStyle {
@@ -367,16 +410,8 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
     //주소 찾기 버튼
     @objc func addressButton(sender: UIButton!) {
         print("MainViewController - addressButton tapped")
-        //UserDefaults.standard.set(0, forKey: "reservationId")
-        //UserDefaults.standard.set(nil, forKey: "reservationInfo")
-        let viewController: UIViewController!
-        let bottomSheet: MDCBottomSheetController!
+        self.performSegue(withIdentifier: "segueToAddress", sender: self)
         
-        viewController = self.storyboard?.instantiateViewController(withIdentifier: "AddressPopup")
-        bottomSheet = MDCBottomSheetController(contentViewController: viewController)
-        bottomSheet.preferredContentSize = CGSize(width: mapView.frame.size.width, height: mapView.frame.size.height)
-        
-        present(bottomSheet, animated: true, completion: nil)
     }
     
     //검색 조건 버튼
@@ -435,11 +470,21 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
     //사이드메뉴, 주소 찾기 버튼 추가
     private func addButton(buttonName: String?, width: CGFloat?, height: CGFloat?, top: CGFloat?, left: CGFloat?, right: CGFloat?, bottom: CGFloat?, target: AnyObject) {
         
-        let button = ShadowButton(type: .system)
+        if buttonName == "address" {
+            
+            mapView?.addSubview(addressView)
+            
+            addressView.setAttributes(buttonName: buttonName, width: width, height: height, top: top, left: left, right: right, bottom: bottom, target: target)
+            
+        } else {
+            let button = ShadowButton(type: .system)
+            
+            mapView?.addSubview(button)
+            
+            button.setAttributes(buttonName: buttonName, width: width, height: height, top: top, left: left, right: right, bottom: bottom, target: target)
+        }
         
-        mapView?.addSubview(button)
         
-        button.setAttributes(buttonName: buttonName, width: width, height: height, top: top, left: left, right: right, bottom: bottom, target: target)
     }
     
     //예약하기 버튼
@@ -504,6 +549,33 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         searchingConditionView.initializeLayer()
     }
     
+    func searchingAddressDelegate(data: SelectedPositionObject ) {
+        print("searchingAddressDelegate")
+        NotificationCenter.default.post(name: .searchAddress, object: data, userInfo: nil)
+        
+    }
+    
+    @objc func searchingAddress(_ notification: Notification) {
+
+        selectedAddressObject = notification.object as? SelectedPositionObject
+       
+        if let latitude = selectedAddressObject?.latitude , let longitude = selectedAddressObject?.longitude {
+
+            let selectedAddress = MTMapPoint(geoCoord: MTMapPointGeo(latitude: latitude, longitude: longitude))
+            moveMapView(mapPoint: selectedAddress!)
+        }
+        
+        labelChange = false
+        changeAddressButtonText(latitude: nil, longitude: nil, placeName: selectedAddressObject?.place_name)
+        
+    }
+    
+    func moveMapView(mapPoint : MTMapPoint){
+        
+        mTMapView?.setMapCenter( mapPoint, zoomLevel: 1, animated: true)
+    
+    }
+    
     func startChargeDelegate() {
         NotificationCenter.default.post(name: .startCharge, object: nil, userInfo: nil)
     }
@@ -519,7 +591,6 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
     func mapView(_ mapView: MTMapView!, updateCurrentLocation location: MTMapPoint!, withAccuracy accuracy: MTMapLocationAccuracy) {
         
         let currentLocation = location?.mapPointGeo()
-        
         if let latitude = currentLocation?.latitude, let longitude = currentLocation?.longitude{
             print("MTMapView updateCurrentLocation (\(latitude),\(longitude)) accuracy (\(accuracy))")
         }
@@ -532,18 +603,17 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
     //현재 위치 버튼
     @objc func currentLocationTrackingModeButton(sender: UIView!) {
         
+        print("currentLocationTrackingModeButton")
         if isCurrentLocationTrackingMode {
             
             mTMapView?.showCurrentLocationMarker = false
             mTMapView?.currentLocationTrackingMode = .off
-            
             isCurrentLocationTrackingMode = false
             
         } else {
-        
+
             mTMapView?.showCurrentLocationMarker = true
             mTMapView?.currentLocationTrackingMode = .onWithoutHeading
-            
             isCurrentLocationTrackingMode = true
         }
     }
@@ -706,11 +776,10 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
             self.activityIndicator!.stopAnimating()
         })
     }
-    
+   
     //view 가 나타난 후
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
         //즐겨찾기에서 지도보기 클릭 후 다시 메인으로 온 경우
         if receivedFavoriteObject != nil {
             
@@ -725,10 +794,34 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                 }
             }
         }
-        
         //예약 정보 가져오기
         getReservation()
     }
+    
+    func changeAddressButtonText(latitude : Double?, longitude : Double?, placeName : String?){
+  
+        if labelChange {
+            if(latitude != nil && longitude != nil ){
+            
+                let location = CLLocation(latitude: latitude!, longitude: longitude!)
+        
+                geoCoder.reverseGeocodeLocation(location, completionHandler: { (placemarks, error) in
+            
+                    if let addressInstance = placemarks?[0] {
+                 
+                        let address = addressInstance.name
+                        self.addressView.setTitle(address, for: .normal)
+                
+                    }
+                })
+            }
+        } else if placeName != nil {
+
+            self.addressView.setTitle(placeName, for: .normal)
+        }
+        
+    }
+    
     
     private func checkDeviceFrame() -> CGFloat {
         
@@ -764,10 +857,10 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         return deviceHeight
     }
 }
-
 extension Notification.Name {
     static let updateSearchingCondition = Notification.Name("updateSearchingCondition")
     static let lookFavorite = Notification.Name("lookFavorite")
     static let reservationPopup = Notification.Name("reservationPopup")
     static let startCharge = Notification.Name("startCharge")
+    static let searchAddress = Notification.Name("searchAddress")
 }

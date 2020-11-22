@@ -14,7 +14,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		MGKYrl4dU65Lz1ZIgbbE5LLGHwE=
+		pyBC4huPAAnTxSa5/2C+6X3rRsY=
 		</data>
 		<key>Modules/EvzBLEKit.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
@@ -26,7 +26,7 @@
 		</data>
 		<key>Modules/EvzBLEKit.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		m8NSFBIZOYTD6feScewVfvFC1as=
+		j063wc1K/rn9zn9GDwrZ0M9Xbjs=
 		</data>
 		<key>Modules/EvzBLEKit.swiftmodule/x86_64.swiftdoc</key>
 		<data>
@@ -38,7 +38,7 @@
 		</data>
 		<key>Modules/EvzBLEKit.swiftmodule/x86_64.swiftmodule</key>
 		<data>
-		m8NSFBIZOYTD6feScewVfvFC1as=
+		j063wc1K/rn9zn9GDwrZ0M9Xbjs=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -79,7 +79,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			pBsQge+bQhO9OWuBdMT5JoeESVzLckdqHXomLHr1aoE=
+			+cbW5NcLNF8fVXY063ivrwBiIDi7LIkYgMn4Wzk0950=
 			</data>
 		</dict>
 		<key>Modules/EvzBLEKit.swiftmodule/x86_64.swiftdoc</key>
@@ -100,7 +100,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			pBsQge+bQhO9OWuBdMT5JoeESVzLckdqHXomLHr1aoE=
+			+cbW5NcLNF8fVXY063ivrwBiIDi7LIkYgMn4Wzk0950=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

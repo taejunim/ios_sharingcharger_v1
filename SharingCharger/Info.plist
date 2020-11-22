@@ -6,6 +6,8 @@
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIconName</key>
+	<string>AppIcon</string>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -18,10 +20,8 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
-    <key>CFBundleIconName</key>
-    <string>AppIcon</string>
 	<key>KAKAO_APP_KEY</key>
-	<string>8c076cd238736c78c5f2a703adf2c1ff</string>
+	<string>4332dce3f2f8d3ee87e31884c5c5523d</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>KakaoMap</string>
@@ -38,11 +38,11 @@
 	<key>NSBluetoothPeripheralUsageDescription</key>
 	<string>충전기와 통신을 위해 블루투스 권한이 필요합니다.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Used to Location's Info always for Using Beacon.</string>
+	<string>Used to Location&apos;s Info always for Using Beacon.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Used to Location's Info always for Using Beacon.</string>
+	<string>Used to Location&apos;s Info always for Using Beacon.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Used to Location's Info for Using Beacon when In Use.</string>
+	<string>Used to Location&apos;s Info for Using Beacon when In Use.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

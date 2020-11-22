@@ -127,7 +127,7 @@ class SearchingPointHistoryCondition: UIViewController {
  
             if(index == periodButtonArray.firstIndex(of: sender)){
                 
-                periodButtonArray[index].layer.borderWidth = 1.0
+                periodButtonArray[index].layer.borderWidth = buttonBorderWidth
                 periodButtonArray[index].layer.borderColor = Color3498DB?.cgColor
                 periodButtonArray[index].layer.backgroundColor = Color3498DB?.cgColor
                 periodButtonArray[index].setTitleColor(ColorWhite, for: .normal)
@@ -135,7 +135,7 @@ class SearchingPointHistoryCondition: UIViewController {
                 
             } else{
 
-                periodButtonArray[index].layer.borderWidth = 1.0
+                periodButtonArray[index].layer.borderWidth = buttonBorderWidth
                 periodButtonArray[index].layer.borderColor = ColorE0E0E0?.cgColor
                 periodButtonArray[index].layer.backgroundColor = ColorWhite?.cgColor
                 periodButtonArray[index].setTitleColor(ColorE0E0E0, for: .normal)
@@ -151,7 +151,7 @@ class SearchingPointHistoryCondition: UIViewController {
         for index in 0...1 {
             if(index == sortButtonArray.firstIndex(of: sender)){
             
-                sortButtonArray[index].layer.borderWidth = 1.0
+                sortButtonArray[index].layer.borderWidth = buttonBorderWidth
                 sortButtonArray[index].layer.borderColor = Color3498DB?.cgColor
                 sortButtonArray[index].layer.backgroundColor = Color3498DB?.cgColor
                 sortButtonArray[index].setTitleColor(ColorWhite, for: .normal)
@@ -159,7 +159,7 @@ class SearchingPointHistoryCondition: UIViewController {
             
             } else{
 
-                sortButtonArray[index].layer.borderWidth = 1.0
+                sortButtonArray[index].layer.borderWidth = buttonBorderWidth
                 sortButtonArray[index].layer.borderColor = ColorE0E0E0?.cgColor
                 sortButtonArray[index].layer.backgroundColor = ColorWhite?.cgColor
                 sortButtonArray[index].setTitleColor(ColorE0E0E0, for: .normal)
@@ -172,7 +172,7 @@ class SearchingPointHistoryCondition: UIViewController {
         for index in 0...3 {
             if(index == pointButtonArray.firstIndex(of: sender)){
             
-                pointButtonArray[index].layer.borderWidth = 1.0
+                pointButtonArray[index].layer.borderWidth = buttonBorderWidth
                 pointButtonArray[index].layer.borderColor = Color3498DB?.cgColor
                 pointButtonArray[index].layer.backgroundColor = Color3498DB?.cgColor
                 pointButtonArray[index].setTitleColor(ColorWhite, for: .normal)
@@ -180,7 +180,7 @@ class SearchingPointHistoryCondition: UIViewController {
             
             } else{
 
-                pointButtonArray[index].layer.borderWidth = 1.0
+                pointButtonArray[index].layer.borderWidth = buttonBorderWidth
                 pointButtonArray[index].layer.borderColor = ColorE0E0E0?.cgColor
                 pointButtonArray[index].layer.backgroundColor = ColorWhite?.cgColor
                 pointButtonArray[index].setTitleColor(ColorE0E0E0, for: .normal)

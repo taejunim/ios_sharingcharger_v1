@@ -52,11 +52,6 @@ class HistoryPointViewController: UIViewController, UITableViewDelegate, UITable
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.tableView.delegate = self
-        self.tableView.dataSource = self
-        
-        self.tableView.allowsSelection = false
         
         dateFormatter.locale        = Locale(identifier: "ko")
         dateFormatter.dateFormat    = "yyyy-MM-dd"

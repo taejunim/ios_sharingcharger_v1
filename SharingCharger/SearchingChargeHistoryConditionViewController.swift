@@ -109,7 +109,7 @@ class SearchingChargeHistoryCondition: UIViewController {
  
             if(index == periodButtonArray.firstIndex(of: sender)){
                 
-                periodButtonArray[index].layer.borderWidth = 1.0
+                periodButtonArray[index].layer.borderWidth = buttonBorderWidth
                 periodButtonArray[index].layer.borderColor = Color3498DB?.cgColor
                 periodButtonArray[index].layer.backgroundColor = Color3498DB?.cgColor
                 periodButtonArray[index].setTitleColor(ColorWhite, for: .normal)
@@ -117,7 +117,7 @@ class SearchingChargeHistoryCondition: UIViewController {
                 
             } else{
 
-                periodButtonArray[index].layer.borderWidth = 1.0
+                periodButtonArray[index].layer.borderWidth = buttonBorderWidth
                 periodButtonArray[index].layer.borderColor = ColorE0E0E0?.cgColor
                 periodButtonArray[index].layer.backgroundColor = ColorWhite?.cgColor
                 periodButtonArray[index].setTitleColor(ColorE0E0E0, for: .normal)
@@ -135,7 +135,7 @@ class SearchingChargeHistoryCondition: UIViewController {
         for index in 0...1 {
             if(index == sortButtonArray.firstIndex(of: sender)){
             
-                sortButtonArray[index].layer.borderWidth = 1.0
+                sortButtonArray[index].layer.borderWidth = buttonBorderWidth
                 sortButtonArray[index].layer.borderColor = Color3498DB?.cgColor
                 sortButtonArray[index].layer.backgroundColor = Color3498DB?.cgColor
                 sortButtonArray[index].setTitleColor(ColorWhite, for: .normal)
@@ -143,7 +143,7 @@ class SearchingChargeHistoryCondition: UIViewController {
             
             } else{
 
-                sortButtonArray[index].layer.borderWidth = 1.0
+                sortButtonArray[index].layer.borderWidth = buttonBorderWidth
                 sortButtonArray[index].layer.borderColor = ColorE0E0E0?.cgColor
                 sortButtonArray[index].layer.backgroundColor = ColorWhite?.cgColor
                 sortButtonArray[index].setTitleColor(ColorE0E0E0, for: .normal)

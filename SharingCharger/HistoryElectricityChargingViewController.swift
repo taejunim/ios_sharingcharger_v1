@@ -198,7 +198,6 @@ class HistoryElectricityChargingViewController: UIViewController, UITableViewDel
                         self.arr.append(content)
                       
                     }
-                    self.tableView.dataSource = self
                     
                     DispatchQueue.main.async {
                             
