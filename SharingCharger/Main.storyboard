@@ -1069,6 +1069,12 @@
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="회원 증명서" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oeS-to-rvA">
+                                                        <rect key="frame" x="20" y="276" width="394" height="21"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
                                                 </subviews>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
@@ -1079,7 +1085,10 @@
                                                     <constraint firstItem="02U-I4-Ha6" firstAttribute="top" secondItem="MSv-O3-8QO" secondAttribute="bottom" constant="40" id="8BD-DO-59J"/>
                                                     <constraint firstItem="02U-I4-Ha6" firstAttribute="trailing" secondItem="0CF-eI-TYV" secondAttribute="trailing" id="8OB-dE-anW"/>
                                                     <constraint firstItem="ha8-lJ-5oq" firstAttribute="leading" secondItem="0CF-eI-TYV" secondAttribute="leading" id="C4o-ke-gdP"/>
+                                                    <constraint firstItem="oeS-to-rvA" firstAttribute="leading" secondItem="0CF-eI-TYV" secondAttribute="leading" id="HQV-XL-yoz"/>
+                                                    <constraint firstItem="oeS-to-rvA" firstAttribute="top" secondItem="02U-I4-Ha6" secondAttribute="bottom" constant="40" id="MbO-x6-T5U"/>
                                                     <constraint firstItem="ha8-lJ-5oq" firstAttribute="trailing" secondItem="0CF-eI-TYV" secondAttribute="trailing" id="NsY-2T-g34"/>
+                                                    <constraint firstItem="oeS-to-rvA" firstAttribute="trailing" secondItem="0CF-eI-TYV" secondAttribute="trailing" id="Zg8-NB-7Ao"/>
                                                     <constraint firstItem="02U-I4-Ha6" firstAttribute="leading" secondItem="0CF-eI-TYV" secondAttribute="leading" id="cbF-Uo-UBK"/>
                                                     <constraint firstAttribute="trailing" secondItem="0CF-eI-TYV" secondAttribute="trailing" id="eWA-Tg-wYD"/>
                                                     <constraint firstItem="MSv-O3-8QO" firstAttribute="top" secondItem="ha8-lJ-5oq" secondAttribute="bottom" constant="40" id="kZB-vL-HvG"/>
@@ -1223,6 +1232,7 @@
                         <outlet property="pointHistoryLabel" destination="ha8-lJ-5oq" id="gvY-RW-2FI"/>
                         <outlet property="pointLabel" destination="adY-oe-gCd" id="QQw-0p-msw"/>
                         <outlet property="reservationStateLabel" destination="p6j-db-ItC" id="rQm-ed-sos"/>
+                        <outlet property="userCertificationLabel" destination="oeS-to-rvA" id="Jok-rH-Ocp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nl5-JM-w7r" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -2304,6 +2314,40 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YZJ-g1-0VC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3236" y="1606"/>
+        </scene>
+        <!--회원 증명서-->
+        <scene sceneID="tTM-yI-uUe">
+            <objects>
+                <viewController storyboardIdentifier="UserCertification" title="회원 증명서" id="lhD-c6-XyT" customClass="UserCertificationViewController" customModule="SharingCharger" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5ck-xY-fA7">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y74-DR-Ddk">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="bYq-wL-DrK"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="bYq-wL-DrK" firstAttribute="bottom" secondItem="Y74-DR-Ddk" secondAttribute="bottom" id="1Kj-lr-tW5"/>
+                            <constraint firstItem="Y74-DR-Ddk" firstAttribute="top" secondItem="bYq-wL-DrK" secondAttribute="top" id="TF4-bR-zAP"/>
+                            <constraint firstItem="bYq-wL-DrK" firstAttribute="trailing" secondItem="Y74-DR-Ddk" secondAttribute="trailing" id="mEQ-Ic-PRv"/>
+                            <constraint firstItem="Y74-DR-Ddk" firstAttribute="leading" secondItem="bYq-wL-DrK" secondAttribute="leading" id="w12-B1-aGi"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="userCertificationWebView" destination="Y74-DR-Ddk" id="0jG-e6-5li"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9Ix-Yp-nYh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4051" y="1606"/>
         </scene>
         <!--충전기 검색-->
         <scene sceneID="oco-lq-KTu">

@@ -20,6 +20,7 @@ class LeftMenuViewController: UIViewController {
     @IBOutlet var pointHistoryLabel: UILabel!
     @IBOutlet var favoriteLabel: UILabel!
     @IBOutlet var callCenterLabel: UILabel!
+    @IBOutlet var userCertificationLabel: UILabel!
     
     let myUserDefaults = UserDefaults.standard
     
@@ -59,6 +60,10 @@ class LeftMenuViewController: UIViewController {
         let callCenterGesture = UITapGestureRecognizer(target: self, action: #selector(self.callCenterButton(_:)))
         callCenterLabel.isUserInteractionEnabled = true
         callCenterLabel.addGestureRecognizer(callCenterGesture)
+        
+        let userCertificationGesture = UITapGestureRecognizer(target: self, action: #selector(self.userCertificationButton(_:)))
+        userCertificationLabel.isUserInteractionEnabled = true
+        userCertificationLabel.addGestureRecognizer(userCertificationGesture)
     }
     
     private func getPoint() {
@@ -297,6 +302,16 @@ class LeftMenuViewController: UIViewController {
     @objc func callCenterButton(_ sender: UITapGestureRecognizer) {
         
         print("callCenterButton")
+        
+    }
+    
+    @objc func userCertificationButton(_ sender: UITapGestureRecognizer){
+        
+        print("userCertificationButton")
+        
+        guard let viewController = self.storyboard?.instantiateViewController(withIdentifier: "UserCertification") else { return }
+        
+        self.navigationController?.pushViewController(viewController, animated: true)
         
     }
     

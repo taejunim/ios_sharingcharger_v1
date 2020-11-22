@@ -18,6 +18,7 @@
 		C6489FF5256A833D0063E07E /* SelectedPositionObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6489FF4256A833D0063E07E /* SelectedPositionObject.swift */; };
 		C64E0898256A85E60075D182 /* EvzBLEKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = C64E0896256A85E20075D182 /* EvzBLEKit.xcframework */; };
 		C64E0899256A85E60075D182 /* EvzBLEKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C64E0896256A85E20075D182 /* EvzBLEKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C64E08A3256A8BC70075D182 /* UserCertificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C64E08A2256A8BC70075D182 /* UserCertificationViewController.swift */; };
 		C65F1BA1253C53E9002F6B19 /* ChargingHistoryObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65F1BA0253C53E9002F6B19 /* ChargingHistoryObject.swift */; };
 		C65F1BAD253E87FC002F6B19 /* SearchingHistoryConditionObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65F1BAC253E87FC002F6B19 /* SearchingHistoryConditionObject.swift */; };
 		C6633DED252C362900F02F24 /* SearchingChargerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6633DEC252C362900F02F24 /* SearchingChargerViewController.swift */; };
@@ -131,6 +132,7 @@
 		C6489FF2256A83110063E07E /* SearchingAddressObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchingAddressObject.swift; sourceTree = "<group>"; };
 		C6489FF4256A833D0063E07E /* SelectedPositionObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedPositionObject.swift; sourceTree = "<group>"; };
 		C64E0896256A85E20075D182 /* EvzBLEKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = EvzBLEKit.xcframework; sourceTree = "<group>"; };
+		C64E08A2256A8BC70075D182 /* UserCertificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCertificationViewController.swift; sourceTree = "<group>"; };
 		C65F1BA0253C53E9002F6B19 /* ChargingHistoryObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargingHistoryObject.swift; sourceTree = "<group>"; };
 		C65F1BAC253E87FC002F6B19 /* SearchingHistoryConditionObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchingHistoryConditionObject.swift; sourceTree = "<group>"; };
 		C6633DEC252C362900F02F24 /* SearchingChargerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchingChargerViewController.swift; sourceTree = "<group>"; };
@@ -347,6 +349,7 @@
 				372D309124F6324000CEB232 /* SettingViewController.swift */,
 				DA5A1E8A2566AB99005D09B8 /* PasswordChangeViewController.swift */,
 				C6489FF0256A81D30063E07E /* AddressTableCell.swift */,
+				C64E08A2256A8BC70075D182 /* UserCertificationViewController.swift */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -653,6 +656,7 @@
 				DADCD4C724F4E2080026EFAD /* MainViewController.swift in Sources */,
 				C6489FF5256A833D0063E07E /* SelectedPositionObject.swift in Sources */,
 				DAF4D9D0252C360700B4D218 /* BottomSheetView.swift in Sources */,
+				C64E08A3256A8BC70075D182 /* UserCertificationViewController.swift in Sources */,
 				DAFED5EA253567D400D5A335 /* FavoriteViewController.swift in Sources */,
 				37373FAE24FB50C900181756 /* HistoryPointViewController.swift in Sources */,
 				DA09438324E1214B00671F0D /* CustomTextField.swift in Sources */,
