@@ -48,6 +48,11 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
 
     let dateFormatter = DateFormatter()
     let realDateFormatter = DateFormatter()
+    let reservationStateBarDateFormatter = DateFormatter()
+    let selectedTimePeriodDateFormatter = DateFormatter()
+    
+    var reservationStateBarStartDate = ""
+    var selectedTimePeriod = ""
     
     let geoCoder = CLGeocoder()
     
@@ -60,6 +65,8 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        requestGPSPermission()
+        
         mTMapView = MTMapView(frame: mapView.bounds)
         if let mTMapView = mTMapView {
             
@@ -68,13 +75,6 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
             mapView.addSubview(mTMapView)
         }
                 
-        if let defaultLatitude = locationManager.location?.coordinate.latitude , let defaultLongitude = locationManager.location?.coordinate.longitude{
-        
-            let DEFAULT_POSITION = MTMapPointGeo(latitude: defaultLatitude, longitude: defaultLongitude)
-            mTMapView?.setMapCenter(MTMapPoint(geoCoord: DEFAULT_POSITION), zoomLevel: 1, animated: true)
-            
-        }
-        
         addButton(buttonName: "menu", width: 40, height: 40, top: 15, left: 15, right: nil, bottom: nil, target: mapView)
         addButton(buttonName: "address", width: nil, height: 40, top: 15, left: 70, right: -15, bottom: nil, target: mapView)
         addReservationButton(buttonName: "reservation", width: nil, height: 40, top: nil, left: 0, right: 0, bottom: 0, target: self.view, targetViewController: self)
@@ -101,8 +101,43 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         viewWillInitializeObjects()
     }
     
+    func hasLocationPermission() -> Bool {
+        var hasPermission = false
+        
+        switch locationManager.authorizationStatus {
+        case .notDetermined, .restricted, .denied:
+            hasPermission = false
+        case .authorizedAlways, .authorizedWhenInUse:
+            hasPermission = true
+        default:
+            print("GPS: Default")
+        }
+        
+        return hasPermission
+    }
+    
+    private func requestGPSPermission() {
+            
+        if !hasLocationPermission() {
+            let alertController = UIAlertController(title: "위치 권한이 요구됨", message: "내 위치 확인을 위해 권한이 필요합니다.", preferredStyle: UIAlertController.Style.alert)
+
+            let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                //Redirect to Settings app
+                UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+            })
+
+            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+            alertController.addAction(cancelAction)
+
+            alertController.addAction(okAction)
+
+            self.present(alertController, animated: true, completion: nil)
+        }
+    }
+    
     private func viewWillInitializeObjects() {
         
+        let calendar = Calendar.current
         let date = Date()
         let locale = Locale(identifier: "ko")
         
@@ -111,14 +146,39 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         
         realDateFormatter.locale = locale
         realDateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
+        
+        selectedTimePeriodDateFormatter.locale = locale
+        selectedTimePeriodDateFormatter.dateFormat = "HH:mm"
+        
         receivedSearchingConditionObject.realChargingStartDate = realDateFormatter.string(from: date)
 
         let endDate = Calendar.current.date(byAdding: .minute, value: 30, to: date)!
         receivedSearchingConditionObject.realChargingEndDate = realDateFormatter.string(from: endDate)
         
         receivedSearchingConditionObject.realChargingPeriod = dateFormatter.string(from: date) + " ~ " + dateFormatter.string(from: endDate)
+        
+        let minute = calendar.component(.minute, from: date)
+        let hour = calendar.component(.hour, from: date)
+        
+        var availableDate = Date()
+        
+        if minute >= 0 && minute < 30 {
+            availableDate = calendar.date(bySettingHour: hour, minute: 30, second: 0, of: date)!
+        } else {
+            
+            let tempDate = calendar.date(byAdding: .hour, value: 1, to: date)!
+            let tempHour = calendar.component(.hour, from: tempDate)
+            availableDate = calendar.date(bySettingHour: tempHour, minute: 0, second: 0, of: tempDate)!
+        }
+        
+        reservationStateBarDateFormatter.locale = locale
+        reservationStateBarDateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        reservationStateBarStartDate = reservationStateBarDateFormatter.string(from: availableDate)
+        
+        selectedTimePeriod = "\(selectedTimePeriodDateFormatter.string(from: date)) - \(selectedTimePeriodDateFormatter.string(from: endDate))"
     }
     
+    //마커 클릭했을 때
     func mapView(_ mapView: MTMapView!, selectedPOIItem poiItem: MTMapPOIItem!) -> Bool {
         
         print("poi selected : \(poiItem.tag)")
@@ -218,18 +278,133 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                     self.chargerContentView.changeValue(chargerNameText: poiItem.itemName, chargerId: poiItem.tag, chargerAddressText: self.selectedChargerObject?.address, rangeOfFeeText: self.selectedChargerObject?.rangeOfFee)
                 }
                 
+                self.getCurrentReservations(id: poiItem.tag)
+                
                 //현재 선택된 마커 저장
                 self.currentSelectedPoiItem = poiItem
                 
                 self.view.bringSubviewToFront(self.reservationView)
-                
-                self.activityIndicator!.stopAnimating()
             })
         }
         
         return false
     }
-    
+
+    //현재 예약 가져오기
+    private func getCurrentReservations(id: Int!) {
+        
+        var code: Int! = 0
+        let chargerId = id!
+        let url = "http://211.253.37.97:8101/api/v1/reservations/chargers/\(chargerId)"
+        
+        let parameters: Parameters = [
+            "chargerId":chargerId,
+            "sort":"ASC",
+            "page":1,
+            "size":10
+        ]
+        
+        AF.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, interceptor: Interceptor(indicator: activityIndicator!)).validate().responseJSON(completionHandler: { response in
+            
+            code = response.response?.statusCode
+            
+            switch response.result {
+            
+            case .success(let obj):
+                
+                print("obj : \(obj)")
+                do {
+                    
+                    let JSONData = try JSONSerialization.data(withJSONObject: obj, options: .prettyPrinted)
+                    let instanceData = try JSONDecoder().decode(ReservationStateObject.self, from: JSONData)
+                    
+                    var availableTimeList = Array<AvailableTimeObject>()
+                    
+                    for chargerTimeAvailable in instanceData.chargerTimeAvailable {
+                        
+                        for time in chargerTimeAvailable.allowTimeOfDays {
+                            let availableTime = AvailableTimeObject()
+                            availableTime.id = time.id
+                            availableTime.day = chargerTimeAvailable.day
+                            availableTime.openTime = time.openTime
+                            availableTime.closeTime = time.closeTime
+                            
+                            availableTimeList.append(availableTime)
+                        }
+                    }
+                    
+                    var reservationList = Array<CurrentReservationObject>()
+                    
+                    if instanceData.reservations.content.count > 0 {
+                        for reservation in instanceData.reservations.content {
+                            let currentReservation = CurrentReservationObject()
+                            currentReservation.id = reservation.id
+                            currentReservation.startDate = reservation.startDate
+                            currentReservation.endDate = reservation.endDate
+                            
+                            reservationList.append(currentReservation)
+                        }
+                    } else {
+                        print("reservationList size 0")
+                    }
+                    print("receivedSearchingConditionObject.chargingStartDate : \(self.receivedSearchingConditionObject.realChargingStartDate)")
+                    
+                    var countOfSelectedPeriod = 0
+                    
+                    let locale = Locale(identifier: "ko")
+                    let dateFormatter = DateFormatter()
+                    let calendar = Calendar.current
+                    dateFormatter.locale = locale
+                    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
+                    
+                    let startDate = dateFormatter.date(from: self.receivedSearchingConditionObject.realChargingStartDate)
+                    let endDate = dateFormatter.date(from: self.receivedSearchingConditionObject.realChargingEndDate)
+                    
+                    let offsetComps = calendar.dateComponents([.hour,.minute], from:startDate!, to:endDate!)
+                    if case let (hour?, minute?) = (offsetComps.hour, offsetComps.minute) {
+                        
+                        //30분
+                        if hour == 0 && minute != 0 {
+                            countOfSelectedPeriod = 1
+                        }
+                        
+                        //1시간 .. 2시간
+                        else if hour != 0 && minute == 0 {
+                            countOfSelectedPeriod = hour * 2
+                        }
+                        
+                        //1시간 30분 .. 2시간 30분
+                        else if hour != 0 && minute != 0 {
+                            countOfSelectedPeriod = hour * 2 + 1
+                        }
+                    }
+                    print("selectedTimePeriod: \(self.selectedTimePeriod)")
+                    self.chargerContentView.setReservationStateBar(availableTimeList: availableTimeList, reservationList: reservationList, countOfSelectedPeriod: countOfSelectedPeriod, selectedStartDate: self.reservationStateBarStartDate, selectedTimePeriod: self.selectedTimePeriod)
+                    
+                } catch {
+                    print("error : \(error.localizedDescription)")
+                    print("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)")
+                    self.view.makeToast("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)", duration: 2.0, position: .bottom)
+                }
+                
+            case .failure(let err):
+                
+                print("error is \(String(describing: err))")
+                
+                if code == 400 {
+                    print("400 Error.")
+                    self.view.makeToast("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)", duration: 2.0, position: .bottom)
+                    
+                } else {
+                    print("Error : \(code!)")
+                    self.view.makeToast("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)", duration: 2.0, position: .bottom)
+                }
+            }
+            
+            self.activityIndicator!.stopAnimating()
+        })
+    }
+
     //지도 클릭했을 때
     func mapView(_ mapView: MTMapView!, singleTapOn mapPoint: MTMapPoint!) {
         
@@ -516,9 +691,6 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
     //검색조건 세팅
     func searchingConditionDelegate(data: SearchingConditionObject) {
         
-        print("data.chargingTime : \(data.chargingTime)")
-        print("data.chargingPeriod : \(data.chargingPeriod)")
-        
         NotificationCenter.default.post(name: .updateSearchingCondition, object: data, userInfo: nil)
     }
     
@@ -527,6 +699,36 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         receivedSearchingConditionObject = notification.object as? SearchingConditionObject
         
         searchingConditionView.setLabelText(chargingTimeText: receivedSearchingConditionObject.chargingTime, chargingPeriodText: receivedSearchingConditionObject.chargingPeriod)
+        
+        let calendar = Calendar.current
+        let locale = Locale(identifier: "ko")
+        let startDate = realDateFormatter.date(from: receivedSearchingConditionObject.realChargingStartDate)
+        
+        if receivedSearchingConditionObject.isInstantCharge {
+            
+            let minute = calendar.component(.minute, from: startDate!)
+            let hour = calendar.component(.hour, from: startDate!)
+            
+            var availableDate = Date()
+            
+            if minute >= 0 && minute < 30 {
+                availableDate = calendar.date(bySettingHour: hour, minute: 0, second: 0, of: startDate!)!
+            } else {
+                availableDate = calendar.date(bySettingHour: hour, minute: 30, second: 0, of: startDate!)!
+            }
+            
+            reservationStateBarDateFormatter.locale = locale
+            reservationStateBarDateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+            reservationStateBarStartDate = reservationStateBarDateFormatter.string(from: availableDate)
+            
+            selectedTimePeriod = "\(selectedTimePeriodDateFormatter.string(from: Date())) - \(receivedSearchingConditionObject.chargingEndDate)"
+            
+        } else {
+            reservationStateBarStartDate = receivedSearchingConditionObject.realChargingStartDate.replacingOccurrences(of: ".000", with: "")
+            selectedTimePeriod = "\(selectedTimePeriodDateFormatter.string(from: startDate!)) - \(receivedSearchingConditionObject.chargingEndDate)"
+        }
+        
+        print("selectedTimePeriod: \(selectedTimePeriod)")
     }
     
     //즐겨찾기에서 지도보기 클릭
@@ -602,20 +804,29 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
     
     //현재 위치 버튼
     @objc func currentLocationTrackingModeButton(sender: UIView!) {
-        
         print("currentLocationTrackingModeButton")
-        if isCurrentLocationTrackingMode {
+        
+        
+        
+        if hasLocationPermission() {
             
-            mTMapView?.showCurrentLocationMarker = false
-            mTMapView?.currentLocationTrackingMode = .off
-            isCurrentLocationTrackingMode = false
-            
-        } else {
+            if isCurrentLocationTrackingMode {
+                
+                mTMapView?.showCurrentLocationMarker = false
+                mTMapView?.currentLocationTrackingMode = .off
+                isCurrentLocationTrackingMode = false
+                
+            } else {
 
-            mTMapView?.showCurrentLocationMarker = true
-            mTMapView?.currentLocationTrackingMode = .onWithoutHeading
-            isCurrentLocationTrackingMode = true
+                mTMapView?.showCurrentLocationMarker = true
+                mTMapView?.currentLocationTrackingMode = .onWithoutHeading
+                isCurrentLocationTrackingMode = true
+            }
+        } else {
+            requestGPSPermission()
         }
+        
+        
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -730,6 +941,9 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                     print("error : \(error.localizedDescription)")
                     print("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)")
                     
+                    self.myUserDefaults.set(0, forKey: "reservationId")
+                    self.myUserDefaults.set(nil, forKey: "reservationInfo")
+                    
                     self.searchingConditionView.initializeLayer()
                 }
             
@@ -744,6 +958,9 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                 } else {
                     print("Error : \(code!)")
                 }
+                
+                self.myUserDefaults.set(0, forKey: "reservationId")
+                self.myUserDefaults.set(nil, forKey: "reservationInfo")
                 
                 self.searchingConditionView.initializeLayer()
             }
@@ -796,6 +1013,12 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         }
         //예약 정보 가져오기
         getReservation()
+        
+        if let defaultLatitude = locationManager.location?.coordinate.latitude , let defaultLongitude = locationManager.location?.coordinate.longitude{
+        
+            let DEFAULT_POSITION = MTMapPointGeo(latitude: defaultLatitude, longitude: defaultLongitude)
+            mTMapView?.setMapCenter(MTMapPoint(geoCoord: DEFAULT_POSITION), zoomLevel: 1, animated: true)
+        }
     }
     
     func changeAddressButtonText(latitude : Double?, longitude : Double?, placeName : String?){

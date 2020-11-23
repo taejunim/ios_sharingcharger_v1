@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import Toast_Swift
+import CoreLocation
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
     
@@ -19,6 +20,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     var activityIndicator: UIActivityIndicatorView?
     
     var activeTextField: UITextField?   //현재 포커싱인 textField
+    
+    let locationManager = CLLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +36,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         loginPassword.delegate = self
         
         setKeyboard()
+        
+        locationManager.requestWhenInUseAuthorization() //위치 권한
     }
     
     //로그인 버튼

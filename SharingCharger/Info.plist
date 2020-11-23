@@ -21,7 +21,7 @@
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>KAKAO_APP_KEY</key>
-	<string>4332dce3f2f8d3ee87e31884c5c5523d</string>
+	<string>8c076cd238736c78c5f2a703adf2c1ff</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>KakaoMap</string>
@@ -38,11 +38,9 @@
 	<key>NSBluetoothPeripheralUsageDescription</key>
 	<string>충전기와 통신을 위해 블루투스 권한이 필요합니다.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Used to Location&apos;s Info always for Using Beacon.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Used to Location&apos;s Info always for Using Beacon.</string>
+	<string>내 위치 확인을 위해 권한이 필요합니다.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Used to Location&apos;s Info for Using Beacon when In Use.</string>
+	<string>내 위치 확인을 위해 권한이 필요합니다.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

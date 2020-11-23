@@ -144,27 +144,27 @@ class ShadowView: UIControl {
         timeFormatter.dateFormat = "HH:mm"
         
         let date = Date()
-        let minute = calendar.component(.minute, from: date)
-        let hour = calendar.component(.hour, from: date)
+//        let minute = calendar.component(.minute, from: date)
+//        let hour = calendar.component(.hour, from: date)
+//
+//        var components = DateComponents()
+//        components.calendar = calendar
+//        components.day = 1
+//
+//        var availableDate = Date()
+//
+//        if minute >= 0 && minute < 30 {
+//            availableDate = calendar.date(bySettingHour: hour, minute: 30, second: 0, of: date)!
+//        } else {
+//
+//            let tempDate = calendar.date(byAdding: .hour, value: 1, to: date)!
+//            let tempHour = calendar.component(.hour, from: tempDate)
+//            availableDate = calendar.date(bySettingHour: tempHour, minute: 0, second: 0, of: tempDate)!
+//        }
         
-        var components = DateComponents()
-        components.calendar = calendar
-        components.day = 1
+        let endDate = Calendar.current.date(byAdding: .minute, value: 30, to: date)!
         
-        var availableDate = Date()
-        
-        if minute >= 0 && minute < 30 {
-            availableDate = calendar.date(bySettingHour: hour, minute: 30, second: 0, of: date)!
-        } else {
-            
-            let tempDate = calendar.date(byAdding: .hour, value: 1, to: date)!
-            let tempHour = calendar.component(.hour, from: tempDate)
-            availableDate = calendar.date(bySettingHour: tempHour, minute: 0, second: 0, of: tempDate)!
-        }
-        
-        let endDate = Calendar.current.date(byAdding: .minute, value: 30, to: availableDate)!
-        
-        return "\(dateFormatter.string(from: availableDate)) ~ \(timeFormatter.string(from: endDate))"
+        return "\(dateFormatter.string(from: date)) ~ \(timeFormatter.string(from: endDate))"
     }
     
     //화살표 layer
