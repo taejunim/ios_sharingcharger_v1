@@ -51,7 +51,18 @@ class ShadowCircleView: UIControl {
             self.addTarget(MainViewController(), action: #selector(MainViewController.currentLocationTrackingModeButton), for: .touchUpInside)
             
             break
+        case "navigation":
             
+            let imageLayer = CALayer()
+            
+            imageLayer.frame = CGRect(x:0, y:0, width: width!, height: height!)
+            imageLayer.bounds = imageLayer.frame.insetBy(dx: 0.0, dy: 0.0)
+            imageLayer.contents = UIImage(named: "navigation")?.cgImage
+
+            
+            layer.addSublayer(imageLayer)
+            
+            break
         default:
             break
         }

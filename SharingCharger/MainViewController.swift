@@ -95,8 +95,24 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         
         addPoiItem()
         
-        chargerViewMinimumHeight = mapView.frame.height * 0.3
-        chargerViewMaximumHeight = mapView.frame.height * 0.6
+        let deviceHeight = UIScreen.main.nativeBounds.height
+        print(deviceHeight)
+        //2532.0
+        if UIDevice().userInterfaceIdiom == .phone {
+        
+            switch deviceHeight {
+            
+            case 1136 , 1334:                                               //iPhone 5 or 5S or 5C   , iPhone 6/6S/7/8
+                chargerViewMinimumHeight = mapView.frame.height * 0.4
+                chargerViewMaximumHeight = mapView.frame.height * 0.85
+            case 1920, 2208, 2436, 2532, 2778, 2688:                              //iPhone 6+/6S+/7+/8+   , iPhone X/XS/11Pro,12mini , iPhone 12/12Pro, iPhone12ProMax ,  iPhone XS Max/11 Pro Max
+                chargerViewMinimumHeight = mapView.frame.height * 0.45
+                chargerViewMaximumHeight = mapView.frame.height * 0.9
+            default:                                                        //iPhone XR/ 11   , Unknown
+                chargerViewMinimumHeight = mapView.frame.height * 0.3
+                chargerViewMaximumHeight = mapView.frame.height * 0.6
+            }
+        }
         
         viewWillInitializeObjects()
     }
@@ -255,6 +271,7 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                 if self.currentSelectedPoiItem != nil {
                     
                     self.chargerContentView.changeValue(chargerNameText: poiItem.itemName, chargerId: poiItem.tag, chargerAddressText: self.selectedChargerObject?.address, rangeOfFeeText: self.selectedChargerObject?.rangeOfFee)
+                    self.setNavigationParameter()
                 }
                 
                 //검색 조건 버튼 숨기고 충전기 화면 올라옴
@@ -276,6 +293,10 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                     self.chargerView?.present(in: self.view)
                     
                     self.chargerContentView.changeValue(chargerNameText: poiItem.itemName, chargerId: poiItem.tag, chargerAddressText: self.selectedChargerObject?.address, rangeOfFeeText: self.selectedChargerObject?.rangeOfFee)
+                    
+                    self.chargerContentView.changeValue(chargerNameText: poiItem.itemName, chargerId: poiItem.tag, chargerAddressText: self.selectedChargerObject?.address, rangeOfFeeText: self.selectedChargerObject?.rangeOfFee)
+                    self.setNavigationParameter()
+                    
                 }
                 
                 self.getCurrentReservations(id: poiItem.tag)
@@ -289,7 +310,17 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         
         return false
     }
-
+    func setNavigationParameter(){
+        
+        self.chargerContentView.destinationLatitude = String(format : "%f", self.selectedChargerObject?.gpsY as! CVarArg)
+        self.chargerContentView.destinationLongitude = String(format : "%f", self.selectedChargerObject?.gpsX as! CVarArg)
+        if let userLatitude = self.locationManager.location?.coordinate.latitude , let userLongitude = self.locationManager.location?.coordinate.longitude{
+        
+            self.chargerContentView.userLatitude = String(format : "%f", userLatitude as! CVarArg)
+            self.chargerContentView.userLongitude = String(format : "%f", userLongitude as! CVarArg)
+        }
+        
+    }
     //현재 예약 가져오기
     private func getCurrentReservations(id: Int!) {
         
@@ -622,9 +653,12 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
     
     //예약이 있을 경우 예약 팝업
     private func presentReservationPopup() {
-        let viewController: UIViewController! = self.storyboard?.instantiateViewController(withIdentifier: "ReservationPopup")
-        let bottomSheet: MDCBottomSheetController! = MDCBottomSheetController(contentViewController: viewController)
+        let viewController:ReservationPopupViewController = self.storyboard?.instantiateViewController(withIdentifier: "ReservationPopup") as! ReservationPopupViewController
+        viewController.userLatitude = String(format : "%f", locationManager.location?.coordinate.latitude as! CVarArg)
+        viewController.userLongitude = String(format : "%f",locationManager.location?.coordinate.longitude as! CVarArg)
         
+        let bottomSheet: MDCBottomSheetController! = MDCBottomSheetController(contentViewController: viewController)
+
         if checkDeviceFrame() > 1334 {
             bottomSheet.preferredContentSize = CGSize(width: mapView.frame.size.width, height: mapView.frame.size.height / 2)
         }
@@ -693,7 +727,7 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         
         NotificationCenter.default.post(name: .updateSearchingCondition, object: data, userInfo: nil)
     }
-    
+        
     @objc func updateSearchingCondition(_ notification: Notification) {
         
         receivedSearchingConditionObject = notification.object as? SearchingConditionObject
@@ -828,7 +862,7 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         
         
     }
-
+    
     override func viewWillDisappear(_ animated: Bool) {
         
         self.navigationController?.setNavigationBarHidden(false, animated: true)
@@ -868,7 +902,6 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
             case .success(let obj):
                 
                 do {
-                    
                     let JSONData = try JSONSerialization.data(withJSONObject: obj, options: .prettyPrinted)
                     let instanceData = try JSONDecoder().decode(ReservationObject.self, from: JSONData)
                     
@@ -881,6 +914,8 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                         reservationInfo.chargerName = instanceData.chargerName!
                         reservationInfo.fee = instanceData.rangeOfFee!
                         reservationInfo.bleNumber = instanceData.bleNumber!
+                        reservationInfo.gpxX = instanceData.gpsX!
+                        reservationInfo.gpxY = instanceData.gpsY!
                         
                         let calendar = Calendar.current
                         
@@ -1049,9 +1084,9 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
     private func checkDeviceFrame() -> CGFloat {
         
         let deviceHeight = UIScreen.main.nativeBounds.height
-        
+
         if UIDevice().userInterfaceIdiom == .phone {
-            
+        
             switch deviceHeight {
             
             case 1136:

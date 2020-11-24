@@ -40,7 +40,7 @@ class UserCertificationViewController : UIViewController , WKUIDelegate, WKNavig
         
         print("webView didFinish")
 
-        let css = ".bcaJjD { width : 100% }"
+        let css = ".bcaJjD { width : 100%; height:100% }"
         let js = "var style = document.createElement('style'); style.innerHTML = '\(css)'; document.head.appendChild(style);"
 
         userCertificationWebView.evaluateJavaScript(js, completionHandler: nil)

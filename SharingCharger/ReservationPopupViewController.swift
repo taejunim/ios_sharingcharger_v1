@@ -39,6 +39,11 @@ class ReservationPopupViewController: UIViewController {
     var utils: Utils?
     var activityIndicator: UIActivityIndicatorView?
     
+    var userLatitude: String?
+    var userLongitude: String?
+    var destinationLatitude: String?
+    var destinationLongitude: String?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -48,7 +53,7 @@ class ReservationPopupViewController: UIViewController {
     private func viewWillInitializeObjects() {
         
         self.delegate = MainViewController()    //선택한 검색 조건들을 MainViewController 로 넘김
-        
+
         //로딩 뷰
         utils = Utils(superView: self.view)
         activityIndicator = utils!.activityIndicator
@@ -67,6 +72,10 @@ class ReservationPopupViewController: UIViewController {
         favoriteButton.isUserInteractionEnabled = true
         favoriteButton.addGestureRecognizer(favoriteButtonGesture)
         
+        let navigationButtonGesture = UITapGestureRecognizer(target: self, action: #selector(self.openNavigation(_:)))
+        navigationButton.isUserInteractionEnabled = true
+        navigationButton.addGestureRecognizer(navigationButtonGesture)
+        
         if let data = UserDefaults.standard.value(forKey: "reservationInfo") as? Data {
             
             reservationInfo = try? PropertyListDecoder().decode(SearchingConditionObject.self, from: data)
@@ -76,6 +85,8 @@ class ReservationPopupViewController: UIViewController {
             chargerNameLabel.text = reservationInfo.chargerName
             chargerAddressLabel.text = reservationInfo.chargerAddress
             feeLabel.text = "충전 요금 : 약 시간당 \(reservationInfo.fee)원"
+            destinationLatitude = reservationInfo.gpxY?.description
+            destinationLongitude = reservationInfo.gpxX?.description
         }
     }
     
@@ -174,6 +185,51 @@ class ReservationPopupViewController: UIViewController {
         present(refreshAlert, animated: true, completion: nil)
     }
 
+    //길찾기
+    @objc func openNavigation(_ sender: UITapGestureRecognizer) {
+
+        
+        var kakaoMap = "kakaomap://"
+        let appInstallCheckUrl = URL(string: kakaoMap)
+            
+        if UIApplication.shared.canOpenURL(appInstallCheckUrl!){
+            
+            kakaoMap.append("route?by=CAR&sp=")
+            kakaoMap.append(userLatitude! + "," + userLongitude!)
+            kakaoMap.append("&ep=" + destinationLatitude! + "," + destinationLongitude! )
+            
+            print("kakaoNavigationUrl   \(kakaoMap)")
+            
+            let navigationUrl = URL(string: kakaoMap)
+            UIApplication.shared.open(navigationUrl!, options: [:] , completionHandler: nil)
+            
+        }else {
+            
+            let dialog = UIAlertController(title:"", message : "카카오맵이 설치되지 않았습니다. 설치 화면으로 넘어갑니다.", preferredStyle: .alert)
+
+            dialog.addAction(UIAlertAction(title: "확인", style: UIAlertAction.Style.default){
+                
+                (action:UIAlertAction) in
+               
+                    let appStoreUrl = URL(string: "https://apps.apple.com/kr/app/id304608425")
+                    if UIApplication.shared.canOpenURL(appStoreUrl!){
+                        UIApplication.shared.open(appStoreUrl!, options: [:] , completionHandler: nil)
+                    }
+   
+            })
+            
+            dialog.addAction(UIAlertAction(title: "취소", style: UIAlertAction.Style.default){
+                
+                (action:UIAlertAction) in
+                    return
+            })
+            
+            present(dialog, animated: true, completion: nil)
+        }
+        
+    }
+    
+    
     //즐겨찾기 추가/삭제
     @objc func addFavorite(_ sender: UITapGestureRecognizer) {
         if reservationInfo != nil {

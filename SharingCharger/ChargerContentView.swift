@@ -48,9 +48,14 @@ class ChargerContentView: UIView {
     
     var reservationStateBarList = Array<ReservationStateBarObject>()    //예약 상태바에 들어갈 리스트
     
+    var userLatitude: String?
+    var userLongitude: String?
+    var destinationLatitude: String?
+    var destinationLongitude: String?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+
         self.setView()
         
         dateFormatter.locale = locale
@@ -65,6 +70,8 @@ class ChargerContentView: UIView {
     }
     
     func setView() {
+        
+        addNavigation(buttonName: "navigation", width: 60, height: 60, top: 20, left: nil, right: -40, bottom: nil, target: self)
         
         self.translatesAutoresizingMaskIntoConstraints = false
         self.backgroundColor = .white
@@ -567,6 +574,63 @@ class ChargerContentView: UIView {
             return nil
         }
     }
+    
+    // 네비게이션 버튼 추가
+    private func addNavigation(buttonName: String?, width: CGFloat?, height: CGFloat?, top: CGFloat?, left: CGFloat?, right: CGFloat?, bottom: CGFloat?, target: AnyObject) {
+        
+        let view = ShadowCircleView()
+        
+        self.addSubview(view)
+        
+        view.setAttributes(buttonName: buttonName, width: width, height: height, top: top, left: left, right: right, bottom: bottom, target: target)
+        view.addTarget(self, action: #selector(self.navigationButton(sender:)), for: .touchUpInside)
+    }
+    
+    //네비게이션 버튼
+    @objc func navigationButton(sender: UIView!) {
+        print("navigationButton")
+        
+        var kakaoMap = "kakaomap://"
+        let appInstallCheckUrl = URL(string: kakaoMap)
+            
+        if UIApplication.shared.canOpenURL(appInstallCheckUrl!){
+            
+            kakaoMap.append("route?by=CAR&sp=")
+            kakaoMap.append(userLatitude! + "," + userLongitude!)
+            kakaoMap.append("&ep=" + destinationLatitude! + "," + destinationLongitude! )
+            
+            print("kakaoNavigationUrl   \(kakaoMap)")
+            
+            let navigationUrl = URL(string: kakaoMap)
+            UIApplication.shared.open(navigationUrl!, options: [:] , completionHandler: nil)
+            
+        }else {
+            
+            let dialog = UIAlertController(title:"", message : "카카오맵이 설치되지 않았습니다. 설치 화면으로 넘어갑니다.", preferredStyle: .alert)
+
+            dialog.addAction(UIAlertAction(title: "확인", style: UIAlertAction.Style.default){
+                
+                (action:UIAlertAction) in
+               
+                    let appStoreUrl = URL(string: "https://apps.apple.com/kr/app/id304608425")
+                    if UIApplication.shared.canOpenURL(appStoreUrl!){
+                        UIApplication.shared.open(appStoreUrl!, options: [:] , completionHandler: nil)
+                    }
+   
+            })
+            
+            dialog.addAction(UIAlertAction(title: "취소", style: UIAlertAction.Style.default){
+                
+                (action:UIAlertAction) in
+                    return
+                
+            })
+            
+            UIApplication.shared.windows.filter {$0.isKeyWindow}.first!.rootViewController?.present(dialog, animated: true, completion: nil)
+           
+        }
+    }
+    
 }
 
 extension Date {

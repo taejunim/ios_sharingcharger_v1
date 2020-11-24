@@ -30,6 +30,10 @@ class SearchingConditionObject: Codable {
     
     var bleNumber: String = ""
     
+    //예약된 충전기의 좌표를 카카오맵으로 넘기기 위한 변수
+    var gpxX: Double?
+    var gpxY: Double?
+    
     init() {
         let date = Date()
         let dateFormatter = DateFormatter()
