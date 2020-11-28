@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Alamofire
+import Toast_Swift
 
 class PasswordInitViewController: UIViewController, UITextFieldDelegate {
 
@@ -23,7 +25,10 @@ class PasswordInitViewController: UIViewController, UITextFieldDelegate {
     
     let notificationCenter = NotificationCenter.default
     
-    var isAuthorized = false
+    var utils: Utils?
+    var activityIndicator: UIActivityIndicatorView?
+    
+    var authenticationNumber: Int!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,19 +36,46 @@ class PasswordInitViewController: UIViewController, UITextFieldDelegate {
         setKeyboard()
         setTextFieldDelegate()
         
-        emailTextField.setCurrentType(type: 1, target: self)   //이메일 필드에 인증요청 버튼 추가
+        //emailTextField.setCurrentType(type: 1, target: self)   //이메일 필드에 인증요청 버튼 추가
         
         passwordInitButton.layer.cornerRadius = 7           //완료 버튼 둥글게
         passwordInitButton.addTarget(self, action: #selector(self.passwordInit), for: .touchUpInside)
+        
+        //로딩 뷰
+        utils = Utils(superView: self.view)
+        activityIndicator = utils!.activityIndicator
+        self.view.addSubview(activityIndicator!)
+        self.activityIndicator!.hidesWhenStopped = true
+        
+        addAuthenticationButton()
+    }
+    
+    //인증 요청 버튼 추가
+    private func addAuthenticationButton() {
+
+        let authenticationButton = UIButton()
+        
+        let Color_7F7F7F = UIColor(named: "Color_3498DB")
+        authenticationButton.backgroundColor = Color_7F7F7F
+        authenticationButton.titleLabel?.font = UIFont.systemFont(ofSize: CGFloat(15))
+        authenticationButton.setTitle("인증 요청", for: .normal)
+
+        self.view.addSubview(authenticationButton)
+        
+        authenticationButton.translatesAutoresizingMaskIntoConstraints = false
+        authenticationButton.centerYAnchor.constraint(equalTo: phoneTextField.centerYAnchor).isActive = true
+        authenticationButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        authenticationButton.widthAnchor.constraint(equalToConstant: 70).isActive = true
+        authenticationButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -25).isActive = true
+        
+        authenticationButton.addTarget(self, action: #selector(self.requestAuthentication), for: .touchUpInside)
     }
     
     @objc func passwordInit(sender: UIButton) {
         
-        if isAuthorized {
+        if checkBlank() {
             guard let viewController = self.storyboard?.instantiateViewController(withIdentifier: "PasswordInitComplete") as? PasswordInitCompleteViewController else { return }
             self.navigationController?.pushViewController(viewController, animated: true)
-        } else {
-            print("인증해주세요")
         }
     }
     
@@ -114,9 +146,77 @@ class PasswordInitViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc func requestAuthentication(sender: UIButton!) {
-        print("PasswordInitViewController - Button tapped")
         
-        isAuthorized = true
+        if phoneTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            self.view.makeToast("전화번호를 입력하여주십시오", duration: 2.0, position: .bottom)
+            
+        } else {
+            self.activityIndicator!.startAnimating()
+            
+            var code: Int! = 0
+            
+            let phoneNumber = phoneTextField.text
+            let url = "http://211.253.37.97:8101/api/v1/sms/\(phoneNumber!)"
+            
+            print("url : \(url)")
+            
+            AF.request(url, method: .get, encoding: URLEncoding.default, interceptor: Interceptor(indicator: activityIndicator!)).validate().responseJSON(completionHandler: { response in
+                
+                code = response.response?.statusCode
+                
+                switch response.result {
+                
+                case .success(let obj):
+                    
+                    self.activityIndicator!.stopAnimating()
+                    
+                    if code == 200 {
+                        
+                        self.authenticationNumber = (obj as! Int)
+                        self.autorizationCodeTextField.becomeFirstResponder()
+                    }
+                    
+                case .failure(let err):
+                    
+                    print("error is \(String(describing: err))")
+                    
+                    if code == 400 {
+                        print("Error : \(code!)")
+                        
+                    } else {
+                        print("Error : \(code!)")
+                    }
+                    
+                    self.activityIndicator!.stopAnimating()
+                }
+            })
+        }
+    }
+    
+    //빈칸 체크
+    private func checkBlank() -> Bool{
+        
+        if nameTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            self.view.makeToast("이름을 입력하여주십시오", duration: 2.0, position: .bottom)
+            return false
+        } else if emailTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            self.view.makeToast("이메일을 입력하여주십시오", duration: 2.0, position: .bottom)
+            return false
+        } else if phoneTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            self.view.makeToast("전화번호를 입력하여주십시오", duration: 2.0, position: .bottom)
+            return false
+        } else if autorizationCodeTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            self.view.makeToast("인증번호를 입력하여주십시오", duration: 2.0, position: .bottom)
+            return false
+        } else if authenticationNumber == nil {
+            self.view.makeToast("인증 요청 버튼을 클릭해주십시오.", duration: 2.0, position: .bottom)
+            return false
+        } else if autorizationCodeTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines) != String(authenticationNumber) {
+            self.view.makeToast("인증번호가 일치하지 않습니다.", duration: 2.0, position: .bottom)
+            return false
+        }
+        
+        return true
     }
     
     override func viewWillAppear(_ animated: Bool) {

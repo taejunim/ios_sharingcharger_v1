@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Alamofire
+import Toast_Swift
 
 class PasswordInitCompleteViewController: UIViewController, UITextFieldDelegate {
 
@@ -16,16 +18,111 @@ class PasswordInitCompleteViewController: UIViewController, UITextFieldDelegate 
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var passwordInitCompleteButton: UIButton!
     
+    var userId: Int!
+    
     let notificationCenter = NotificationCenter.default
+    
+    var utils: Utils?
+    var activityIndicator: UIActivityIndicatorView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
     
-        
         setTextFieldDelegate()
         setKeyboard()
         
         passwordInitCompleteButton.layer.cornerRadius = 7           //완료 버튼 둥글게
+        passwordInitCompleteButton.addTarget(self, action: #selector(self.passwordInitComplete), for: .touchUpInside)
+        
+        //로딩 뷰
+        utils = Utils(superView: self.view)
+        activityIndicator = utils!.activityIndicator
+        self.view.addSubview(activityIndicator!)
+        self.activityIndicator!.hidesWhenStopped = true
+    }
+    
+    @objc func passwordInitComplete(sender: UIButton) {
+        
+        if passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines) != passwordConfirmTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines) {
+            self.view.makeToast("비밀번호가 일치하지 않습니다.", duration: 2.0, position: .bottom)
+            return
+        } else {
+            changePassword()
+        }
+    }
+    
+    private func changePassword() {
+        
+        self.activityIndicator!.startAnimating()
+        
+        var code: Int! = 0
+        
+        let userId = 16
+        let url = "http://211.253.37.97:8101/api/v1/change/password/\(userId)"
+        
+        print("url : \(url)")
+        
+        let parameters: Parameters = [
+            "password" : passwordTextField.text!
+        ]
+        
+        AF.request(url, method: .patch, parameters: parameters, encoding: JSONEncoding.default, headers: ["Content-Type":"application/json"], interceptor: Interceptor(indicator: activityIndicator!)).validate().responseJSON(completionHandler: { response in
+            
+            code = response.response?.statusCode
+            
+            switch response.result {
+            
+            case .success(let obj):
+                print(obj)
+                
+                self.activityIndicator!.stopAnimating()
+                
+                if code == 200 {
+                    
+                    self.view.makeToast("비밀번호가 변경되었습니다.", duration: 2.0, position: .bottom) {didTap in
+                        
+                        let loginViewController = UIStoryboard(name:"Login", bundle: nil).instantiateViewController(withIdentifier: "Login") as! LoginViewController
+                        let navigationController = UINavigationController(rootViewController: loginViewController)
+                        
+                        UserDefaults.standard.set(false, forKey: "isLogin")
+                        UserDefaults.standard.set(0, forKey: "userId")
+                        UserDefaults.standard.set("", forKey: "name")
+                        UserDefaults.standard.set("", forKey: "email")
+                        UserDefaults.standard.set("", forKey: "password")
+                        
+                        if didTap {
+                            print("tap")
+                            
+                            UIApplication.shared.windows.first?.rootViewController = navigationController
+                            UIApplication.shared.windows.first?.makeKeyAndVisible()
+                        } else {
+                            print("without tap")
+                            
+                            UIApplication.shared.windows.first?.rootViewController = navigationController
+                            UIApplication.shared.windows.first?.makeKeyAndVisible()
+                        }
+                    }
+                } else {
+                    print("요청 파라미터가 올바르지 않습니다.\n다시 확인하여 주십시오.")
+                    self.view.makeToast("요청 파라미터가 올바르지 않습니다.\n다시 확인하여 주십시오.", duration: 2.0, position: .bottom)
+                }
+                
+            case .failure(let err):
+                
+                print("error is \(String(describing: err))")
+                
+                if code == 400 {
+                    print("요청 파라미터가 올바르지 않습니다.\n다시 확인하여 주십시오.")
+                    self.view.makeToast("요청 파라미터가 올바르지 않습니다.\n다시 확인하여 주십시오.", duration: 2.0, position: .bottom)
+                    
+                } else {
+                    print("서버와 통신이 원활하지 않습니다. 고객센터로 문의주십시오. code : \(code!)")
+                    self.view.makeToast("서버와 통신이 원활하지 않습니다.\n고객센터로 문의주십시오.", duration: 2.0, position: .bottom)
+                }
+                
+                self.activityIndicator!.stopAnimating()
+            }
+        })
     }
     
     //textField delegate 설정

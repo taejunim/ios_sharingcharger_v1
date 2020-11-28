@@ -48,6 +48,11 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     //로그인 API
     private func login() {
         
+        //키보드 올라온 상태이면 내리기
+        if (activeTextField != nil) {
+            activeTextField?.resignFirstResponder()
+        }
+        
         //빈칸 체크
         if checkBlank(position: .center) {
         
@@ -107,7 +112,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                             print("서버와 통신이 원활하지 않습니다. 고객센터로 문의주십시오. code : \(code!)")
                         }
                     } else if code == 204 {
-                        self.view.makeToast("일치하는 회원이 존재하지 않습니다.\n다시 확인하여 주십시오", duration: 2.0, position: .bottom)
+                        self.view.makeToast("일치하는 회원이 존재하지 않습니다.\n다시 확인하여 주십시오.", duration: 2.0, position: .bottom)
                     }
                     
                 case .failure(let err):
@@ -115,8 +120,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                     print("error is \(String(describing: err))")
                     
                     if code == 400 {
-                        print("중복된 이메일이 존재합니다. 다른 이메일로 가입하여 주십시오.")
-                        self.view.makeToast("중복된 이메일이 존재합니다.\n다른 이메일로 가입하여 주십시오.", duration: 2.0, position: .bottom)
+                        print("일치하는 회원이 존재하지 않습니다.\n다시 확인하여 주십시오.")
+                        self.view.makeToast("일치하는 회원이 존재하지 않습니다.\n다시 확인하여 주십시오.", duration: 2.0, position: .bottom)
 
                     } else {
                         print("서버와 통신이 원활하지 않습니다. 고객센터로 문의주십시오. code : \(code!)")

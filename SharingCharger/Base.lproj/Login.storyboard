@@ -179,32 +179,32 @@
                                                             </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
                                                     </textField>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="전화번호*" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dNk-mO-ib6" userLabel="Label Phone" customClass="AppendStar" customModule="SharingCharger" customModuleProvider="target">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="이메일*" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nOF-NY-Pcq" userLabel="Label Email" customClass="AppendStar" customModule="SharingCharger" customModuleProvider="target">
                                                         <rect key="frame" x="25" y="107.5" width="364" height="18"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                         <color key="textColor" systemColor="darkTextColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <textField opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="- 제외하고 숫자만 입력" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ANT-mF-OhE" userLabel="Text Phone" customClass="CustomTextField" customModule="SharingCharger" customModuleProvider="target">
-                                                        <rect key="frame" x="25" y="135.5" width="364" height="20"/>
+                                                    <textField opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="example@gmail.com" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eOS-vs-gPs" userLabel="Text Email" customClass="CustomTextField" customModule="SharingCharger" customModuleProvider="target">
+                                                        <rect key="frame" x="25" y="135.5" width="364" height="19.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                        <textInputTraits key="textInputTraits" returnKeyType="next"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="emailAddress" returnKeyType="next"/>
                                                         <userDefinedRuntimeAttributes>
                                                             <userDefinedRuntimeAttribute type="color" keyPath="placeholderLabel.textColor">
                                                                 <color key="value" name="Color_E0E0E0"/>
                                                             </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
                                                     </textField>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="이메일*" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nOF-NY-Pcq" userLabel="Label Email" customClass="AppendStar" customModule="SharingCharger" customModuleProvider="target">
-                                                        <rect key="frame" x="25" y="185.5" width="364" height="18"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="전화번호*" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dNk-mO-ib6" userLabel="Label Phone" customClass="AppendStar" customModule="SharingCharger" customModuleProvider="target">
+                                                        <rect key="frame" x="25" y="185" width="364" height="18"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                         <color key="textColor" systemColor="darkTextColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <textField opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="example@gmail.com" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eOS-vs-gPs" userLabel="Text Email" customClass="CustomTextField" customModule="SharingCharger" customModuleProvider="target">
-                                                        <rect key="frame" x="25" y="213.5" width="364" height="19.5"/>
+                                                    <textField opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="- 제외하고 숫자만 입력" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ANT-mF-OhE" userLabel="Text Phone" customClass="CustomTextField" customModule="SharingCharger" customModuleProvider="target">
+                                                        <rect key="frame" x="25" y="213" width="294" height="20"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                        <textInputTraits key="textInputTraits" returnKeyType="next"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="next"/>
                                                         <userDefinedRuntimeAttributes>
                                                             <userDefinedRuntimeAttribute type="color" keyPath="placeholderLabel.textColor">
                                                                 <color key="value" name="Color_E0E0E0"/>
@@ -220,7 +220,7 @@
                                                     <textField opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="인증번호 입력" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aaW-Y2-Xe1" userLabel="Text AutorizationCode" customClass="CustomTextField" customModule="SharingCharger" customModuleProvider="target">
                                                         <rect key="frame" x="25" y="291" width="364" height="19.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                        <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
                                                         <userDefinedRuntimeAttributes>
                                                             <userDefinedRuntimeAttribute type="color" keyPath="placeholderLabel.textColor">
                                                                 <color key="value" name="Color_E0E0E0"/>
@@ -230,30 +230,30 @@
                                                 </subviews>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
-                                                    <constraint firstItem="dNk-mO-ib6" firstAttribute="top" secondItem="Ocz-FP-cqd" secondAttribute="bottom" constant="30" id="2mB-He-qcr"/>
                                                     <constraint firstItem="wbu-On-BAn" firstAttribute="leading" secondItem="yty-dv-EXB" secondAttribute="leading" id="3Gi-Pf-HQ7"/>
                                                     <constraint firstItem="dNk-mO-ib6" firstAttribute="leading" secondItem="yty-dv-EXB" secondAttribute="leading" id="6cX-92-Uqc"/>
-                                                    <constraint firstItem="ANT-mF-OhE" firstAttribute="trailing" secondItem="Ocz-FP-cqd" secondAttribute="trailing" id="7fd-hF-jPP"/>
                                                     <constraint firstItem="yty-dv-EXB" firstAttribute="top" secondItem="Fby-H7-HOw" secondAttribute="top" constant="30" id="7mD-IA-ymP"/>
                                                     <constraint firstItem="ANT-mF-OhE" firstAttribute="leading" secondItem="Ocz-FP-cqd" secondAttribute="leading" id="80w-pF-a8Z"/>
                                                     <constraint firstItem="nOF-NY-Pcq" firstAttribute="trailing" secondItem="dNk-mO-ib6" secondAttribute="trailing" id="9kx-FI-SbV"/>
                                                     <constraint firstItem="eOS-vs-gPs" firstAttribute="top" secondItem="nOF-NY-Pcq" secondAttribute="bottom" constant="10" id="BL4-aq-A0b"/>
                                                     <constraint firstItem="yty-dv-EXB" firstAttribute="leading" secondItem="Fby-H7-HOw" secondAttribute="leading" constant="25" id="BmD-JB-nFE"/>
+                                                    <constraint firstAttribute="trailing" secondItem="ANT-mF-OhE" secondAttribute="trailing" constant="95" id="DKL-q4-zf1"/>
                                                     <constraint firstItem="aaW-Y2-Xe1" firstAttribute="top" secondItem="wbu-On-BAn" secondAttribute="bottom" constant="10" id="Dfr-8p-Skv"/>
+                                                    <constraint firstItem="dNk-mO-ib6" firstAttribute="top" secondItem="eOS-vs-gPs" secondAttribute="bottom" constant="30" id="Ric-IB-CSo"/>
                                                     <constraint firstItem="dNk-mO-ib6" firstAttribute="trailing" secondItem="yty-dv-EXB" secondAttribute="trailing" id="Rre-gv-5Od"/>
                                                     <constraint firstItem="aaW-Y2-Xe1" firstAttribute="leading" secondItem="Ocz-FP-cqd" secondAttribute="leading" id="SAp-6P-sPC"/>
                                                     <constraint firstAttribute="trailing" secondItem="yty-dv-EXB" secondAttribute="trailing" constant="25" id="SBr-NP-nfb"/>
-                                                    <constraint firstItem="nOF-NY-Pcq" firstAttribute="top" secondItem="ANT-mF-OhE" secondAttribute="bottom" constant="30" id="TNa-ys-UpS"/>
                                                     <constraint firstAttribute="trailing" secondItem="Ocz-FP-cqd" secondAttribute="trailing" constant="25" id="TcO-5w-PJ0"/>
                                                     <constraint firstItem="Ocz-FP-cqd" firstAttribute="leading" secondItem="Fby-H7-HOw" secondAttribute="leading" constant="25" id="Und-fG-qsM"/>
+                                                    <constraint firstItem="nOF-NY-Pcq" firstAttribute="top" secondItem="Ocz-FP-cqd" secondAttribute="bottom" constant="30" id="YaD-fA-F9i"/>
                                                     <constraint firstItem="ANT-mF-OhE" firstAttribute="top" secondItem="dNk-mO-ib6" secondAttribute="bottom" constant="10" id="azx-Ql-Bvg"/>
                                                     <constraint firstAttribute="bottom" secondItem="aaW-Y2-Xe1" secondAttribute="bottom" constant="30" id="bml-eW-CrD"/>
                                                     <constraint firstItem="wbu-On-BAn" firstAttribute="trailing" secondItem="yty-dv-EXB" secondAttribute="trailing" id="fXQ-HA-LqV"/>
                                                     <constraint firstItem="aaW-Y2-Xe1" firstAttribute="trailing" secondItem="Ocz-FP-cqd" secondAttribute="trailing" id="rem-bU-W8z"/>
                                                     <constraint firstItem="eOS-vs-gPs" firstAttribute="leading" secondItem="Ocz-FP-cqd" secondAttribute="leading" id="slo-bI-lGX"/>
+                                                    <constraint firstItem="wbu-On-BAn" firstAttribute="top" secondItem="ANT-mF-OhE" secondAttribute="bottom" constant="30" id="uXH-d5-X62"/>
                                                     <constraint firstItem="eOS-vs-gPs" firstAttribute="trailing" secondItem="Ocz-FP-cqd" secondAttribute="trailing" id="vkX-qC-OG9"/>
                                                     <constraint firstItem="Ocz-FP-cqd" firstAttribute="top" secondItem="yty-dv-EXB" secondAttribute="bottom" constant="10" id="wFt-Lr-umk"/>
-                                                    <constraint firstItem="wbu-On-BAn" firstAttribute="top" secondItem="eOS-vs-gPs" secondAttribute="bottom" constant="30" id="x5d-b3-9k0"/>
                                                     <constraint firstItem="nOF-NY-Pcq" firstAttribute="leading" secondItem="dNk-mO-ib6" secondAttribute="leading" id="yRt-BH-2SJ"/>
                                                 </constraints>
                                             </view>
@@ -357,32 +357,32 @@
                                                             </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
                                                     </textField>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="전화번호*" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="24c-d4-qS4" userLabel="Label Phone" customClass="AppendStar" customModule="SharingCharger" customModuleProvider="target">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="이메일*" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="alg-wZ-P8y" userLabel="Label Email" customClass="AppendStar" customModule="SharingCharger" customModuleProvider="target">
                                                         <rect key="frame" x="25" y="107.5" width="364" height="18"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                         <color key="textColor" systemColor="darkTextColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <textField opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="- 제외하고 숫자만 입력" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tkZ-sm-i4D" userLabel="Text Phone" customClass="CustomTextField" customModule="SharingCharger" customModuleProvider="target">
-                                                        <rect key="frame" x="25" y="135.5" width="364" height="20"/>
+                                                    <textField opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="example@gmail.com" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aaI-sS-DcR" userLabel="Text Email" customClass="CustomTextField" customModule="SharingCharger" customModuleProvider="target">
+                                                        <rect key="frame" x="25" y="135.5" width="364" height="19.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                        <textInputTraits key="textInputTraits" returnKeyType="next"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="emailAddress" returnKeyType="next" textContentType="email"/>
                                                         <userDefinedRuntimeAttributes>
                                                             <userDefinedRuntimeAttribute type="color" keyPath="placeholderLabel.textColor">
                                                                 <color key="value" name="Color_E0E0E0"/>
                                                             </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
                                                     </textField>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="이메일*" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="alg-wZ-P8y" userLabel="Label Email" customClass="AppendStar" customModule="SharingCharger" customModuleProvider="target">
-                                                        <rect key="frame" x="25" y="185.5" width="364" height="18"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="전화번호*" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="24c-d4-qS4" userLabel="Label Phone" customClass="AppendStar" customModule="SharingCharger" customModuleProvider="target">
+                                                        <rect key="frame" x="25" y="185" width="364" height="18"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                         <color key="textColor" systemColor="darkTextColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <textField opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="example@gmail.com" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aaI-sS-DcR" userLabel="Text Email" customClass="CustomTextField" customModule="SharingCharger" customModuleProvider="target">
-                                                        <rect key="frame" x="25" y="213.5" width="364" height="19.5"/>
+                                                    <textField opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="- 제외하고 숫자만 입력" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tkZ-sm-i4D" userLabel="Text Phone" customClass="CustomTextField" customModule="SharingCharger" customModuleProvider="target">
+                                                        <rect key="frame" x="25" y="213" width="294" height="20"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                        <textInputTraits key="textInputTraits" returnKeyType="next"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="next"/>
                                                         <userDefinedRuntimeAttributes>
                                                             <userDefinedRuntimeAttribute type="color" keyPath="placeholderLabel.textColor">
                                                                 <color key="value" name="Color_E0E0E0"/>
@@ -398,7 +398,7 @@
                                                     <textField opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="인증번호 입력" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ok0-jl-X0u" userLabel="Text AutorizationCode" customClass="CustomTextField" customModule="SharingCharger" customModuleProvider="target">
                                                         <rect key="frame" x="25" y="291" width="364" height="19.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                        <textInputTraits key="textInputTraits" returnKeyType="next"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="next" textContentType="tel"/>
                                                         <userDefinedRuntimeAttributes>
                                                             <userDefinedRuntimeAttribute type="color" keyPath="placeholderLabel.textColor">
                                                                 <color key="value" name="Color_E0E0E0"/>
@@ -414,7 +414,7 @@
                                                     <textField opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0VM-e2-ViD" userLabel="Text Password" customClass="CustomTextField" customModule="SharingCharger" customModuleProvider="target">
                                                         <rect key="frame" x="25" y="368.5" width="364" height="18"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                        <textInputTraits key="textInputTraits" returnKeyType="next" secureTextEntry="YES"/>
+                                                        <textInputTraits key="textInputTraits" returnKeyType="next" secureTextEntry="YES" textContentType="password"/>
                                                     </textField>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="비밀번호 확인*" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="raJ-f9-tbc" userLabel="Label Password" customClass="AppendStar" customModule="SharingCharger" customModuleProvider="target">
                                                         <rect key="frame" x="25" y="416.5" width="364" height="18"/>
@@ -425,35 +425,35 @@
                                                     <textField opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="g63-hj-zOu" userLabel="Text Password" customClass="CustomTextField" customModule="SharingCharger" customModuleProvider="target">
                                                         <rect key="frame" x="25" y="444.5" width="364" height="18"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                        <textInputTraits key="textInputTraits" returnKeyType="done" secureTextEntry="YES"/>
+                                                        <textInputTraits key="textInputTraits" returnKeyType="done" secureTextEntry="YES" textContentType="password"/>
                                                     </textField>
                                                 </subviews>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstItem="XGi-rB-zGE" firstAttribute="top" secondItem="uas-ss-dqI" secondAttribute="bottom" constant="10" id="0Y5-W3-TM9"/>
-                                                    <constraint firstItem="24c-d4-qS4" firstAttribute="top" secondItem="XGi-rB-zGE" secondAttribute="bottom" constant="30" id="0kR-wa-sZq"/>
+                                                    <constraint firstAttribute="trailing" secondItem="tkZ-sm-i4D" secondAttribute="trailing" constant="95" id="22Y-3Y-Zmv"/>
                                                     <constraint firstItem="g63-hj-zOu" firstAttribute="top" secondItem="raJ-f9-tbc" secondAttribute="bottom" constant="10" id="4NY-H5-nzw"/>
                                                     <constraint firstItem="0VM-e2-ViD" firstAttribute="top" secondItem="qqw-h1-81e" secondAttribute="bottom" constant="10" id="5kO-Oe-nKg"/>
                                                     <constraint firstItem="ok0-jl-X0u" firstAttribute="leading" secondItem="XGi-rB-zGE" secondAttribute="leading" id="5tM-MC-1Ew"/>
                                                     <constraint firstItem="tkZ-sm-i4D" firstAttribute="leading" secondItem="XGi-rB-zGE" secondAttribute="leading" id="9fv-ZT-Oms"/>
-                                                    <constraint firstItem="tkZ-sm-i4D" firstAttribute="trailing" secondItem="XGi-rB-zGE" secondAttribute="trailing" id="C5e-a3-M2A"/>
                                                     <constraint firstItem="dWX-qM-nkN" firstAttribute="trailing" secondItem="uas-ss-dqI" secondAttribute="trailing" id="G0L-vL-xfk"/>
                                                     <constraint firstItem="0VM-e2-ViD" firstAttribute="leading" secondItem="XGi-rB-zGE" secondAttribute="leading" id="LSk-xg-DFU"/>
                                                     <constraint firstItem="ok0-jl-X0u" firstAttribute="trailing" secondItem="XGi-rB-zGE" secondAttribute="trailing" id="MiB-NS-Pis"/>
                                                     <constraint firstItem="ok0-jl-X0u" firstAttribute="top" secondItem="dWX-qM-nkN" secondAttribute="bottom" constant="10" id="NhU-7E-dN9"/>
-                                                    <constraint firstItem="dWX-qM-nkN" firstAttribute="top" secondItem="aaI-sS-DcR" secondAttribute="bottom" constant="30" id="RJH-G5-be3"/>
                                                     <constraint firstItem="uas-ss-dqI" firstAttribute="top" secondItem="4Nd-sL-hxl" secondAttribute="top" constant="30" id="SZu-1P-EhZ"/>
                                                     <constraint firstItem="qqw-h1-81e" firstAttribute="leading" secondItem="uas-ss-dqI" secondAttribute="leading" id="SlK-vJ-0s5"/>
                                                     <constraint firstItem="alg-wZ-P8y" firstAttribute="leading" secondItem="uas-ss-dqI" secondAttribute="leading" id="VJk-lf-rL4"/>
                                                     <constraint firstItem="0VM-e2-ViD" firstAttribute="trailing" secondItem="XGi-rB-zGE" secondAttribute="trailing" id="Vum-hU-jBO"/>
+                                                    <constraint firstItem="dWX-qM-nkN" firstAttribute="top" secondItem="tkZ-sm-i4D" secondAttribute="bottom" constant="30" id="ZXd-M8-kJo"/>
                                                     <constraint firstItem="qqw-h1-81e" firstAttribute="top" secondItem="ok0-jl-X0u" secondAttribute="bottom" constant="30" id="ZyL-UO-V3R"/>
+                                                    <constraint firstItem="alg-wZ-P8y" firstAttribute="top" secondItem="XGi-rB-zGE" secondAttribute="bottom" constant="30" id="bM8-1b-bzp"/>
                                                     <constraint firstItem="aaI-sS-DcR" firstAttribute="leading" secondItem="XGi-rB-zGE" secondAttribute="leading" id="bRs-CS-YZD"/>
                                                     <constraint firstAttribute="trailing" secondItem="uas-ss-dqI" secondAttribute="trailing" constant="25" id="c3P-HX-7TU"/>
-                                                    <constraint firstItem="tkZ-sm-i4D" firstAttribute="top" secondItem="24c-d4-qS4" secondAttribute="bottom" constant="10" id="caw-Kt-EbO"/>
                                                     <constraint firstAttribute="trailing" secondItem="XGi-rB-zGE" secondAttribute="trailing" constant="25" id="cn2-bF-w76"/>
                                                     <constraint firstItem="raJ-f9-tbc" firstAttribute="leading" secondItem="uas-ss-dqI" secondAttribute="leading" id="ePJ-d8-0Ph"/>
                                                     <constraint firstItem="raJ-f9-tbc" firstAttribute="top" secondItem="0VM-e2-ViD" secondAttribute="bottom" constant="30" id="eer-UO-v1L"/>
                                                     <constraint firstItem="uas-ss-dqI" firstAttribute="leading" secondItem="4Nd-sL-hxl" secondAttribute="leading" constant="25" id="g0A-pl-MOA"/>
+                                                    <constraint firstItem="24c-d4-qS4" firstAttribute="top" secondItem="aaI-sS-DcR" secondAttribute="bottom" constant="30" id="iij-hX-nJn"/>
                                                     <constraint firstItem="g63-hj-zOu" firstAttribute="trailing" secondItem="XGi-rB-zGE" secondAttribute="trailing" id="lNB-c0-N6L"/>
                                                     <constraint firstAttribute="bottom" secondItem="g63-hj-zOu" secondAttribute="bottom" constant="30" id="lQp-M8-XuM"/>
                                                     <constraint firstItem="g63-hj-zOu" firstAttribute="leading" secondItem="XGi-rB-zGE" secondAttribute="leading" id="lTI-sj-3EX"/>
@@ -462,11 +462,11 @@
                                                     <constraint firstItem="alg-wZ-P8y" firstAttribute="trailing" secondItem="uas-ss-dqI" secondAttribute="trailing" id="nuN-N4-PCV"/>
                                                     <constraint firstItem="aaI-sS-DcR" firstAttribute="top" secondItem="alg-wZ-P8y" secondAttribute="bottom" constant="10" id="o57-Xw-X1p"/>
                                                     <constraint firstItem="dWX-qM-nkN" firstAttribute="leading" secondItem="uas-ss-dqI" secondAttribute="leading" id="oji-YT-8wd"/>
+                                                    <constraint firstItem="tkZ-sm-i4D" firstAttribute="top" secondItem="24c-d4-qS4" secondAttribute="bottom" constant="10" id="q2v-z1-mGn"/>
                                                     <constraint firstItem="raJ-f9-tbc" firstAttribute="trailing" secondItem="uas-ss-dqI" secondAttribute="trailing" id="qoj-ku-5VQ"/>
                                                     <constraint firstItem="uas-ss-dqI" firstAttribute="trailing" secondItem="24c-d4-qS4" secondAttribute="trailing" id="qqq-cO-LFK"/>
                                                     <constraint firstItem="aaI-sS-DcR" firstAttribute="trailing" secondItem="XGi-rB-zGE" secondAttribute="trailing" id="sA3-B8-Ttf"/>
                                                     <constraint firstItem="XGi-rB-zGE" firstAttribute="leading" secondItem="4Nd-sL-hxl" secondAttribute="leading" constant="25" id="twc-y4-fKf"/>
-                                                    <constraint firstItem="alg-wZ-P8y" firstAttribute="top" secondItem="tkZ-sm-i4D" secondAttribute="bottom" constant="30" id="w4n-Ms-6K4"/>
                                                 </constraints>
                                             </view>
                                         </subviews>
