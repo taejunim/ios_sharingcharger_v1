@@ -18,6 +18,8 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
 
     var delegate: SearchingConditionProtocol?
     
+    let notificationCenter = NotificationCenter.default
+    
     @IBOutlet var mapView: UIView!
     var mTMapView: MTMapView?
     var searchingConditionView = ShadowView()
@@ -81,12 +83,6 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         addCurrentLocationButton(buttonName: "currentLocation", width: 40, height: 40, top: 70, left: nil, right: -15, bottom: nil, target: mapView)
         addView(width: nil, height: 110, top: nil, left: 15, right: -15, bottom: 0, target: mapView)
     
-        NotificationCenter.default.addObserver(self, selector: #selector(updateSearchingCondition(_:)), name: .updateSearchingCondition, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(lookFavorite(_:)), name: .lookFavorite, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(reservationPopup(_:)), name: .reservationPopup, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(startCharge(_:)), name: .startCharge, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(searchingAddress(_:)), name: .searchAddress, object: nil)
-        
         //로딩 뷰
         utils = Utils(superView: self.view)
         activityIndicator = utils!.activityIndicator
@@ -725,7 +721,7 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
     //검색조건 세팅
     func searchingConditionDelegate(data: SearchingConditionObject) {
         
-        NotificationCenter.default.post(name: .updateSearchingCondition, object: data, userInfo: nil)
+        notificationCenter.post(name: .updateSearchingCondition, object: data, userInfo: nil)
     }
         
     @objc func updateSearchingCondition(_ notification: Notification) {
@@ -768,7 +764,7 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
     //즐겨찾기에서 지도보기 클릭
     func favoriteDelegate(data: FavoriteObject) {
         
-        NotificationCenter.default.post(name: .lookFavorite, object: data, userInfo: nil)
+        notificationCenter.post(name: .lookFavorite, object: data, userInfo: nil)
     }
     
     @objc func lookFavorite(_ notification: Notification) {
@@ -777,7 +773,7 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
     }
     
     func reservationPopupDelegate() {
-        NotificationCenter.default.post(name: .reservationPopup, object: nil, userInfo: nil)
+        notificationCenter.post(name: .reservationPopup, object: nil, userInfo: nil)
     }
     
     @objc func reservationPopup(_ notification: Notification) {
@@ -787,7 +783,7 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
     
     func searchingAddressDelegate(data: SelectedPositionObject ) {
         print("searchingAddressDelegate")
-        NotificationCenter.default.post(name: .searchAddress, object: data, userInfo: nil)
+        notificationCenter.post(name: .searchAddress, object: data, userInfo: nil)
         
     }
     
@@ -813,7 +809,7 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
     }
     
     func startChargeDelegate() {
-        NotificationCenter.default.post(name: .startCharge, object: nil, userInfo: nil)
+        notificationCenter.post(name: .startCharge, object: nil, userInfo: nil)
     }
     
     @objc func startCharge(_ notification: Notification) {
@@ -872,6 +868,8 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         self.navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
         
         super.viewWillDisappear(animated)
+        
+        notificationCenter.removeObserver(self) //  self에 등록된 옵저버 전체 제거
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -879,6 +877,12 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         self.navigationController?.setNavigationBarHidden(true, animated: true)
         
         super.viewWillAppear(animated)
+        
+        notificationCenter.addObserver(self, selector: #selector(updateSearchingCondition(_:)), name: .updateSearchingCondition, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(lookFavorite(_:)), name: .lookFavorite, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(reservationPopup(_:)), name: .reservationPopup, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(startCharge(_:)), name: .startCharge, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(searchingAddress(_:)), name: .searchAddress, object: nil)
     }
     
     private func getReservation() {
