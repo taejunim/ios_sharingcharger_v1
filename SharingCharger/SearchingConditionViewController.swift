@@ -462,7 +462,7 @@ class SearchingConditionViewController: UIViewController, UIPickerViewDelegate, 
         
         return 1
     }
-     
+    
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
     
         if pickerView == chargingTimePicker {
@@ -530,9 +530,26 @@ class SearchingConditionViewController: UIViewController, UIPickerViewDelegate, 
     }
     
     @objc func closeButton(sender: UIButton!) {
-        print("JoinViewController - Button tapped")
+        print("SearchConditionViewController - Button tapped")
         
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func refreshButton(sender: UIButton!) {
+        print("SearchConditionViewController - refresh tapped")
+        
+        changeAttribute(inactiveButton: reservationCharge, activeButton: instantCharge)
+        
+        //calculateChargingTime(senderDate: Date())
+
+        chargingTimePicker.selectRow(0, inComponent: 0, animated: false)
+        rangePicker.selectRow(1, inComponent: 0, animated: true)
+        feePicker.selectRow(1, inComponent: 0, animated: true)
+        
+        pickerView(chargingTimePicker, didSelectRow: 0, inComponent: 0)
+        pickerView(rangePicker, didSelectRow: 1, inComponent: 0)
+        pickerView(feePicker, didSelectRow: 1, inComponent: 1)
+        
     }
     
     @objc func confirmButton(sender: UIButton!) {

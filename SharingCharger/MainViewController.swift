@@ -89,11 +89,9 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         self.view.addSubview(activityIndicator!)
         self.activityIndicator!.hidesWhenStopped = true
         
-        addPoiItem()
         
         let deviceHeight = UIScreen.main.nativeBounds.height
-        print(deviceHeight)
-        //2532.0
+
         if UIDevice().userInterfaceIdiom == .phone {
         
             switch deviceHeight {
@@ -110,7 +108,8 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
             }
         }
         
-        viewWillInitializeObjects()
+        getCurrentLocation()
+        
     }
     
     func hasLocationPermission() -> Bool {
@@ -188,6 +187,10 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         reservationStateBarStartDate = reservationStateBarDateFormatter.string(from: availableDate)
         
         selectedTimePeriod = "\(selectedTimePeriodDateFormatter.string(from: date)) - \(selectedTimePeriodDateFormatter.string(from: endDate))"
+        
+        print("receivedSearchingConditionObject.realChargingStartDate : \(receivedSearchingConditionObject.realChargingStartDate)")
+        print("receivedSearchingConditionObject.realChargingEndDate : \(receivedSearchingConditionObject.realChargingEndDate)")
+        
     }
     
     //마커 클릭했을 때
@@ -233,7 +236,6 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                 
                 case .success(let obj):
                     
-                    print("obj : \(obj)")
                     do {
                         
                         let JSONData = try JSONSerialization.data(withJSONObject: obj, options: .prettyPrinted)
@@ -448,6 +450,11 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         changeAddressButtonText(latitude: mapCenterPoint.mapPointGeo().latitude, longitude: mapCenterPoint.mapPointGeo().longitude, placeName: nil)
         labelChange = true
         
+        receivedSearchingConditionObject.gpxY = mapCenterPoint.mapPointGeo().latitude
+        receivedSearchingConditionObject.gpxX = mapCenterPoint.mapPointGeo().longitude
+        
+        addPoiItem()
+        
     }
 
     private func showSearchingConditionView() {
@@ -471,44 +478,48 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
     private func addPoiItem() {
         
         var code: Int! = 0
-        let url = "http://211.253.37.97:8101/api/v1/chargers"
+        let url = "http://211.253.37.97:8101/api/v1/app/chargers"
         
+        
+        print("receivedSearchingConditionObject.realChargingStartDate : \(receivedSearchingConditionObject.realChargingStartDate)")
+        print("receivedSearchingConditionObject.realChargingEndDate : \(receivedSearchingConditionObject.realChargingEndDate)")
         let parameters: Parameters = [
-            "sort":"ASC",
-            "acceptType":"ALL",
-            "currentStatusType":"ALL",
-            "page":1,
-            "size":10
+            
+            "startDate":receivedSearchingConditionObject.realChargingStartDate,
+            "endDate":receivedSearchingConditionObject.realChargingEndDate,
+            "gpsX":receivedSearchingConditionObject.gpxX!,
+            "gpsY":receivedSearchingConditionObject.gpxY!
+            
         ]
         
-        
-        AF.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, interceptor: Interceptor(indicator: activityIndicator!)).validate().responseJSON(completionHandler: { response in
+        AF.request(url, method: .get, parameters: parameters,  encoding: URLEncoding.default, interceptor: Interceptor(indicator: activityIndicator!)).validate().responseJSON(completionHandler: { response in
             
             code = response.response?.statusCode
-            
+
             switch response.result {
             
             case .success(let obj):
                 
-                print("obj : \(obj)")
+
                 do {
                     
                     let JSONData = try JSONSerialization.data(withJSONObject: obj, options: .prettyPrinted)
-                    let instanceData = try JSONDecoder().decode(MarkersObject.self, from: JSONData)
+                    let instanceData = try JSONDecoder().decode([MarkersObject].self, from: JSONData)
+                    print("instanceData : \(instanceData)")
                     
                     self.poiArray = Array<MTMapPOIItem>()
                     
-                    for content in instanceData.content {
-                        
+                    for content in instanceData {
+
                         if(content.name != nil && content.gpsX != nil && content.gpsY != nil && content.id != nil){
-                            
+
                             let poiItem: MTMapPOIItem = MTMapPOIItem()
                             poiItem.itemName = content.name
                             poiItem.mapPoint = MTMapPoint(geoCoord: MTMapPointGeo(latitude: content.gpsY!, longitude: content.gpsX!))
                             poiItem.markerType = MTMapPOIItemMarkerType.bluePin
                             poiItem.tag = content.id!
                             self.poiArray.append(poiItem)
-                            
+
                         }
                     }
                     
@@ -883,6 +894,18 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         notificationCenter.addObserver(self, selector: #selector(reservationPopup(_:)), name: .reservationPopup, object: nil)
         notificationCenter.addObserver(self, selector: #selector(startCharge(_:)), name: .startCharge, object: nil)
         notificationCenter.addObserver(self, selector: #selector(searchingAddress(_:)), name: .searchAddress, object: nil)
+        
+        viewWillInitializeObjects()
+    }
+    
+    func getCurrentLocation(){
+        
+        if let latitude = locationManager.location?.coordinate.latitude , let longitude = locationManager.location?.coordinate.longitude{
+            
+            receivedSearchingConditionObject.gpxY = latitude
+            receivedSearchingConditionObject.gpxX = longitude
+        }
+
     }
     
     private func getReservation() {

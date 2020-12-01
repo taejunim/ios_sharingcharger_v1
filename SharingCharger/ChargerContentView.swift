@@ -71,7 +71,7 @@ class ChargerContentView: UIView {
     
     func setView() {
         
-        addNavigation(buttonName: "navigation", width: 60, height: 60, top: 20, left: nil, right: -40, bottom: nil, target: self)
+        addNavigation(buttonName: "navigation", width: 60, height: 60, top: 20, left: nil, right: -100, bottom: nil, target: self)
         
         self.translatesAutoresizingMaskIntoConstraints = false
         self.backgroundColor = .white
@@ -578,12 +578,15 @@ class ChargerContentView: UIView {
     // 네비게이션 버튼 추가
     private func addNavigation(buttonName: String?, width: CGFloat?, height: CGFloat?, top: CGFloat?, left: CGFloat?, right: CGFloat?, bottom: CGFloat?, target: AnyObject) {
         
-        let view = ShadowCircleView()
+        let view = UIImageView()
         
         self.addSubview(view)
         
-        view.setAttributes(buttonName: buttonName, width: width, height: height, top: top, left: left, right: right, bottom: bottom, target: target)
-        view.addTarget(self, action: #selector(self.navigationButton(sender:)), for: .touchUpInside)
+        view.frame = CGRect(x:UIScreen.main.bounds.size.width + right! , y:top!, width: width!, height: height!)
+        view.image = UIImage(named: "navigation")
+        let navigationButtonGesture = UITapGestureRecognizer(target: self, action: #selector(navigationButton))
+        view.isUserInteractionEnabled = true
+        view.addGestureRecognizer(navigationButtonGesture)
     }
     
     //네비게이션 버튼

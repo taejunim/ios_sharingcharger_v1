@@ -31,6 +31,7 @@ class ReservationPopupViewController: UIViewController {
     
     let starOnImage = UIImage(named: "star_on")
     let starOffImage = UIImage(named: "star_off")
+    let navigationImage = UIImage(named: "navigation")
     
     var reservationInfo: SearchingConditionObject!
     
@@ -75,6 +76,8 @@ class ReservationPopupViewController: UIViewController {
         let navigationButtonGesture = UITapGestureRecognizer(target: self, action: #selector(self.openNavigation(_:)))
         navigationButton.isUserInteractionEnabled = true
         navigationButton.addGestureRecognizer(navigationButtonGesture)
+        navigationButton.image = navigationImage
+        
         
         if let data = UserDefaults.standard.value(forKey: "reservationInfo") as? Data {
             
