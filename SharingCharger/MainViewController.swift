@@ -96,10 +96,10 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         
             switch deviceHeight {
             
-            case 1136 , 1334:                                               //iPhone 5 or 5S or 5C   , iPhone 6/6S/7/8
+            case 1136, 1334:                                               //iPhone 5 or 5S or 5C   , iPhone 6/6S/7/8
                 chargerViewMinimumHeight = mapView.frame.height * 0.4
                 chargerViewMaximumHeight = mapView.frame.height * 0.85
-            case 1920, 2208, 2436, 2532, 2778, 2688:                              //iPhone 6+/6S+/7+/8+   , iPhone X/XS/11Pro,12mini , iPhone 12/12Pro, iPhone12ProMax ,  iPhone XS Max/11 Pro Max
+            case 1792, 1920, 2208, 2436, 2532, 2778, 2688:                              //iPhone 6+/6S+/7+/8+   , iPhone X/XS/11Pro,12mini , iPhone 12/12Pro, iPhone12ProMax ,  iPhone XS Max/11 Pro Max
                 chargerViewMinimumHeight = mapView.frame.height * 0.45
                 chargerViewMaximumHeight = mapView.frame.height * 0.9
             default:                                                        //iPhone XR/ 11   , Unknown
