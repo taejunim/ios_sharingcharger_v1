@@ -249,6 +249,7 @@ class SearchingConditionViewController: UIViewController, UIPickerViewDelegate, 
         if activeButton == instantCharge {
 
             calculateChargingTime(senderDate: date)
+            initailizeStartTime()
             
         } else {
             
@@ -529,27 +530,44 @@ class SearchingConditionViewController: UIViewController, UIPickerViewDelegate, 
         }
     }
     
+    func initailizeStartTime(){
+        
+        let date = Date()
+        var availableDate = Date()
+        let minute = calendar.component(.minute, from: date)
+        let hour = calendar.component(.hour, from: date)
+        if minute >= 0 && minute < 30 {
+            availableDate = calendar.date(bySettingHour: hour, minute: 30, second: 0, of: date)!
+        } else {
+            
+            let tempDate = calendar.date(byAdding: .hour, value: 1, to: date)!
+            let tempHour = calendar.component(.hour, from: tempDate)
+            availableDate = calendar.date(bySettingHour: tempHour, minute: 0, second: 0, of: tempDate)!
+        }
+        
+        chargingStartDatePicker.setDate(availableDate, animated: true)
+        chargingStartDate.text = "\(dateFormatter.string(from: availableDate))"
+    }
+    
     @objc func closeButton(sender: UIButton!) {
         print("SearchConditionViewController - Button tapped")
         
         self.dismiss(animated: true, completion: nil)
     }
     
+    
     @objc func refreshButton(sender: UIButton!) {
         print("SearchConditionViewController - refresh tapped")
         
         changeAttribute(inactiveButton: reservationCharge, activeButton: instantCharge)
-        
-        //calculateChargingTime(senderDate: Date())
 
         chargingTimePicker.selectRow(0, inComponent: 0, animated: false)
-        rangePicker.selectRow(1, inComponent: 0, animated: true)
-        feePicker.selectRow(1, inComponent: 0, animated: true)
-        
+        rangePicker.selectRow(1, inComponent: 0, animated: false)
+        feePicker.selectRow(1, inComponent: 0, animated: false)
+
         pickerView(chargingTimePicker, didSelectRow: 0, inComponent: 0)
         pickerView(rangePicker, didSelectRow: 1, inComponent: 0)
         pickerView(feePicker, didSelectRow: 1, inComponent: 1)
-        
     }
     
     @objc func confirmButton(sender: UIButton!) {
