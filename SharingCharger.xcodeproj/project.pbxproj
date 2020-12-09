@@ -16,8 +16,6 @@
 		C6489FF1256A81D30063E07E /* AddressTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6489FF0256A81D30063E07E /* AddressTableCell.swift */; };
 		C6489FF3256A83110063E07E /* SearchingAddressObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6489FF2256A83110063E07E /* SearchingAddressObject.swift */; };
 		C6489FF5256A833D0063E07E /* SelectedPositionObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6489FF4256A833D0063E07E /* SelectedPositionObject.swift */; };
-		C64E0898256A85E60075D182 /* EvzBLEKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = C64E0896256A85E20075D182 /* EvzBLEKit.xcframework */; };
-		C64E0899256A85E60075D182 /* EvzBLEKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C64E0896256A85E20075D182 /* EvzBLEKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C64E08A3256A8BC70075D182 /* UserCertificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C64E08A2256A8BC70075D182 /* UserCertificationViewController.swift */; };
 		C65F1BA1253C53E9002F6B19 /* ChargingHistoryObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65F1BA0253C53E9002F6B19 /* ChargingHistoryObject.swift */; };
 		C65F1BAD253E87FC002F6B19 /* SearchingHistoryConditionObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65F1BAC253E87FC002F6B19 /* SearchingHistoryConditionObject.swift */; };
@@ -35,6 +33,8 @@
 		DA0AF40A2531BFAE00FE5FF7 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0AF4092531BFAE00FE5FF7 /* Utils.swift */; };
 		DA0AF4232531D12C00FE5FF7 /* Interceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0AF4222531D12C00FE5FF7 /* Interceptor.swift */; };
 		DA1D8380251DD77B00855000 /* SearchingConditionObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1D837F251DD77B00855000 /* SearchingConditionObject.swift */; };
+		DA21D5E725811099008DD43F /* EvzBLEKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA21D5E52581108B008DD43F /* EvzBLEKit.xcframework */; };
+		DA21D5E825811099008DD43F /* EvzBLEKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA21D5E52581108B008DD43F /* EvzBLEKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA26FB2324FCC0CC00D76753 /* SampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA26FB2224FCC0CC00D76753 /* SampleViewController.swift */; };
 		DA26FB2524FCC0FF00D76753 /* SampleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA26FB2424FCC0FF00D76753 /* SampleTableViewCell.swift */; };
 		DA3416662508D64C0031999F /* ShadowButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3416652508D64C0031999F /* ShadowButton.swift */; };
@@ -43,6 +43,7 @@
 		DA41A08C24EBB35400E7BB93 /* AppendStar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA41A08B24EBB35400E7BB93 /* AppendStar.swift */; };
 		DA41A1F024ECF71200E7BB93 /* PasswordInitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA41A1EF24ECF71200E7BB93 /* PasswordInitViewController.swift */; };
 		DA4C26E6253B204500E3E79C /* FavoriteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4C26E5253B204500E3E79C /* FavoriteCell.swift */; };
+		DA4E4A2E25765DF60082298F /* AvailablePeriodBarObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4E4A2D25765DF60082298F /* AvailablePeriodBarObject.swift */; };
 		DA5A1E8B2566AB99005D09B8 /* PasswordChangeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5A1E8A2566AB99005D09B8 /* PasswordChangeViewController.swift */; };
 		DA5A1E8D2567D165005D09B8 /* ReservationStateObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5A1E8C2567D165005D09B8 /* ReservationStateObject.swift */; };
 		DA5A1E8F2567D3BD005D09B8 /* ReservationStateBarObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5A1E8E2567D3BD005D09B8 /* ReservationStateBarObject.swift */; };
@@ -117,7 +118,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				C64E0899256A85E60075D182 /* EvzBLEKit.xcframework in Embed Frameworks */,
+				DA21D5E825811099008DD43F /* EvzBLEKit.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -135,7 +136,6 @@
 		C6489FF0256A81D30063E07E /* AddressTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressTableCell.swift; sourceTree = "<group>"; };
 		C6489FF2256A83110063E07E /* SearchingAddressObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchingAddressObject.swift; sourceTree = "<group>"; };
 		C6489FF4256A833D0063E07E /* SelectedPositionObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedPositionObject.swift; sourceTree = "<group>"; };
-		C64E0896256A85E20075D182 /* EvzBLEKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = EvzBLEKit.xcframework; sourceTree = "<group>"; };
 		C64E08A2256A8BC70075D182 /* UserCertificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCertificationViewController.swift; sourceTree = "<group>"; };
 		C65F1BA0253C53E9002F6B19 /* ChargingHistoryObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargingHistoryObject.swift; sourceTree = "<group>"; };
 		C65F1BAC253E87FC002F6B19 /* SearchingHistoryConditionObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchingHistoryConditionObject.swift; sourceTree = "<group>"; };
@@ -153,6 +153,7 @@
 		DA0AF4092531BFAE00FE5FF7 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		DA0AF4222531D12C00FE5FF7 /* Interceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interceptor.swift; sourceTree = "<group>"; };
 		DA1D837F251DD77B00855000 /* SearchingConditionObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchingConditionObject.swift; sourceTree = "<group>"; };
+		DA21D5E52581108B008DD43F /* EvzBLEKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = EvzBLEKit.xcframework; sourceTree = "<group>"; };
 		DA26FB2224FCC0CC00D76753 /* SampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleViewController.swift; sourceTree = "<group>"; };
 		DA26FB2424FCC0FF00D76753 /* SampleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleTableViewCell.swift; sourceTree = "<group>"; };
 		DA3416652508D64C0031999F /* ShadowButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowButton.swift; sourceTree = "<group>"; };
@@ -161,6 +162,7 @@
 		DA41A08B24EBB35400E7BB93 /* AppendStar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppendStar.swift; sourceTree = "<group>"; };
 		DA41A1EF24ECF71200E7BB93 /* PasswordInitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordInitViewController.swift; sourceTree = "<group>"; };
 		DA4C26E5253B204500E3E79C /* FavoriteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCell.swift; sourceTree = "<group>"; };
+		DA4E4A2D25765DF60082298F /* AvailablePeriodBarObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvailablePeriodBarObject.swift; sourceTree = "<group>"; };
 		DA5A1E8A2566AB99005D09B8 /* PasswordChangeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordChangeViewController.swift; sourceTree = "<group>"; };
 		DA5A1E8C2567D165005D09B8 /* ReservationStateObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservationStateObject.swift; sourceTree = "<group>"; };
 		DA5A1E8E2567D3BD005D09B8 /* ReservationStateBarObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservationStateBarObject.swift; sourceTree = "<group>"; };
@@ -249,7 +251,7 @@
 				DAD320BA2507482D0047A446 /* libxml2.tbd in Frameworks */,
 				DAD320B8250748230047A446 /* libc++.tbd in Frameworks */,
 				DAD320B6250747E60047A446 /* SystemConfiguration.framework in Frameworks */,
-				C64E0898256A85E60075D182 /* EvzBLEKit.xcframework in Frameworks */,
+				DA21D5E725811099008DD43F /* EvzBLEKit.xcframework in Frameworks */,
 				DAD320B4250747DC0047A446 /* CoreLocation.framework in Frameworks */,
 				DAD320B2250747D60047A446 /* QuartzCore.framework in Frameworks */,
 				DAD320B0250747CD0047A446 /* Metal.framework in Frameworks */,
@@ -288,7 +290,7 @@
 		DA26FB2624FCD20500D76753 /* Library */ = {
 			isa = PBXGroup;
 			children = (
-				C64E0896256A85E20075D182 /* EvzBLEKit.xcframework */,
+				DA21D5E52581108B008DD43F /* EvzBLEKit.xcframework */,
 				DAF4D9CB252C35B300B4D218 /* BottomSheet */,
 				DAD31FF125070D410047A446 /* DaumMap.embeddedframework */,
 			);
@@ -314,6 +316,7 @@
 				DA5A1E8E2567D3BD005D09B8 /* ReservationStateBarObject.swift */,
 				DA5A1E9C256800F7005D09B8 /* AvailableTimeObject.swift */,
 				DA5A1E9E25680213005D09B8 /* CurrentReservationObject.swift */,
+				DA4E4A2D25765DF60082298F /* AvailablePeriodBarObject.swift */,
 			);
 			name = Object;
 			sourceTree = "<group>";
@@ -677,6 +680,7 @@
 				37373FAE24FB50C900181756 /* HistoryPointViewController.swift in Sources */,
 				DA09438324E1214B00671F0D /* CustomTextField.swift in Sources */,
 				DA0AF4232531D12C00FE5FF7 /* Interceptor.swift in Sources */,
+				DA4E4A2E25765DF60082298F /* AvailablePeriodBarObject.swift in Sources */,
 				DAFED5F62535910D00D5A335 /* FavoriteObject.swift in Sources */,
 				DAF4D9D5252C56E300B4D218 /* ChargerContentView.swift in Sources */,
 				C65F1BAD253E87FC002F6B19 /* SearchingHistoryConditionObject.swift in Sources */,
@@ -842,7 +846,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.0.0;
-				DEVELOPMENT_TEAM = SW97KU77ZP;
+				DEVELOPMENT_TEAM = C846JVNTZN;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/SharingCharger/Library/DaumMap.embeddedframework",
@@ -854,7 +858,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = kr.co.metisinfo.SharingCharger;
+				PRODUCT_BUNDLE_IDENTIFIER = krco.metisinfo.SharingCharger;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = SharingCharger/KakaoMapBridgingHeader.h;
 				SWIFT_VERSION = 5.0;
@@ -870,7 +874,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.0.0;
-				DEVELOPMENT_TEAM = SW97KU77ZP;
+				DEVELOPMENT_TEAM = C846JVNTZN;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/SharingCharger/Library/DaumMap.embeddedframework",
@@ -882,7 +886,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = kr.co.metisinfo.SharingCharger;
+				PRODUCT_BUNDLE_IDENTIFIER = krco.metisinfo.SharingCharger;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = SharingCharger/KakaoMapBridgingHeader.h;
 				SWIFT_VERSION = 5.0;

@@ -109,7 +109,6 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         }
         
         getCurrentLocation()
-        
     }
     
     func hasLocationPermission() -> Bool {
@@ -478,18 +477,26 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
     private func addPoiItem() {
         
         var code: Int! = 0
-        let url = "http://211.253.37.97:8101/api/v1/app/chargers"
+//        let url = "http://211.253.37.97:8101/api/v1/app/chargers"
+        let url = "http://211.253.37.97:8101/api/v1/chargers"
+
         
         
         print("receivedSearchingConditionObject.realChargingStartDate : \(receivedSearchingConditionObject.realChargingStartDate)")
         print("receivedSearchingConditionObject.realChargingEndDate : \(receivedSearchingConditionObject.realChargingEndDate)")
         let parameters: Parameters = [
             
-            "startDate":receivedSearchingConditionObject.realChargingStartDate,
-            "endDate":receivedSearchingConditionObject.realChargingEndDate,
-            "gpsX":receivedSearchingConditionObject.gpxX!,
-            "gpsY":receivedSearchingConditionObject.gpxY!
+//            "startDate":receivedSearchingConditionObject.realChargingStartDate,
+//            "endDate":receivedSearchingConditionObject.realChargingEndDate,
+//            "gpsX":receivedSearchingConditionObject.gpxX!,
+//            "gpsY":receivedSearchingConditionObject.gpxY!
             
+            "sort":"ASC",
+            "acceptType":"ALL",
+            "currentStatusType":"ALL",
+            "page":1,
+            "size":10
+
         ]
         
         AF.request(url, method: .get, parameters: parameters,  encoding: URLEncoding.default, interceptor: Interceptor(indicator: activityIndicator!)).validate().responseJSON(completionHandler: { response in
@@ -500,16 +507,19 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
             
             case .success(let obj):
                 
-
                 do {
                     
                     let JSONData = try JSONSerialization.data(withJSONObject: obj, options: .prettyPrinted)
-                    let instanceData = try JSONDecoder().decode([MarkersObject].self, from: JSONData)
+                    //let instanceData = try JSONDecoder().decode([MarkersObject].self, from: JSONData)
+                    let instanceData = try JSONDecoder().decode(MarkersObject.self, from: JSONData)
+
                     print("instanceData : \(instanceData)")
                     
                     self.poiArray = Array<MTMapPOIItem>()
                     
-                    for content in instanceData {
+//                    for content in instanceData {
+                    for content in instanceData.content {
+
 
                         if(content.name != nil && content.gpsX != nil && content.gpsY != nil && content.id != nil){
 

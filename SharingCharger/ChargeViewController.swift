@@ -769,189 +769,193 @@ extension ChargeViewController: BleDelegate {
         self.activityIndicator!.stopAnimating()
         
         switch code {
-        case .BleAuthorized:
-            print("블루투스 사용권한 획득한 상태\n")
-            break
-        case .BleUnAuthorized:
-            print("블루투스 사용권한이 없거나 거부 상태\n")
-            showAlert(title: "블루투스 사용 권한 없음", message: "기기 블루투스 사용 권한이 없습니다.\n확인후 재시도 바랍니다.", positiveTitle: "확인", negativeTitle: nil)
-            break
-        case .BleOff:
-            print("블루투스 사용 설정이 꺼져있음\n")
-            let url = URL(string: "App-Prefs:root=Bluetooth") //for bluetooth setting
-            let app = UIApplication.shared
-            app.open(url!)
-            break
-        case .BleScan:
-            print("충전기 스캔 성공\n")
-            BleManager.shared.bleScanStop()
-            if let scanData = result as? [String] {
-                self.searchInfos = scanData
-                for bleID: String in self.searchInfos {
-                    print("검색된 충전기 ID : \(bleID)\n")
+            case .BleAuthorized:
+                print("블루투스 사용권한 획득한 상태\n")
+                break
+            case .BleUnAuthorized:
+                print("블루투스 사용권한이 없거나 거부 상태\n")
+                showAlert(title: "블루투스 사용 권한 없음", message: "기기 블루투스 사용 권한이 없습니다.\n확인후 재시도 바랍니다.", positiveTitle: "확인", negativeTitle: nil)
+                break
+            case .BleOff:
+                print("블루투스 사용 설정이 꺼져있음\n")
+                print("블루투스 사용 설정이 꺼져있음\n")
+                let url = URL(string: "App-Prefs:root=Bluetooth") //for bluetooth setting
+                let app = UIApplication.shared
+                app.open(url!)
+
+                break
+            case .BleScan:
+                print("충전기 스캔 성공\n")
+                BleManager.shared.bleScanStop()
+                if let scanData = result as? [String] {
+                    self.searchInfos = scanData
+                    for bleID: String in self.searchInfos {
+                        print("검색된 충전기 ID : \(bleID)\n")
+                    }
+                    
+                    bluetoothList = self.searchInfos
+                    
+                    self.tableView.reloadData()
+                    
+                    if bluetoothList.count > 0 {
+                        checkState()
+                    }
                 }
                 
-                bluetoothList = self.searchInfos
-                
-                self.tableView.reloadData()
-                
-                if bluetoothList.count > 0 {
-                    checkState()
+                break
+            case .BleNotScanList:
+                print("근처에 사용 가능한 충전기가 없음\n")
+                showAlert(title: "사용 가능한 충전기 없음", message: "근처에 사용 가능한 충전기가 없습니다.\n다시 검색하여 주십시오.", positiveTitle: "확인", negativeTitle: nil)
+                break
+            case .BleConnect:
+                guard let bleId = result as? String else {
+                    print("충전기 접속 성공\n")
+                    
+                    //connect -> getTag -> 서버로 보내고 -> delTag -> 인증 -> true 이면 시작 버튼 활성화
+                    //시작 누르면 -> bleStart -> success 뜨면 서버로 시작데이터 날리고 setTag ->
+                    return
                 }
-            }
-            
-            break
-        case .BleNotScanList:
-            print("근처에 사용 가능한 충전기가 없음\n")
-            showAlert(title: "사용 가능한 충전기 없음", message: "근처에 사용 가능한 충전기가 없습니다.\n다시 검색하여 주십시오.", positiveTitle: "확인", negativeTitle: nil)
-            break
-        case .BleConnect:
-            guard let bleId = result as? String else {
-                print("충전기 접속 성공\n")
+                print("충전기 접속 성공 : \(bleId)\n")
                 
-                //connect -> getTag -> 서버로 보내고 -> delTag -> 인증 -> true 이면 시작 버튼 활성화
-                //시작 누르면 -> bleStart -> success 뜨면 서버로 시작데이터 날리고 setTag ->
-                return
-            }
-            print("충전기 접속 성공 : \(bleId)\n")
-            
-            let cell = tableView.cellForRow(at: [0, currentSelectedRow!]) as! ChargerCell
-            cell.connectionLabel.isHidden = false
-            
-            chargeStart.backgroundColor = UIColor(named: "Color_3498DB")
-            
-            showAlert(title: "충전기 연결 성공", message: "\(bleId) 충전기와 연결되었습니다.", positiveTitle: "확인", negativeTitle: nil)
-            
-            BleManager.shared.bleGetTag()
-            
-            break
-        case .BleDisconnect:
-            print("충전기 접속 종료\n")
-            let cell = tableView.cellForRow(at: [0, currentSelectedRow!]) as! ChargerCell
-            cell.connectionLabel.isHidden = true
-            currentSelectedRow = nil
-            break
-        case .BleScanFail:
-            print("충전기 검색 실패\n")
-            break
-        case .BleConnectFail:
-            print("충전기 접속 실패\n")
-            break
-        case .BleOtpCreateFail:
-            print("OTP 생성 실패(서버에서 OTP 생성 실패)\n")
-            break
-        case .BleOtpAuthFail:
-            print("OTP 인증 실패(서버에서 받은 OTP 정보로 인증 실패 함)\n")
-            break
-        case .BleAccessServiceFail:
-            print("충전기와 서비스 인증정보 획득 실패\n")
-            break
-        case .BleChargeStart:
-            print("충전 시작 성공\n")
-            
-            showAlert(title: "충전 시작", message: "충전이 시작되었습니다.\n충전이 완료될 때까지 플러그를 제거하지마십시오.", positiveTitle: "확인", negativeTitle: nil)
-            
-            let chargerId:Int! = reservationInfo!.chargerId
-            let url = "http://211.253.37.97:8101/api/v1/recharge/start/charger/\(chargerId!)"
-            
-            postChargeStartData(postUrl: url)
-            
-            //            if tagId != "" && tagId != "fail" && tagId != "false" {
-            //                BleManager.shared.bleSetTag(tag: tagId)
-            //            } else {
-            //                print("**************************")
-            //                print("태그 세팅 실패")
-            //                print("**************************")
-            //                self.activityIndicator!.stopAnimating()
-            //            }
-            
-            chargeStart.backgroundColor = UIColor(named: "Color_BEBEBE")
-            chargeEnd.backgroundColor = UIColor(named: "Color_E74C3C")
-            
-            break
-        case .BleUnPlug:
-            print("충전 시작 실패, 플러그 연결 확인 후 재 접속 후 충전을 시작해주세요.\n")
-            showAlert(title: "충전 시작 실패", message: "플러그 연결 확인 후 재접속 후 충전을 시작해주세요.\n문제가 지속될 시 고객센터로 문의 주십시오.", positiveTitle: "확인", negativeTitle: nil)
-            break
-        case .BleAgainOtpAtuh:
-            print("충전 시작 실패, 접속 종료 후 다시 충전기에 연결을 해주세요.\n")
-            break
-        case .BleChargeStop:
-            print("충전 종료 성공\n")
-            BleManager.shared.bleGetTag()
-            break
-        case .BleChargeStartFail:
-            print("충전 시작 실패\n")
-            showAlert(title: "충전 시작 실패", message: "충전 시작에 실패하였습니다.\n문제가 지속될 시 고객센터로 문의 주십시오.", positiveTitle: "확인", negativeTitle: nil)
-            break
-        case .BleChargeStopFail:
-            print("충전 종료 실패(태그 설정을 안하거나, 정상 종료처리가 안되었음)\n")
-            break
-        case .BleSetTag:
-            print("태그 설정 성공\n")
-            break
-        case .BleGetTag:
-            print("태그 정보 획득 성공\n")
-            
-            if let tags = result as? [EvzBLETagData] {
+                let cell = tableView.cellForRow(at: [0, currentSelectedRow!]) as! ChargerCell
+                cell.connectionLabel.isHidden = false
                 
-                var index:Int! = 0
-                for data: EvzBLETagData in tags {
-                    print("tagData : \(data.toString())\n")
+                chargeStart.backgroundColor = UIColor(named: "Color_3498DB")
+                
+                showAlert(title: "충전기 연결 성공", message: "\(bleId) 충전기와 연결되었습니다.", positiveTitle: "확인", negativeTitle: nil)
+                
+                BleManager.shared.bleGetTag()
+                print("충전기 접속 성공 : \(bleId)\n")
+                break
+            case .BleDisconnect:
+                print("충전기 접속 종료\n")
+                let cell = tableView.cellForRow(at: [0, currentSelectedRow!]) as! ChargerCell
+                cell.connectionLabel.isHidden = true
+                currentSelectedRow = nil
+                break
+            case .BleScanFail:
+                print("충전기 검색 실패\n")
+                break
+            case .BleConnectFail:
+                print("충전기 접속 실패\n")
+                break
+            case .BleOtpCreateFail:
+                print("OTP 생성 실패(서버에서 OTP 생성 실패)\n")
+                break
+            case .BleOtpAuthFail:
+                print("OTP 인증 실패(서버에서 받은 OTP 정보로 인증 실패 함)\n")
+                break
+            case .BleAccessServiceFail:
+                print("충전기와 서비스 인증정보 획득 실패\n")
+                break
+            case .BleChargeStart:
+                print("충전 시작 성공\n")
+                showAlert(title: "충전 시작", message: "충전이 시작되었습니다.\n충전이 완료될 때까지 플러그를 제거하지마십시오.", positiveTitle: "확인", negativeTitle: nil)
+                
+                let chargerId:Int! = reservationInfo!.chargerId
+                let url = "http://211.253.37.97:8101/api/v1/recharge/start/charger/\(chargerId!)"
+                
+                postChargeStartData(postUrl: url)
+                
+                //            if tagId != "" && tagId != "fail" && tagId != "false" {
+                //                BleManager.shared.bleSetTag(tag: tagId)
+                //            } else {
+                //                print("**************************")
+                //                print("태그 세팅 실패")
+                //                print("**************************")
+                //                self.activityIndicator!.stopAnimating()
+                //            }
+                
+                chargeStart.backgroundColor = UIColor(named: "Color_BEBEBE")
+                chargeEnd.backgroundColor = UIColor(named: "Color_E74C3C")
+
+                break
+            case .BleUnPlug:
+                print("충전 시작 실패, 플러그 연결 확인 후 재 접속 후 충전을 시작해주세요.\n")
+                // UnPlug 값이 넘어오면 충전기 접속 종료 처리 해줘야 함
+                // 안 그럼 Stop 이벤트가 추가적으로 들어와서 문제가 될 수 있음
+                BleManager.shared.bleDisConnect()
+                showAlert(title: "충전 시작 실패", message: "플러그 연결 확인 후 재접속 후 충전을 시작해주세요.\n문제가 지속될 시 고객센터로 문의 주십시오.", positiveTitle: "확인", negativeTitle: nil)
+                break
+            case .BleAgainOtpAtuh:
+                print("충전 시작 실패, 접속 종료 후 다시 충전기에 연결을 해주세요.\n")
+                break
+            case .BleChargeStop:
+                print("충전 종료 성공\n")
+                BleManager.shared.bleGetTag()
+                break
+            case .BleChargeStartFail:
+                print("충전 시작 실패\n")
+                showAlert(title: "충전 시작 실패", message: "충전 시작에 실패하였습니다.\n문제가 지속될 시 고객센터로 문의 주십시오.", positiveTitle: "확인", negativeTitle: nil)
+                break
+            case .BleChargeStopFail:
+                print("충전 종료 실패(태그 설정을 안하거나, 정상 종료처리가 안되었음)\n")
+                break
+            case .BleSetTag:
+                print("태그 설정 성공\n")
+                break
+            case .BleGetTag:
+                print("태그 정보 획득 성공\n")
+                
+                if let tags = result as? [EvzBLETagData] {
                     
-                    index += 1
-                    
-                    let tagNumber: Int! = Int(data.tagNumber.replacingOccurrences(of: " ", with: ""))
-                    let useTime: Int! = Int(data.useTime.replacingOccurrences(of: " ", with: ""))
-                    let kwh: Double! = Double(data.kwh.replacingOccurrences(of: " ", with: ""))
-                    
-                    //                        print("tagNumber : \(tagNumber)")
-                    //                        print("kwh : \(kwh)")
-                    //                        print("useTime : \(useTime)")
-                    
-                    //                        myUserDefaults.set(tagNumber!, forKey: "tagNumber")
-                    //                        myUserDefaults.set(kwh!, forKey: "kwh")
-                    //                        myUserDefaults.set(useTime!, forKey: "useTime")
-                    
-                    let chargerId: Int! = reservationInfo!.chargerId
-                    let url = "http://211.253.37.97:8101/api/v1/recharge/end/charger/\(chargerId!)"
-                    
-                    postChargeEndData(postUrl: url, rechargeId: tagNumber!, rechargeMinute: useTime!, rechargeWh: kwh!, count: tags.count, index: index!)
+                    var index:Int! = 0
+                    for data: EvzBLETagData in tags {
+                        print("tagData : \(data.toString())\n")
+                        
+                        index += 1
+                        
+                        let tagNumber: Int! = Int(data.tagNumber.replacingOccurrences(of: " ", with: ""))
+                        let useTime: Int! = Int(data.useTime.replacingOccurrences(of: " ", with: ""))
+                        let kwh: Double! = Double(data.kwh.replacingOccurrences(of: " ", with: ""))
+                        
+                        //                        print("tagNumber : \(tagNumber)")
+                        //                        print("kwh : \(kwh)")
+                        //                        print("useTime : \(useTime)")
+                        
+                        //                        myUserDefaults.set(tagNumber!, forKey: "tagNumber")
+                        //                        myUserDefaults.set(kwh!, forKey: "kwh")
+                        //                        myUserDefaults.set(useTime!, forKey: "useTime")
+                        
+                        let chargerId: Int! = reservationInfo!.chargerId
+                        let url = "http://211.253.37.97:8101/api/v1/recharge/end/charger/\(chargerId!)"
+                        
+                        postChargeEndData(postUrl: url, rechargeId: tagNumber!, rechargeMinute: useTime!, rechargeWh: kwh!, count: tags.count, index: index!)
+                    }
                 }
-            }
-            
-            break
-        case .BleAllDeleteTag:
-            print("전체 태그 삭제 성공\n")
-            break
-        case .BleDeleteTag:
-            print("선택 태그 삭제 성공\n")
-            break
-        case .BleSetTagFail:
-            print("태그 설정 실패\n")
-            break
-        case .BleWrongTagLength:
-            print("설정 태그 길이가 13자가 넘음\n")
-            break
-        case .BleGetTagFail:
-            print("태그 정보 획득 실패\n")
-            break
-        case .BleAllDeleteTagFail:
-            print("전체 태그 삭제 실패\n")
-            break
-        case .BleDeleteTagFail:
-            print("선택 태그 삭제 실패\n")
-            break
-        case .BleNotConnect:
-            print("충전기에 접속이 안되어있음\n")
-            break
-        case .BleUnknownError:
-            print("알수 없는 에러\n")
-            break
-        case .BleUnSupport:
-            print("블루투스가 지원 안됨\n")
-            break
-        default:
+
+                break
+            case .BleAllDeleteTag:
+                print("전체 태그 삭제 성공\n")
+                break
+            case .BleDeleteTag:
+                print("선택 태그 삭제 성공\n")
+                break
+            case .BleSetTagFail:
+                print("태그 설정 실패\n")
+                break
+            case .BleWrongTagLength:
+                print("설정 태그 길이가 13자가 넘음\n")
+                break
+            case .BleGetTagFail:
+                print("태그 정보 획득 실패\n")
+                break
+            case .BleAllDeleteTagFail:
+                print("전체 태그 삭제 실패\n")
+                break
+            case .BleDeleteTagFail:
+                print("선택 태그 삭제 실패\n")
+                break
+            case .BleNotConnect:
+                print("충전기에 접속이 안되어있음\n")
+                break
+            case .BleUnknownError:
+                print("알수 없는 에러\n")
+                break
+            case .BleUnSupport:
+                print("블루투스가 지원 안됨\n")
+                break
+            default:
             
             break
         }
