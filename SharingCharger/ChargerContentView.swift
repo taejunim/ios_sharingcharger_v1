@@ -810,32 +810,44 @@ class ChargerContentView: UIView {
                 dayArray.append(availableTimeList![i].day!)
                 dayArray.append(availableTimeList![j].day!)
             }
-        } else if let i = availableTimeList!.firstIndex(where: { $0.day == "SUN" }) {
+        }
+        
+        if let i = availableTimeList!.firstIndex(where: { $0.day == "SUN" }) {
             if let j = availableTimeList!.firstIndex(where: { $0.day == "MON" }) {
                 dayArray.append(availableTimeList![i].day!)
                 dayArray.append(availableTimeList![j].day!)
             }
-        } else if let i = availableTimeList!.firstIndex(where: { $0.day == "MON" }) {
+        }
+        
+        if let i = availableTimeList!.firstIndex(where: { $0.day == "MON" }) {
             if let j = availableTimeList!.firstIndex(where: { $0.day == "TUE" }) {
                 dayArray.append(availableTimeList![i].day!)
                 dayArray.append(availableTimeList![j].day!)
             }
-        } else if let i = availableTimeList!.firstIndex(where: { $0.day == "TUE" }) {
+        }
+        
+        if let i = availableTimeList!.firstIndex(where: { $0.day == "TUE" }) {
             if let j = availableTimeList!.firstIndex(where: { $0.day == "WED" }) {
                 dayArray.append(availableTimeList![i].day!)
                 dayArray.append(availableTimeList![j].day!)
             }
-        } else if let i = availableTimeList!.firstIndex(where: { $0.day == "WED" }) {
+        }
+        
+        if let i = availableTimeList!.firstIndex(where: { $0.day == "WED" }) {
             if let j = availableTimeList!.firstIndex(where: { $0.day == "THR" }) {
                 dayArray.append(availableTimeList![i].day!)
                 dayArray.append(availableTimeList![j].day!)
             }
-        } else if let i = availableTimeList!.firstIndex(where: { $0.day == "THR" }) {
+        }
+        
+        if let i = availableTimeList!.firstIndex(where: { $0.day == "THR" }) {
             if let j = availableTimeList!.firstIndex(where: { $0.day == "FRI" }) {
                 dayArray.append(availableTimeList![i].day!)
                 dayArray.append(availableTimeList![j].day!)
             }
-        } else if let i = availableTimeList!.firstIndex(where: { $0.day == "FRI" }) {
+        }
+        
+        if let i = availableTimeList!.firstIndex(where: { $0.day == "FRI" }) {
             if let j = availableTimeList!.firstIndex(where: { $0.day == "SAT" }) {
                 dayArray.append(availableTimeList![i].day!)
                 dayArray.append(availableTimeList![j].day!)
