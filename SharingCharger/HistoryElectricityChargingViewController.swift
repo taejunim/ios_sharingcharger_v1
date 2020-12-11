@@ -51,7 +51,7 @@ class HistoryElectricityChargingViewController: UIViewController, UITableViewDel
         
         startDate = dateFormatter.string(from : calendar.date(byAdding: .month,value: -1, to: date)!)
         endDate   = dateFormatter.string(from: date)
-        sort      = "ASC"
+        sort      = "DESC"
         
         let rightBarButton = UIBarButtonItem.init(image: rightMenuImage ,style: .done, target: self, action: #selector(rightMenu))
         
@@ -171,6 +171,7 @@ class HistoryElectricityChargingViewController: UIViewController, UITableViewDel
             "endDate"   :endDate
         ]
         
+        print(parameters)
         AF.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, interceptor: Interceptor(indicator: activityIndicator!)).validate().responseJSON(completionHandler: { response in
             
             code = response.response?.statusCode

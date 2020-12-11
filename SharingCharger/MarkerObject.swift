@@ -29,4 +29,5 @@ struct MarkersObject: Codable {
     var created                 : String?
     var updated                 : String?
     var providerCompanyId       : Int?
+
 }

@@ -9,8 +9,13 @@
 import UIKit
 import Alamofire
 import Toast_Swift
+import MaterialComponents.MaterialBottomSheet
 
-class JoinViewController: UIViewController, UITextFieldDelegate {
+class JoinViewController: UIViewController, UITextFieldDelegate , PolicyProtocol {
+    
+    func policyDelegate(data: String) {
+        NotificationCenter.default.post(name: .agreementPolicy, object: data, userInfo: nil)
+    }
     
     @IBOutlet weak var nameTextField: CustomTextField!              //이름 textField
     @IBOutlet weak var phoneTextField: CustomTextField!             //전화 번호 textField
@@ -18,6 +23,12 @@ class JoinViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var autorizationCodeTextField: CustomTextField!  //인증번호 textField
     @IBOutlet weak var passwordTextField: CustomTextField!          //패스워드 textField
     @IBOutlet weak var passwordConfirmTextField: CustomTextField!   //패스워드 확인 textField
+    
+    @IBOutlet var viewCollectPolicyButton: UIButton!
+    @IBOutlet var viewPrivacyPolicyButton: UIButton!
+    
+    @IBOutlet var collectAgreementLabel: UILabel!
+    @IBOutlet var privacyAgreementLabel: UILabel!
     
     @IBOutlet weak var buttonComplete: UIButton!                    //완료 버튼
     
@@ -30,6 +41,9 @@ class JoinViewController: UIViewController, UITextFieldDelegate {
     
     var authenticationNumber: Int!
     
+    let ColorE0E0E0: UIColor! = UIColor(named: "Color_E0E0E0")  //회색
+    let Color3498DB: UIColor! = UIColor(named: "Color_3498DB")  //파랑
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -38,6 +52,8 @@ class JoinViewController: UIViewController, UITextFieldDelegate {
         
         buttonComplete.layer.cornerRadius = 7           //완료 버튼 둥글게
         buttonComplete.addTarget(self, action: #selector(joinButton), for: .touchUpInside)
+        buttonComplete.backgroundColor = ColorE0E0E0
+        buttonComplete.isEnabled = false
         
         //로딩 뷰
         utils = Utils(superView: self.view)
@@ -46,6 +62,9 @@ class JoinViewController: UIViewController, UITextFieldDelegate {
         self.activityIndicator!.hidesWhenStopped = true
         
         addAuthenticationButton()
+        initializePolicyButton()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(agreementPolicy(_:)), name: .agreementPolicy, object: nil)
     }
     
     //인증 요청 버튼 추가
@@ -53,8 +72,7 @@ class JoinViewController: UIViewController, UITextFieldDelegate {
 
         let authenticationButton = UIButton()
         
-        let Color_7F7F7F = UIColor(named: "Color_3498DB")
-        authenticationButton.backgroundColor = Color_7F7F7F
+        authenticationButton.backgroundColor = Color3498DB
         authenticationButton.titleLabel?.font = UIFont.systemFont(ofSize: CGFloat(15))
         authenticationButton.setTitle("인증 요청", for: .normal)
 
@@ -67,6 +85,55 @@ class JoinViewController: UIViewController, UITextFieldDelegate {
         authenticationButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -25).isActive = true
         
         authenticationButton.addTarget(self, action: #selector(self.requestAuthentication), for: .touchUpInside)
+    }
+    
+    private func initializePolicyButton(){
+        
+        viewCollectPolicyButton.layer.borderWidth = 1.0
+        viewPrivacyPolicyButton.layer.borderWidth = 1.0
+        
+        viewCollectPolicyButton.layer.borderColor = ColorE0E0E0?.cgColor
+        viewPrivacyPolicyButton.layer.borderColor = ColorE0E0E0?.cgColor
+
+        viewCollectPolicyButton.layer.cornerRadius = 3.0
+        viewPrivacyPolicyButton.layer.cornerRadius = 3.0
+        
+        viewCollectPolicyButton.addTarget(self, action: #selector(collectPolicyButton), for: .touchUpInside)
+        viewPrivacyPolicyButton.addTarget(self, action: #selector(privacyPolicyButton), for: .touchUpInside)
+    }
+    
+    @objc func collectPolicyButton(){
+        
+        guard let viewController = self.storyboard?.instantiateViewController(withIdentifier: "PolicyView") as? PolicyViewController else { return }
+        viewController.url = "http://211.253.37.97:8101/api/v1/policy/collect"
+        
+        let bottomSheet: MDCBottomSheetController = MDCBottomSheetController(contentViewController: viewController)
+        bottomSheet.preferredContentSize = CGSize(width: view.frame.size.width, height: view.frame.size.height)
+        
+        let shapeGenerator = MDCCurvedRectShapeGenerator(cornerSize: CGSize(width: 15, height: 15))
+        bottomSheet.setShapeGenerator(shapeGenerator, for: .preferred)
+        bottomSheet.setShapeGenerator(shapeGenerator, for: .extended)
+        bottomSheet.setShapeGenerator(shapeGenerator, for: .closed)
+        
+        present(bottomSheet, animated: true, completion: nil)
+        
+    }
+    
+    @objc func privacyPolicyButton(){
+        
+        guard let viewController = self.storyboard?.instantiateViewController(withIdentifier: "PolicyView") as? PolicyViewController else { return }
+        viewController.url = "http://211.253.37.97:8101/api/v1/policy/privacy"
+        
+        let bottomSheet: MDCBottomSheetController = MDCBottomSheetController(contentViewController: viewController)
+        bottomSheet.preferredContentSize = CGSize(width: view.frame.size.width, height: view.frame.size.height)
+        
+        let shapeGenerator = MDCCurvedRectShapeGenerator(cornerSize: CGSize(width: 15, height: 15))
+        bottomSheet.setShapeGenerator(shapeGenerator, for: .preferred)
+        bottomSheet.setShapeGenerator(shapeGenerator, for: .extended)
+        bottomSheet.setShapeGenerator(shapeGenerator, for: .closed)
+        
+        present(bottomSheet, animated: true, completion: nil)
+        
     }
     
     @objc func joinButton(sender: UIButton!) {
@@ -289,4 +356,39 @@ class JoinViewController: UIViewController, UITextFieldDelegate {
             scrollView.scrollRectToVisible(activeTextField!.frame, animated: true)
         }
     }
+    
+    @objc func agreementPolicy(_ notification: Notification) {
+        
+        let data = notification.object as! String
+        
+        if data == "http://211.253.37.97:8101/api/v1/policy/collect" {
+            
+            viewCollectPolicyButton.isEnabled = false
+            viewCollectPolicyButton.setTitleColor(ColorE0E0E0, for: .normal)
+            collectAgreementLabel.text = "동의함"
+            
+        } else if data == "http://211.253.37.97:8101/api/v1/policy/privacy"{
+            
+            viewPrivacyPolicyButton.isEnabled = false
+            viewPrivacyPolicyButton.setTitleColor(ColorE0E0E0, for: .normal)
+            privacyAgreementLabel.text = "동의함"
+        }
+        
+        changeButtonStatus()
+    }
+    
+    func changeButtonStatus(){
+        
+        
+        if !viewPrivacyPolicyButton.isEnabled && !viewCollectPolicyButton.isEnabled {
+            
+            buttonComplete.isEnabled = true
+            buttonComplete.backgroundColor = Color3498DB
+        }
+    
+    }
+    
+}
+extension Notification.Name {
+    static let agreementPolicy = Notification.Name("agreementPolicy")
 }

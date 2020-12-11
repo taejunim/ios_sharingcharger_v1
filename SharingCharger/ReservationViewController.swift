@@ -17,6 +17,11 @@ class ReservationViewController: UIViewController {
     @IBOutlet var expectedPointLabel: UILabel!
     @IBOutlet var resultPointLabel: UILabel!
     @IBOutlet var reservationButton: UIButton!
+    @IBOutlet var pointChargeButton: UIButton!
+    
+    let ColorE0E0E0: UIColor! = UIColor(named: "Color_E0E0E0")  //회색
+    let Color3498DB: UIColor! = UIColor(named: "Color_3498DB")  //파랑
+    let ColorE74C3C: UIColor! = UIColor(named: "Color_E74C3C")  //빨강
     
     var receivedSearchingConditionObject: SearchingConditionObject!
     var chargerId: Int = 0
@@ -40,6 +45,10 @@ class ReservationViewController: UIViewController {
         currentPointLabel.layer.cornerRadius = 7
         reservationButton.layer.cornerRadius = 7
         reservationButton.addTarget(self, action: #selector(reservationButton(sender:)), for: .touchUpInside)
+        
+        pointChargeButton.layer.cornerRadius = 3
+        pointChargeButton.addTarget(self, action: #selector(pointChargeButton(sender:)), for: .touchUpInside)
+        pointChargeButton.isHidden        = true
         
         //로딩 뷰
         utils = Utils(superView: self.view)
@@ -102,6 +111,10 @@ class ReservationViewController: UIViewController {
                             let expectedPoint = point
                             
                             self.resultPointLabel.text = self.setComma(value: currentPoint! - expectedPoint)
+                            
+                            self.setObject(enable : ( currentPoint! - expectedPoint ) >= 0)
+                        
+                            
                         }
                     }
                     
@@ -117,7 +130,7 @@ class ReservationViewController: UIViewController {
                         self.expectedPointLabel.text = "-"
                     }
                 }
-                
+
             case .failure(let err):
                 
                 print("error is \(String(describing: err))")
@@ -241,4 +254,34 @@ class ReservationViewController: UIViewController {
         
         getPoint(url: currentPointUrl)
     }
+    
+    func setObject(enable : Bool){
+    
+        if enable {
+            
+            currentPointLabel.backgroundColor = Color3498DB
+            resultPointLabel.textColor = Color3498DB
+            reservationButton.backgroundColor = Color3498DB
+            pointChargeButton.isHidden        = true
+            reservationButton.isEnabled = true
+            
+        }else {
+            
+            currentPointLabel.backgroundColor = ColorE74C3C
+            resultPointLabel.textColor = ColorE74C3C
+            reservationButton.backgroundColor = ColorE0E0E0
+            pointChargeButton.isHidden        = false
+            reservationButton.isEnabled = false
+            
+        }
+
+    }
+    
+    @objc func pointChargeButton(sender: UIView!) {
+        
+        guard let viewController = self.storyboard?.instantiateViewController(withIdentifier: "PointCharge") else { return }
+        self.navigationController?.pushViewController(viewController, animated: true)
+        
+    }
+    
 }

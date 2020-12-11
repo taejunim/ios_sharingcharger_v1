@@ -20,8 +20,8 @@ class SearchingPointHistoryCondition: UIViewController {
     @IBOutlet var sixMonth       : UIButton!
     @IBOutlet var ownPeriod      : UIButton!
     
-    @IBOutlet var asc            : UIButton!
     @IBOutlet var desc           : UIButton!
+    @IBOutlet var asc            : UIButton!
     
     @IBOutlet var pointAll       : UIButton!
     @IBOutlet var pointCharge    : UIButton!
@@ -42,7 +42,7 @@ class SearchingPointHistoryCondition: UIViewController {
     var sortButtonArray          : [UIButton] = []
     var pointButtonArray         : [UIButton] = []
     
-    let sortArray                : [String]   = ["ASC", "DESC"]
+    let sortArray                : [String]   = ["DESC","ASC"]
     let pointArray               : [String]   = ["ALL","PURCHASE","USED","REFUND"]
     
 
@@ -90,8 +90,8 @@ class SearchingPointHistoryCondition: UIViewController {
         periodButtonArray.append(sixMonth)
         periodButtonArray.append(ownPeriod)
         
-        sortButtonArray.append(asc)
         sortButtonArray.append(desc)
+        sortButtonArray.append(asc)
         
         pointButtonArray.append(pointAll)
         pointButtonArray.append(pointCharge)
@@ -116,7 +116,7 @@ class SearchingPointHistoryCondition: UIViewController {
         adjustButton.layer.cornerRadius = 7
         
         setPeriodButton(oneMonth)
-        setSortButton(asc)
+        setSortButton(desc)
         setPointButton(pointAll)
     }
     
@@ -307,7 +307,7 @@ class SearchingPointHistoryCondition: UIViewController {
     @objc func refreshButton(sender: UIButton!) {
         
         setPeriodButton(oneMonth)
-        setSortButton(asc)
+        setSortButton(desc)
         setSortButton(pointAll)
     }
 }

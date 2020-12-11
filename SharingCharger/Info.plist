@@ -21,7 +21,7 @@
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>KAKAO_APP_KEY</key>
-	<string>8c076cd238736c78c5f2a703adf2c1ff</string>
+	<string>4332dce3f2f8d3ee87e31884c5c5523d</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>KakaoMap</string>
@@ -66,8 +66,8 @@
 		<string>bluetooth-peripheral</string>
 		<string>external-accessory</string>
 	</array>
-	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
+	<key>UILaunchImageFile~iphone</key>
+	<string>LaunchImage</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Login</string>
 	<key>UIRequiredDeviceCapabilities</key>

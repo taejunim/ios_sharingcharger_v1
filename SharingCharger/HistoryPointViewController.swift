@@ -42,7 +42,7 @@ class HistoryPointViewController: UIViewController, UITableViewDelegate, UITable
     
     let size                                  = 10
     var page                                  = 1
-    var point                                 = "ALL"
+    var pointUsedType                         = "ALL"
     
     var moreLoadFlag                          = false
     
@@ -58,7 +58,7 @@ class HistoryPointViewController: UIViewController, UITableViewDelegate, UITable
         
         startDate = dateFormatter.string(from : calendar.date(byAdding: .month,value: -1, to: date)!)
         endDate   = dateFormatter.string(from: date)
-        sort      = "ASC"
+        sort      = "DESC"
         
         let rightBarButton = UIBarButtonItem.init(image: rightMenuImage, style: .done, target: self, action: #selector(rightMenu))
         
@@ -82,10 +82,10 @@ class HistoryPointViewController: UIViewController, UITableViewDelegate, UITable
         
         let data = notification.object as! SearchingHistoryConditionObject
         
-        startDate = data.startDate
-        endDate   = data.endDate
-        sort      = data.sort
-        point     = data.pointUsedType
+        startDate       = data.startDate
+        endDate         = data.endDate
+        sort            = data.sort
+        pointUsedType   = data.pointUsedType
         
         arr.removeAll()
         
@@ -180,18 +180,17 @@ class HistoryPointViewController: UIViewController, UITableViewDelegate, UITable
         var code: Int!  = 0
         
         let userId = myUserDefaults.integer(forKey: "userId")
-        let url         = "http://test.jinwoosi.co.kr:6066/api/v1/point/users/\(userId)/history"
-
+        let url         = "http://211.253.37.97:8101/api/v1/point/users/\(userId)/history"
         
         let parameters: Parameters = [
             "sort"      :sort,
             "page"      :page,
             "size"      :size,
             "startDate" :startDate,
-            "endDate"   :endDate
+            "endDate"   :endDate,
+            "pointUsedType" : pointUsedType
         ]
         
-
         AF.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, interceptor: Interceptor(indicator: activityIndicator!)).validate().responseJSON(completionHandler: { response in
             
             code = response.response?.statusCode
@@ -201,9 +200,9 @@ class HistoryPointViewController: UIViewController, UITableViewDelegate, UITable
                 case .success(let obj):
                 
                 do {
-
-                        let JSONData = try JSONSerialization.data(withJSONObject: obj, options: .prettyPrinted)
-                        let instanceData = try JSONDecoder().decode(PointHistoryObject.self, from: JSONData)
+      
+                    let JSONData = try JSONSerialization.data(withJSONObject: obj, options: .prettyPrinted)
+                    let instanceData = try JSONDecoder().decode(PointHistoryObject.self, from: JSONData)
                     
                     if instanceData.numberOfElements != self.size {
                         

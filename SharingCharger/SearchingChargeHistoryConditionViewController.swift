@@ -20,8 +20,8 @@ class SearchingChargeHistoryCondition: UIViewController {
     @IBOutlet var sixMonth       : UIButton!
     @IBOutlet var ownPeriod      : UIButton!
     
-    @IBOutlet var asc            : UIButton!
     @IBOutlet var desc           : UIButton!
+    @IBOutlet var asc            : UIButton!
     
     @IBOutlet var adjustButton   : UIButton!
      
@@ -37,7 +37,7 @@ class SearchingChargeHistoryCondition: UIViewController {
     var sortButtonArray          : [UIButton] = []
     
     
-    let sortArray                : [String]   = ["ASC", "DESC"]
+    let sortArray                : [String]   = ["DESC","ASC"]
     
 
     let buttonBorderWidth        : CGFloat!   = 1.0
@@ -83,9 +83,9 @@ class SearchingChargeHistoryCondition: UIViewController {
         periodButtonArray.append(sixMonth)
         periodButtonArray.append(ownPeriod)
         
-        sortButtonArray.append(asc)
         sortButtonArray.append(desc)
-
+        sortButtonArray.append(asc)
+        
         for button in self.periodButtonArray {
             
             button.addTarget(self, action: #selector(setPeriodButton(_:)), for: .touchUpInside)
@@ -99,7 +99,7 @@ class SearchingChargeHistoryCondition: UIViewController {
         adjustButton.layer.cornerRadius = 7
         
         setPeriodButton(oneMonth)
-        setSortButton(asc)
+        setSortButton(desc)
     }
     
     @IBAction func setPeriodButton(_ sender: UIButton) {
@@ -271,6 +271,6 @@ class SearchingChargeHistoryCondition: UIViewController {
     @objc func refreshButton(sender: UIButton!) {
         
         setPeriodButton(oneMonth)
-        setSortButton(asc)
+        setSortButton(desc)
     }
 }

@@ -77,7 +77,6 @@ class LeftMenuViewController: UIViewController {
         let userId = myUserDefaults.integer(forKey: "userId")
         let url = "http://211.253.37.97:8101/api/v1/point/users/\(userId)"
         
-        print("url : \(url)")
         
         AF.request(url, method: .get, encoding: URLEncoding.default, interceptor: Interceptor(indicator: activityIndicator!)).validate().responseJSON(completionHandler: { response in
             
@@ -268,6 +267,10 @@ class LeftMenuViewController: UIViewController {
     @objc func pointChargeButton(sender: UIView!) {
         
         print("충전하기 이벤트")
+        
+        guard let viewController = self.storyboard?.instantiateViewController(withIdentifier: "PointCharge") else { return }
+        
+        self.navigationController?.pushViewController(viewController, animated: true)
         
     }
     

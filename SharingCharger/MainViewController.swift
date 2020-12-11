@@ -64,6 +64,12 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
     
     let locationManager = CLLocationManager()
     
+    let bluePinOrigin: UIImage!  = UIImage(named: "pin_blue")
+    let redPinOrigin: UIImage!  = UIImage(named: "pin_red")
+    let pinSize = CGSize(width:30, height:30)
+    var bluePin: UIImage?
+    var redPin: UIImage?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -99,7 +105,7 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
             case 1136, 1334:                                               //iPhone 5 or 5S or 5C   , iPhone 6/6S/7/8
                 chargerViewMinimumHeight = mapView.frame.height * 0.4
                 chargerViewMaximumHeight = mapView.frame.height * 0.85
-            case 1792, 1920, 2208, 2436, 2532, 2778, 2688:                              //iPhone 6+/6S+/7+/8+   , iPhone X/XS/11Pro,12mini , iPhone 12/12Pro, iPhone12ProMax ,  iPhone XS Max/11 Pro Max
+            case 1792, 1920, 2208, 2436, 2532, 2778, 2688:                 //iPhone 6+/6S+/7+/8+   , iPhone X/XS/11Pro,12mini , iPhone 12/12Pro, iPhone12ProMax ,  iPhone XS Max/11 Pro Max
                 chargerViewMinimumHeight = mapView.frame.height * 0.45
                 chargerViewMaximumHeight = mapView.frame.height * 0.9
             default:                                                        //iPhone XR/ 11   , Unknown
@@ -109,6 +115,11 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         }
         
         getCurrentLocation()
+        
+        let renderer = UIGraphicsImageRenderer(size: pinSize)
+        bluePin = renderer.image {_ in bluePinOrigin.draw(in: CGRect(origin: .zero, size: pinSize))}
+        redPin = renderer.image {_ in redPinOrigin.draw(in: CGRect(origin: .zero, size: pinSize))}
+
     }
     
     func hasLocationPermission() -> Bool {
@@ -453,6 +464,8 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         receivedSearchingConditionObject.gpxY = mapCenterPoint.mapPointGeo().latitude
         receivedSearchingConditionObject.gpxX = mapCenterPoint.mapPointGeo().longitude
         
+        //mapView.removePOIItems(poiArray)
+        
         addPoiItem()
         
     }
@@ -479,7 +492,7 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         
         var code: Int! = 0
         let url = "http://211.253.37.97:8101/api/v1/app/chargers"
-        
+
         print("receivedSearchingConditionObject.realChargingStartDate : \(receivedSearchingConditionObject.realChargingStartDate)")
         print("receivedSearchingConditionObject.realChargingEndDate : \(receivedSearchingConditionObject.realChargingEndDate)")
         let parameters: Parameters = [
@@ -488,8 +501,10 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
             "endDate":receivedSearchingConditionObject.realChargingEndDate,
             "gpsX":receivedSearchingConditionObject.gpxX!,
             "gpsY":receivedSearchingConditionObject.gpxY!
+
         ]
         
+        print(parameters)
         AF.request(url, method: .get, parameters: parameters,  encoding: URLEncoding.default, interceptor: Interceptor(indicator: activityIndicator!)).validate().responseJSON(completionHandler: { response in
             
             code = response.response?.statusCode
@@ -503,7 +518,8 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                     let JSONData = try JSONSerialization.data(withJSONObject: obj, options: .prettyPrinted)
                     let instanceData = try JSONDecoder().decode([MarkersObject].self, from: JSONData)
                     
-                    print("instanceData : \(instanceData)")
+                    self.mTMapView?.removePOIItems(self.mTMapView?.poiItems)
+
                     
                     self.poiArray = Array<MTMapPOIItem>()
                     
@@ -514,13 +530,22 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                             let poiItem: MTMapPOIItem = MTMapPOIItem()
                             poiItem.itemName = content.name
                             poiItem.mapPoint = MTMapPoint(geoCoord: MTMapPointGeo(latitude: content.gpsY!, longitude: content.gpsX!))
-                            poiItem.markerType = MTMapPOIItemMarkerType.bluePin
+                            poiItem.markerType = MTMapPOIItemMarkerType.customImage
+                            
+                            if(content.currentStatusType == "READY"){
+                                
+                                poiItem.customImage = self.bluePin
+                                
+                            } else {
+                                
+                                poiItem.customImage = self.redPin
+                                
+                            }
+                            
                             poiItem.tag = content.id!
                             self.poiArray.append(poiItem)
-
                         }
                     }
-                    
                     self.mTMapView?.addPOIItems(self.poiArray)
                     
                 } catch {
@@ -783,11 +808,13 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
     
     func reservationPopupDelegate() {
         notificationCenter.post(name: .reservationPopup, object: nil, userInfo: nil)
+        
     }
     
     @objc func reservationPopup(_ notification: Notification) {
         
         searchingConditionView.initializeLayer()
+        addPoiItem()
     }
     
     func searchingAddressDelegate(data: SelectedPositionObject ) {
