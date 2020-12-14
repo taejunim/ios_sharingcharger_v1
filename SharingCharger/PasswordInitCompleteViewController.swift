@@ -18,12 +18,13 @@ class PasswordInitCompleteViewController: UIViewController, UITextFieldDelegate 
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var passwordInitCompleteButton: UIButton!
     
-    var userId: Int!
+    var userId: String = ""
     
     let notificationCenter = NotificationCenter.default
     
     var utils: Utils?
     var activityIndicator: UIActivityIndicatorView?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,7 +58,6 @@ class PasswordInitCompleteViewController: UIViewController, UITextFieldDelegate 
         
         var code: Int! = 0
         
-        let userId = 16
         let url = "http://211.253.37.97:8101/api/v1/change/password/\(userId)"
         
         print("url : \(url)")
@@ -73,9 +73,10 @@ class PasswordInitCompleteViewController: UIViewController, UITextFieldDelegate 
             switch response.result {
             
             case .success(let obj):
-                print(obj)
                 
                 self.activityIndicator!.stopAnimating()
+                
+                print(obj)
                 
                 if code == 200 {
                     
@@ -102,6 +103,11 @@ class PasswordInitCompleteViewController: UIViewController, UITextFieldDelegate 
                             UIApplication.shared.windows.first?.makeKeyAndVisible()
                         }
                     }
+                } else if code == 204{
+                    self.view.makeToast("존재하지 않는 사용자 입니다. \n 이메일을 확인하여 주십시오.", duration: 2.0, position: .bottom) { didtap in
+                        self.navigationController?.popViewController(animated: true)
+                    }
+                    
                 } else {
                     print("요청 파라미터가 올바르지 않습니다.\n다시 확인하여 주십시오.")
                     self.view.makeToast("요청 파라미터가 올바르지 않습니다.\n다시 확인하여 주십시오.", duration: 2.0, position: .bottom)

@@ -60,7 +60,7 @@ class PasswordChangeViewController: UIViewController, UITextFieldDelegate {
         
         var code: Int! = 0
         
-        let userId = myUserDefaults.integer(forKey: "userId")
+        let userId = myUserDefaults.string(forKey: "email")!
         let url = "http://211.253.37.97:8101/api/v1/change/password/\(userId)"
         
         print("url : \(url)")

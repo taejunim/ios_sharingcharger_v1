@@ -75,6 +75,7 @@ class PasswordInitViewController: UIViewController, UITextFieldDelegate {
         
         if checkBlank() {
             guard let viewController = self.storyboard?.instantiateViewController(withIdentifier: "PasswordInitComplete") as? PasswordInitCompleteViewController else { return }
+            viewController.userId = emailTextField.text!
             self.navigationController?.pushViewController(viewController, animated: true)
         }
     }
