@@ -44,6 +44,7 @@
 		DA341674250B7AF00031999F /* ShadowCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA341673250B7AF00031999F /* ShadowCircleView.swift */; };
 		DA41A08C24EBB35400E7BB93 /* AppendStar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA41A08B24EBB35400E7BB93 /* AppendStar.swift */; };
 		DA41A1F024ECF71200E7BB93 /* PasswordInitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA41A1EF24ECF71200E7BB93 /* PasswordInitViewController.swift */; };
+		DA41DF12258AFEAD002A4DEB /* HandleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA41DF11258AFEAD002A4DEB /* HandleView.swift */; };
 		DA4C26E6253B204500E3E79C /* FavoriteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4C26E5253B204500E3E79C /* FavoriteCell.swift */; };
 		DA4E4A2E25765DF60082298F /* AvailablePeriodBarObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4E4A2D25765DF60082298F /* AvailablePeriodBarObject.swift */; };
 		DA5A1E8B2566AB99005D09B8 /* PasswordChangeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5A1E8A2566AB99005D09B8 /* PasswordChangeViewController.swift */; };
@@ -165,6 +166,7 @@
 		DA341673250B7AF00031999F /* ShadowCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowCircleView.swift; sourceTree = "<group>"; };
 		DA41A08B24EBB35400E7BB93 /* AppendStar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppendStar.swift; sourceTree = "<group>"; };
 		DA41A1EF24ECF71200E7BB93 /* PasswordInitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordInitViewController.swift; sourceTree = "<group>"; };
+		DA41DF11258AFEAD002A4DEB /* HandleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandleView.swift; sourceTree = "<group>"; };
 		DA4C26E5253B204500E3E79C /* FavoriteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCell.swift; sourceTree = "<group>"; };
 		DA4E4A2D25765DF60082298F /* AvailablePeriodBarObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvailablePeriodBarObject.swift; sourceTree = "<group>"; };
 		DA5A1E8A2566AB99005D09B8 /* PasswordChangeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordChangeViewController.swift; sourceTree = "<group>"; };
@@ -358,6 +360,8 @@
 				DA5A1E8A2566AB99005D09B8 /* PasswordChangeViewController.swift */,
 				DA75C9E125662F380012CAFE /* PasswordInitCompleteViewController.swift */,
 				DA41A1EF24ECF71200E7BB93 /* PasswordInitViewController.swift */,
+				C6BF775C2577707000ADEDAD /* PointChargeViewController.swift */,
+				C6BF778E2581FC4E00ADEDAD /* PolicyViewController.swift */,
 				DAF563D025426F1800BDE08D /* ReservationPopupViewController.swift */,
 				DADCD4F124F554710026EFAD /* ReservationViewController.swift */,
 				DA26FB2424FCC0FF00D76753 /* SampleTableViewCell.swift */,
@@ -369,8 +373,6 @@
 				C6E94F4B255146C800668994 /* SearchingPointHistoryConditionViewController.swift */,
 				372D309124F6324000CEB232 /* SettingViewController.swift */,
 				C64E08A2256A8BC70075D182 /* UserCertificationViewController.swift */,
-				C6BF775C2577707000ADEDAD /* PointChargeViewController.swift */,
-				C6BF778E2581FC4E00ADEDAD /* PolicyViewController.swift */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -497,6 +499,7 @@
 				DAF4D9CC252C360700B4D218 /* BottomSheetView.swift */,
 				DAF4D9CD252C360700B4D218 /* SpringAnimator.swift */,
 				DAF4D9CF252C360700B4D218 /* TranslationTarget.swift */,
+				DA41DF11258AFEAD002A4DEB /* HandleView.swift */,
 			);
 			name = BottomSheet;
 			sourceTree = "<group>";
@@ -689,6 +692,7 @@
 				DA0AF4232531D12C00FE5FF7 /* Interceptor.swift in Sources */,
 				C6BF778F2581FC4E00ADEDAD /* PolicyViewController.swift in Sources */,
 				DA4E4A2E25765DF60082298F /* AvailablePeriodBarObject.swift in Sources */,
+				DA41DF12258AFEAD002A4DEB /* HandleView.swift in Sources */,
 				DAFED5F62535910D00D5A335 /* FavoriteObject.swift in Sources */,
 				DAF4D9D5252C56E300B4D218 /* ChargerContentView.swift in Sources */,
 				C65F1BAD253E87FC002F6B19 /* SearchingHistoryConditionObject.swift in Sources */,

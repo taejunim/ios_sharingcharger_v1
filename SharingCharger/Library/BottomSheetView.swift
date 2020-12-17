@@ -1,11 +1,9 @@
 //
 //  Copyright © FINN.no AS, Inc. All rights reserved.
 //
-
 import UIKit
 
 // MARK: - Public extensions
-
 extension CGFloat {
     public static let bottomSheetAutomatic: CGFloat = -123456789
 }
@@ -25,7 +23,6 @@ extension Array where Element == CGFloat {
 }
 
 // MARK: - Delegate
-
 public protocol BottomSheetViewDismissalDelegate: AnyObject {
     func bottomSheetView(_ view: BottomSheetView, willDismissBy action: BottomSheetView.DismissAction)
 }
@@ -36,7 +33,6 @@ public protocol BottomSheetViewAnimationDelegate: AnyObject {
 }
 
 // MARK: - View
-
 public final class BottomSheetView: UIView {
     public enum HandleBackground {
         case color(UIColor)
@@ -71,8 +67,11 @@ public final class BottomSheetView: UIView {
 
     public let draggableHeight: CGFloat?
 
-    // MARK: - Private properties
+    var dimViewBackgroundColor: UIColor? {
+        dimView.backgroundColor
+    }
 
+    // MARK: - Private properties
     private let useSafeAreaInsets: Bool
     private let stretchOnResize: Bool
     private let contentView: UIView
@@ -94,11 +93,10 @@ public final class BottomSheetView: UIView {
         return useSafeAreaInsets ? .safeAreaBottomInset : 0
     }
 
-    private lazy var handleView: UIView = {
-        let view = UIView(frame: .zero)
+    private lazy var handleView: HandleView = {
+        let view = HandleView(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .handle
-        view.layer.cornerRadius = 2
+        view.delegate = self
         return view
     }()
 
@@ -115,7 +113,6 @@ public final class BottomSheetView: UIView {
     private lazy var contentViewHeightConstraint = contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: 0)
 
     // MARK: - Init
-
     public init(
         contentView: UIView,
         contentHeights: [CGFloat],
@@ -136,6 +133,7 @@ public final class BottomSheetView: UIView {
         self.animationDelegate = animationDelegate
         super.init(frame: .zero)
         setup()
+        accessibilityViewIsModal = true
     }
 
     public required init?(coder: NSCoder) {
@@ -143,7 +141,6 @@ public final class BottomSheetView: UIView {
     }
 
     // MARK: - Overrides
-
     public override func layoutSubviews() {
         super.layoutSubviews()
         // Make shadow to be on top
@@ -152,7 +149,6 @@ public final class BottomSheetView: UIView {
     }
 
     // MARK: - Public API
-
     /// Presents bottom sheet view from the bottom of the given container view.
     ///
     /// - Parameters:
@@ -268,7 +264,6 @@ public final class BottomSheetView: UIView {
     }
 
     // MARK: - Setup
-
     private func setup() {
         clipsToBounds = true
         backgroundColor = contentView.backgroundColor ?? .bgPrimary
@@ -319,8 +314,12 @@ public final class BottomSheetView: UIView {
         NSLayoutConstraint.activate(constraints)
     }
 
-    // MARK: - Animations
+    // MARK: - Internal methods
+    func hideDimView() {
+        dimView.removeFromSuperview()
+    }
 
+    // MARK: - Animations
     private func animate(to offset: CGFloat, with initialVelocity: CGPoint = .zero) {
         if let index = targetOffsets.firstIndex(of: offset) {
             currentTargetOffsetIndex = index
@@ -343,7 +342,6 @@ public final class BottomSheetView: UIView {
     }
 
     // MARK: - UIPanGestureRecognizer
-
     @objc private func handlePan(panGesture: UIPanGestureRecognizer) {
         initialOffset = initialOffset ?? topConstraint.constant
         let translation = panGesture.translation(in: superview)
@@ -391,15 +389,15 @@ public final class BottomSheetView: UIView {
     }
 
     // MARK: - UITapGestureRecognizer
-
     @objc private func handleTap(tapGesture: UITapGestureRecognizer) {
         dismissalDelegate?.bottomSheetView(self, willDismissBy: .tap)
     }
 
     // MARK: - Offset calculation
-
     private func updateTargetOffsets() {
         guard let superview = superview else { return }
+
+        contentViewHeightConstraint.constant = 0
 
         targetOffsets = contentHeights.map {
             BottomSheetCalculator.offset(for: contentView, in: superview, height: $0, useSafeAreaInsets: useSafeAreaInsets)
@@ -426,7 +424,6 @@ public final class BottomSheetView: UIView {
 }
 
 // MARK: - Private types
-
 private class PanGestureRecognizer: UIPanGestureRecognizer {
     var draggableHeight: CGFloat?
 
@@ -445,9 +442,16 @@ private class PanGestureRecognizer: UIPanGestureRecognizer {
     }
 }
 
-// MARK: - Private extensions
+// MARK: - HandleViewDelegate
+extension BottomSheetView: HandleViewDelegate {
+    func didPerformAccessibilityActivate(_ view: HandleView) -> Bool {
+        dismissalDelegate?.bottomSheetView(self, willDismissBy: .tap)
+        return true
+    }
+}
 
-private extension UIColor {
+// MARK: - Internal extensions
+extension UIColor {
     class var handle: UIColor {
         return dynamicColorIfAvailable(
             defaultColor: UIColor(red: 195/255, green: 204/255, blue: 217/255, alpha: 1),

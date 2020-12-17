@@ -24,7 +24,6 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
     var mTMapView: MTMapView?
     var searchingConditionView = ShadowView()
     var chargerView: BottomSheetView?
-    var chargerContentView = ChargerContentView()
     
     var shadowButton = ShadowButton()
     
@@ -115,7 +114,6 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                 chargerViewMinimumHeight = mapView.frame.height * 0.3
                 chargerViewMaximumHeight = mapView.frame.height * 0.6
             }
-            
         }
         
         getCurrentLocation()
@@ -123,7 +121,6 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         let renderer = UIGraphicsImageRenderer(size: pinSize)
         bluePin = renderer.image {_ in bluePinOrigin.draw(in: CGRect(origin: .zero, size: pinSize))}
         redPin = renderer.image {_ in redPinOrigin.draw(in: CGRect(origin: .zero, size: pinSize))}
-
     }
     
     func hasLocationPermission() -> Bool {
@@ -279,63 +276,60 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                 
                 self.mTMapView?.setMapCenter(poiItem.mapPoint, zoomLevel: 1, animated: true)
                 
-                //현재 선택된 마커가 있을 때 -> 뷰는 고정시킨 채로 데이터만 바꿔줌
-                if self.currentSelectedPoiItem != nil {
-                    
-                    self.chargerContentView.changeValue(chargerNameText: poiItem.itemName, chargerId: poiItem.tag, chargerAddressText: self.selectedChargerObject?.address, rangeOfFeeText: self.selectedChargerObject?.rangeOfFee)
-                    self.setNavigationParameter()
+                //충전기 화면 사라짐
+                self.chargerView?.dismiss()
+                
+                let destinationLatitude = String(format : "%f", self.selectedChargerObject!.gpsY!)
+                let destinationLongitude = String(format : "%f", self.selectedChargerObject!.gpsX!)
+                var currentLatitude = ""
+                var currentLongitude = ""
+                
+                if let userLatitude = self.locationManager.location?.coordinate.latitude , let userLongitude = self.locationManager.location?.coordinate.longitude{
+                
+                    currentLatitude = String(format : "%f", userLatitude as CVarArg)
+                    currentLongitude = String(format : "%f", userLongitude as CVarArg)
                 }
                 
-                //검색 조건 버튼 숨기고 충전기 화면 올라옴
-                else {
-                    self.searchingConditionView.isHidden = true
-                    self.searchingConditionView.gone()
-                    
-                    self.reservationView.visible()
-                    
-                    UIView.animate(withDuration: 0.3) { self.view.layoutIfNeeded() }
-                    
-                    usleep(1000)
-                    
-                    self.chargerView = BottomSheetView(
-                        contentView: self.chargerContentView,
-                        contentHeights: [self.chargerViewMinimumHeight, self.chargerViewMaximumHeight]
-                    )
-                    
-                    self.chargerView?.present(in: self.view)
-                    
-                    self.chargerContentView.changeValue(chargerNameText: poiItem.itemName, chargerId: poiItem.tag, chargerAddressText: self.selectedChargerObject?.address, rangeOfFeeText: self.selectedChargerObject?.rangeOfFee)
-                    
-                    self.chargerContentView.changeValue(chargerNameText: poiItem.itemName, chargerId: poiItem.tag, chargerAddressText: self.selectedChargerObject?.address, rangeOfFeeText: self.selectedChargerObject?.rangeOfFee)
-                    self.setNavigationParameter()
-                    
-                }
+                //충전기 상세 뷰
+                let chargerContentView = ChargerContentView()
                 
-                self.getCurrentReservations(id: poiItem.tag)
+                //현재 위치 좌표, 충전기 좌표 넘김
+                chargerContentView.setNavigationParameter(destinationLatitude: destinationLatitude, destinationLongitude: destinationLongitude, currentLatitude: currentLatitude, currentLongitude: currentLongitude)
+                
+                //검색 조건 뷰 숨김
+                self.searchingConditionView.isHidden = true
+                self.searchingConditionView.gone()
+                
+                //예약하기 버튼 보이기
+                self.reservationView.visible()
+                
+                UIView.animate(withDuration: 0.3) { self.view.layoutIfNeeded() }
+                
+                self.chargerView = BottomSheetView(
+                    contentView: chargerContentView,
+                    contentHeights: [self.chargerViewMinimumHeight, self.chargerViewMaximumHeight]
+                )
+                
+                self.chargerView?.present(in: self.view)
+                
+                chargerContentView.changeValue(chargerNameText: poiItem.itemName, chargerId: poiItem.tag, chargerAddressText: self.selectedChargerObject?.address, rangeOfFeeText: self.selectedChargerObject?.rangeOfFee)
+                
+                //충전기에 대한 예약 불러오기
+                self.getCurrentReservations(id: poiItem.tag, chargerContentView: chargerContentView)
                 
                 //현재 선택된 마커 저장
                 self.currentSelectedPoiItem = poiItem
                 
+                //예약하기 버튼 앞으로 가져오기
                 self.view.bringSubviewToFront(self.reservationView)
             })
         }
         
         return false
     }
-    func setNavigationParameter(){
-        
-        self.chargerContentView.destinationLatitude = String(format : "%f", self.selectedChargerObject?.gpsY as! CVarArg)
-        self.chargerContentView.destinationLongitude = String(format : "%f", self.selectedChargerObject?.gpsX as! CVarArg)
-        if let userLatitude = self.locationManager.location?.coordinate.latitude , let userLongitude = self.locationManager.location?.coordinate.longitude{
-        
-            self.chargerContentView.userLatitude = String(format : "%f", userLatitude as! CVarArg)
-            self.chargerContentView.userLongitude = String(format : "%f", userLongitude as! CVarArg)
-        }
-        
-    }
     
     //현재 예약 가져오기
-    private func getCurrentReservations(id: Int!) {
+    private func getCurrentReservations(id: Int!, chargerContentView: ChargerContentView!) {
         
         var code: Int! = 0
         let chargerId = id!
@@ -427,7 +421,7 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                         }
                     }
                     print("selectedTimePeriod: \(self.selectedTimePeriod)")
-                    self.chargerContentView.setReservationStateBar(availableTimeList: availableTimeList, reservationList: reservationList, countOfSelectedPeriod: countOfSelectedPeriod, selectedStartDate: self.reservationStateBarStartDate, selectedTimePeriod: self.selectedTimePeriod)
+                    chargerContentView.setReservationStateBar(availableTimeList: availableTimeList, reservationList: reservationList, countOfSelectedPeriod: countOfSelectedPeriod, selectedStartDate: self.reservationStateBarStartDate, selectedTimePeriod: self.selectedTimePeriod)
                     
                 } catch {
                     print("error : \(error.localizedDescription)")
@@ -472,10 +466,7 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         receivedSearchingConditionObject.gpxY = mapCenterPoint.mapPointGeo().latitude
         receivedSearchingConditionObject.gpxX = mapCenterPoint.mapPointGeo().longitude
         
-        //mapView.removePOIItems(poiArray)
-        
         addPoiItem()
-        
     }
 
     private func showSearchingConditionView() {
@@ -547,7 +538,6 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                             } else {
                                 
                                 poiItem.customImage = self.redPin
-                                
                             }
                             
                             poiItem.tag = content.id!
@@ -692,8 +682,12 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
     //예약이 있을 경우 예약 팝업
     private func presentReservationPopup() {
         let viewController:ReservationPopupViewController = self.storyboard?.instantiateViewController(withIdentifier: "ReservationPopup") as! ReservationPopupViewController
-        viewController.userLatitude = String(format : "%f", locationManager.location?.coordinate.latitude as! CVarArg)
-        viewController.userLongitude = String(format : "%f",locationManager.location?.coordinate.longitude as! CVarArg)
+        
+        if let userLatitude = self.locationManager.location?.coordinate.latitude , let userLongitude = self.locationManager.location?.coordinate.longitude{
+        
+            viewController.userLatitude = String(format : "%f", userLatitude as CVarArg)
+            viewController.userLongitude = String(format : "%f", userLongitude as CVarArg)
+        }
         
         let bottomSheet: MDCBottomSheetController! = MDCBottomSheetController(contentViewController: viewController)
 
@@ -730,8 +724,6 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
             
             button.setAttributes(buttonName: buttonName, width: width, height: height, top: top, left: left, right: right, bottom: bottom, target: target)
         }
-        
-        
     }
     
     //예약하기 버튼
