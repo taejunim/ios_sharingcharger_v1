@@ -70,6 +70,9 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
     var bluePin: UIImage?
     var redPin: UIImage?
     
+    let ColorE0E0E0: UIColor! = UIColor(named: "Color_E0E0E0")  //회색
+    let Color3498DB: UIColor! = UIColor(named: "Color_3498DB")  //파랑
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -112,6 +115,7 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                 chargerViewMinimumHeight = mapView.frame.height * 0.3
                 chargerViewMaximumHeight = mapView.frame.height * 0.6
             }
+            
         }
         
         getCurrentLocation()
@@ -245,7 +249,7 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                 switch response.result {
                 
                 case .success(let obj):
-                    
+                    print(obj)
                     do {
                         
                         let JSONData = try JSONSerialization.data(withJSONObject: obj, options: .prettyPrinted)
@@ -384,9 +388,13 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                             
                             reservationList.append(currentReservation)
                         }
+                        
                     } else {
                         print("reservationList size 0")
+                        
                     }
+                    self.checkDisableTime(reservationList: reservationList)
+                    
                     print("receivedSearchingConditionObject.chargingStartDate : \(self.receivedSearchingConditionObject.realChargingStartDate)")
                     
                     var countOfSelectedPeriod = 0
@@ -1165,6 +1173,55 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         }
         
         return deviceHeight
+    }
+    
+    func checkDisableTime( reservationList: Array<CurrentReservationObject>){
+        
+        if reservationList == [] {
+            
+            disableReservationButton(able: true)
+            return
+            
+        }
+        let reservatoinDateFormatter = DateFormatter()
+        reservatoinDateFormatter.locale = Locale(identifier: "ko")
+        reservatoinDateFormatter.dateFormat = "yyyy-MM-ddTHH:mm:ss"
+    
+        for reservation in reservationList {
+            
+            print("reservation.startDate     \(reservation.startDate!)")
+            
+            if receivedSearchingConditionObject.realChargingStartDate >= reservation.startDate! && receivedSearchingConditionObject.realChargingStartDate <= reservation.endDate!{
+                    
+                disableReservationButton(able: false)
+                
+            } else if receivedSearchingConditionObject.realChargingEndDate >= reservation.startDate! && receivedSearchingConditionObject.realChargingEndDate <=
+                    reservation.endDate!{
+              
+                disableReservationButton(able: false)
+                
+            } else {
+                
+                disableReservationButton(able: true)
+            }
+            
+        }
+        
+    }
+    
+    func disableReservationButton(able : Bool){
+        
+        reservationView.isEnabled = able
+        
+        if able {
+            
+            reservationView.layer.backgroundColor = Color3498DB?.cgColor
+        
+        }else {
+            
+            reservationView.layer.backgroundColor = ColorE0E0E0?.cgColor
+        }
+       
     }
 }
 extension Notification.Name {
