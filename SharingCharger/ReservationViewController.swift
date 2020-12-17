@@ -42,7 +42,7 @@ class ReservationViewController: UIViewController {
         chargerNameLabel.text = receivedSearchingConditionObject.chargerName
         chargingPeriodLabel.text = receivedSearchingConditionObject.realChargingPeriod
         
-        currentPointLabel.layer.cornerRadius = 7
+        currentPointLabel.layer.cornerRadius = currentPointLabel.frame.height / 2
         reservationButton.layer.cornerRadius = 7
         reservationButton.addTarget(self, action: #selector(reservationButton(sender:)), for: .touchUpInside)
         
