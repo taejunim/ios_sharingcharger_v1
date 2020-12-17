@@ -65,6 +65,9 @@ class SearchingAddressViewController : UIViewController,  UITableViewDelegate ,U
         self.tableView.dataSource        = self
         self.tableView.allowsSelection   = false
         
+        //table view margin 제거
+        self.tableView.separatorInset    = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        
         //Main View로 선택한 위치의 좌표를 넘기기 위한 delegate 설정
         self.delegate = MainViewController()
         

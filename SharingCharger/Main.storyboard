@@ -1702,61 +1702,59 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="152"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Image_location" translatesAutoresizingMaskIntoConstraints="NO" id="Ncq-RW-brL">
-                                                    <rect key="frame" x="20" y="20" width="20" height="26"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pin_blue" translatesAutoresizingMaskIntoConstraints="NO" id="Ncq-RW-brL">
+                                                    <rect key="frame" x="20" y="20" width="20" height="20"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="26" id="SOw-Jf-ek0"/>
+                                                        <constraint firstAttribute="height" constant="20" id="SOw-Jf-ek0"/>
                                                         <constraint firstAttribute="width" constant="20" id="ijo-NR-ZcD"/>
                                                     </constraints>
                                                 </imageView>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Image_clock" translatesAutoresizingMaskIntoConstraints="NO" id="COL-cO-mzR">
-                                                    <rect key="frame" x="20" y="54" width="20" height="20"/>
+                                                    <rect key="frame" x="20" y="50" width="20" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="20" id="Gvk-Cq-gLo"/>
                                                         <constraint firstAttribute="height" constant="20" id="XrK-aM-m0w"/>
                                                     </constraints>
                                                 </imageView>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Image_coin" translatesAutoresizingMaskIntoConstraints="NO" id="SGT-vo-Uaf">
-                                                    <rect key="frame" x="20" y="82" width="20" height="26"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="coin" translatesAutoresizingMaskIntoConstraints="NO" id="SGT-vo-Uaf">
+                                                    <rect key="frame" x="20" y="80" width="20" height="20"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="26" id="5Py-9r-jpV"/>
+                                                        <constraint firstAttribute="height" constant="20" id="5Py-9r-jpV"/>
                                                         <constraint firstAttribute="width" constant="20" id="tqK-5f-H4Q"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZaX-NG-D4o">
-                                                    <rect key="frame" x="52" y="20" width="0.0" height="26"/>
+                                                    <rect key="frame" x="52" y="30" width="0.0" height="0.0"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" systemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aXw-kc-b0O">
-                                                    <rect key="frame" x="52" y="54" width="0.0" height="20"/>
+                                                    <rect key="frame" x="52" y="60" width="0.0" height="0.0"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" systemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oyx-qN-5xe">
-                                                    <rect key="frame" x="52" y="82" width="0.0" height="0.0"/>
+                                                    <rect key="frame" x="52" y="90" width="0.0" height="0.0"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" systemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="aXw-kc-b0O" firstAttribute="top" secondItem="ZaX-NG-D4o" secondAttribute="bottom" constant="8" id="0b9-aC-18C"/>
                                                 <constraint firstItem="Ncq-RW-brL" firstAttribute="leading" secondItem="7hh-3X-tYH" secondAttribute="leading" constant="20" id="1ml-Ru-qbE"/>
-                                                <constraint firstItem="SGT-vo-Uaf" firstAttribute="top" secondItem="COL-cO-mzR" secondAttribute="bottom" constant="8" id="52E-0X-ZmE"/>
+                                                <constraint firstItem="SGT-vo-Uaf" firstAttribute="top" secondItem="COL-cO-mzR" secondAttribute="bottom" constant="10" id="52E-0X-ZmE"/>
+                                                <constraint firstItem="aXw-kc-b0O" firstAttribute="centerY" secondItem="COL-cO-mzR" secondAttribute="centerY" id="5Df-vS-LKo"/>
                                                 <constraint firstItem="Oyx-qN-5xe" firstAttribute="leading" secondItem="SGT-vo-Uaf" secondAttribute="trailing" constant="12" id="7lO-Kz-ebI"/>
                                                 <constraint firstItem="Ncq-RW-brL" firstAttribute="top" secondItem="7hh-3X-tYH" secondAttribute="top" constant="20" id="BCr-aV-R7D"/>
-                                                <constraint firstItem="COL-cO-mzR" firstAttribute="top" secondItem="Ncq-RW-brL" secondAttribute="bottom" constant="8" id="PFH-mW-t4M"/>
+                                                <constraint firstItem="COL-cO-mzR" firstAttribute="top" secondItem="Ncq-RW-brL" secondAttribute="bottom" constant="10" id="PFH-mW-t4M"/>
                                                 <constraint firstItem="aXw-kc-b0O" firstAttribute="leading" secondItem="COL-cO-mzR" secondAttribute="trailing" constant="12" id="QRu-qC-GFV"/>
-                                                <constraint firstItem="Oyx-qN-5xe" firstAttribute="top" secondItem="aXw-kc-b0O" secondAttribute="bottom" constant="8" id="TxD-oB-ONE"/>
-                                                <constraint firstItem="ZaX-NG-D4o" firstAttribute="top" secondItem="7hh-3X-tYH" secondAttribute="top" constant="20" id="bHa-tW-Uwf"/>
                                                 <constraint firstItem="COL-cO-mzR" firstAttribute="leading" secondItem="7hh-3X-tYH" secondAttribute="leading" constant="20" id="cmV-BH-5E4"/>
                                                 <constraint firstItem="ZaX-NG-D4o" firstAttribute="leading" secondItem="Ncq-RW-brL" secondAttribute="trailing" constant="12" id="lkg-bj-lN5"/>
-                                                <constraint firstItem="Oyx-qN-5xe" firstAttribute="top" secondItem="SGT-vo-Uaf" secondAttribute="top" id="qZM-ZB-Z0e"/>
-                                                <constraint firstItem="aXw-kc-b0O" firstAttribute="top" secondItem="COL-cO-mzR" secondAttribute="top" id="rN0-sa-bBH"/>
+                                                <constraint firstItem="Oyx-qN-5xe" firstAttribute="centerY" secondItem="SGT-vo-Uaf" secondAttribute="centerY" id="p8B-fc-Lrm"/>
                                                 <constraint firstItem="SGT-vo-Uaf" firstAttribute="leading" secondItem="7hh-3X-tYH" secondAttribute="leading" constant="20" id="vv9-Sf-6gz"/>
+                                                <constraint firstItem="ZaX-NG-D4o" firstAttribute="centerY" secondItem="Ncq-RW-brL" secondAttribute="centerY" id="wy0-bE-IgL"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -3143,12 +3141,13 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Image_clock" width="85" height="85"/>
-        <image name="Image_coin" width="21" height="21"/>
+        <image name="Image_clock" width="30" height="30"/>
         <image name="Image_location" width="10" height="13"/>
         <image name="charge_end" width="512" height="512"/>
         <image name="charge_start" width="512" height="512"/>
+        <image name="coin" width="60" height="60"/>
         <image name="greaterthan" catalog="system" width="128" height="111"/>
+        <image name="pin_blue" width="150" height="150"/>
         <image name="searching_condition_arrow" width="48" height="28"/>
         <image name="setting" width="48" height="48"/>
         <image name="star_off" width="60" height="60"/>

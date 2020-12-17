@@ -1183,22 +1183,21 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
             return
             
         }
-        let reservatoinDateFormatter = DateFormatter()
-        reservatoinDateFormatter.locale = Locale(identifier: "ko")
-        reservatoinDateFormatter.dateFormat = "yyyy-MM-ddTHH:mm:ss"
-    
+        
         for reservation in reservationList {
             
-            print("reservation.startDate     \(reservation.startDate!)")
+            let startDate = Calendar.current.date(byAdding: .minute, value: -30, to:realDateFormatter.date(from: reservation.startDate!+".000")!)
+            let endDate = Calendar.current.date(byAdding: .minute, value: 30, to:realDateFormatter.date(from: reservation.endDate!+".000")!)
             
-            if receivedSearchingConditionObject.realChargingStartDate >= reservation.startDate! && receivedSearchingConditionObject.realChargingStartDate <= reservation.endDate!{
+            if receivedSearchingConditionObject.realChargingStartDate >= realDateFormatter.string(from:startDate!) && receivedSearchingConditionObject.realChargingStartDate <= realDateFormatter.string(from:endDate!){
                     
                 disableReservationButton(able: false)
+                return
                 
-            } else if receivedSearchingConditionObject.realChargingEndDate >= reservation.startDate! && receivedSearchingConditionObject.realChargingEndDate <=
-                    reservation.endDate!{
+            } else if receivedSearchingConditionObject.realChargingEndDate >= realDateFormatter.string(from:startDate!) && receivedSearchingConditionObject.realChargingEndDate <= realDateFormatter.string(from:endDate!){
               
                 disableReservationButton(able: false)
+                return
                 
             } else {
                 

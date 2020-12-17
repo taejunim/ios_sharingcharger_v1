@@ -23,7 +23,8 @@ class HistoryElectricityChargingViewController: UIViewController, UITableViewDel
     var utils                     : Utils?
     var activityIndicator         : UIActivityIndicatorView?
     
-    let rightMenuImage            : UIImage!  = UIImage(named: "menu_list")
+    let rightMenuOrigin           : UIImage!  = UIImage(named: "menu_list")
+    var rightMenuImage            : UIImage?
     
     let dateFormatter                         = DateFormatter()
     let calendar                              = Calendar.current
@@ -42,6 +43,7 @@ class HistoryElectricityChargingViewController: UIViewController, UITableViewDel
     
     var arr:[ChargingHistoryObject.InnerItem] = []
     
+    let menuSize                          = CGSize(width:25, height:25)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,8 +55,11 @@ class HistoryElectricityChargingViewController: UIViewController, UITableViewDel
         endDate   = dateFormatter.string(from: date)
         sort      = "DESC"
         
-        let rightBarButton = UIBarButtonItem.init(image: rightMenuImage ,style: .done, target: self, action: #selector(rightMenu))
-        
+        let renderer = UIGraphicsImageRenderer(size: menuSize)
+        rightMenuImage = renderer.image {_ in rightMenuOrigin.draw(in: CGRect(origin: .zero, size: menuSize))}
+
+        let rightBarButton = UIBarButtonItem.init(image: rightMenuImage ,style: .done , target: self, action: #selector(rightMenu))
+
         NotificationCenter.default.addObserver(self, selector: #selector(updateChargeSearchingCondition(_:)), name: .updateChargeSearchingCondition, object: nil)
         
         //로딩 뷰
@@ -70,7 +75,8 @@ class HistoryElectricityChargingViewController: UIViewController, UITableViewDel
         self.tableView.delegate             = self
         self.tableView.dataSource           = self
         self.tableView.allowsSelection      = false
-
+        
+        self.tableView.separatorInset       = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)     //table view margin 제거
     }
     
     @objc func updateChargeSearchingCondition(_ notification: Notification) {
@@ -113,6 +119,8 @@ class HistoryElectricityChargingViewController: UIViewController, UITableViewDel
         let row = self.arr[indexPath.section]
         let Cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for:indexPath) as! HistoryElectricityTableCell
     
+        //Cell.separatorInset = UIEdgeInsets.zero                         //Table Cell 왼편에 margin 제거
+
         if(row.chargerName != nil){
             Cell.chargingSpotNm?.text  = row.chargerName
         } else {

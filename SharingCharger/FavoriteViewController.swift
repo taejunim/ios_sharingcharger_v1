@@ -29,6 +29,8 @@ class FavoriteViewController: UIViewController, UITableViewDelegate, UITableView
         self.tableView.allowsSelection = false
         self.delegate = MainViewController()    //선택한 검색 조건들을 MainViewController 로 넘김
         
+        self.tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)  //table view margin 제거
+        
         let realm = try! Realm()
         let favoriteObject = realm.objects(FavoriteObject.self)
         

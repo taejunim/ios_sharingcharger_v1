@@ -875,6 +875,8 @@ extension ChargeViewController: BleDelegate {
                 // UnPlug 값이 넘어오면 충전기 접속 종료 처리 해줘야 함
                 // 안 그럼 Stop 이벤트가 추가적으로 들어와서 문제가 될 수 있음
                 BleManager.shared.bleDisConnect()
+                chargeStart.backgroundColor = UIColor(named: "Color_BEBEBE")
+                chargeEnd.backgroundColor = UIColor(named: "Color_BEBEBE")
                 showAlert(title: "충전 시작 실패", message: "플러그 연결 확인 후 재접속 후 충전을 시작해주세요.\n문제가 지속될 시 고객센터로 문의 주십시오.", positiveTitle: "확인", negativeTitle: nil)
                 break
             case .BleAgainOtpAtuh:

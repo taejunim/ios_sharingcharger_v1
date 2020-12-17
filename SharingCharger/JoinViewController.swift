@@ -44,6 +44,9 @@ class JoinViewController: UIViewController, UITextFieldDelegate , PolicyProtocol
     let ColorE0E0E0: UIColor! = UIColor(named: "Color_E0E0E0")  //회색
     let Color3498DB: UIColor! = UIColor(named: "Color_3498DB")  //파랑
     
+    var collectUserDataFlag: Bool = false
+    var privacyPolicyFlag: Bool = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -150,10 +153,9 @@ class JoinViewController: UIViewController, UITextFieldDelegate , PolicyProtocol
                 "email": emailTextField.text!,
                 "password": passwordTextField.text!,
                 "userType":"General",
-                "collectUserDataFlag":true,
-                "privacyPolicyFlag":true
+                "collectUserDataFlag":collectUserDataFlag,
+                "privacyPolicyFlag":privacyPolicyFlag
             ]
-            
             AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, interceptor: Interceptor(indicator: activityIndicator!)).validate().responseJSON(completionHandler: { response in
                 
                 code = response.response?.statusCode
@@ -366,12 +368,14 @@ class JoinViewController: UIViewController, UITextFieldDelegate , PolicyProtocol
             viewCollectPolicyButton.isEnabled = false
             viewCollectPolicyButton.setTitleColor(ColorE0E0E0, for: .normal)
             collectAgreementLabel.text = "동의함"
+            collectUserDataFlag = true
             
         } else if data == "http://211.253.37.97:8101/api/v1/policy/privacy"{
             
             viewPrivacyPolicyButton.isEnabled = false
             viewPrivacyPolicyButton.setTitleColor(ColorE0E0E0, for: .normal)
             privacyAgreementLabel.text = "동의함"
+            privacyPolicyFlag = true
         }
         
         changeButtonStatus()

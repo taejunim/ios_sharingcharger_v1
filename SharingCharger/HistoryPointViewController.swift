@@ -23,7 +23,8 @@ class HistoryPointViewController: UIViewController, UITableViewDelegate, UITable
     var utils                     : Utils?
     var activityIndicator         : UIActivityIndicatorView?
     
-    let rightMenuImage            : UIImage!  = UIImage(named: "menu_list")
+    let rightMenuOrigin           : UIImage!  = UIImage(named: "menu_list")
+    var rightMenuImage            : UIImage?
     
     let dateFormatter                         = DateFormatter()
     let calendar                              = Calendar.current
@@ -46,9 +47,11 @@ class HistoryPointViewController: UIViewController, UITableViewDelegate, UITable
     
     var moreLoadFlag                          = false
     
+    let menuIconSize                          = CGSize(width:30, height:30)
     
+    var arr:[PointHistoryObject.InnerItem]    = []
     
-    var arr:[PointHistoryObject.InnerItem]     = []
+    let menuSize                              = CGSize(width:30, height:30)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,7 +63,10 @@ class HistoryPointViewController: UIViewController, UITableViewDelegate, UITable
         endDate   = dateFormatter.string(from: date)
         sort      = "DESC"
         
-        let rightBarButton = UIBarButtonItem.init(image: rightMenuImage, style: .done, target: self, action: #selector(rightMenu))
+        let renderer = UIGraphicsImageRenderer(size: menuSize)
+        rightMenuImage = renderer.image {_ in rightMenuOrigin.draw(in: CGRect(origin: .zero, size: menuSize))}
+
+        let rightBarButton = UIBarButtonItem.init(image: rightMenuImage ,style: .done , target: self, action: #selector(rightMenu))
         
         NotificationCenter.default.addObserver(self, selector: #selector(updatePointSearchingCondition(_:)), name: .updatePointSearchingCondition, object: nil)
         
@@ -76,6 +82,8 @@ class HistoryPointViewController: UIViewController, UITableViewDelegate, UITable
         self.tableView.delegate             = self
         self.tableView.dataSource           = self
         self.tableView.allowsSelection      = false
+        
+        self.tableView.separatorInset       = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)         //table view margin 제거
     }
     
     @objc func updatePointSearchingCondition(_ notification: Notification) {
