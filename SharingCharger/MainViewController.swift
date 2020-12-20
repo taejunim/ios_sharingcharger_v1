@@ -237,7 +237,7 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
             var code: Int! = 0
             
             let chargerId = poiItem.tag
-            let url = "http://211.253.37.97:8101/api/v1/chargers/\(chargerId)"
+            let url = "http://211.253.37.97:8101/api/v1/app/chargers/\(chargerId)"
             
             AF.request(url, method: .get, encoding: URLEncoding.default, interceptor: Interceptor(indicator: activityIndicator!)).validate().responseJSON(completionHandler: { response in
                 
