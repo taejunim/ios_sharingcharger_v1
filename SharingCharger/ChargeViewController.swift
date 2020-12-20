@@ -80,7 +80,7 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     dateFormatter.locale = locale
                     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
                     //충전 종료 일시
-                    let realChargingEndDate = dateFormatter.date(from: reservationInfo!.realChargingEndDate)
+                    let realChargingEndDate = dateFormatter.date(from: reservationInfo!.realChargingEndDate.replacingOccurrences(of: " ", with: "T"))
                     
                     //현재 시간이 예약 종료 일시 보다 작으면 충전할 수 있게
                     if Date() < realChargingEndDate! {
@@ -142,7 +142,7 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
                     
                     //충전 종료 일시
-                    let realChargingEndDate = dateFormatter.date(from: reservationInfo!.realChargingEndDate)
+                    let realChargingEndDate = dateFormatter.date(from: reservationInfo!.realChargingEndDate.replacingOccurrences(of: " ", with: "T"))
                     
                     //현재 시간이 예약 종료 일시 보다 작으면 충전할 수 있게
                     if Date() < realChargingEndDate! {
@@ -458,8 +458,8 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                         
                         let calendar = Calendar.current
                         
-                        let startDate = dateFormatter.date(from: instanceData.startDate!)
-                        let endDate = dateFormatter.date(from: instanceData.endDate!)
+                        let startDate = dateFormatter.date(from: instanceData.startDate!.replacingOccurrences(of: " ", with: "T"))
+                        let endDate = dateFormatter.date(from: instanceData.endDate!.replacingOccurrences(of: " ", with: "T"))
                         
                         let offsetComps = calendar.dateComponents([.hour,.minute], from:startDate!, to:endDate!)
                         if case let (hour?, minute?) = (offsetComps.hour, offsetComps.minute) {
@@ -562,7 +562,7 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
             
             reservationInfo = try? PropertyListDecoder().decode(SearchingConditionObject.self, from: data)
             
-            let rechargeStartDate: String! = reservationInfo!.realChargingStartDate
+            let rechargeStartDate: String! = reservationInfo!.realChargingStartDate.replacingOccurrences(of: " ", with: "T")
             let reservationId:Int! = myUserDefaults.integer(forKey: "reservationId")
             let userId:Int! = myUserDefaults.integer(forKey: "userId")
             

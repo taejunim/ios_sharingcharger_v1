@@ -981,9 +981,15 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                         
                         let calendar = Calendar.current
                         
-                        let startDate = dateFormatter.date(from: instanceData.startDate!)
-                        let endDate = dateFormatter.date(from: instanceData.endDate!)
+                        let startDate = dateFormatter.date(from: (instanceData.startDate?.replacingOccurrences(of: " ", with: "T"))!)
+                        let endDate = dateFormatter.date(from: (instanceData.endDate?.replacingOccurrences(of: " ", with: "T"))!)
+                        //let startDate = dateFormatter.date(from: instanceData.startDate!)
+                       // let endDate = dateFormatter.date(from: instanceData.endDate!)
                         
+                        print("씨발 \(instanceData.startDate!)")
+                        print("씨발 \(instanceData.endDate!)")
+                        print("씨발 \(startDate)")
+                        print("씨발 \(endDate)")
                         let offsetComps = calendar.dateComponents([.hour,.minute], from:startDate!, to:endDate!)
                         if case let (hour?, minute?) = (offsetComps.hour, offsetComps.minute) {
                             
@@ -1067,10 +1073,10 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                 let reservationInfo: SearchingConditionObject? = try? PropertyListDecoder().decode(SearchingConditionObject.self, from: data)
                 
                 dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
-                
+                print("ㅅㅂㅅㅂ. \(reservationInfo!.realChargingEndDate)")
                 //충전 종료 일시
-                let realChargingEndDate = dateFormatter.date(from: reservationInfo!.realChargingEndDate)
-                
+                //let realChargingEndDate = dateFormatter.date(from: reservationInfo!.realChargingEndDate)
+                let realChargingEndDate = dateFormatter.date(from: reservationInfo!.realChargingEndDate.replacingOccurrences(of: " ", with:"T" ))
                 //현재 시간이 예약 종료 일시 보다 작으면 충전할 수 있게
                 if Date() < realChargingEndDate! {
                     
