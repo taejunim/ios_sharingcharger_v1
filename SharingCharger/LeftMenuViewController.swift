@@ -103,10 +103,10 @@ class LeftMenuViewController: UIViewController {
                 print("error is \(String(describing: err))")
                 
                 if code == 400 {
-                    print("Error : \(code!)")
+                    print("Unknown Error")
                     
                 } else {
-                    print("Error : \(code!)")
+                    print("Unknown Error")
                 }
                 
                 self.pointLabel.text = "-"
@@ -147,10 +147,21 @@ class LeftMenuViewController: UIViewController {
                 
                 do {
                     
-                    let JSONData = try JSONSerialization.data(withJSONObject: obj, options: .prettyPrinted)
-                    let instanceData = try JSONDecoder().decode(ReservationObject.self, from: JSONData)
-                    
-                    if instanceData.id! > 0 && code == 200 {
+                    //현재 예약이 없을 때
+                    if code == 204 {
+                        
+                        self.activityIndicator!.stopAnimating()
+                        
+                        self.myUserDefaults.set(0, forKey: "reservationId")
+                        self.myUserDefaults.set(nil, forKey: "reservationInfo")
+                        
+                        self.reservationStateLabel.text = ""
+                        
+                    } else if code == 200 {
+                        
+                        let JSONData = try JSONSerialization.data(withJSONObject: obj, options: .prettyPrinted)
+                        let instanceData = try JSONDecoder().decode(ReservationObject.self, from: JSONData)
+                        
                         let reservationInfo: SearchingConditionObject! = SearchingConditionObject()
                         reservationInfo.realChargingStartDate = instanceData.startDate!
                         reservationInfo.realChargingEndDate = instanceData.endDate!
@@ -244,7 +255,7 @@ class LeftMenuViewController: UIViewController {
                     print("예약 없음")
                     
                 } else {
-                    print("Error : \(code!)")
+                    print("Unknown Error")
                 }
                 
                 self.activityIndicator!.stopAnimating()

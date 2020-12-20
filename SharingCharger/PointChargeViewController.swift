@@ -112,10 +112,10 @@ class PointChargeViewController : UIViewController , UITextFieldDelegate{
                 print("error is \(String(describing: err))")
                 
                 if code == 400 {
-                    print("Error : \(code!)")
+                    print("Unknown Error")
                     
                 } else {
-                    print("Error : \(code!)")
+                    print("Unknown Error")
                 }
                 
                 self.currentPoint.text = "-"
@@ -184,7 +184,7 @@ class PointChargeViewController : UIViewController , UITextFieldDelegate{
                 if code == 400 {
                     print("실패")
                 } else {
-                    print("Error : \(code!)")
+                    print("Unknown Error")
                 }
                 
                 self.activityIndicator!.stopAnimating()

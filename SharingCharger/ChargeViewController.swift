@@ -33,6 +33,9 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var activityIndicator: UIActivityIndicatorView?
     
     let callCenterNumber = "064-725-6800"
+
+    var isChargeStop = false
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -82,7 +85,7 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     dateFormatter.locale = locale
                     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
                     //충전 종료 일시
-                    let realChargingEndDate = dateFormatter.date(from: reservationInfo!.realChargingEndDate.replacingOccurrences(of: " ", with: "T"))
+                    let realChargingEndDate = dateFormatter.date(from: reservationInfo!.realChargingEndDate)
                     
                     //현재 시간이 예약 종료 일시 보다 작으면 충전할 수 있게
                     if Date() < realChargingEndDate! {
@@ -144,7 +147,7 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
                     
                     //충전 종료 일시
-                    let realChargingEndDate = dateFormatter.date(from: reservationInfo!.realChargingEndDate.replacingOccurrences(of: " ", with: "T"))
+                    let realChargingEndDate = dateFormatter.date(from: reservationInfo!.realChargingEndDate)
                     
                     //현재 시간이 예약 종료 일시 보다 작으면 충전할 수 있게
                     if Date() < realChargingEndDate! {
@@ -263,7 +266,7 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 
                 //블루투스 on/off 체크
                 if isOnBluetooth() {
-                    
+                    isChargeStop = true
                     BleManager.shared.bleChargerStop()
                     
                 } else {
@@ -473,8 +476,8 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                         
                         let calendar = Calendar.current
                         
-                        let startDate = dateFormatter.date(from: instanceData.startDate!.replacingOccurrences(of: " ", with: "T"))
-                        let endDate = dateFormatter.date(from: instanceData.endDate!.replacingOccurrences(of: " ", with: "T"))
+                        let startDate = dateFormatter.date(from: instanceData.startDate!)
+                        let endDate = dateFormatter.date(from: instanceData.endDate!)
                         
                         let offsetComps = calendar.dateComponents([.hour,.minute], from:startDate!, to:endDate!)
                         if case let (hour?, minute?) = (offsetComps.hour, offsetComps.minute) {
@@ -551,7 +554,7 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     print("예약 없음")
                     
                 } else {
-                    print("Error : \(code!)")
+                    print("Unknown Error")
                 }
                 
                 self.activityIndicator!.stopAnimating()
@@ -577,7 +580,7 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
             
             reservationInfo = try? PropertyListDecoder().decode(SearchingConditionObject.self, from: data)
             
-            let rechargeStartDate: String! = reservationInfo!.realChargingStartDate.replacingOccurrences(of: " ", with: "T")
+            let rechargeStartDate: String! = reservationInfo!.realChargingStartDate
             let reservationId:Int! = myUserDefaults.integer(forKey: "reservationId")
             let userId:Int! = myUserDefaults.integer(forKey: "userId")
             
@@ -611,7 +614,9 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                                 let tagId = String(format: "%13d", instanceDataId)
                                 
                                 if tagId != "" && tagId != "fail" && tagId != "false" {
+                                    self.myUserDefaults.set(instanceDataId, forKey: "rechargeId")
                                     BleManager.shared.bleSetTag(tag: tagId)
+                                    print("bleSetTag tagId : \(tagId)")
                                     return
                                 } else {
                                     print("**************************")
@@ -659,7 +664,7 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     if code == 400 {
                         print("실패")
                     } else {
-                        print("Error : \(code!)")
+                        print("Unknown Error")
                     }
                     
                     self.showAlert(title: "충전 사용자 인증 실패", message: "충전을 위한 사용자 인증에 실패하였습니다.\n문제가 지속될 시 고객센터로 문의 주십시오.", positiveTitle: "확인", negativeTitle: nil)
@@ -670,11 +675,12 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     //충전 종료 데이터 서버로 전송
-    private func postChargeEndData(postUrl: String!, rechargeId: Int!, rechargeMinute: Int!, rechargeWh: Double!, count: Int!, index: Int!) {
+    private func postChargeEndData(postUrl: String!, rechargeId: Int!, rechargeMinute: Int!, rechargeWh: Double!, count: Int!, index: Int!, tagId: String!) {
         
         self.activityIndicator!.startAnimating()
         
         let url = "\(postUrl!)"
+        print("url : \(url)")
         
         let parameters: Parameters = [
             "rechargeId" : rechargeId!,
@@ -694,19 +700,54 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
             case .success(let obj):
                 print("충전 인증 데이터 obj : \(obj)")
                 do {
-                    //충전 시작
-                    if url.contains("recharge/end") {
-                        let JSONData = try JSONSerialization.data(withJSONObject: obj, options: .prettyPrinted)
-                        let instanceData = try JSONDecoder().decode(ChargeObject.self, from: JSONData)
+                    
+                    let JSONData = try JSONSerialization.data(withJSONObject: obj, options: .prettyPrinted)
+                    let instanceData = try JSONDecoder().decode(ChargeObject.self, from: JSONData)
+                    
+                    //비정상적 충전 종료건들 데이터 전송
+                    if url.contains("unplanned") {
                         
                         if instanceData.id! > 0 && code == 200 {
                             
+                            self.isChargeStop = false
+                            
+                            //let tagId = String(format: "%13d", rechargeId)
+                            
+                            if tagId != "" && tagId != "fail" && tagId != "false" {
+                                print("unplanned 삭제 tagId : \(tagId!)")
+                                BleManager.shared.bleDeleteTargetTag(tag: tagId)
+                                
+                            } else {
+                                print("**************************")
+                                print("태그 삭제 실패")
+                                print("**************************")
+                                self.showAlert(title: "서버 에러", message: "서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)", positiveTitle: "확인", negativeTitle: nil)
+                                return
+                            }
+                            
+                            print("********************************")
+                            print("count : \(count), index : \(index) ")
+                            print("********************************")
+                            if count == index {
+                                self.showAlert(title: "충전 종료", message: "충전이 종료되었습니다.\n이용해주셔서 감사합니다.", positiveTitle: "확인", negativeTitle: nil)
+                            }
+                        }
+                    }
+                    
+                    //충전 종료
+                    else {
+                        
+                        if instanceData.id! > 0 && code == 200 {
+                            
+                            self.isChargeStop = false
+                            self.myUserDefaults.set(0, forKey: "rechargeId")
                             self.myUserDefaults.set(0, forKey: "reservationId")
                             self.myUserDefaults.set(nil, forKey: "reservationInfo")
                             
-                            let tagId = String(format: "%13d", rechargeId)
+                            //let tagId = String(format: "%13d", rechargeId)
                             
                             if tagId != "" && tagId != "fail" && tagId != "false" {
+                                print("삭제 tagId : \(tagId)")
                                 BleManager.shared.bleDeleteTargetTag(tag: tagId)
                                 
                             } else {
@@ -742,7 +783,7 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 if code == 400 {
                     print("실패")
                 } else {
-                    print("Error : \(code!)")
+                    print("Unknown Error")
                 }
                 
                 self.showAlert(title: "서버 에러", message: "서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)", positiveTitle: "확인", negativeTitle: nil)
@@ -921,23 +962,31 @@ extension ChargeViewController: BleDelegate {
                         print("tagData : \(data.toString())\n")
                         
                         index += 1
-                        
+                        print(".BleGetTag tagId : \(data.tagNumber)")
                         let tagNumber: Int! = Int(data.tagNumber.replacingOccurrences(of: " ", with: ""))
                         let useTime: Int! = Int(data.useTime.replacingOccurrences(of: " ", with: ""))
                         let kwh: Double! = Double(data.kwh.replacingOccurrences(of: " ", with: ""))
                         
-                        //                        print("tagNumber : \(tagNumber)")
-                        //                        print("kwh : \(kwh)")
-                        //                        print("useTime : \(useTime)")
-                        
-                        //                        myUserDefaults.set(tagNumber!, forKey: "tagNumber")
-                        //                        myUserDefaults.set(kwh!, forKey: "kwh")
-                        //                        myUserDefaults.set(useTime!, forKey: "useTime")
-                        
                         let chargerId: Int! = reservationInfo!.chargerId
-                        let url = "http://211.253.37.97:8101/api/v1/recharge/end/charger/\(chargerId!)"
+                        var url = ""
                         
-                        postChargeEndData(postUrl: url, rechargeId: tagNumber!, rechargeMinute: useTime!, rechargeWh: kwh!, count: tags.count, index: index!)
+                        print("tagNumber : \(tagNumber!)")
+                        print("isChargeStop : \(isChargeStop)")
+                        
+                        let rechargeId = self.myUserDefaults.integer(forKey: "rechargeId")
+                        
+                        //충전 종료 눌렀을 때 충전 정보 서버로 전송
+                        if isChargeStop && tagNumber == rechargeId {
+                            url = "http://211.253.37.97:8101/api/v1/recharge/end/charger/\(chargerId!)"
+                            postChargeEndData(postUrl: url, rechargeId: tagNumber!, rechargeMinute: useTime!, rechargeWh: kwh!, count: tags.count, index: index!, tagId: data.tagNumber)
+                        }
+                        
+                        //이전에 비정상적인 충전 종료한 정보들 서버로 전송
+                        else if !isChargeStop && tagNumber != rechargeId {
+                            url = "http://211.253.37.97:8101/api/v1/recharge/end/charger/\(chargerId!)/unplanned"
+                            postChargeEndData(postUrl: url, rechargeId: tagNumber!, rechargeMinute: useTime!, rechargeWh: kwh!, count: tags.count, index: index!, tagId: data.tagNumber)
+                            
+                        }
                     }
                 }
 

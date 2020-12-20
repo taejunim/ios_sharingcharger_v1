@@ -136,10 +136,10 @@ class ReservationViewController: UIViewController {
                 print("error is \(String(describing: err))")
                 
                 if code == 400 {
-                    print("Error : \(code!)")
+                    print("Unknown Error")
                     
                 } else {
-                    print("Error : \(code!)")
+                    print("Unknown Error")
                 }
                 
                 if url.contains("point/users") {

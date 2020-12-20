@@ -312,10 +312,10 @@ class JoinViewController: UIViewController, UITextFieldDelegate , PolicyProtocol
                     print("error is \(String(describing: err))")
                     
                     if code == 400 {
-                        print("Error : \(code!)")
+                        print("Unknown Error")
                         
                     } else {
-                        print("Error : \(code!)")
+                        print("Unknown Error")
                     }
                     
                     //self.pointLabel.text = "-"

@@ -258,7 +258,7 @@ class HistoryPointViewController: UIViewController, UITableViewDelegate, UITable
                     self.view.makeToast("400 Error", duration: 2.0, position: .bottom)
 
                 } else {
-                    print("Error : \(code!)")
+                    print("Unknown Error")
                     self.view.makeToast("Error.", duration: 2.0, position: .bottom)
                 }
             }

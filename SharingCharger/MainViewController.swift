@@ -121,6 +121,12 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         let renderer = UIGraphicsImageRenderer(size: pinSize)
         bluePin = renderer.image {_ in bluePinOrigin.draw(in: CGRect(origin: .zero, size: pinSize))}
         redPin = renderer.image {_ in redPinOrigin.draw(in: CGRect(origin: .zero, size: pinSize))}
+        
+        notificationCenter.addObserver(self, selector: #selector(updateSearchingCondition(_:)), name: .updateSearchingCondition, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(lookFavorite(_:)), name: .lookFavorite, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(reservationPopup(_:)), name: .reservationPopup, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(startCharge(_:)), name: .startCharge, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(searchingAddress(_:)), name: .searchAddress, object: nil)
     }
     
     func hasLocationPermission() -> Bool {
@@ -269,8 +275,8 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                         self.view.makeToast("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)", duration: 2.0, position: .bottom)
                         
                     } else {
-                        print("Error : \(code!)")
-                        self.view.makeToast("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)", duration: 2.0, position: .bottom)
+                        print("Unknown Error")
+                        self.view.makeToast("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : 알 수 없는 오류", duration: 2.0, position: .bottom)
                     }
                 }
                 
@@ -438,8 +444,8 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                     self.view.makeToast("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)", duration: 2.0, position: .bottom)
                     
                 } else {
-                    print("Error : \(code!)")
-                    self.view.makeToast("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)", duration: 2.0, position: .bottom)
+                    print("Unknown Error")
+                    self.view.makeToast("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : 알 수 없는 오류", duration: 2.0, position: .bottom)
                 }
             }
             
@@ -561,8 +567,8 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                     self.view.makeToast("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)", duration: 2.0, position: .bottom)
                     
                 } else {
-                    print("Error : \(code!)")
-                    self.view.makeToast("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)", duration: 2.0, position: .bottom)
+                    print("Unknown Error")
+                    self.view.makeToast("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : 알 수 없는 오류", duration: 2.0, position: .bottom)
                 }
             }
             
@@ -905,7 +911,7 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         
         super.viewWillDisappear(animated)
         
-        notificationCenter.removeObserver(self) //  self에 등록된 옵저버 전체 제거
+        //notificationCenter.removeObserver(self) //  self에 등록된 옵저버 전체 제거
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -913,12 +919,6 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         self.navigationController?.setNavigationBarHidden(true, animated: true)
         
         super.viewWillAppear(animated)
-        
-        notificationCenter.addObserver(self, selector: #selector(updateSearchingCondition(_:)), name: .updateSearchingCondition, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(lookFavorite(_:)), name: .lookFavorite, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(reservationPopup(_:)), name: .reservationPopup, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(startCharge(_:)), name: .startCharge, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(searchingAddress(_:)), name: .searchAddress, object: nil)
         
         viewWillInitializeObjects()
     }
@@ -954,6 +954,7 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
             case .success(let obj):
                 
                 do {
+                    print("예약 Obj : \(obj)")
                     
                     //현재 예약이 없을 때
                     if code == 204 {
@@ -981,15 +982,9 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                         
                         let calendar = Calendar.current
                         
-                        let startDate = dateFormatter.date(from: (instanceData.startDate?.replacingOccurrences(of: " ", with: "T"))!)
-                        let endDate = dateFormatter.date(from: (instanceData.endDate?.replacingOccurrences(of: " ", with: "T"))!)
-                        //let startDate = dateFormatter.date(from: instanceData.startDate!)
-                       // let endDate = dateFormatter.date(from: instanceData.endDate!)
+                        let startDate = dateFormatter.date(from: instanceData.startDate!)
+                        let endDate = dateFormatter.date(from: instanceData.endDate!)
                         
-                        print("씨발 \(instanceData.startDate!)")
-                        print("씨발 \(instanceData.endDate!)")
-                        print("씨발 \(startDate)")
-                        print("씨발 \(endDate)")
                         let offsetComps = calendar.dateComponents([.hour,.minute], from:startDate!, to:endDate!)
                         if case let (hour?, minute?) = (offsetComps.hour, offsetComps.minute) {
                             
@@ -1059,7 +1054,7 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                     print("예약 없음")
                     
                 } else {
-                    print("Error : \(code!)")
+                    print("Unknown Error")
                 }
                 
                 self.myUserDefaults.set(0, forKey: "reservationId")
@@ -1076,7 +1071,7 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                 print("ㅅㅂㅅㅂ. \(reservationInfo!.realChargingEndDate)")
                 //충전 종료 일시
                 //let realChargingEndDate = dateFormatter.date(from: reservationInfo!.realChargingEndDate)
-                let realChargingEndDate = dateFormatter.date(from: reservationInfo!.realChargingEndDate.replacingOccurrences(of: " ", with:"T" ))
+                let realChargingEndDate = dateFormatter.date(from: reservationInfo!.realChargingEndDate)
                 //현재 시간이 예약 종료 일시 보다 작으면 충전할 수 있게
                 if Date() < realChargingEndDate! {
                     
@@ -1113,15 +1108,16 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                     break
                 }
             }
+        } else {
+            if let defaultLatitude = locationManager.location?.coordinate.latitude , let defaultLongitude = locationManager.location?.coordinate.longitude{
+
+                let DEFAULT_POSITION = MTMapPointGeo(latitude: defaultLatitude, longitude: defaultLongitude)
+                mTMapView?.setMapCenter(MTMapPoint(geoCoord: DEFAULT_POSITION), zoomLevel: 1, animated: true)
+            }
+
         }
         //예약 정보 가져오기
         getReservation()
-        
-        if let defaultLatitude = locationManager.location?.coordinate.latitude , let defaultLongitude = locationManager.location?.coordinate.longitude{
-        
-            let DEFAULT_POSITION = MTMapPointGeo(latitude: defaultLatitude, longitude: defaultLongitude)
-            mTMapView?.setMapCenter(MTMapPoint(geoCoord: DEFAULT_POSITION), zoomLevel: 1, animated: true)
-        }
     }
     
     func changeAddressButtonText(latitude : Double?, longitude : Double?, placeName : String?){
