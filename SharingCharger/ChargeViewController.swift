@@ -32,6 +32,8 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var utils: Utils?
     var activityIndicator: UIActivityIndicatorView?
     
+    let callCenterNumber = "064-725-6800"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -290,6 +292,19 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
     @objc func contactCustomerCenter(sender: UIView!) {
         
         print("contactCustomerCenter")
+        
+        let url = URL(string: "telprompt://\(callCenterNumber)")!
+        let shared = UIApplication.shared
+
+        if shared.canOpenURL(url) {
+            
+            shared.open(url, options: [:], completionHandler: nil)
+            
+        }else {
+            
+            print("전화앱을 실행할 수 없습니다.")
+            
+        }
         
     }
     

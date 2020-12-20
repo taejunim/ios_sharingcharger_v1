@@ -47,11 +47,10 @@ class HistoryPointViewController: UIViewController, UITableViewDelegate, UITable
     
     var moreLoadFlag                          = false
     
-    let menuIconSize                          = CGSize(width:30, height:30)
     
     var arr:[PointHistoryObject.InnerItem]    = []
     
-    let menuSize                              = CGSize(width:30, height:30)
+    let menuSize                              = CGSize(width:25, height:25)
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -77,7 +77,7 @@ class ChargerContentView: UIView {
     
     func setView() {
         
-        addNavigation(buttonName: "navigation", width: 60, height: 60, top: 20, left: nil, right: -100, bottom: nil, target: self)
+        addNavigation(buttonName: "navigation", width: 60, height: 60, top: 40, left: nil, right: -80, bottom: nil, target: self)
         
         self.translatesAutoresizingMaskIntoConstraints = false
         self.backgroundColor = .white
