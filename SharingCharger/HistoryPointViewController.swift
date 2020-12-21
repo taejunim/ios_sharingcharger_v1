@@ -144,6 +144,7 @@ class HistoryPointViewController: UIViewController, UITableViewDelegate, UITable
             case "PURCHASE" : Cell.pointStateNm?.text = "구매"
             case "USED"     : Cell.pointStateNm?.text = "사용"
             case "REFUND"   : Cell.pointStateNm?.text = "부분 환불"
+            case "CANCEL"   : Cell.pointStateNm?.text = "예약 취소"
             default: break
                         
             }
