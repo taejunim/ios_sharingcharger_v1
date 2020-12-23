@@ -31,6 +31,8 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
     var chargerViewMaximumHeight: CGFloat = 0       //충전기 화면 최대 높이
     
     var currentSelectedPoiItem: MTMapPOIItem?       //현재 선택된 마커
+    
+    var instantChargeView = CustomButton(type: .system)
     var reservationView = CustomButton(type: .system)
     
     var isCurrentLocationTrackingMode = false
@@ -47,10 +49,15 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
     var receivedFavoriteObject: FavoriteObject? = nil
     var selectedAddressObject: SelectedPositionObject? = nil
 
+    let locale = Locale(identifier: "ko")
     let dateFormatter = DateFormatter()
     let realDateFormatter = DateFormatter()
     let reservationStateBarDateFormatter = DateFormatter()
     let selectedTimePeriodDateFormatter = DateFormatter()
+    let HHMMFormatter = DateFormatter()
+    let HHFormatter = DateFormatter()
+    let MMFormatter = DateFormatter()
+    let timeFormatter = DateFormatter()
     
     var reservationStateBarStartDate = ""
     var selectedTimePeriod = ""
@@ -71,6 +78,10 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
     
     let ColorE0E0E0: UIColor! = UIColor(named: "Color_E0E0E0")  //회색
     let Color3498DB: UIColor! = UIColor(named: "Color_3498DB")  //파랑
+    let Color1ABC9C: UIColor! = UIColor(named: "Color_1ABC9C")  //연두
+    
+    var currentPoint = 0
+    var expectedPoint = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -87,7 +98,7 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                 
         addButton(buttonName: "menu", width: 40, height: 40, top: 15, left: 15, right: nil, bottom: nil, target: mapView)
         addButton(buttonName: "address", width: nil, height: 40, top: 15, left: 70, right: -15, bottom: nil, target: mapView)
-        addReservationButton(buttonName: "reservation", width: nil, height: 40, top: nil, left: 0, right: 0, bottom: 0, target: self.view, targetViewController: self)
+        addBottomButton(buttonName: "reservation", width: nil, height: 40, top: nil, left: nil, right: nil, bottom: 0, target: self.view, targetViewController: self)
         addCurrentLocationButton(buttonName: "currentLocation", width: 40, height: 40, top: 70, left: nil, right: -15, bottom: nil, target: mapView)
         addView(width: nil, height: 110, top: nil, left: 15, right: -15, bottom: 0, target: mapView)
     
@@ -163,11 +174,8 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         }
     }
     
+    //object 초기화
     private func viewWillInitializeObjects() {
-        
-        let calendar = Calendar.current
-        let date = Date()
-        let locale = Locale(identifier: "ko")
         
         dateFormatter.locale = locale
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
@@ -178,12 +186,38 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         selectedTimePeriodDateFormatter.locale = locale
         selectedTimePeriodDateFormatter.dateFormat = "HH:mm"
         
-        receivedSearchingConditionObject.realChargingStartDate = realDateFormatter.string(from: date)
-
-        let endDate = Calendar.current.date(byAdding: .minute, value: 30, to: date)!
-        receivedSearchingConditionObject.realChargingEndDate = realDateFormatter.string(from: endDate)
+        HHMMFormatter.locale = locale
+        HHMMFormatter.dateFormat = "HH시간 mm분"
         
-        receivedSearchingConditionObject.realChargingPeriod = dateFormatter.string(from: date) + " ~ " + dateFormatter.string(from: endDate)
+        HHFormatter.locale = locale
+        HHFormatter.dateFormat = "HH시간"
+        
+        MMFormatter.locale = locale
+        MMFormatter.dateFormat = "mm분"
+        
+        timeFormatter.locale = locale
+        timeFormatter.dateFormat = "HH:mm"
+        
+        reservationStateBarDateFormatter.locale = locale
+        reservationStateBarDateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        
+        initializeSearchingConditionObject()
+    }
+    
+    //검색 조건 초기화
+    private func initializeSearchingConditionObject() {
+        
+        let calendar = Calendar.current
+        let date = Date()
+        let endDate = Calendar.current.date(byAdding: .minute, value: 30, to: date)!
+        
+        let searchingConditionObject: SearchingConditionObject! = SearchingConditionObject()
+        searchingConditionObject.chargingTime = "30분"
+        searchingConditionObject.realChargingStartDate = realDateFormatter.string(from: date)
+        searchingConditionObject.realChargingEndDate = realDateFormatter.string(from: endDate)
+        searchingConditionObject.realChargingPeriod = dateFormatter.string(from: date) + " ~ " + dateFormatter.string(from: endDate)
+        
+        receivedSearchingConditionObject = searchingConditionObject
         
         let minute = calendar.component(.minute, from: date)
         let hour = calendar.component(.hour, from: date)
@@ -199,21 +233,225 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
             availableDate = calendar.date(bySettingHour: tempHour, minute: 0, second: 0, of: tempDate)!
         }
         
-        reservationStateBarDateFormatter.locale = locale
-        reservationStateBarDateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
         reservationStateBarStartDate = reservationStateBarDateFormatter.string(from: availableDate)
         
         selectedTimePeriod = "\(selectedTimePeriodDateFormatter.string(from: date)) - \(selectedTimePeriodDateFormatter.string(from: endDate))"
         
-        print("receivedSearchingConditionObject.realChargingStartDate : \(receivedSearchingConditionObject.realChargingStartDate)")
-        print("receivedSearchingConditionObject.realChargingEndDate : \(receivedSearchingConditionObject.realChargingEndDate)")
+        currentPoint = 0
+        expectedPoint = 0
         
+        print("initializeSearchingConditionObject realChargingStartDate : \(receivedSearchingConditionObject.realChargingStartDate)")
+        print("initializeSearchingConditionObject realChargingEndDate : \(receivedSearchingConditionObject.realChargingEndDate)")
+    }
+    
+    private func getPoint(url: String!) {
+        
+        self.activityIndicator!.startAnimating()
+        
+        var code: Int! = 0
+        
+        let userId = myUserDefaults.integer(forKey: "userId")
+        
+        var parameters: Parameters!
+        
+        if url.contains("point/users") {
+            parameters = [
+                "userId" : userId
+            ]
+        } else if url.contains("point/chargers") {
+            parameters = [
+                "chargerId" : currentSelectedPoiItem!.tag,
+                "startDate" : receivedSearchingConditionObject.realChargingStartDate,
+                "endDate" : receivedSearchingConditionObject.realChargingEndDate
+            ]
+        }
+        
+        AF.request(url, method: .get, parameters: parameters!, encoding: URLEncoding.default, interceptor: Interceptor(indicator: activityIndicator!)).validate().responseJSON(completionHandler: { response in
+            
+            code = response.response?.statusCode
+            
+            switch response.result {
+            
+            case .success(let obj):
+                
+                self.activityIndicator!.stopAnimating()
+                
+                if code == 200 {
+                    
+                    let point: Int = obj as! Int
+                    
+                    if url.contains("point/users") {
+                        
+                        self.currentPoint = point
+                        
+                        let expectedPointUrl = "http://211.253.37.97:8101/api/v1/point/chargers/\(self.currentSelectedPoiItem!.tag)/calculate"
+                        
+                        self.getPoint(url: expectedPointUrl)
+                        
+                    } else if url.contains("point/chargers") {
+                        
+                        self.expectedPoint = point
+                        
+                        print("self.currentPoint : \(self.currentPoint)")
+                        print("self.expectedPoint : \(self.expectedPoint)")
+                        
+                        //포인트 충전 화면으로 이동
+                        if self.currentPoint == 0 || self.currentPoint < self.expectedPoint {
+                        
+                            print("포인트 충전")
+                            
+                            let refreshAlert = UIAlertController(title: "포인트 부족", message: "잔여 포인트가 부족합니다.\n포인트를 충전하시겠습니까?\n잔여 포인트 : \(self.currentPoint)", preferredStyle: UIAlertController.Style.alert)
+                            
+                            refreshAlert.addAction(UIAlertAction(title: "취소", style: .default, handler: { (action: UIAlertAction!) in
+                                
+                            }))
+                            
+                            refreshAlert.addAction(UIAlertAction(title: "충전", style: .default, handler: { (action: UIAlertAction!) in
+                                
+                                guard let viewController = self.storyboard?.instantiateViewController(withIdentifier: "PointCharge") else { return }
+                                self.navigationController?.pushViewController(viewController, animated: true)
+                            }))
+                            
+                            self.present(refreshAlert, animated: true, completion: nil)
+                        }
+                        
+                        //충전
+                        else if self.currentPoint != 0 && self.currentPoint >= self.expectedPoint {
+                            
+                            print("충전")
+                            self.reservation()
+                        }
+                        
+                        //그 외 오류
+                        else {
+                            
+                            print("그 외")
+                            let refreshAlert = UIAlertController(title: "알 수 없는 오류", message: "오류가 발생하여 충전에 실패했습니다\n문제가 지속될 시 고객센터로 문의주십시오.", preferredStyle: UIAlertController.Style.alert)
+                            
+                            refreshAlert.addAction(UIAlertAction(title: "확인", style: .default, handler: { (action: UIAlertAction!) in
+                                
+                            }))
+                            
+                            self.present(refreshAlert, animated: true, completion: nil)
+                        }
+                    }
+                    
+                } else {
+                    
+                    self.currentPoint = 0
+                    
+                    if url.contains("point/users") {
+                        
+                        self.currentPoint = 0
+                        
+                    } else if url.contains("point/chargers") {
+                        
+                        self.expectedPoint = 0
+                    }
+                }
+
+            case .failure(let err):
+                
+                print("error is \(String(describing: err))")
+                
+                if code == 400 {
+                    print("Unknown Error")
+                    
+                } else {
+                    print("Unknown Error")
+                }
+                
+                if url.contains("point/users") {
+                    
+                    self.currentPoint = 0
+                    
+                } else if url.contains("point/chargers") {
+                    
+                    self.expectedPoint = 0
+                }
+                
+                self.activityIndicator!.stopAnimating()
+            }
+        })
+    }
+    
+    private func reservation() {
+        
+        self.activityIndicator!.startAnimating()
+        
+        let userId: Int = myUserDefaults.integer(forKey: "userId")
+        
+        var code: Int! = 0
+        
+        let url = "http://211.253.37.97:8101/api/v1/reservation"
+        
+        let parameters: Parameters = [
+            "chargerId" : currentSelectedPoiItem!.tag,
+            "startDate" : receivedSearchingConditionObject.realChargingStartDate,
+            "endDate" : receivedSearchingConditionObject.realChargingEndDate,
+            "cancelDate" : "",
+            "expectPoint" : expectedPoint,
+            "userId" : userId,
+            "reservationType" : "RESERVE"
+            
+        ]
+        
+        AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, interceptor: Interceptor(indicator: activityIndicator!)).validate().responseJSON(completionHandler: { response in
+            
+            code = response.response?.statusCode
+            
+            switch response.result {
+            
+            case .success(let obj):
+                
+                print("obj : \(obj)")
+                
+                if code == 201 {
+                    do {
+                        
+                        let JSONData = try JSONSerialization.data(withJSONObject: obj, options: .prettyPrinted)
+                        let instanceData = try JSONDecoder().decode(ReservationObject.self, from: JSONData)
+                        
+                        self.receivedSearchingConditionObject.bleNumber = instanceData.bleNumber!
+                        self.myUserDefaults.set(instanceData.id, forKey: "reservationId")
+                        self.myUserDefaults.set(try? PropertyListEncoder().encode(self.receivedSearchingConditionObject), forKey: "reservationInfo")
+                        
+                        guard let viewController = self.storyboard?.instantiateViewController(withIdentifier: "SearchingCharger") as? SearchingChargerViewController else { return }
+                        
+                        self.navigationController?.pushViewController(viewController, animated: true)
+                        
+                    } catch {
+                        print("error : \(error.localizedDescription)")
+                        print("서버와 통신이 원활하지 않습니다. 고객센터로 문의주십시오. code : \(code!)")
+                    }
+                } else if code == 204 {
+                    self.view.makeToast("사용자 또는 충전기가 존재하지 않습니다.\n다시 확인하여 주십시오", duration: 2.0, position: .bottom)
+                }
+                
+            case .failure(let err):
+                
+                print("error is \(String(describing: err))")
+                
+                if code == 400 {
+                    print("요청 파라미터가 올바르지 않습니다.")
+                    self.view.makeToast("요청 파라미터가 올바르지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오.", duration: 2.0, position: .bottom)
+                    
+                } else {
+                    print("서버와 통신이 원활하지 않습니다. 고객센터로 문의주십시오. code : \(code!)")
+                    self.view.makeToast("서버와 통신이 원활하지 않습니다.\n고객센터로 문의주십시오.", duration: 2.0, position: .bottom)
+                }
+            }
+            
+            self.activityIndicator!.stopAnimating()
+        })
     }
     
     //마커 클릭했을 때
     func mapView(_ mapView: MTMapView!, selectedPOIItem poiItem: MTMapPOIItem!) -> Bool {
         
         print("poi selected : \(poiItem.tag)")
+        
+        initializeSearchingConditionObject()
         
         let reservationId = myUserDefaults.integer(forKey: "reservationId")
         
@@ -307,6 +545,7 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                 self.searchingConditionView.gone()
                 
                 //예약하기 버튼 보이기
+                self.instantChargeView.visible()
                 self.reservationView.visible()
                 
                 UIView.animate(withDuration: 0.3) { self.view.layoutIfNeeded() }
@@ -326,7 +565,8 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                 //현재 선택된 마커 저장
                 self.currentSelectedPoiItem = poiItem
                 
-                //예약하기 버튼 앞으로 가져오기
+                //충전하기, 예약하기 버튼 앞으로 가져오기
+                self.view.bringSubviewToFront(self.instantChargeView)
                 self.view.bringSubviewToFront(self.reservationView)
             })
         }
@@ -483,6 +723,7 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         searchingConditionView.isHidden = false
         searchingConditionView.visible()
         
+        instantChargeView.gone()
         reservationView.gone()
         
         UIView.animate(withDuration: 0.3) { self.view.layoutIfNeeded() }
@@ -490,6 +731,7 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         //현재 선택된 마커 지움
         currentSelectedPoiItem = nil
         
+        self.view.sendSubviewToBack(instantChargeView)
         self.view.sendSubviewToBack(reservationView)
     }
     
@@ -576,6 +818,69 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         })
         
     }
+    
+    @objc func instantChargeButton(sender: UIButton!) {
+        print("MainViewController - instantChargeButton tapped")
+        
+        instantCharge()
+    }
+    
+    private func instantCharge() {
+
+        let startDate = Date()
+        let calendar = Calendar.current
+        
+        let chargingTimeText = receivedSearchingConditionObject.chargingTime
+
+        var formattedChargingTime = Date()
+
+        //30분
+        if !chargingTimeText.contains("시간") && chargingTimeText.contains("분") {
+
+            formattedChargingTime = MMFormatter.date(from: chargingTimeText)!
+        }
+
+        //1시간 .. 2시간 .. 3시간
+        else if chargingTimeText.contains("시간") && !chargingTimeText.contains("분") {
+
+            formattedChargingTime = HHFormatter.date(from: chargingTimeText)!
+        }
+
+        //1시간 30분 .. 2시간 30분 .. 3시간 30분
+        else {
+            formattedChargingTime = HHMMFormatter.date(from: chargingTimeText)!
+        }
+
+        let minute = calendar.component(.minute, from: formattedChargingTime)
+        let hour = calendar.component(.hour, from: formattedChargingTime)
+
+        let dateAddedHour = calendar.date(byAdding: .hour, value: hour, to: startDate)!
+
+        let endDate = calendar.date(byAdding: .minute, value: minute, to: dateAddedHour)!
+
+        receivedSearchingConditionObject.realChargingStartDate = realDateFormatter.string(from: startDate)
+        receivedSearchingConditionObject.realChargingEndDate = realDateFormatter.string(from: endDate)
+        receivedSearchingConditionObject.realChargingPeriod = "\(timeFormatter.string(from: startDate)) ~ \(timeFormatter.string(from: endDate))"
+        
+        let message = "충전기명 : \(currentSelectedPoiItem!.itemName!)\n충전 시간 : \(receivedSearchingConditionObject.realChargingPeriod)"
+        let refreshAlert = UIAlertController(title: "충전하기", message: "\(message)\n충전을 진행하시겠습니까?", preferredStyle: UIAlertController.Style.alert)
+        
+        refreshAlert.addAction(UIAlertAction(title: "취소", style: .default, handler: { (action: UIAlertAction!) in
+            
+        }))
+        
+        refreshAlert.addAction(UIAlertAction(title: "충전", style: .default, handler: { (action: UIAlertAction!) in
+            
+            //현재 포인트, 예상 포인트 가져오기
+            let userId = self.myUserDefaults.integer(forKey: "userId")
+            let currentPointUrl = "http://211.253.37.97:8101/api/v1/point/users/\(userId)"
+            
+            self.getPoint(url: currentPointUrl)
+        }))
+        
+        present(refreshAlert, animated: true, completion: nil)
+    }
+    
     
     @objc func reservationButton(sender: UIButton!) {
         print("MainViewController - reservationButton tapped")
@@ -732,13 +1037,19 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         }
     }
     
-    //예약하기 버튼
-    private func addReservationButton(buttonName: String?, width: CGFloat?, height: CGFloat?, top: CGFloat?, left: CGFloat?, right: CGFloat?, bottom: CGFloat?, target: AnyObject, targetViewController: AnyObject) {
+    //충전 버튼, 예약 버튼 추가
+    private func addBottomButton(buttonName: String?, width: CGFloat?, height: CGFloat?, top: CGFloat?, left: CGFloat?, right: CGFloat?, bottom: CGFloat?, target: AnyObject, targetViewController: AnyObject) {
         
+        self.view.addSubview(instantChargeView)
         self.view.addSubview(reservationView)
         
-        reservationView.setAttributes(buttonName: buttonName, width: width, height: height, top: top, left: left, right: right, bottom: bottom, target: target, targetViewController: targetViewController)
+        instantChargeView.setAttributes(buttonName: "instantCharge", width: width, height: height, top: top, left: 0, right: nil, bottom: bottom, target: target, targetViewController: targetViewController)
+        reservationView.setAttributes(buttonName: "reservation", width: width, height: height, top: top, left: nil, right: 0, bottom: bottom, target: target, targetViewController: targetViewController)
+        
+        instantChargeView.gone()
         reservationView.gone()
+        
+        self.view.sendSubviewToBack(instantChargeView)
         self.view.sendSubviewToBack(reservationView)
     }
     
@@ -1214,14 +1525,17 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
     
     func disableReservationButton(able : Bool){
         
+        instantChargeView.isEnabled = able
         reservationView.isEnabled = able
         
         if able {
             
+            instantChargeView.layer.backgroundColor = Color1ABC9C?.cgColor
             reservationView.layer.backgroundColor = Color3498DB?.cgColor
         
-        }else {
+        } else {
             
+            instantChargeView.layer.backgroundColor = ColorE0E0E0?.cgColor
             reservationView.layer.backgroundColor = ColorE0E0E0?.cgColor
         }
        

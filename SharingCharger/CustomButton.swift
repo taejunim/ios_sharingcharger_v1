@@ -43,6 +43,17 @@ class CustomButton: UIButton {
             self.addTarget(targetViewController, action: #selector(targetViewController.refreshButton), for: .touchUpInside)
             
             break
+        
+        case "instantCharge":
+            
+            self.layer.cornerRadius = 7
+            self.backgroundColor = UIColor(named: "Color_1ABC9C")
+            self.titleLabel?.font = UIFont.boldSystemFont(ofSize: CGFloat(18))
+            self.setTitleColor(.white, for: .normal)
+            self.setTitle("충전하기", for: .normal)
+            self.addTarget(MainViewController(), action: #selector(MainViewController.instantChargeButton), for: .touchUpInside)
+            
+            break
             
         case "reservation":
             
@@ -79,10 +90,19 @@ class CustomButton: UIButton {
             self.rightAnchor.constraint(equalTo: target.rightAnchor, constant: right!).isActive = true
         }
         
-        if buttonName == "reservation" {
+        if buttonName == "instantCharge" || buttonName == "reservation" {
             if bottom != nil {
                 self.bottomAnchor.constraint(equalTo: target.safeAreaLayoutGuide.bottomAnchor).isActive = true
             }
+            
+            if buttonName == "instantCharge" {
+                self.widthAnchor.constraint(equalToConstant: target.frame!.width / 2).isActive = true
+            }
+            
+            if buttonName == "reservation" {
+                self.widthAnchor.constraint(equalToConstant: target.frame!.width / 2).isActive = true
+            }
+            
         } else {
             if bottom != nil {
                 self.bottomAnchor.constraint(equalTo: target.bottomAnchor, constant: bottom!).isActive = true

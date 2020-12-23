@@ -47,11 +47,12 @@ class JoinViewController: UIViewController, UITextFieldDelegate , PolicyProtocol
     var collectUserDataFlag: Bool = false
     var privacyPolicyFlag: Bool = false
     
+    let notificationCenter = NotificationCenter.default
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setTextFieldDelegate()
-        setKeyboard()
         
         buttonComplete.layer.cornerRadius = 7           //완료 버튼 둥글게
         buttonComplete.addTarget(self, action: #selector(joinButton), for: .touchUpInside)
@@ -254,8 +255,8 @@ class JoinViewController: UIViewController, UITextFieldDelegate , PolicyProtocol
     //keyboard 설정
     func setKeyboard() {
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(self.keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         
         let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))   //뷰 터치시 키보드 내리기
         view.addGestureRecognizer(tap)
@@ -390,6 +391,19 @@ class JoinViewController: UIViewController, UITextFieldDelegate , PolicyProtocol
             buttonComplete.backgroundColor = Color3498DB
         }
     
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        activeTextField = nil
+        notificationCenter.removeObserver(self) //  self에 등록된 옵저버 전체 제거
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        setKeyboard()
     }
     
 }
