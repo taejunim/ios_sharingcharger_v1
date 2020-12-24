@@ -94,16 +94,6 @@ class ShadowView: UIControl {
         chargingTimeTextLayer.alignmentMode = .center
         chargingTimeTextLayer.contentsScale = UIScreen.main.scale
         chargingTimeTextLayer.string = chargingTimeTextAttribute(text: "30분")
-        //chargingTimeTextLayer.backgroundColor = UIColor.gray.cgColor
-        //chargingTimeTextLayer.addSublayer(reservationTextLayer)
-        
-        //reservationTextLayer.frame = CGRect(x: chargingTimeTextLayer.frame.width * 0.92, y: 0, width: 50, height: chargingTimeTextLayer.frame.height / 2)
-//        updateReservationTextLayer(multiplier: 0.92)
-//        reservationTextLayer.alignmentMode = CATextLayerAlignmentMode.center
-//        reservationTextLayer.contentsScale = UIScreen.main.scale
-//        reservationTextLayer.string = reservationTextAttribute(text: "예약")
-//        reservationTextLayer.backgroundColor = UIColor(named: "Color_1ABC9C")?.cgColor
-//        reservationTextLayer.cornerRadius = reservationTextLayer.frame.height / 2
         
         layer.addSublayer(chargingTimeTextLayer)
     }
@@ -111,7 +101,6 @@ class ShadowView: UIControl {
     //예약 상태 layer
     private func addReservationTextLayer() {
         
-        //reservationTextLayer.frame = CGRect(x: chargingTimeTextLayer.frame.width * 0.92, y: 0, width: 50, height: chargingTimeTextLayer.frame.height / 2)
         updateReservationTextLayer(multiplier: 0.92)
         reservationTextLayer.alignmentMode = CATextLayerAlignmentMode.center
         reservationTextLayer.contentsScale = UIScreen.main.scale
@@ -144,24 +133,6 @@ class ShadowView: UIControl {
         timeFormatter.dateFormat = "HH:mm"
         
         let date = Date()
-//        let minute = calendar.component(.minute, from: date)
-//        let hour = calendar.component(.hour, from: date)
-//
-//        var components = DateComponents()
-//        components.calendar = calendar
-//        components.day = 1
-//
-//        var availableDate = Date()
-//
-//        if minute >= 0 && minute < 30 {
-//            availableDate = calendar.date(bySettingHour: hour, minute: 30, second: 0, of: date)!
-//        } else {
-//
-//            let tempDate = calendar.date(byAdding: .hour, value: 1, to: date)!
-//            let tempHour = calendar.component(.hour, from: tempDate)
-//            availableDate = calendar.date(bySettingHour: tempHour, minute: 0, second: 0, of: tempDate)!
-//        }
-        
         let endDate = Calendar.current.date(byAdding: .minute, value: 30, to: date)!
         
         return "\(dateFormatter.string(from: date)) ~ \(timeFormatter.string(from: endDate))"
@@ -218,19 +189,13 @@ class ShadowView: UIControl {
         let reservationId = UserDefaults.standard.integer(forKey: "reservationId")
         
         if reservationId > 0 {
-            print("chargingTimeTextAttribute reservationId : \(reservationId)")
             
             foregroundColor = UIColor.white
             
         } else {
-            print("chargingTimeTextAttribute reservationId : \(reservationId)")
             
             foregroundColor = UIColor.darkText
         }
-        
-        
-        
-        print("text.count : \(text!.count)")
         
         if text!.count >= 7 {
 
@@ -250,11 +215,7 @@ class ShadowView: UIControl {
     }
     
     private func updateReservationTextLayer(multiplier: CGFloat!) {
-        print("chargingTimeTextLayer.frame : \(chargingTimeTextLayer.frame)")
-        print(chargingTimeTextLayer.frame.maxX)
-        print("mainArrowImageLayer.frame : \(mainArrowImageLayer.frame)")
-        print(mainArrowImageLayer.frame.minX)
-        print(chargingTimeTextLayer.frame.minY)
+        
         reservationTextLayer.frame = CGRect(x: mainArrowImageLayer.frame.minX - chargingTimeTextLayer.frame.height * multiplier, y: chargingTimeTextLayer
                                                 .frame.minY * 0.925, width: chargingTimeTextLayer.frame.height * 0.85 , height: chargingTimeTextLayer.frame.height / 2)
     }
@@ -273,12 +234,10 @@ class ShadowView: UIControl {
         let reservationId = UserDefaults.standard.integer(forKey: "reservationId")
         
         if reservationId > 0 {
-            print("chargingTimeTextAttribute reservationId : \(reservationId)")
             
             foregroundColor = UIColor.white
             
         } else {
-            print("chargingTimeTextAttribute reservationId : \(reservationId)")
             
             foregroundColor = UIColor.darkText
         }

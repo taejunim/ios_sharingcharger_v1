@@ -86,59 +86,6 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         super.viewDidLoad()
         
         viewWillInitializeObjects()
-        
-        requestGPSPermission()
-        
-        mTMapView = MTMapView(frame: mapView.bounds)
-        if let mTMapView = mTMapView {
-            
-            mTMapView.delegate = self
-            mTMapView.baseMapType = .standard
-            mapView.addSubview(mTMapView)
-        }
-                
-        addButton(buttonName: "menu", width: 40, height: 40, top: 15, left: 15, right: nil, bottom: nil, target: mapView)
-        addButton(buttonName: "address", width: nil, height: 40, top: 15, left: 70, right: -15, bottom: nil, target: mapView)
-        addBottomButton(buttonName: "bottomButton", width: nil, height: 40, top: nil, left: 0, right: 0, bottom: 0, target: self.view, targetViewController: self)
-        addCurrentLocationButton(buttonName: "currentLocation", width: 40, height: 40, top: 70, left: nil, right: -15, bottom: nil, target: mapView)
-        addView(width: nil, height: 110, top: nil, left: 15, right: -15, bottom: 0, target: mapView)
-    
-        //로딩 뷰
-        utils = Utils(superView: self.view)
-        activityIndicator = utils!.activityIndicator
-        self.view.addSubview(activityIndicator!)
-        self.activityIndicator!.hidesWhenStopped = true
-        
-        
-        let deviceHeight = UIScreen.main.nativeBounds.height
-
-        if UIDevice().userInterfaceIdiom == .phone {
-        
-            switch deviceHeight {
-            
-            case 1136, 1334:                                               //iPhone 5 or 5S or 5C   , iPhone 6/6S/7/8
-                chargerViewMinimumHeight = mapView.frame.height * 0.4
-                chargerViewMaximumHeight = mapView.frame.height * 0.85
-            case 1792, 1920, 2208, 2436, 2532, 2778, 2688:                 //iPhone 6+/6S+/7+/8+   , iPhone X/XS/11Pro,12mini , iPhone 12/12Pro, iPhone12ProMax ,  iPhone XS Max/11 Pro Max
-                chargerViewMinimumHeight = mapView.frame.height * 0.45
-                chargerViewMaximumHeight = mapView.frame.height * 0.9
-            default:                                                        //iPhone XR/ 11   , Unknown
-                chargerViewMinimumHeight = mapView.frame.height * 0.3
-                chargerViewMaximumHeight = mapView.frame.height * 0.6
-            }
-        }
-        
-        getCurrentLocation()
-        
-        let renderer = UIGraphicsImageRenderer(size: pinSize)
-        bluePin = renderer.image {_ in bluePinOrigin.draw(in: CGRect(origin: .zero, size: pinSize))}
-        redPin = renderer.image {_ in redPinOrigin.draw(in: CGRect(origin: .zero, size: pinSize))}
-        
-        notificationCenter.addObserver(self, selector: #selector(updateSearchingCondition(_:)), name: .updateSearchingCondition, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(lookFavorite(_:)), name: .lookFavorite, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(reservationPopup(_:)), name: .reservationPopup, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(startCharge(_:)), name: .startCharge, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(searchingAddress(_:)), name: .searchAddress, object: nil)
     }
     
     func hasLocationPermission() -> Bool {
@@ -156,6 +103,7 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         return hasPermission
     }
     
+    //위치 권한
     private func requestGPSPermission() {
             
         if !hasLocationPermission() {
@@ -178,6 +126,65 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
     //object 초기화
     private func viewWillInitializeObjects() {
         
+        requestGPSPermission()  //위치 권한
+        
+        //지도 설정
+        mTMapView = MTMapView(frame: mapView.bounds)
+        if let mTMapView = mTMapView {
+            
+            mTMapView.delegate = self
+            mTMapView.baseMapType = .standard
+            mapView.addSubview(mTMapView)
+        }
+        
+        //메인 화면 버튼 추가
+        addButton(buttonName: "menu", width: 40, height: 40, top: 15, left: 15, right: nil, bottom: nil, target: mapView)   //사이드 메뉴
+        addButton(buttonName: "address", width: nil, height: 40, top: 15, left: 70, right: -15, bottom: nil, target: mapView)   //주소 검색
+        addBottomButton(buttonName: "bottomButton", width: nil, height: 40, top: nil, left: 0, right: 0, bottom: 0, target: self.view, targetViewController: self)  //하단 버튼
+        addCurrentLocationButton(buttonName: "currentLocation", width: 40, height: 40, top: 70, left: nil, right: -15, bottom: nil, target: mapView)    //현재 위치 버튼
+        addSearchingConditionView(width: nil, height: 110, top: nil, left: 15, right: -15, bottom: 0, target: mapView)  //검색 조건 버튼
+    
+        //로딩 뷰
+        utils = Utils(superView: self.view)
+        activityIndicator = utils!.activityIndicator
+        self.view.addSubview(activityIndicator!)
+        self.activityIndicator!.hidesWhenStopped = true
+        
+        //기기 높이구해서 충전기 상세뷰 높이 지정
+        let deviceHeight = UIScreen.main.nativeBounds.height
+
+        if UIDevice().userInterfaceIdiom == .phone {
+        
+            switch deviceHeight {
+            
+            case 1136, 1334:                                               //iPhone 5 or 5S or 5C   , iPhone 6/6S/7/8
+                chargerViewMinimumHeight = mapView.frame.height * 0.4
+                chargerViewMaximumHeight = mapView.frame.height * 0.85
+            case 1792, 1920, 2208, 2436, 2532, 2778, 2688:                 //iPhone 6+/6S+/7+/8+   , iPhone X/XS/11Pro,12mini , iPhone 12/12Pro, iPhone12ProMax ,  iPhone XS Max/11 Pro Max
+                chargerViewMinimumHeight = mapView.frame.height * 0.45
+                chargerViewMaximumHeight = mapView.frame.height * 0.9
+            default:                                                        //iPhone XR/ 11   , Unknown
+                chargerViewMinimumHeight = mapView.frame.height * 0.3
+                chargerViewMaximumHeight = mapView.frame.height * 0.6
+            }
+        }
+        
+        //현재 위치
+        getCurrentLocation()
+        
+        //마커 이미지
+        let renderer = UIGraphicsImageRenderer(size: pinSize)
+        bluePin = renderer.image {_ in bluePinOrigin.draw(in: CGRect(origin: .zero, size: pinSize))}
+        redPin = renderer.image {_ in redPinOrigin.draw(in: CGRect(origin: .zero, size: pinSize))}
+        
+        //delegate 에서 observer
+        notificationCenter.addObserver(self, selector: #selector(updateSearchingCondition(_:)), name: .updateSearchingCondition, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(lookFavorite(_:)), name: .lookFavorite, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(reservationPopup(_:)), name: .reservationPopup, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(startCharge(_:)), name: .startCharge, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(searchingAddress(_:)), name: .searchAddress, object: nil)
+        
+        //DateFormatter
         dateFormatter.locale = locale
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
         
@@ -202,6 +209,7 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         reservationStateBarDateFormatter.locale = locale
         reservationStateBarDateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
         
+        //검색 조건 초기화
         initializeSearchingConditionObject()
     }
     
@@ -262,11 +270,9 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         
         currentPoint = 0
         expectedPoint = 0
-        
-        print("initializeSearchingConditionObject realChargingStartDate : \(receivedSearchingConditionObject.realChargingStartDate)")
-        print("initializeSearchingConditionObject realChargingEndDate : \(receivedSearchingConditionObject.realChargingEndDate)")
     }
     
+    //포인트API
     private func getPoint(url: String!) {
         
         self.activityIndicator!.startAnimating()
@@ -315,14 +321,9 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                         
                         self.expectedPoint = point
                         
-                        print("self.currentPoint : \(self.currentPoint)")
-                        print("self.expectedPoint : \(self.expectedPoint)")
-                        
                         //포인트 충전 화면으로 이동
                         if self.currentPoint == 0 || self.currentPoint < self.expectedPoint {
                         
-                            print("포인트 충전")
-                            
                             let refreshAlert = UIAlertController(title: "포인트 부족", message: "잔여 포인트가 부족합니다.\n포인트를 충전하시겠습니까?\n잔여 포인트 : \(self.currentPoint)", preferredStyle: UIAlertController.Style.alert)
                             
                             refreshAlert.addAction(UIAlertAction(title: "취소", style: .default, handler: { (action: UIAlertAction!) in
@@ -341,14 +342,12 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                         //충전
                         else if self.currentPoint != 0 && self.currentPoint >= self.expectedPoint {
                             
-                            print("충전")
                             self.reservation()
                         }
                         
                         //그 외 오류
                         else {
                             
-                            print("그 외")
                             let refreshAlert = UIAlertController(title: "알 수 없는 오류", message: "오류가 발생하여 충전에 실패했습니다\n문제가 지속될 시 고객센터로 문의주십시오.", preferredStyle: UIAlertController.Style.alert)
                             
                             refreshAlert.addAction(UIAlertAction(title: "확인", style: .default, handler: { (action: UIAlertAction!) in
@@ -1070,7 +1069,7 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         self.view.sendSubviewToBack(bottomButton)
     }
     
-    private func addView(width: CGFloat?, height: CGFloat?, top: CGFloat?, left: CGFloat?, right: CGFloat?, bottom: CGFloat?, target: AnyObject) {
+    private func addSearchingConditionView(width: CGFloat?, height: CGFloat?, top: CGFloat?, left: CGFloat?, right: CGFloat?, bottom: CGFloat?, target: AnyObject) {
         
         mapView?.addSubview(searchingConditionView)
         
@@ -1252,6 +1251,7 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         super.viewWillAppear(animated)
     }
     
+    //현재 위치
     func getCurrentLocation(){
         
         if let latitude = locationManager.location?.coordinate.latitude , let longitude = locationManager.location?.coordinate.longitude{
@@ -1259,7 +1259,6 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
             receivedSearchingConditionObject.gpxY = latitude
             receivedSearchingConditionObject.gpxX = longitude
         }
-
     }
     
     private func getReservation() {
