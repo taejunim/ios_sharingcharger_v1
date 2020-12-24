@@ -10,6 +10,10 @@ import UIKit
 
 class CustomButton: UIButton {
 
+    public func setTitle(title: String!) {
+        self.setTitle(title, for: .normal)
+    }
+    
     public func setAttributes(buttonName: String?, width: CGFloat?, height: CGFloat?, top: CGFloat?, left: CGFloat?, right: CGFloat?, bottom: CGFloat?, target: AnyObject, targetViewController: AnyObject) {
     
         self.translatesAutoresizingMaskIntoConstraints = false
@@ -44,24 +48,13 @@ class CustomButton: UIButton {
             
             break
         
-        case "instantCharge":
-            
-            self.layer.cornerRadius = 7
-            self.backgroundColor = UIColor(named: "Color_1ABC9C")
-            self.titleLabel?.font = UIFont.boldSystemFont(ofSize: CGFloat(18))
-            self.setTitleColor(.white, for: .normal)
-            self.setTitle("충전하기", for: .normal)
-            self.addTarget(MainViewController(), action: #selector(MainViewController.instantChargeButton), for: .touchUpInside)
-            
-            break
-            
-        case "reservation":
+        case "bottomButton":
             
             self.layer.cornerRadius = 7
             self.backgroundColor = UIColor(named: "Color_3498DB")
             self.titleLabel?.font = UIFont.boldSystemFont(ofSize: CGFloat(18))
             self.setTitleColor(.white, for: .normal)
-            self.setTitle("예약하기", for: .normal)
+            self.setTitle("충전하기", for: .normal)
             self.addTarget(MainViewController(), action: #selector(MainViewController.reservationButton), for: .touchUpInside)
             
             break
@@ -90,17 +83,9 @@ class CustomButton: UIButton {
             self.rightAnchor.constraint(equalTo: target.rightAnchor, constant: right!).isActive = true
         }
         
-        if buttonName == "instantCharge" || buttonName == "reservation" {
+        if buttonName == "bottomButton" {
             if bottom != nil {
                 self.bottomAnchor.constraint(equalTo: target.safeAreaLayoutGuide.bottomAnchor).isActive = true
-            }
-            
-            if buttonName == "instantCharge" {
-                self.widthAnchor.constraint(equalToConstant: target.frame!.width / 2).isActive = true
-            }
-            
-            if buttonName == "reservation" {
-                self.widthAnchor.constraint(equalToConstant: target.frame!.width / 2).isActive = true
             }
             
         } else {

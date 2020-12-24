@@ -68,12 +68,12 @@ class ShadowView: UIControl {
     }
     
     //검색 조건 버튼으로 초기화
-    public func initializeLayer() {
+    public func initializeLayer(chargingTime: String!, chargingPeriod: String!) {
      
         clockLayer.contents = clockImage
         shadowLayer.fillColor = UIColor.white.cgColor
         
-        setLabelText(chargingTimeText: "30분", chargingPeriodText: initializeChargingPeriod())
+        setLabelText(chargingTimeText: chargingTime, chargingPeriodText: chargingPeriod)
         reservationTextLayer.isHidden = true
     }
     

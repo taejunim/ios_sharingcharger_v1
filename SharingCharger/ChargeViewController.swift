@@ -152,9 +152,6 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     //현재 시간이 예약 종료 일시 보다 작으면 충전할 수 있게
                     if Date() < realChargingEndDate! {
                         
-                        
-                        
-                        
                         self.activityIndicator!.startAnimating()
                         
                         BleManager.shared.bleConnect(bleID: bluetoothList[index!])
@@ -975,8 +972,15 @@ extension ChargeViewController: BleDelegate {
                         
                         let rechargeId = self.myUserDefaults.integer(forKey: "rechargeId")
                         
+                        //충전중
+                        if !isChargeStop && tagNumber == rechargeId {
+                            print("충전중")
+                            chargeStart.backgroundColor = UIColor(named: "Color_BEBEBE")
+                            chargeEnd.backgroundColor = UIColor(named: "Color_E74C3C")
+                        }
+                        
                         //충전 종료 눌렀을 때 충전 정보 서버로 전송
-                        if isChargeStop && tagNumber == rechargeId {
+                        else if isChargeStop && tagNumber == rechargeId {
                             url = "http://211.253.37.97:8101/api/v1/recharge/end/charger/\(chargerId!)"
                             postChargeEndData(postUrl: url, rechargeId: tagNumber!, rechargeMinute: useTime!, rechargeWh: kwh!, count: tags.count, index: index!, tagId: data.tagNumber)
                         }
