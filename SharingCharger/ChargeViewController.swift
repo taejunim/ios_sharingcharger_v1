@@ -90,7 +90,7 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     //현재 시간이 예약 종료 일시 보다 작으면 충전할 수 있게
                     if Date() < realChargingEndDate! {
                         
-                        if bluetoothList.count == 1 && reservationInfo!.bleNumber.replacingOccurrences(of: ":", with: "") == bluetoothList[0].replacingOccurrences(of: ":", with: "") {
+                        if bluetoothList.count == 1 && reservationInfo!.bleNumber == bluetoothList[0] {
                             currentSelectedRow = 0
                             BleManager.shared.bleConnect(bleID: bluetoothList[0])
                         } else if bluetoothList.count > 1 {
@@ -100,12 +100,11 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                         }
                     }
                     
-                    //현재 시간이 예약 종료 일시보다 큰 경우 메모리의 예약 정보 초기화하고 검색조건 버튼 보이게
+                    //현재 시간이 예약 종료 일시보다 큰 경우 종료 처리
                     else {
                         
-                        self.myUserDefaults.set(0, forKey: "reservationId")
-                        self.myUserDefaults.set(nil, forKey: "reservationInfo")
-                        showAlert(title: "충전 만료", message: "충전 시간이 만료되었습니다.\n다시 예약하여 주십시오.", positiveTitle: "확인", negativeTitle: nil)
+                        isChargeStop = true
+                        BleManager.shared.bleConnect(bleID: reservationInfo!.bleNumber)
                     }
                     
                 } else {
@@ -115,7 +114,6 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
             } else {
                 showAlert(title: "블루투스 사용 권한 없음", message: "기기 블루투스 사용 권한이 없습니다.\n확인후 재시도 바랍니다.", positiveTitle: "확인", negativeTitle: nil)
             }
-            
         }
         
         //예약 정보가 없을 경우
@@ -139,7 +137,7 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 //블루투스 on/off 체크
                 if isOnBluetooth() {
                     
-                    if reservationInfo!.bleNumber.replacingOccurrences(of: ":", with: "") != bluetoothList[index!].replacingOccurrences(of: ":", with: "")  {
+                    if reservationInfo!.bleNumber != bluetoothList[index!]  {
                         showAlert(title: "잘못된 충전기", message: "예약한 충전기와 선택한 충전기가 다릅니다.\n다시 연결하여 주십시오.", positiveTitle: "확인", negativeTitle: nil)
                         return;
                     }
@@ -153,17 +151,16 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     if Date() < realChargingEndDate! {
                         
                         self.activityIndicator!.startAnimating()
-                        
+                        print("bluetoothList[index!] \(bluetoothList[index!])")
                         BleManager.shared.bleConnect(bleID: bluetoothList[index!])
                         currentSelectedRow = index
                     }
                     
-                    //현재 시간이 예약 종료 일시보다 큰 경우 메모리의 예약 정보 초기화하고 검색조건 버튼 보이게
+                    //현재 시간이 예약 종료 일시보다 큰 경우 종료 처리
                     else {
                         
-                        self.myUserDefaults.set(0, forKey: "reservationId")
-                        self.myUserDefaults.set(nil, forKey: "reservationInfo")
-                        showAlert(title: "충전 만료", message: "충전 시간이 만료되었습니다.\n다시 예약하여 주십시오.", positiveTitle: "확인", negativeTitle: nil)
+                        isChargeStop = true
+                        BleManager.shared.bleConnect(bleID: reservationInfo!.bleNumber)
                     }
                     
                 } else {
@@ -201,8 +198,6 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
         cell.connectionLabel.isHidden = true
         cell.connectionLabel.layer.cornerRadius = cell.connectionLabel.frame.height / 2
         cell.connectionLabel.layer.masksToBounds = true
-        
-        print("indexPath.row : \(indexPath.row)")
         
         return cell
     }
@@ -257,14 +252,16 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         //메모리에 저장된 예약 정보 가져와서 예약한 화면 구성
         if let data = self.myUserDefaults.value(forKey: "reservationInfo") as? Data {
+            let reservationInfo: SearchingConditionObject? = try? PropertyListDecoder().decode(SearchingConditionObject.self, from: data)
             
             //블루투스 권한 체크
             if hasBluetoothPermission() {
                 
                 //블루투스 on/off 체크
                 if isOnBluetooth() {
+                    
                     isChargeStop = true
-                    BleManager.shared.bleChargerStop()
+                    BleManager.shared.bleConnect(bleID: reservationInfo!.bleNumber)
                     
                 } else {
                     showAlert(title: "블루투스 꺼짐", message: "충전을 하기 위해서는 블루투스가 켜져 있어야 합니다.\n확인후 재시도 바랍니다.", positiveTitle: "설정", negativeTitle: "닫기")
@@ -283,15 +280,10 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     @objc func searchCharger(sender: UIView!) {
         
-        print("searchCharger")
-        
         scanCharger()
-        
     }
     
     @objc func contactCustomerCenter(sender: UIView!) {
-        
-        print("contactCustomerCenter")
         
         let url = URL(string: "telprompt://\(callCenterNumber)")!
         let shared = UIApplication.shared
@@ -300,12 +292,10 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
             
             shared.open(url, options: [:], completionHandler: nil)
             
-        }else {
+        } else {
             
             print("전화앱을 실행할 수 없습니다.")
-            
         }
-        
     }
     
     private func hasBluetoothPermission() -> Bool {
@@ -334,57 +324,7 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
     private func showAlert(title: String?, message: String?, positiveTitle: String?, negativeTitle: String?) {
         
         self.activityIndicator!.stopAnimating()
-        //self.activityIndicator!.isHidden = true
         
-        //        let refreshAlert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
-        //
-        //        if positiveTitle != nil {
-        //
-        //            if positiveTitle == "설정" {
-        //                refreshAlert.addAction(UIAlertAction(title: positiveTitle, style: .default,  handler: { (action: UIAlertAction!) in
-        //
-        //                    let url = URL(string: "App-Prefs:root=Bluetooth") //for bluetooth setting
-        //                    let app = UIApplication.shared
-        //                    app.open(url!)
-        //                    self.dismiss(animated: true, completion: nil)
-        //                }))
-        //
-        //            } else if positiveTitle != "설정" && title == "충전 종료" {
-        //                refreshAlert.addAction(UIAlertAction(title: positiveTitle, style: .default,  handler: { (action: UIAlertAction!) in
-        //
-        //                    let mainViewController = UIStoryboard(name:"Main", bundle: nil).instantiateViewController(withIdentifier: "Main") as! MainViewController
-        //                    let navigationController = UINavigationController(rootViewController: mainViewController)
-        //                    UIApplication.shared.windows.first?.rootViewController = navigationController
-        //                    UIApplication.shared.windows.first?.makeKeyAndVisible()
-        //
-        //                    self.dismiss(animated: true, completion: nil)
-        //                }))
-        //
-        //            } else {
-        //                refreshAlert.addAction(UIAlertAction(title: positiveTitle, style: .default,  handler: { (action: UIAlertAction!) in
-        //
-        //                    self.dismiss(animated: true, completion: nil)
-        //                }))
-        //            }
-        //        }
-        //
-        //        if negativeTitle != nil {
-        //            refreshAlert.addAction(UIAlertAction(title: negativeTitle, style: .cancel, handler: { (action: UIAlertAction!) in
-        //                self.dismiss(animated: true, completion: nil)
-        //            }))
-        //        }
-        //
-        //
-        //        if title == "충전 종료" {
-        //            present(refreshAlert, animated: true, completion: {
-        //                let mainViewController = UIStoryboard(name:"Main", bundle: nil).instantiateViewController(withIdentifier: "Main") as! MainViewController
-        //                let navigationController = UINavigationController(rootViewController: mainViewController)
-        //                UIApplication.shared.windows.first?.rootViewController = navigationController
-        //                UIApplication.shared.windows.first?.makeKeyAndVisible()
-        //            })
-        //        } else {
-        //            present(refreshAlert, animated: true, completion: nil)
-        //        }
         let refreshAlert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
         
         if positiveTitle != nil {
@@ -426,12 +366,26 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
         present(refreshAlert, animated: true, completion: nil)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        self.activityIndicator!.stopAnimating()        
+    }
+    
     //view 가 나타난 후
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         //예약 정보 가져오기
         getReservation()
+        
+        let isCharging = myUserDefaults.bool(forKey: "isCharging")
+        
+        //현재 충전중이고 충전 종료 버튼 클릭하면 자동으로 충전기 연결해서 종료 처리
+        if isCharging {
+            chargeStart.backgroundColor = UIColor(named: "Color_BEBEBE")
+            chargeEnd.backgroundColor = UIColor(named: "Color_E74C3C")
+        }
     }
     
     private func getReservation() {
@@ -533,8 +487,11 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     print("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)")
                     self.activityIndicator!.stopAnimating()
                     
+                    self.isChargeStop = false
                     self.myUserDefaults.set(0, forKey: "reservationId")
                     self.myUserDefaults.set(nil, forKey: "reservationInfo")
+                    self.myUserDefaults.set(0, forKey: "rechargeId")
+                    self.myUserDefaults.set(false, forKey: "isCharging")
                     
                     let mainViewController = UIStoryboard(name:"Main", bundle: nil).instantiateViewController(withIdentifier: "Main") as! MainViewController
                     let navigationController = UINavigationController(rootViewController: mainViewController)
@@ -556,8 +513,11 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 
                 self.activityIndicator!.stopAnimating()
                 
+                self.isChargeStop = false
                 self.myUserDefaults.set(0, forKey: "reservationId")
                 self.myUserDefaults.set(nil, forKey: "reservationInfo")
+                self.myUserDefaults.set(0, forKey: "rechargeId")
+                self.myUserDefaults.set(false, forKey: "isCharging")
                 
                 let mainViewController = UIStoryboard(name:"Main", bundle: nil).instantiateViewController(withIdentifier: "Main") as! MainViewController
                 let navigationController = UINavigationController(rootViewController: mainViewController)
@@ -598,7 +558,7 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 switch response.result {
                 
                 case .success(let obj):
-                    print("충전 인증 데이터 obj : \(obj)")
+                    print("충전 시작 데이터 obj : \(obj)")
                     do {
                         //충전 시작
                         if url.contains("recharge/start") {
@@ -612,6 +572,7 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                                 
                                 if tagId != "" && tagId != "fail" && tagId != "false" {
                                     self.myUserDefaults.set(instanceDataId, forKey: "rechargeId")
+                                    self.myUserDefaults.set(true, forKey: "isCharging")
                                     BleManager.shared.bleSetTag(tag: tagId)
                                     print("bleSetTag tagId : \(tagId)")
                                     return
@@ -672,7 +633,7 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     //충전 종료 데이터 서버로 전송
-    private func postChargeEndData(postUrl: String!, rechargeId: Int!, rechargeMinute: Int!, rechargeWh: Double!, count: Int!, index: Int!, tagId: String!) {
+    private func postChargeEndData(postUrl: String!, rechargeId: Int!, rechargeMinute: Int!, rechargeKwh: Double!, count: Int!, index: Int!, tagId: String!) {
         
         self.activityIndicator!.startAnimating()
         
@@ -683,7 +644,7 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
             "rechargeId" : rechargeId!,
             "rechargeMinute" : rechargeMinute!,
             "rechargePoint" : 0,
-            "rechargeWh" : rechargeWh!
+            "rechargeKwh" : rechargeKwh!
         ]
         
         var code: Int! = 0
@@ -695,7 +656,7 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
             switch response.result {
             
             case .success(let obj):
-                print("충전 인증 데이터 obj : \(obj)")
+                print("충전 종료 데이터 obj : \(obj)")
                 do {
                     
                     let JSONData = try JSONSerialization.data(withJSONObject: obj, options: .prettyPrinted)
@@ -708,10 +669,8 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                             
                             self.isChargeStop = false
                             
-                            //let tagId = String(format: "%13d", rechargeId)
-                            
                             if tagId != "" && tagId != "fail" && tagId != "false" {
-                                print("unplanned 삭제 tagId : \(tagId!)")
+                            
                                 BleManager.shared.bleDeleteTargetTag(tag: tagId)
                                 
                             } else {
@@ -737,27 +696,23 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                         if instanceData.id! > 0 && code == 200 {
                             
                             self.isChargeStop = false
-                            self.myUserDefaults.set(0, forKey: "rechargeId")
                             self.myUserDefaults.set(0, forKey: "reservationId")
                             self.myUserDefaults.set(nil, forKey: "reservationInfo")
-                            
-                            //let tagId = String(format: "%13d", rechargeId)
+                            self.myUserDefaults.set(0, forKey: "rechargeId")
+                            self.myUserDefaults.set(false, forKey: "isCharging")
                             
                             if tagId != "" && tagId != "fail" && tagId != "false" {
-                                print("삭제 tagId : \(tagId)")
+                                
                                 BleManager.shared.bleDeleteTargetTag(tag: tagId)
                                 
                             } else {
                                 print("**************************")
                                 print("태그 삭제 실패")
                                 print("**************************")
-                                self.showAlert(title: "서버 에러", message: "서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)", positiveTitle: "확인", negativeTitle: nil)
+                                self.showAlert(title: "충전 종료 오류", message: "충전 종료 오류가 발생했습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)", positiveTitle: "확인", negativeTitle: nil)
                                 return
                             }
                             
-                            print("********************************")
-                            print("count : \(count), index : \(index) ")
-                            print("********************************")
                             if count == index {
                                 self.showAlert(title: "충전 종료", message: "충전이 종료되었습니다.\n이용해주셔서 감사합니다.", positiveTitle: "확인", negativeTitle: nil)
                             }
@@ -862,29 +817,49 @@ extension ChargeViewController: BleDelegate {
                 break
             case .BleConnect:
                 guard let bleId = result as? String else {
-                    print("충전기 접속 성공\n")
                     
-                    //connect -> getTag -> 서버로 보내고 -> delTag -> 인증 -> true 이면 시작 버튼 활성화
-                    //시작 누르면 -> bleStart -> success 뜨면 서버로 시작데이터 날리고 setTag ->
                     return
                 }
-                print("충전기 접속 성공 : \(bleId)\n")
                 
-                let cell = tableView.cellForRow(at: [0, currentSelectedRow!]) as! ChargerCell
-                cell.connectionLabel.isHidden = false
+                let isCharging = myUserDefaults.bool(forKey: "isCharging")
                 
-                chargeStart.backgroundColor = UIColor(named: "Color_3498DB")
+                print("충전기 접속 성공 : \(bleId)\n isCharging : \(isCharging)")
                 
-                showAlert(title: "충전기 연결 성공", message: "\(bleId) 충전기와 연결되었습니다.", positiveTitle: "확인", negativeTitle: nil)
+                //현재 충전중이고 충전 종료 버튼 클릭하면 자동으로 충전기 연결해서 종료 처리
+                if isCharging && isChargeStop {
+                    
+                    for index in 0 ..< bluetoothList.count {
+                        print(">>>>>>>>>>>>>\(index)")
+                        if bleId == bluetoothList[index] {
+                            print(">>>>>>>>>>>>>>>>\(bluetoothList[index])")
+                            currentSelectedRow = index
+                            break
+                        }
+                    }
+                    
+                    BleManager.shared.bleChargerStop()
+                }
                 
-                BleManager.shared.bleGetTag()
-                print("충전기 접속 성공 : \(bleId)\n")
+                //충전기 접속했을 때
+                else {
+                    let cell = tableView.cellForRow(at: [0, currentSelectedRow!]) as! ChargerCell
+                    cell.connectionLabel.isHidden = false
+                    
+                    chargeStart.backgroundColor = UIColor(named: "Color_3498DB")
+                    showAlert(title: "충전기 연결 성공", message: "\(bleId) 충전기와 연결되었습니다.", positiveTitle: "확인", negativeTitle: nil)
+                    
+                    BleManager.shared.bleGetTag()
+                }
+                
                 break
             case .BleDisconnect:
                 print("충전기 접속 종료\n")
                 let cell = tableView.cellForRow(at: [0, currentSelectedRow!]) as! ChargerCell
                 cell.connectionLabel.isHidden = true
                 currentSelectedRow = nil
+                
+                chargeStart.backgroundColor = UIColor(named: "Color_BEBEBE")
+                
                 break
             case .BleScanFail:
                 print("충전기 검색 실패\n")
@@ -903,21 +878,13 @@ extension ChargeViewController: BleDelegate {
                 break
             case .BleChargeStart:
                 print("충전 시작 성공\n")
+                
                 showAlert(title: "충전 시작", message: "충전이 시작되었습니다.\n충전이 완료될 때까지 플러그를 제거하지마십시오.", positiveTitle: "확인", negativeTitle: nil)
                 
                 let chargerId:Int! = reservationInfo!.chargerId
                 let url = "http://211.253.37.97:8101/api/v1/recharge/start/charger/\(chargerId!)"
                 
                 postChargeStartData(postUrl: url)
-                
-                //            if tagId != "" && tagId != "fail" && tagId != "false" {
-                //                BleManager.shared.bleSetTag(tag: tagId)
-                //            } else {
-                //                print("**************************")
-                //                print("태그 세팅 실패")
-                //                print("**************************")
-                //                self.activityIndicator!.stopAnimating()
-                //            }
                 
                 chargeStart.backgroundColor = UIColor(named: "Color_BEBEBE")
                 chargeEnd.backgroundColor = UIColor(named: "Color_E74C3C")
@@ -937,6 +904,7 @@ extension ChargeViewController: BleDelegate {
                 break
             case .BleChargeStop:
                 print("충전 종료 성공\n")
+                
                 BleManager.shared.bleGetTag()
                 break
             case .BleChargeStartFail:
@@ -954,6 +922,10 @@ extension ChargeViewController: BleDelegate {
                 
                 if let tags = result as? [EvzBLETagData] {
                     
+                    let isCharging = myUserDefaults.bool(forKey: "isCharging")
+                    let rechargeId = myUserDefaults.integer(forKey: "rechargeId")
+                    let chargerId: Int! = reservationInfo!.chargerId
+                    
                     var index:Int! = 0
                     for data: EvzBLETagData in tags {
                         print("tagData : \(data.toString())\n")
@@ -964,31 +936,29 @@ extension ChargeViewController: BleDelegate {
                         let useTime: Int! = Int(data.useTime.replacingOccurrences(of: " ", with: ""))
                         let kwh: Double! = Double(data.kwh.replacingOccurrences(of: " ", with: ""))
                         
-                        let chargerId: Int! = reservationInfo!.chargerId
                         var url = ""
                         
                         print("tagNumber : \(tagNumber!)")
+                        print("isCharging : \(isCharging)")
                         print("isChargeStop : \(isChargeStop)")
                         
-                        let rechargeId = self.myUserDefaults.integer(forKey: "rechargeId")
-                        
                         //충전중
-                        if !isChargeStop && tagNumber == rechargeId {
+                        if isCharging && !isChargeStop && tagNumber == rechargeId {
                             print("충전중")
                             chargeStart.backgroundColor = UIColor(named: "Color_BEBEBE")
                             chargeEnd.backgroundColor = UIColor(named: "Color_E74C3C")
                         }
                         
                         //충전 종료 눌렀을 때 충전 정보 서버로 전송
-                        else if isChargeStop && tagNumber == rechargeId {
+                        else if isCharging && isChargeStop && tagNumber == rechargeId {
                             url = "http://211.253.37.97:8101/api/v1/recharge/end/charger/\(chargerId!)"
-                            postChargeEndData(postUrl: url, rechargeId: tagNumber!, rechargeMinute: useTime!, rechargeWh: kwh!, count: tags.count, index: index!, tagId: data.tagNumber)
+                            postChargeEndData(postUrl: url, rechargeId: tagNumber!, rechargeMinute: useTime!, rechargeKwh: kwh!, count: tags.count, index: index!, tagId: data.tagNumber)
                         }
                         
                         //이전에 비정상적인 충전 종료한 정보들 서버로 전송
                         else if !isChargeStop && tagNumber != rechargeId {
                             url = "http://211.253.37.97:8101/api/v1/recharge/end/charger/\(chargerId!)/unplanned"
-                            postChargeEndData(postUrl: url, rechargeId: tagNumber!, rechargeMinute: useTime!, rechargeWh: kwh!, count: tags.count, index: index!, tagId: data.tagNumber)
+                            postChargeEndData(postUrl: url, rechargeId: tagNumber!, rechargeMinute: useTime!, rechargeKwh: kwh!, count: tags.count, index: index!, tagId: data.tagNumber)
                             
                         }
                     }

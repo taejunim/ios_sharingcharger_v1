@@ -154,6 +154,8 @@ class LeftMenuViewController: UIViewController {
                         
                         self.myUserDefaults.set(0, forKey: "reservationId")
                         self.myUserDefaults.set(nil, forKey: "reservationInfo")
+                        self.myUserDefaults.set(0, forKey: "rechargeId")
+                        self.myUserDefaults.set(false, forKey: "isCharging")
                         
                         self.reservationStateLabel.text = ""
                         
@@ -237,6 +239,8 @@ class LeftMenuViewController: UIViewController {
                     
                     self.myUserDefaults.set(0, forKey: "reservationId")
                     self.myUserDefaults.set(nil, forKey: "reservationInfo")
+                    self.myUserDefaults.set(0, forKey: "rechargeId")
+                    self.myUserDefaults.set(false, forKey: "isCharging")
                     
                     self.reservationStateLabel.text = ""
                     
@@ -262,6 +266,8 @@ class LeftMenuViewController: UIViewController {
                 
                 self.myUserDefaults.set(0, forKey: "reservationId")
                 self.myUserDefaults.set(nil, forKey: "reservationInfo")
+                self.myUserDefaults.set(0, forKey: "rechargeId")
+                self.myUserDefaults.set(false, forKey: "isCharging")
                 
                 self.reservationStateLabel.text = ""
             }

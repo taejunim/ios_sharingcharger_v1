@@ -1289,6 +1289,8 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                         
                         self.myUserDefaults.set(0, forKey: "reservationId")
                         self.myUserDefaults.set(nil, forKey: "reservationInfo")
+                        self.myUserDefaults.set(0, forKey: "rechargeId")
+                        self.myUserDefaults.set(false, forKey: "isCharging")
                         
                         self.searchingConditionView.initializeLayer(chargingTime: self.receivedSearchingConditionObject.chargingTime, chargingPeriod: self.receivedSearchingConditionObject.chargingPeriod)
                         
@@ -1369,6 +1371,8 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                     
                     self.myUserDefaults.set(0, forKey: "reservationId")
                     self.myUserDefaults.set(nil, forKey: "reservationInfo")
+                    self.myUserDefaults.set(0, forKey: "rechargeId")
+                    self.myUserDefaults.set(false, forKey: "isCharging")
                     
                     self.searchingConditionView.initializeLayer(chargingTime: self.receivedSearchingConditionObject.chargingTime, chargingPeriod: self.receivedSearchingConditionObject.chargingPeriod)
                 }
@@ -1387,6 +1391,8 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                 
                 self.myUserDefaults.set(0, forKey: "reservationId")
                 self.myUserDefaults.set(nil, forKey: "reservationInfo")
+                self.myUserDefaults.set(0, forKey: "rechargeId")
+                self.myUserDefaults.set(false, forKey: "isCharging")
                 
                 self.searchingConditionView.initializeLayer(chargingTime: self.receivedSearchingConditionObject.chargingTime, chargingPeriod: self.receivedSearchingConditionObject.chargingPeriod)
             }
@@ -1412,6 +1418,9 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                     
                     self.myUserDefaults.set(0, forKey: "reservationId")
                     self.myUserDefaults.set(nil, forKey: "reservationInfo")
+                    self.myUserDefaults.set(0, forKey: "rechargeId")
+                    self.myUserDefaults.set(false, forKey: "isCharging")
+                    
                     self.searchingConditionView.initializeLayer(chargingTime: self.receivedSearchingConditionObject.chargingTime, chargingPeriod: self.receivedSearchingConditionObject.chargingPeriod)
                 }
             }
