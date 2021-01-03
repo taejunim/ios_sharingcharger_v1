@@ -109,7 +109,7 @@ class JoinViewController: UIViewController, UITextFieldDelegate , PolicyProtocol
     @objc func collectPolicyButton(){
         
         guard let viewController = self.storyboard?.instantiateViewController(withIdentifier: "PolicyView") as? PolicyViewController else { return }
-        viewController.url = "http://211.253.37.97:8101/api/v1/policy/collect"
+        viewController.url = "http://211.253.37.97:8101/api/v1/policy/service"
         
         let bottomSheet: MDCBottomSheetController = MDCBottomSheetController(contentViewController: viewController)
         bottomSheet.preferredContentSize = CGSize(width: view.frame.size.width, height: view.frame.size.height)
@@ -364,7 +364,7 @@ class JoinViewController: UIViewController, UITextFieldDelegate , PolicyProtocol
         
         let data = notification.object as! String
         
-        if data == "http://211.253.37.97:8101/api/v1/policy/collect" {
+        if data == "http://211.253.37.97:8101/api/v1/policy/service" {
             
             viewCollectPolicyButton.isEnabled = false
             viewCollectPolicyButton.setTitleColor(ColorE0E0E0, for: .normal)

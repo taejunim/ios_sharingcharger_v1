@@ -9,7 +9,6 @@
 import UIKit
 import EvzBLEKit
 import Alamofire
-
 class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var searchInfos: Array<String> = []
@@ -18,29 +17,36 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
     @IBOutlet var chargeStart: UIButton!
     @IBOutlet var chargeEnd: UIButton!
     @IBOutlet var searchCharger: UIButton!
-    @IBOutlet var customerCenter: UIButton!
     
     @IBOutlet var tableView: UITableView!
     var currentSelectedRow: Int?
+    
+    @IBOutlet var chargingTimeLabel: UILabel!
     
     let myUserDefaults = UserDefaults.standard
     var reservationInfo: SearchingConditionObject?
     
     let locale = Locale(identifier: "ko")
     let dateFormatter = DateFormatter()
+    let clockDateFormatter = DateFormatter()
     
     var utils: Utils?
     var activityIndicator: UIActivityIndicatorView?
-    
-    let callCenterNumber = "064-725-6800"
 
     var isChargeStop = false
 
+    let clockInterval = 1.0
+    
+    var timer = Timer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         viewWillInitializeObjects()
+        
+        clockDateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        clockDateFormatter.locale = locale
+        timer = Timer.scheduledTimer(timeInterval: clockInterval, target: self, selector: #selector(setClock), userInfo: nil, repeats: true)
     }
     
     private func viewWillInitializeObjects() {
@@ -66,7 +72,7 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
         chargeStart.addTarget(self, action: #selector(chargeStart(sender:)), for: .touchUpInside)
         chargeEnd.addTarget(self, action: #selector(chargeEnd(sender:)), for: .touchUpInside)
         searchCharger.addTarget(self, action: #selector(searchCharger(sender:)), for: .touchUpInside)
-        customerCenter.addTarget(self, action: #selector(contactCustomerCenter(sender:)), for: .touchUpInside)
+        
     }
     
     private func checkState() {
@@ -84,6 +90,7 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     
                     dateFormatter.locale = locale
                     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+
                     //충전 종료 일시
                     let realChargingEndDate = dateFormatter.date(from: reservationInfo!.realChargingEndDate)
                     
@@ -186,15 +193,41 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let row = self.bluetoothList[indexPath.row]
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: "ChargerCustomCell", for:indexPath) as! ChargerCell
+        var showBleNumber = ""
         
-        
+        if let data = self.myUserDefaults.value(forKey: "reservationInfo") as? Data {
+            
+            reservationInfo = try? PropertyListDecoder().decode(SearchingConditionObject.self, from: data)
+           
+            if row == reservationInfo?.bleNumber {
+                
+                if let chargerName = reservationInfo?.chargerName {
+                    cell.chargerNameLabel?.text = chargerName + " - "
+                }
+                
+                let bleNumber = String(row.replacingOccurrences(of: ":", with: ""))
+                let startIndex = bleNumber.index(bleNumber.endIndex, offsetBy: -4)
+                showBleNumber = String(bleNumber[startIndex...])
+                cell.chargerBleNumberLabel?.text = showBleNumber
+                
+            } else {
+                
+                showBleNumber = row
+                cell.chargerNameLabel?.text = row
+                cell.chargerBleNumberLabel?.text = ""
+            }
+            
+            if let chargerAddress = reservationInfo?.chargerAddress {
+                cell.addressLabel?.text = chargerAddress
+            }
+            
+        }
         let chargerBleNumberLabelGesture = UITapGestureRecognizer(target: self, action: #selector(self.connectCharger(sender:)))
         cell.chargerBleNumberLabel?.isUserInteractionEnabled = true
         cell.chargerBleNumberLabel?.addGestureRecognizer(chargerBleNumberLabelGesture)
         cell.chargerBleNumberLabel.tag = indexPath.row
-        cell.chargerBleNumberLabel?.text = row
+
         cell.connectionLabel.isHidden = true
         cell.connectionLabel.layer.cornerRadius = cell.connectionLabel.frame.height / 2
         cell.connectionLabel.layer.masksToBounds = true
@@ -209,7 +242,7 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func tableView(_ tableView:UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        return 50
+        return 80
     }
     
     @objc func chargeStart(sender: UIView!) {
@@ -283,21 +316,6 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
         scanCharger()
     }
     
-    @objc func contactCustomerCenter(sender: UIView!) {
-        
-        let url = URL(string: "telprompt://\(callCenterNumber)")!
-        let shared = UIApplication.shared
-
-        if shared.canOpenURL(url) {
-            
-            shared.open(url, options: [:], completionHandler: nil)
-            
-        } else {
-            
-            print("전화앱을 실행할 수 없습니다.")
-        }
-    }
-    
     private func hasBluetoothPermission() -> Bool {
         if BleManager.shared.hasPermission() {
             print("Permission : 블루투스 사용 권한 있음\n")
@@ -368,7 +386,7 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
+        timer.invalidate()
         self.activityIndicator!.stopAnimating()        
     }
     
@@ -386,6 +404,7 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
             chargeStart.backgroundColor = UIColor(named: "Color_BEBEBE")
             chargeEnd.backgroundColor = UIColor(named: "Color_E74C3C")
         }
+
     }
     
     private func getReservation() {
@@ -492,6 +511,7 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     self.myUserDefaults.set(nil, forKey: "reservationInfo")
                     self.myUserDefaults.set(0, forKey: "rechargeId")
                     self.myUserDefaults.set(false, forKey: "isCharging")
+                    self.myUserDefaults.set(nil, forKey: "startRechargeDate")
                     
                     let mainViewController = UIStoryboard(name:"Main", bundle: nil).instantiateViewController(withIdentifier: "Main") as! MainViewController
                     let navigationController = UINavigationController(rootViewController: mainViewController)
@@ -518,6 +538,7 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 self.myUserDefaults.set(nil, forKey: "reservationInfo")
                 self.myUserDefaults.set(0, forKey: "rechargeId")
                 self.myUserDefaults.set(false, forKey: "isCharging")
+                self.myUserDefaults.set(nil, forKey: "startRechargeDate")
                 
                 let mainViewController = UIStoryboard(name:"Main", bundle: nil).instantiateViewController(withIdentifier: "Main") as! MainViewController
                 let navigationController = UINavigationController(rootViewController: mainViewController)
@@ -566,7 +587,6 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                             let instanceData = try JSONDecoder().decode(ChargeObject.self, from: JSONData)
                             
                             if instanceData.id! > 0 && code == 201 {
-                                
                                 let instanceDataId:Int = instanceData.id!
                                 let tagId = String(format: "%13d", instanceDataId)
                                 
@@ -575,6 +595,12 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                                     self.myUserDefaults.set(true, forKey: "isCharging")
                                     BleManager.shared.bleSetTag(tag: tagId)
                                     print("bleSetTag tagId : \(tagId)")
+
+                                    if let startRechargeDate = instanceData.created {
+                                    
+                                        self.myUserDefaults.set(startRechargeDate, forKey: "startRechargeDate")
+                                                                        
+                                    }
                                     return
                                 } else {
                                     print("**************************")
@@ -700,6 +726,7 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                             self.myUserDefaults.set(nil, forKey: "reservationInfo")
                             self.myUserDefaults.set(0, forKey: "rechargeId")
                             self.myUserDefaults.set(false, forKey: "isCharging")
+                            self.myUserDefaults.set(nil, forKey: "startRechargeDate")
                             
                             if tagId != "" && tagId != "fail" && tagId != "false" {
                                 
@@ -714,7 +741,7 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                             }
                             
                             if count == index {
-                                self.showAlert(title: "충전 종료", message: "충전이 종료되었습니다.\n이용해주셔서 감사합니다.", positiveTitle: "확인", negativeTitle: nil)
+                                self.showChargeEndPopup(result : instanceData, rechargeKWh: rechargeKwh, rechargeMinute: rechargeMinute)
                             }
                         }
                     }
@@ -766,6 +793,86 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
         //예약 정보가 없을 경우
         else {
             showAlert(title: "예약 정보 없음", message: "예약 정보가 존재하지 않습니다.\n문제가 지속될 시 고객센터로 문의 주십시오.", positiveTitle: "확인", negativeTitle: nil)
+        }
+    }
+    
+    func showChargeEndPopup(result : ChargeObject , rechargeKWh: Double, rechargeMinute:Int){
+        
+        let viewController:ChargeEndPopupViewController = self.storyboard?.instantiateViewController(withIdentifier: "ChargeEndPopup") as! ChargeEndPopupViewController
+        viewController.preferredContentSize = CGSize(width: view.frame.size.width, height: view.frame.size.height / 2)
+        
+        viewController.reservationPoint = result.reservationPoint!
+        viewController.refundPoint = result.reservationPoint! - result.rechargePoint!
+        viewController.rechargeKWh = rechargeKWh
+        viewController.startRechargeDate = result.startRechargeDate!
+        viewController.endRechargeDate = result.endRechargeDate!
+        viewController.rechargeMinute = rechargeMinute
+        
+        
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+        alert.setValue(viewController, forKey: "contentViewController")
+        
+        self.present(alert, animated: false)
+    }
+    
+    @objc func setClock(){
+        
+        if let startRechargeDate = myUserDefaults.string(forKey: "startRechargeDate"){
+            let date = Date()
+            let startDate = clockDateFormatter.date(from: startRechargeDate)
+            
+            var diff = -Int(((startDate?.timeIntervalSince(date))!))
+
+            var timerText = ""
+        
+            
+            let hour = (diff/3600)
+                
+                //let hour = Int(diff/3600)
+                
+            if hour < 10 {
+                    
+                timerText = "0" + String(hour) + " : "
+                    
+            } else {
+                
+                timerText = String(hour) + " : "
+            }
+                
+            diff = diff % 3600
+                
+            
+            
+            let minute = (diff/60)
+                
+            if minute < 10{
+                    
+                timerText += "0"
+                timerText += String(minute)
+            } else {
+                    
+                timerText += String(minute)
+            }
+                
+            timerText += " : "
+            
+            
+            let second = (diff%60)
+                
+            if second < 10 {
+                    
+                timerText += "0" + String(second)
+            }else {
+                
+                timerText += String(second)
+            }
+            
+            
+            
+            chargingTimeLabel.text = String(timerText)
+        } else {
+        
+            chargingTimeLabel.text = "00 : 00 : 00"
         }
     }
     

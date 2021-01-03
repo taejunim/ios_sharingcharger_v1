@@ -12,4 +12,7 @@ class ChargerCell: UITableViewCell {
 
     @IBOutlet var chargerBleNumberLabel: UILabel!
     @IBOutlet var connectionLabel: UILabel!
+    @IBOutlet var chargerNameLabel: UILabel!
+    @IBOutlet var addressLabel: UILabel!
+    
 }

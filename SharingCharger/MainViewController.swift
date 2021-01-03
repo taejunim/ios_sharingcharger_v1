@@ -150,23 +150,11 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         self.view.addSubview(activityIndicator!)
         self.activityIndicator!.hidesWhenStopped = true
         
-        //기기 높이구해서 충전기 상세뷰 높이 지정
-        let deviceHeight = UIScreen.main.nativeBounds.height
-
         if UIDevice().userInterfaceIdiom == .phone {
         
-            switch deviceHeight {
-            
-            case 1136, 1334:                                               //iPhone 5 or 5S or 5C   , iPhone 6/6S/7/8
-                chargerViewMinimumHeight = mapView.frame.height * 0.4
-                chargerViewMaximumHeight = mapView.frame.height * 0.85
-            case 1792, 1920, 2208, 2436, 2532, 2778, 2688:                 //iPhone 6+/6S+/7+/8+   , iPhone X/XS/11Pro,12mini , iPhone 12/12Pro, iPhone12ProMax ,  iPhone XS Max/11 Pro Max
-                chargerViewMinimumHeight = mapView.frame.height * 0.45
-                chargerViewMaximumHeight = mapView.frame.height * 0.9
-            default:                                                        //iPhone XR/ 11   , Unknown
-                chargerViewMinimumHeight = mapView.frame.height * 0.3
-                chargerViewMaximumHeight = mapView.frame.height * 0.6
-            }
+            chargerViewMinimumHeight = mapView.frame.height * 0.5
+            chargerViewMaximumHeight = mapView.frame.height * 0.5
+   
         }
         
         //현재 위치
@@ -720,7 +708,18 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         
         selectedChargerObject = nil
     }
-
+    
+    func mapView(_ mapView: MTMapView!, dragEndedOn mapPoint: MTMapPoint!) {
+        print("dragEndedOn")
+    
+        if selectedChargerObject != nil {
+           
+            showSearchingConditionView()
+            selectedChargerObject = nil
+        }
+        
+    }
+    
     func mapView(_ mapView: MTMapView!, finishedMapMoveAnimation mapCenterPoint: MTMapPoint!) {
         print("finishedMapMoveAnimation \(mapCenterPoint.mapPointGeo())")
         
@@ -1240,8 +1239,6 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         self.navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
         
         super.viewWillDisappear(animated)
-        
-        //notificationCenter.removeObserver(self) //  self에 등록된 옵저버 전체 제거
     }
     
     override func viewWillAppear(_ animated: Bool) {
