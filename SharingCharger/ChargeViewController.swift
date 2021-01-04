@@ -799,7 +799,7 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func showChargeEndPopup(result : ChargeObject , rechargeKWh: Double, rechargeMinute:Int){
         
         let viewController:ChargeEndPopupViewController = self.storyboard?.instantiateViewController(withIdentifier: "ChargeEndPopup") as! ChargeEndPopupViewController
-        viewController.preferredContentSize = CGSize(width: view.frame.size.width, height: view.frame.size.height / 2)
+        viewController.preferredContentSize = CGSize(width: view.frame.size.width, height: 1.2 * view.frame.size.height / 2)
         
         viewController.reservationPoint = result.reservationPoint!
         viewController.refundPoint = result.reservationPoint! - result.rechargePoint!
