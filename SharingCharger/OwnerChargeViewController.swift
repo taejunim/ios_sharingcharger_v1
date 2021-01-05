@@ -43,6 +43,11 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
 
     @IBOutlet var chargingTimeLabel: UILabel!
     
+    let rightMenuOrigin: UIImage! = UIImage(named: "setting")
+    var rightMenuImage : UIImage?
+    
+    let menuSize = CGSize(width:25, height:25)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -75,6 +80,13 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
         
         HHMMFormatter.locale = locale
         HHMMFormatter.dateFormat = "HH:mm"
+    
+        let renderer = UIGraphicsImageRenderer(size: menuSize)
+        rightMenuImage = renderer.image {_ in rightMenuOrigin.draw(in: CGRect(origin: .zero, size: menuSize))}
+        let rightBarButton = UIBarButtonItem.init(image: rightMenuImage,style: .plain , target: self, action: #selector(rightMenu))
+        rightBarButton.tintColor = UIColor.black
+        navigationItem.rightBarButtonItem   = rightBarButton
+    
     }
     
     private func checkReservationState() {
@@ -142,10 +154,11 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "ChargerCustomCell", for:indexPath) as! ChargerCell
         
-        
         let chargerBleNumberLabelGesture = UITapGestureRecognizer(target: self, action: #selector(self.connectCharger(sender:)))
-        cell.chargerBleNumberLabel?.isUserInteractionEnabled = true
-        cell.chargerBleNumberLabel?.addGestureRecognizer(chargerBleNumberLabelGesture)
+        
+        cell.isUserInteractionEnabled = true
+        cell.addGestureRecognizer(chargerBleNumberLabelGesture)
+        
         cell.chargerBleNumberLabel.tag = indexPath.row
         cell.chargerBleNumberLabel?.text = row
         cell.connectionLabel.isHidden = true
@@ -162,7 +175,7 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
     
     func tableView(_ tableView:UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        return 50
+        return 80
     }
     
     @objc func chargeStart(sender: UIView!) {
@@ -1123,6 +1136,11 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
             
             self.activityIndicator!.stopAnimating()
         })
+    }
+    
+    @objc func rightMenu() {
+        guard let viewController = self.storyboard?.instantiateViewController(withIdentifier: "Setting") else { return }
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
 }
 

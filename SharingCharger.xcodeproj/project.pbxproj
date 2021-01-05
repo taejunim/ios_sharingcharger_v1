@@ -23,6 +23,7 @@
 		C6633DEF252C7C4400F02F24 /* ChargeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6633DEE252C7C4400F02F24 /* ChargeViewController.swift */; };
 		C6633E062535381B00F02F24 /* MarkerObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6633E052535381B00F02F24 /* MarkerObject.swift */; };
 		C6633E0E25357F8600F02F24 /* ReservationObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6633E0D25357F8500F02F24 /* ReservationObject.swift */; };
+		C6878A7425A42B7C00CA9B94 /* ChargeDefaultTimeSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6878A7325A42B7C00CA9B94 /* ChargeDefaultTimeSettingViewController.swift */; };
 		C6A4023C255BE3DF006B49D8 /* SearchingAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A4023B255BE3DF006B49D8 /* SearchingAddressViewController.swift */; };
 		C6B8E05C25A0CD2B0098DA5E /* ChargeEndPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6B8E05B25A0CD2B0098DA5E /* ChargeEndPopupViewController.swift */; };
 		C6BF775D2577707000ADEDAD /* PointChargeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BF775C2577707000ADEDAD /* PointChargeViewController.swift */; };
@@ -149,6 +150,7 @@
 		C6633DEE252C7C4400F02F24 /* ChargeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargeViewController.swift; sourceTree = "<group>"; };
 		C6633E052535381B00F02F24 /* MarkerObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerObject.swift; sourceTree = "<group>"; };
 		C6633E0D25357F8500F02F24 /* ReservationObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservationObject.swift; sourceTree = "<group>"; };
+		C6878A7325A42B7C00CA9B94 /* ChargeDefaultTimeSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargeDefaultTimeSettingViewController.swift; sourceTree = "<group>"; };
 		C6A4023B255BE3DF006B49D8 /* SearchingAddressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchingAddressViewController.swift; sourceTree = "<group>"; };
 		C6B8E05B25A0CD2B0098DA5E /* ChargeEndPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargeEndPopupViewController.swift; sourceTree = "<group>"; };
 		C6BF775C2577707000ADEDAD /* PointChargeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointChargeViewController.swift; sourceTree = "<group>"; };
@@ -382,6 +384,7 @@
 				372D309124F6324000CEB232 /* SettingViewController.swift */,
 				C64E08A2256A8BC70075D182 /* UserCertificationViewController.swift */,
 				C6B8E05B25A0CD2B0098DA5E /* ChargeEndPopupViewController.swift */,
+				C6878A7325A42B7C00CA9B94 /* ChargeDefaultTimeSettingViewController.swift */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -670,6 +673,7 @@
 				DA3416662508D64C0031999F /* ShadowButton.swift in Sources */,
 				DA41A1F024ECF71200E7BB93 /* PasswordInitViewController.swift in Sources */,
 				DABC41AA24CE73F500DD366F /* SceneDelegate.swift in Sources */,
+				C6878A7425A42B7C00CA9B94 /* ChargeDefaultTimeSettingViewController.swift in Sources */,
 				C6BF775D2577707000ADEDAD /* PointChargeViewController.swift in Sources */,
 				DA22F62C259C1B730079DEEE /* OwnerChargeViewController.swift in Sources */,
 				DA26FB2524FCC0FF00D76753 /* SampleTableViewCell.swift in Sources */,
@@ -870,7 +874,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.0.0;
-				DEVELOPMENT_TEAM = C846JVNTZN;
+				DEVELOPMENT_TEAM = SW97KU77ZP;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/SharingCharger/Library/DaumMap.embeddedframework",
@@ -882,7 +886,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = krco.metisinfo.SharingCharger;
+				PRODUCT_BUNDLE_IDENTIFIER = kr.co.metisinfo.SharingCharger;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = SharingCharger/KakaoMapBridgingHeader.h;
 				SWIFT_VERSION = 5.0;
@@ -898,7 +902,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.0.0;
-				DEVELOPMENT_TEAM = C846JVNTZN;
+				DEVELOPMENT_TEAM = SW97KU77ZP;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/SharingCharger/Library/DaumMap.embeddedframework",
@@ -910,7 +914,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = krco.metisinfo.SharingCharger;
+				PRODUCT_BUNDLE_IDENTIFIER = kr.co.metisinfo.SharingCharger;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = SharingCharger/KakaoMapBridgingHeader.h;
 				SWIFT_VERSION = 5.0;

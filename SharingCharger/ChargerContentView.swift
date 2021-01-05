@@ -17,11 +17,7 @@ class ChargerContentView: UIView {
     var chargingFee = UILabel()
     
     let chargingFeeText = "충전 요금 : 시간당 "
-    
-    //var selectedChargingPeriodBar = UIView()    //예약 상태바 전체뷰 -> 이후 이 바에 24개의 서브뷰가 add 됨
-    
-    //var chargingPeriod = UILabel()
-    
+        
     var availableTimeText = UILabel()
     
     var availablePeriodBar = UIScrollView()
@@ -110,15 +106,6 @@ class ChargerContentView: UIView {
         chargingFee.textColor = .darkText
         chargingFee.font = mediumFont
         
-       /* chargingPeriod.translatesAutoresizingMaskIntoConstraints = false
-        chargingPeriod.text = "17:00 - 18:30"
-        chargingPeriod.textAlignment = .center
-        chargingPeriod.textColor = .darkText
-        chargingPeriod.font = smallFont*/
-        
-        /*selectedChargingPeriodBar.translatesAutoresizingMaskIntoConstraints = false
-        selectedChargingPeriodBar.backgroundColor = .white
-        */
         availableTimeText.translatesAutoresizingMaskIntoConstraints = false
         availableTimeText.text = "이용 가능 시간"
         availableTimeText.textAlignment = .left
@@ -170,8 +157,6 @@ class ChargerContentView: UIView {
         favoriteButton.translatesAutoresizingMaskIntoConstraints = false
         chargerAddress.translatesAutoresizingMaskIntoConstraints = false
         chargingFee.translatesAutoresizingMaskIntoConstraints = false
-        //chargingPeriod.translatesAutoresizingMaskIntoConstraints = false
-        //selectedChargingPeriodBar.translatesAutoresizingMaskIntoConstraints = false
         availableTimeText.translatesAutoresizingMaskIntoConstraints = false
         availablePeriodBar.translatesAutoresizingMaskIntoConstraints = false
         availableChargingPeriodText.translatesAutoresizingMaskIntoConstraints = false
@@ -191,15 +176,6 @@ class ChargerContentView: UIView {
             
             chargingFee.topAnchor.constraint(equalTo: chargerAddress.bottomAnchor, constant: 10),
             chargingFee.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
-            
-         /*   selectedChargingPeriodBar.topAnchor.constraint(equalTo: chargingFee.bottomAnchor, constant: 30),
-            selectedChargingPeriodBar.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
-            selectedChargingPeriodBar.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
-            selectedChargingPeriodBar.heightAnchor.constraint(equalToConstant: 5),
-            */
-        /*    chargingPeriod.topAnchor.constraint(equalTo: selectedChargingPeriodBar.bottomAnchor, constant: 10),
-            chargingPeriod.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            chargingPeriod.trailingAnchor.constraint(equalTo: self.trailingAnchor),*/
             
             availableTimeText.topAnchor.constraint(equalTo: chargingFee.bottomAnchor, constant: 50),
             availableTimeText.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
@@ -245,13 +221,6 @@ class ChargerContentView: UIView {
         
         setAttributes()
         
-        //chargingPeriod.text = selectedTimePeriod!
-        /*
-        //기존에 add한 subview 들 제거
-        for view in selectedChargingPeriodBar.subviews {
-            view.removeFromSuperview()
-        }
-        */
         reservationStateBarList = Array<ReservationStateBarObject>()
         
         //선택한 시작 일시
@@ -279,79 +248,7 @@ class ChargerContentView: UIView {
         
         //충전기 소유주의 오픈 시간, 마감 시간에 따라 상태바 빨간색 갯수 구하기
         checkAvailableChargerTime(availableTimeList: availableTimeList)
-/*
-        //예약 상태바의 기준점 -> 선택한 시간 - 2시간(7200000)
-        let firstTag = Int(selectedStartDate!.currentTimeMillis()) - 7200000
-        
-        //예약 상태바 그리기
-        var beforeView = UIView()
 
-        //예약 상태바 30분 단위로 24칸 -> 선택한 시간 2시간 전부터 10시간 후까지 총 12시간까지 볼 수 있음
-        for i in 1 ... 24 {
-            
-            let tag = firstTag + (i - 1) * 1800000
-            
-            let view = UIView()
-            view.translatesAutoresizingMaskIntoConstraints = false
-            view.tag = tag
-            view.backgroundColor = ColorE0E0E0
-            
-            if let j = reservationStateBarList.firstIndex(where: { $0.id == tag }) {
-                
-                //선택한 시간은 파란색
-                if reservationStateBarList[j].type == "selected" {
-                    view.backgroundColor = Color3498DB
-                }
-                
-                //예약된 시간이나 소유주가 openTime, closeTime 을 막은 경우 빨간색
-                else if reservationStateBarList[j].type == "reservation" {
-                    view.backgroundColor = ColorE74C3C
-                }
-                
-                //선택한 시간이 예약된 시간과 겹칠경우 예약 불가능한 빨간색 처리
-                if let k = reservationStateBarList.lastIndex(where: { $0.id == tag }) {
-                    if reservationStateBarList[j].id == reservationStateBarList[k].id && reservationStateBarList[k].type == "reservation"{
-                        view.backgroundColor = ColorE74C3C
-                    }
-                }
-            }
-            
-            selectedChargingPeriodBar.addSubview(view)
-            
-            //24개의 뷰 autolayout
-            let trailingIndex: Int! = 24 - i
-            let trailingConstant: CGFloat! = 0 - CGFloat(Int(selectedChargingPeriodBar.frame.width) * trailingIndex) / 24
-            
-            view.topAnchor.constraint(equalTo: selectedChargingPeriodBar.topAnchor).isActive = true
-            view.bottomAnchor.constraint(equalTo: selectedChargingPeriodBar.bottomAnchor).isActive = true
-            
-            if i == 1 {
-                view.leftAnchor.constraint(equalTo: selectedChargingPeriodBar.leftAnchor).isActive = true
-            } else {
-                view.leftAnchor.constraint(equalTo: beforeView.rightAnchor, constant: 0).isActive = true    //이전의 뷰 오른쪽을 현재 뷰의 왼쪽과 맞추기 위함
-            }
-            
-            view.rightAnchor.constraint(equalTo: selectedChargingPeriodBar.rightAnchor, constant: trailingConstant).isActive = true
-            
-            beforeView = view   //이전의 뷰 오른쪽을 현재 뷰의 왼쪽과 맞추기 위함
-        }
-        
-        //기존에 add한 subview 들 제거
-        for view in availablePeriodBar.subviews {
-            view.removeFromSuperview()
-        }
-        */
-        //예약 상태바 그리기
-        /*let contentView = UIView()
-        contentView.translatesAutoresizingMaskIntoConstraints = false
-        
-        availablePeriodBar.addSubview(contentView)
-        
-        contentView.topAnchor.constraint(equalTo: availablePeriodBar.contentLayoutGuide.topAnchor).isActive = true
-        contentView.leadingAnchor.constraint(equalTo: availablePeriodBar.contentLayoutGuide.leadingAnchor).isActive = true
-        contentView.trailingAnchor.constraint(equalTo: availablePeriodBar.contentLayoutGuide.trailingAnchor).isActive = true
-        contentView.bottomAnchor.constraint(equalTo: availablePeriodBar.contentLayoutGuide.bottomAnchor).isActive = true
-        contentView.heightAnchor.constraint(equalTo: availablePeriodBar.frameLayoutGuide.heightAnchor).isActive = true*/
         
         let contentView = UIView()
         contentView.translatesAutoresizingMaskIntoConstraints = false
@@ -546,7 +443,11 @@ class ChargerContentView: UIView {
         var availablePeriodLabel: [String] = []
         for index in 0 ..< availablePeriodBarList.count {
             let availablePeriodBarObjcet = availablePeriodBarList[index]
-            
+            let test = DateFormatter()
+            test.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            print(test.string(from: availablePeriodBarList[index].startDate!))
+            print(test.string(from: availablePeriodBarList[index].endDate!))
+            print("아 몇개고 \(availablePeriodBarList.count)")
             //1개 이하 일 때
             if availablePeriodBarList.count == 1 {
                 
@@ -580,6 +481,7 @@ class ChargerContentView: UIView {
                     if HHMMFormatter.string(from: availablePeriodBarObjcet.startDate!) != "00:00" && HHMMFormatter.string(from: availablePeriodBarObjcet.endDate!) != "00:00" {
                         if selectedStartDate! < availablePeriodBarObjcet.startDate! {
                             availablePeriodLabel.append("\(HHMMFormatter.string(from: selectedStartDate!)) ~ \(HHMMFormatter.string(from: availablePeriodBarObjcet.startDate!))")
+                            availablePeriodLabel.append("\(HHMMFormatter.string(from: availablePeriodBarObjcet.endDate!)) ~")
                         } else {
                             print("설마 여기서 ? ]\(HHMMFormatter.string(from: availablePeriodBarObjcet.endDate!))")
                             availablePeriodLabel.append("\(HHMMFormatter.string(from: availablePeriodBarObjcet.endDate!)) ~")
@@ -616,8 +518,7 @@ class ChargerContentView: UIView {
                 else if index == availablePeriodBarList.count - 1 {
                     print("설마 여기서")
                     
-                    
-                        availablePeriodLabel.append("\(HHMMFormatter.string(from: availablePeriodBarObjcet.endDate!)) ~")
+                      // availablePeriodLabel.append("\(HHMMFormatter.string(from: availablePeriodBarObjcet.endDate!)) ~")
                     
                     
                 }
@@ -626,16 +527,8 @@ class ChargerContentView: UIView {
         
         if availablePeriodBarList.count == 0 {
             checkAlwaysAvailable(alwaysAvailable: true)
-            //availablePeriodLabel.append("\(HHMMFormatter.string(from: selectedStartDate!)) ~")
 
-        } else if availablePeriodBarList.count == 1 {
-            
-            //availablePeriodLabel.append("\(HHMMFormatter.string(from: selectedStartDate!)) ~")
-            checkAlwaysAvailable(alwaysAvailable: false)
-            
-        }else if availablePeriodBarList.count > 1 {
-            
-            print(availablePeriodBarList.count)
+        } else {
             checkAlwaysAvailable(alwaysAvailable: false)
         }
         
@@ -999,14 +892,12 @@ class ChargerContentView: UIView {
         if alwaysAvailable {
             
             availableTimeText.isHidden = true
-            //availablePeriodBar.isHidden = true
             availableChargingPeriodText.isHidden = true
             alwaysAvailableText.isHidden = false
             
         } else {
 
             availableTimeText.isHidden = false
-            //availablePeriodBar.isHidden = false
             availableChargingPeriodText.isHidden = false
             alwaysAvailableText.isHidden = true
                 

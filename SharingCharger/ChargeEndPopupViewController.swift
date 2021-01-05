@@ -23,7 +23,7 @@ class ChargeEndPopupViewController: UIViewController {
     var rechargeKWh:Double = 0.0
     var startRechargeDate:String = ""
     var endRechargeDate:String = ""
-    var rechargeMinute:Int = 0
+    var rechargePeriod:String = ""
     
     @IBOutlet var confirmButton: UIButton!
     
@@ -40,7 +40,7 @@ class ChargeEndPopupViewController: UIViewController {
         rechargeLabel.text = setComma(value: rechargeKWh) + "kWh"
         startRechargeDateLabel.text = startRechargeDate
         endRechargeDateLabel.text = endRechargeDate
-        rechargePeriodLabel.text = setComma(value: rechargeMinute) + "min"
+        rechargePeriodLabel.text = rechargePeriod
         
         confirmButton.layer.cornerRadius = 7
         confirmButton.addTarget(self, action: #selector(self.confirm), for: .touchUpInside)

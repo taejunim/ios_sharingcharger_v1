@@ -801,12 +801,28 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let viewController:ChargeEndPopupViewController = self.storyboard?.instantiateViewController(withIdentifier: "ChargeEndPopup") as! ChargeEndPopupViewController
         viewController.preferredContentSize = CGSize(width: view.frame.size.width, height: 1.2 * view.frame.size.height / 2)
         
+        let rechargePeriod = chargingTimeLabel.text!
+        
+        let calendar = Calendar.current
+        let timerDateFormatter = DateFormatter()
+        timerDateFormatter.locale = Locale(identifier: "ko")
+        timerDateFormatter.dateFormat = "HH : mm : ss"
+        
+        guard let period = timerDateFormatter.date(from: rechargePeriod) else { return }
+        let periodComponent = calendar.dateComponents([.hour, .minute, .second], from: period)
+        
+        var endDate = clockDateFormatter.date(from: result.startRechargeDate!)
+        
+        endDate = calendar.date(byAdding: .hour, value: periodComponent.hour!, to: endDate!)
+        endDate = calendar.date(byAdding: .minute, value: periodComponent.minute!, to: endDate!)
+        endDate = calendar.date(byAdding: .second, value:periodComponent.second!, to: endDate!)
+        
         viewController.reservationPoint = result.reservationPoint!
         viewController.refundPoint = result.reservationPoint! - result.rechargePoint!
         viewController.rechargeKWh = rechargeKWh
         viewController.startRechargeDate = result.startRechargeDate!
-        viewController.endRechargeDate = result.endRechargeDate!
-        viewController.rechargeMinute = rechargeMinute
+        viewController.endRechargeDate = clockDateFormatter.string(from: endDate!)
+        viewController.rechargePeriod = rechargePeriod
         
         
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
@@ -828,7 +844,6 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
             
             let hour = (diff/3600)
                 
-                //let hour = Int(diff/3600)
                 
             if hour < 10 {
                     

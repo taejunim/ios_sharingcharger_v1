@@ -12,9 +12,29 @@ class SettingViewController: UIViewController {
 
     @IBOutlet weak var passwordChangeView: UIView!
     @IBOutlet weak var cardSettingView: UIView!
+    @IBOutlet var chargeTimeSettingView: UIView!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let myUserDefaults = UserDefaults.standard
+        
+        if let userType = myUserDefaults.string(forKey: "userType") {
+            
+            //소유주가 아니면
+            if userType == "Personal" {
+                
+                let chargeTimeSettingGesture = UITapGestureRecognizer(target: self, action: #selector(self.chargeTimeSetting(_:)))
+                chargeTimeSettingView.isUserInteractionEnabled = true
+                chargeTimeSettingView.addGestureRecognizer(chargeTimeSettingGesture)
+            } else{
+                
+                chargeTimeSettingView.isHidden = true
+                chargeTimeSettingView.gone()
+            }
+            
+        }
         
         let passwordChangeGesture = UITapGestureRecognizer(target: self, action: #selector(self.passwordChange(_:)))
         passwordChangeView.isUserInteractionEnabled = true
@@ -23,6 +43,7 @@ class SettingViewController: UIViewController {
         let cardSettingGesture = UITapGestureRecognizer(target: self, action: #selector(self.cardSetting(_:)))
         cardSettingView.isUserInteractionEnabled = true
         cardSettingView.addGestureRecognizer(cardSettingGesture)
+        
         
     }
     
@@ -42,6 +63,20 @@ class SettingViewController: UIViewController {
 
         })
         present(dialog, animated: true, completion: nil)
+    }
+    
+    
+    @objc func chargeTimeSetting(_ sender: UIView) {
+        
+        let viewController:ChargeDefaultTimeSettingViewController = self.storyboard?.instantiateViewController(withIdentifier: "ChargeDefaultTimeSetting") as! ChargeDefaultTimeSettingViewController
+        viewController.preferredContentSize = CGSize(width: view.frame.size.width, height: view.frame.size.height/2)
+        
+        
+        
+        let dialog = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+        dialog.setValue(viewController, forKey: "contentViewController")
+        
+        self.present(dialog, animated: false)
     }
     
     @IBAction func logoutButton(_ sender: Any) {
