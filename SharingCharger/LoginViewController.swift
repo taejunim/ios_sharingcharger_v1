@@ -57,8 +57,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         if checkBlank(position: .center) {
         
             self.activityIndicator!.startAnimating()
-            let mainViewController = UIStoryboard(name:"Main", bundle: nil).instantiateViewController(withIdentifier: "Main") as! MainViewController
-            let navigationController = UINavigationController(rootViewController: mainViewController)
             
             var code: Int! = 0
             
@@ -93,6 +91,19 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                                 UserDefaults.standard.set(instanceData.name, forKey: "name")
                                 UserDefaults.standard.set(instanceData.email, forKey: "email")
                                 UserDefaults.standard.set(instanceData.password, forKey: "password")
+                                UserDefaults.standard.set(instanceData.userType, forKey: "userType")
+                                
+                                var mainViewController: UIViewController!
+                                
+                                if instanceData.userType == "General" {
+                                    mainViewController = UIStoryboard(name:"Main", bundle: nil).instantiateViewController(withIdentifier: "Main") as! MainViewController
+                                } else if instanceData.userType == "Personal" {
+                                    mainViewController = UIStoryboard(name:"Main", bundle: nil).instantiateViewController(withIdentifier: "OwnerCharge") as! OwnerChargeViewController
+                                } else {
+                                    mainViewController = UIStoryboard(name:"Main", bundle: nil).instantiateViewController(withIdentifier: "Main") as! MainViewController
+                                }
+                                
+                                let navigationController = UINavigationController(rootViewController: mainViewController)
                                 
                                 if didTap {
                                     print("tap")

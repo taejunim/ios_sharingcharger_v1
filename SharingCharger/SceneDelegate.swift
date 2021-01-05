@@ -13,11 +13,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     
     let isLogin = UserDefaults.standard.bool(forKey: "isLogin")
+    let userType = UserDefaults.standard.string(forKey: "userType")
     
-    let mode: String = "Login"
-    //let mode: String = "Main"
-
-    //추후 로그인 API 연동후 로그인 정보가 있으면 "메인" 화면으로 이동, 로그인 정보가 없으면 "로그인" 화면으로 이동하게 처리
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
@@ -35,22 +32,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if isLogin {
 
             storyboard = UIStoryboard(name: "Main", bundle: nil)
-            rootViewController = storyboard?.instantiateViewController(identifier: "Main") as? MainViewController
+            
+            if userType == "General" {
+                rootViewController = storyboard?.instantiateViewController(identifier: "Main") as? MainViewController
+            } else if userType == "Personal" {
+                rootViewController = storyboard?.instantiateViewController(identifier: "OwnerCharge") as? OwnerChargeViewController
+            } else {
+                rootViewController = storyboard?.instantiateViewController(identifier: "Main") as? MainViewController
+            }
 
         } else {
 
             storyboard = UIStoryboard(name: "Login", bundle: nil)
             rootViewController = storyboard?.instantiateViewController(identifier: "Login") as? LoginViewController
         }
-        
-//        if mode == "Login" {
-//            storyboard = UIStoryboard(name: "Login", bundle: nil)
-//            rootViewController = storyboard?.instantiateViewController(identifier: "Login") as? LoginViewController
-//
-//        } else if mode == "Main" {
-//            storyboard = UIStoryboard(name: "Main", bundle: nil)
-//            rootViewController = storyboard?.instantiateViewController(identifier: "Main") as? MainViewController
-//        }
         
         let rootNavigationController = UINavigationController(rootViewController: rootViewController!)
         
