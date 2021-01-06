@@ -62,7 +62,6 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
         self.view.addSubview(activityIndicator!)
         self.activityIndicator!.hidesWhenStopped = true
         
-        
         BleManager.shared.setBleDelegate(delegate: self)
         
         self.tableView.delegate = self
@@ -86,7 +85,6 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
         let rightBarButton = UIBarButtonItem.init(image: rightMenuImage,style: .plain , target: self, action: #selector(rightMenu))
         rightBarButton.tintColor = UIColor.black
         navigationItem.rightBarButtonItem   = rightBarButton
-    
     }
     
     private func checkReservationState() {
@@ -262,7 +260,7 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
             
             case .success(let obj):
                 
-                print("obj : \(obj)")
+                print("ownerReservation obj : \(obj)")
                 
                 if code == 201 {
                     do {
@@ -503,6 +501,7 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
             }
             
             self.activityIndicator!.stopAnimating()
+            self.getCurrentReservation()
         })
     }
     
@@ -645,6 +644,149 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                 let navigationController = UINavigationController(rootViewController: mainViewController)
                 UIApplication.shared.windows.first?.rootViewController = navigationController
                 UIApplication.shared.windows.first?.makeKeyAndVisible()
+            }
+        })
+    }
+    
+    //소유주의 현재 예약 가져오기
+    private func getCurrentReservation() {
+        
+        self.activityIndicator!.startAnimating()
+        
+        let locale = Locale(identifier: "ko")
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = locale
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        
+        var code: Int! = 0
+        
+        let userId = myUserDefaults.integer(forKey: "userId")
+        let url = "http://211.253.37.97:8101/api/v1/reservation/user/\(userId)/currently"
+        
+        AF.request(url, method: .get, encoding: URLEncoding.default, interceptor: Interceptor(indicator: activityIndicator!)).validate().responseJSON(completionHandler: { response in
+            
+            code = response.response?.statusCode
+            
+            switch response.result {
+            
+            case .success(let obj):
+                
+                do {
+                    //예약이 없을 경우
+                    if code == 204 {
+                        
+                        self.activityIndicator!.stopAnimating()
+                        
+                        self.isChargeStop = false
+                        self.myUserDefaults.set(0, forKey: "reservationId")
+                        self.myUserDefaults.set(nil, forKey: "reservationInfo")
+                        self.myUserDefaults.set(0, forKey: "rechargeId")
+                        self.myUserDefaults.set(false, forKey: "isCharging")
+                        
+                        
+                    } else if code == 200 {
+                        
+                        let JSONData = try JSONSerialization.data(withJSONObject: obj, options: .prettyPrinted)
+                        let instanceData = try JSONDecoder().decode(ReservationObject.self, from: JSONData)
+                        
+                        if instanceData.id! > 0 {
+                            let reservationInfo: SearchingConditionObject! = SearchingConditionObject()
+                            reservationInfo.realChargingStartDate = instanceData.startDate!
+                            reservationInfo.realChargingEndDate = instanceData.endDate!
+                            reservationInfo.chargerAddress = instanceData.chargerAddress!
+                            reservationInfo.chargerId = instanceData.chargerId!
+                            reservationInfo.chargerName = instanceData.chargerName!
+                            reservationInfo.fee = instanceData.rangeOfFee!
+                            reservationInfo.bleNumber = instanceData.bleNumber!
+                            
+                            let calendar = Calendar.current
+                            
+                            let startDate = dateFormatter.date(from: instanceData.startDate!)
+                            let endDate = dateFormatter.date(from: instanceData.endDate!)
+                            
+                            let offsetComps = calendar.dateComponents([.hour,.minute], from:startDate!, to:endDate!)
+                            if case let (hour?, minute?) = (offsetComps.hour, offsetComps.minute) {
+                                
+                                //30분
+                                if hour == 0 && minute != 0 {
+                                    reservationInfo.chargingTime = String(minute) + "분"
+                                    reservationInfo.realChargingTime = String(minute)
+                                }
+                                
+                                //1시간 .. 2시간
+                                else if hour != 0 && minute == 0 {
+                                    reservationInfo.chargingTime = String(hour) + "시간"
+                                    reservationInfo.realChargingTime = String(hour * 2 * 30)
+                                }
+                                
+                                //1시간 30분 .. 2시간 30분
+                                else if hour != 0 && minute != 0 {
+                                    reservationInfo.chargingTime = String(hour) + "시간 " + String(minute) + "분"
+                                    reservationInfo.realChargingTime = String(hour * 2 * 30 + minute)
+                                }
+                            }
+                            
+                            dateFormatter.dateFormat = "MM/dd (E) HH:mm"
+                            
+                            let dayOfStartDate = calendar.component(.day, from: startDate!)
+                            let dayOfEndDate = calendar.component(.day, from: endDate!)
+                            
+                            if dayOfStartDate == dayOfEndDate {
+                                
+                                let timeFormatter = DateFormatter()
+                                timeFormatter.locale = locale
+                                timeFormatter.dateFormat = "HH:mm"
+                                
+                                let chargingEndDate = timeFormatter.string(from: endDate!)
+                                reservationInfo.chargingPeriod = "\(dateFormatter.string(from: startDate!)) ~ \(chargingEndDate)"
+                                
+                            } else if dayOfStartDate != dayOfEndDate {
+                                
+                                reservationInfo.chargingPeriod = "\(dateFormatter.string(from: startDate!)) ~ \(dateFormatter.string(from: endDate!))"
+                                
+                            } else {
+                                
+                                reservationInfo.chargingPeriod = "\(dateFormatter.string(from: startDate!)) ~ \(dateFormatter.string(from: endDate!))"
+                            }
+                            
+                            //현재 예약 정보 메모리에 저장
+                            self.myUserDefaults.set(instanceData.id, forKey: "reservationId")
+                            self.myUserDefaults.set(try? PropertyListEncoder().encode(reservationInfo), forKey: "reservationInfo")
+                            self.reservationInfo = reservationInfo
+                        }
+                    }
+                    
+                } catch {
+                    print("error : \(error.localizedDescription)")
+                    print("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)")
+                    self.activityIndicator!.stopAnimating()
+                    
+                    self.isChargeStop = false
+                    self.myUserDefaults.set(0, forKey: "reservationId")
+                    self.myUserDefaults.set(nil, forKey: "reservationInfo")
+                    self.myUserDefaults.set(0, forKey: "rechargeId")
+                    self.myUserDefaults.set(false, forKey: "isCharging")
+                }
+                
+            //예약이 없을 때
+            case .failure(let err):
+                
+                print("error is \(String(describing: err))")
+                
+                if code == 400 {
+                    print("예약 없음")
+                    
+                } else {
+                    print("Unknown Error")
+                }
+                
+                self.activityIndicator!.stopAnimating()
+                
+                self.isChargeStop = false
+                self.myUserDefaults.set(0, forKey: "reservationId")
+                self.myUserDefaults.set(nil, forKey: "reservationInfo")
+                self.myUserDefaults.set(0, forKey: "rechargeId")
+                self.myUserDefaults.set(false, forKey: "isCharging")
             }
         })
     }
@@ -886,7 +1028,7 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
         }
     }
     
-    //현재 예약 가져오기
+    //소유주 충전기들의 현재 예약 가져오기
     private func getCurrentReservations(id: Int!) {
         
         var code: Int! = 0
@@ -908,7 +1050,7 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
             
             case .success(let obj):
                 
-                print("obj : \(obj)")
+                print("getCurrentReservations obj : \(obj)")
                 do {
                     
                     let JSONData = try JSONSerialization.data(withJSONObject: obj, options: .prettyPrinted)
@@ -1109,7 +1251,9 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                     
                     //예약이 없을 때 => 기본 시간만큼 충전 가능
                     else {
-                        let maximumEndDate = calendar.date(byAdding: .hour, value: 8, to: currentDate)
+                        
+                        let defaultTime = self.myUserDefaults.integer(forKey: "defaultTime")
+                        let maximumEndDate = calendar.date(byAdding: .hour, value: defaultTime, to: currentDate)
                         self.ownerReservation(startDate: dateFormatter.string(from: currentDate), endDate: dateFormatter.string(from: maximumEndDate!))
                         
                     }
@@ -1141,6 +1285,59 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
     @objc func rightMenu() {
         guard let viewController = self.storyboard?.instantiateViewController(withIdentifier: "Setting") else { return }
         self.navigationController?.pushViewController(viewController, animated: true)
+    }
+    
+    //unplug 시 예약 취소하면서 충전 취소
+    @objc func cancelReservation() {
+        
+        var code: Int! = 0
+        
+        let reservationId = self.myUserDefaults.integer(forKey: "reservationId")
+        let url = "http://211.253.37.97:8101/api/v1/reservations/\(reservationId)/cancel"
+        
+        AF.request(url, method: .put, encoding: URLEncoding.default, interceptor: Interceptor(indicator: self.activityIndicator!)).validate().responseJSON(completionHandler: { response in
+            
+            code = response.response?.statusCode
+            
+            switch response.result {
+            
+            case .success(let obj):
+                
+                print("unplug 시 예약 취소하면서 충전 취소 obj : \(obj)")
+                do {
+                    
+                    let JSONData = try JSONSerialization.data(withJSONObject: obj, options: .prettyPrinted)
+                    let instanceData = try JSONDecoder().decode(ReservationObject.self, from: JSONData)
+                    
+                    if instanceData.id! > 0 && code == 200 {
+                        
+                        UserDefaults.standard.set(0, forKey: "reservationId")
+                        UserDefaults.standard.set(nil, forKey: "reservationInfo")
+                    }
+                    
+                } catch {
+                    print("error : \(error.localizedDescription)")
+                    print("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)")
+                    self.view.makeToast("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)", duration: 2.0, position: .bottom)
+                }
+                
+            case .failure(let err):
+                
+                print("error is \(String(describing: err))")
+                
+                if code == 400 {
+                    print("unplug 시 예약 취소하면서 충전 취소 400 Error.")
+                    self.view.makeToast("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)", duration: 2.0, position: .bottom)
+                    
+                } else {
+                    print("Unknown Error")
+                    self.view.makeToast("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : 알 수 없는 오류", duration: 2.0, position: .bottom)
+                }
+            }
+            
+            self.activityIndicator!.stopAnimating()
+        })
+        
     }
 }
 
@@ -1291,12 +1488,18 @@ extension OwnerChargeViewController: BleDelegate {
                 break
             case .BleUnPlug:
                 print("충전 시작 실패, 플러그 연결 확인 후 재 접속 후 충전을 시작해주세요.\n")
+                let isCharging = myUserDefaults.bool(forKey: "isCharging")
+                
+                if !isCharging {
+                    cancelReservation()
+                }
+                
                 // UnPlug 값이 넘어오면 충전기 접속 종료 처리 해줘야 함
                 // 안 그럼 Stop 이벤트가 추가적으로 들어와서 문제가 될 수 있음
                 BleManager.shared.bleDisConnect()
                 chargeStart.backgroundColor = UIColor(named: "Color_BEBEBE")
                 chargeEnd.backgroundColor = UIColor(named: "Color_BEBEBE")
-                showAlert(title: "충전 시작 실패", message: "플러그 연결 확인 후 재접속 후 충전을 시작해주세요.\n문제가 지속될 시 고객센터로 문의 주십시오.", positiveTitle: "확인", negativeTitle: nil)
+                showAlert(title: "플러그 연결 확인", message: "플러그가 제대로 연결되었는지 확인 후 다시 시도해주세요.\n문제가 지속될 시 고객센터로 문의 주십시오.", positiveTitle: "확인", negativeTitle: nil)
                 break
             case .BleAgainOtpAtuh:
                 print("충전 시작 실패, 접속 종료 후 다시 충전기에 연결을 해주세요.\n")
@@ -1305,6 +1508,8 @@ extension OwnerChargeViewController: BleDelegate {
                 print("충전 종료 성공\n")
                 
                 BleManager.shared.bleGetTag()
+                chargeStart.backgroundColor = UIColor(named: "Color_BEBEBE")
+                chargeEnd.backgroundColor = UIColor(named: "Color_BEBEBE")
                 break
             case .BleChargeStartFail:
                 print("충전 시작 실패\n")
