@@ -3346,31 +3346,6 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                     </button>
-                                    <button opaque="NO" clipsSubviews="YES" contentMode="center" semanticContentAttribute="spatial" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DFK-NJ-pbf">
-                                        <rect key="frame" x="259" y="599" width="110" height="110"/>
-                                        <color key="backgroundColor" name="Color_BEBEBE"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="110" id="9dV-Bu-q1g"/>
-                                            <constraint firstAttribute="height" constant="110" id="UMm-r6-dxk"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="5"/>
-                                        <state key="normal" title="충전 완료" backgroundImage="charge_end">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                    </button>
-                                    <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IKY-4b-5dK">
-                                        <rect key="frame" x="45" y="599" width="110" height="110"/>
-                                        <color key="backgroundColor" name="Color_BEBEBE"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="110" id="6Hm-YJ-o2W"/>
-                                            <constraint firstAttribute="height" constant="110" id="qsh-Uq-xfV"/>
-                                        </constraints>
-                                        <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="6"/>
-                                        <state key="normal" title="충전 시작" backgroundImage="charge_start">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                    </button>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="75u-Mx-zQU">
                                         <rect key="frame" x="25" y="105" width="364" height="180"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -3441,21 +3416,84 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IKY-4b-5dK">
+                                        <rect key="frame" x="45" y="492" width="110" height="110"/>
+                                        <color key="backgroundColor" name="Color_BEBEBE"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="110" id="6Hm-YJ-o2W"/>
+                                            <constraint firstAttribute="height" constant="110" id="qsh-Uq-xfV"/>
+                                        </constraints>
+                                        <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="6"/>
+                                        <state key="normal" title="충전 시작" backgroundImage="charge_start">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" clipsSubviews="YES" contentMode="center" semanticContentAttribute="spatial" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DFK-NJ-pbf">
+                                        <rect key="frame" x="259" y="492" width="110" height="110"/>
+                                        <color key="backgroundColor" name="Color_BEBEBE"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="110" id="9dV-Bu-q1g"/>
+                                            <constraint firstAttribute="height" constant="110" id="UMm-r6-dxk"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="5"/>
+                                        <state key="normal" title="충전 완료" backgroundImage="charge_end">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0PA-s0-KUg" userLabel="Footer Line">
+                                        <rect key="frame" x="0.0" y="622" width="414" height="7"/>
+                                        <color key="backgroundColor" name="Color_EFEFEF"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="7" id="GvH-VR-rmi"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3zh-pf-EUc" userLabel="Footer View">
+                                        <rect key="frame" x="0.0" y="629" width="414" height="100"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pNB-oa-HWS">
+                                                <rect key="frame" x="25" y="25" width="364" height="50"/>
+                                                <color key="backgroundColor" name="Color_535353"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="OUa-F9-Ser"/>
+                                                </constraints>
+                                                <state key="normal" title="메인으로">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstItem="pNB-oa-HWS" firstAttribute="leading" secondItem="3zh-pf-EUc" secondAttribute="leading" constant="25" id="3om-e5-3kQ"/>
+                                            <constraint firstAttribute="trailing" secondItem="pNB-oa-HWS" secondAttribute="trailing" constant="25" id="CxY-fP-Mw1"/>
+                                            <constraint firstAttribute="height" constant="100" id="hOr-ZB-YE3"/>
+                                            <constraint firstItem="pNB-oa-HWS" firstAttribute="centerY" secondItem="3zh-pf-EUc" secondAttribute="centerY" id="tGO-ud-qx9"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="DFK-NJ-pbf" secondAttribute="bottom" constant="20" id="FDT-g1-8Ft"/>
-                                    <constraint firstAttribute="bottom" secondItem="IKY-4b-5dK" secondAttribute="bottom" constant="20" id="Hcr-TB-avy"/>
+                                    <constraint firstItem="0PA-s0-KUg" firstAttribute="leading" secondItem="tPi-Zd-8V8" secondAttribute="leading" id="82K-vO-K0J"/>
+                                    <constraint firstAttribute="trailing" secondItem="0PA-s0-KUg" secondAttribute="trailing" id="DP9-nx-oNo"/>
+                                    <constraint firstItem="3zh-pf-EUc" firstAttribute="top" secondItem="0PA-s0-KUg" secondAttribute="bottom" id="KdW-iG-zdj"/>
                                     <constraint firstAttribute="trailing" secondItem="DFK-NJ-pbf" secondAttribute="trailing" constant="45" id="QAo-o8-GZd"/>
+                                    <constraint firstItem="0PA-s0-KUg" firstAttribute="top" secondItem="IKY-4b-5dK" secondAttribute="bottom" constant="20" id="RQW-vv-NOL"/>
                                     <constraint firstItem="R2X-Mg-emm" firstAttribute="centerX" secondItem="tPi-Zd-8V8" secondAttribute="centerX" id="TdV-Vu-Efn"/>
                                     <constraint firstItem="75u-Mx-zQU" firstAttribute="top" secondItem="zOw-hR-sa1" secondAttribute="bottom" constant="30" id="Thg-jF-TXD"/>
+                                    <constraint firstAttribute="bottom" secondItem="3zh-pf-EUc" secondAttribute="bottom" id="W40-rg-FNY"/>
                                     <constraint firstItem="IKY-4b-5dK" firstAttribute="leading" secondItem="tPi-Zd-8V8" secondAttribute="leading" constant="45" id="ZXk-BX-mKm"/>
                                     <constraint firstItem="R2X-Mg-emm" firstAttribute="top" secondItem="75u-Mx-zQU" secondAttribute="bottom" constant="70" id="aHa-9m-FNF"/>
                                     <constraint firstItem="zOw-hR-sa1" firstAttribute="leading" secondItem="tPi-Zd-8V8" secondAttribute="leading" constant="25" id="chG-eA-Tgw"/>
                                     <constraint firstAttribute="trailing" secondItem="zOw-hR-sa1" secondAttribute="trailing" constant="25" id="d1e-Rz-5WF"/>
                                     <constraint firstItem="75u-Mx-zQU" firstAttribute="leading" secondItem="zOw-hR-sa1" secondAttribute="leading" id="e1l-u4-YYx"/>
+                                    <constraint firstAttribute="trailing" secondItem="3zh-pf-EUc" secondAttribute="trailing" id="juj-3T-nyQ"/>
                                     <constraint firstItem="zOw-hR-sa1" firstAttribute="top" secondItem="tPi-Zd-8V8" secondAttribute="top" constant="25" id="ocr-x9-oh7"/>
                                     <constraint firstItem="75u-Mx-zQU" firstAttribute="trailing" secondItem="zOw-hR-sa1" secondAttribute="trailing" id="plq-nA-pQ1"/>
+                                    <constraint firstItem="3zh-pf-EUc" firstAttribute="leading" secondItem="tPi-Zd-8V8" secondAttribute="leading" id="uPk-y3-9on"/>
+                                    <constraint firstItem="DFK-NJ-pbf" firstAttribute="centerY" secondItem="IKY-4b-5dK" secondAttribute="centerY" id="wcd-7a-bSP"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -3475,6 +3513,7 @@
                         <outlet property="chargeEnd" destination="DFK-NJ-pbf" id="mqU-er-DR5"/>
                         <outlet property="chargeStart" destination="IKY-4b-5dK" id="pJh-S4-fam"/>
                         <outlet property="chargingTimeLabel" destination="R2X-Mg-emm" id="4S2-hz-YsX"/>
+                        <outlet property="mainButton" destination="pNB-oa-HWS" id="OxX-2a-uDo"/>
                         <outlet property="searchCharger" destination="zOw-hR-sa1" id="UcL-wk-2nB"/>
                         <outlet property="tableView" destination="75u-Mx-zQU" id="Zrh-sZ-4Ct"/>
                     </connections>

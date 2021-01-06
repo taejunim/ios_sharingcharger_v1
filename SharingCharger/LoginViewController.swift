@@ -98,6 +98,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                                 if instanceData.userType == "General" {
                                     mainViewController = UIStoryboard(name:"Main", bundle: nil).instantiateViewController(withIdentifier: "Main") as! MainViewController
                                 } else if instanceData.userType == "Personal" {
+                                    UserDefaults.standard.set(8, forKey:"defaultTime")
                                     mainViewController = UIStoryboard(name:"Main", bundle: nil).instantiateViewController(withIdentifier: "OwnerCharge") as! OwnerChargeViewController
                                 } else {
                                     mainViewController = UIStoryboard(name:"Main", bundle: nil).instantiateViewController(withIdentifier: "Main") as! MainViewController

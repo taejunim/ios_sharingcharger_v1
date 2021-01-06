@@ -25,6 +25,8 @@ class ChargeEndPopupViewController: UIViewController {
     var endRechargeDate:String = ""
     var rechargePeriod:String = ""
     
+    var userType:String = ""
+    
     @IBOutlet var confirmButton: UIButton!
     
     override func viewDidLoad() {
@@ -64,11 +66,12 @@ class ChargeEndPopupViewController: UIViewController {
     
     @objc func confirm(){
         
-        let mainViewController = UIStoryboard(name:"Main", bundle: nil).instantiateViewController(withIdentifier: "Main") as! MainViewController
-        let navigationController = UINavigationController(rootViewController: mainViewController)
-        UIApplication.shared.windows.first?.rootViewController = navigationController
-        UIApplication.shared.windows.first?.makeKeyAndVisible()
-        
+        if userType == "General" {
+            let mainViewController = UIStoryboard(name:"Main", bundle: nil).instantiateViewController(withIdentifier: "Main") as! MainViewController
+            let navigationController = UINavigationController(rootViewController: mainViewController)
+            UIApplication.shared.windows.first?.rootViewController = navigationController
+            UIApplication.shared.windows.first?.makeKeyAndVisible()
+        }
         self.dismiss(animated: true, completion: nil)
         
     }

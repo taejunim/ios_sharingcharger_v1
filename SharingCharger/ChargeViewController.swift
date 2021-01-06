@@ -143,7 +143,6 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 
                 //블루투스 on/off 체크
                 if isOnBluetooth() {
-                    
                     if reservationInfo!.bleNumber != bluetoothList[index!]  {
                         showAlert(title: "잘못된 충전기", message: "예약한 충전기와 선택한 충전기가 다릅니다.\n다시 연결하여 주십시오.", positiveTitle: "확인", negativeTitle: nil)
                         return;
@@ -224,9 +223,9 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
             
         }
         let chargerBleNumberLabelGesture = UITapGestureRecognizer(target: self, action: #selector(self.connectCharger(sender:)))
-        cell.chargerBleNumberLabel?.isUserInteractionEnabled = true
-        cell.chargerBleNumberLabel?.addGestureRecognizer(chargerBleNumberLabelGesture)
-        cell.chargerBleNumberLabel.tag = indexPath.row
+        cell.chargerNameLabel?.isUserInteractionEnabled = true
+        cell.chargerNameLabel?.addGestureRecognizer(chargerBleNumberLabelGesture)
+        cell.chargerNameLabel.tag = indexPath.row
 
         cell.connectionLabel.isHidden = true
         cell.connectionLabel.layer.cornerRadius = cell.connectionLabel.frame.height / 2
@@ -823,7 +822,7 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
         viewController.startRechargeDate = result.startRechargeDate!
         viewController.endRechargeDate = clockDateFormatter.string(from: endDate!)
         viewController.rechargePeriod = rechargePeriod
-        
+        viewController.userType = "General"
         
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
         alert.setValue(viewController, forKey: "contentViewController")

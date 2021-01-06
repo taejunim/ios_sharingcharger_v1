@@ -93,7 +93,7 @@ class SettingViewController: UIViewController {
                 UserDefaults.standard.set("", forKey: "name")
                 UserDefaults.standard.set("", forKey: "email")
                 UserDefaults.standard.set("", forKey: "password")
-            
+                UserDefaults.standard.set(nil, forKey: "defaultTime") 
                 let loginViewController = UIStoryboard(name:"Login", bundle: nil).instantiateViewController(withIdentifier: "Login") as! LoginViewController
                 let navigationController = UINavigationController(rootViewController: loginViewController)
             

@@ -21,6 +21,9 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
     @IBOutlet var searchCharger: UIButton!
     
     @IBOutlet var tableView: UITableView!
+    
+    @IBOutlet var mainButton: UIButton!
+    
     var currentSelectedRow: Int?
     var currentSelectedChargerId: Int?
     
@@ -30,12 +33,11 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
     let locale = Locale(identifier: "ko")
     let dateFormatter = DateFormatter()
     let HHMMFormatter = DateFormatter()
+    let clockDateFormatter = DateFormatter()
     
     var utils: Utils?
     var activityIndicator: UIActivityIndicatorView?
     
-    let callCenterNumber = "064-725-6800"
-
     var isChargeStop = false
     
     var ownerChargerList = Array<OwnerCharger>()
@@ -48,12 +50,16 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
     
     let menuSize = CGSize(width:25, height:25)
     
+    let clockInterval = 1.0
+    var timer = Timer()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         viewWillInitializeObjects()
+        clockDateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        clockDateFormatter.locale = locale
     }
-    
     private func viewWillInitializeObjects() {
         
         //로딩 뷰
@@ -76,6 +82,8 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
         chargeStart.addTarget(self, action: #selector(chargeStart(sender:)), for: .touchUpInside)
         chargeEnd.addTarget(self, action: #selector(chargeEnd(sender:)), for: .touchUpInside)
         searchCharger.addTarget(self, action: #selector(searchCharger(sender:)), for: .touchUpInside)
+        
+        mainButton.addTarget(self, action: #selector(goMain), for: .touchUpInside)
         
         HHMMFormatter.locale = locale
         HHMMFormatter.dateFormat = "HH:mm"
@@ -150,15 +158,39 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let row = self.bluetoothList[indexPath.row]
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: "ChargerCustomCell", for:indexPath) as! ChargerCell
-        
+        var showBleNumber = ""
+
+        for ownerCharger in ownerChargerList {
+            print(ownerCharger)
+            if row == ownerCharger.bleNumber {
+                
+                if let chargerName = ownerCharger.name {
+                    cell.chargerNameLabel?.text = chargerName + " - "
+                }
+                
+                let bleNumber = String(row.replacingOccurrences(of: ":", with: ""))
+                let startIndex = bleNumber.index(bleNumber.endIndex, offsetBy: -4)
+                showBleNumber = String(bleNumber[startIndex...])
+                cell.chargerBleNumberLabel?.text = showBleNumber
+                break
+                
+            } else {
+                
+                showBleNumber = row
+                cell.chargerNameLabel?.text = row
+                cell.chargerBleNumberLabel?.text = ""
+            }
+            
+            if let chargerAddress = ownerCharger.chargerAddress {
+                cell.addressLabel?.text = chargerAddress
+            }
+        }
         let chargerBleNumberLabelGesture = UITapGestureRecognizer(target: self, action: #selector(self.connectCharger(sender:)))
         
-        cell.chargerBleNumberLabel?.isUserInteractionEnabled = true
-        cell.chargerBleNumberLabel?.addGestureRecognizer(chargerBleNumberLabelGesture)
-        cell.chargerBleNumberLabel.tag = indexPath.row
-        cell.chargerBleNumberLabel?.text = row
+        cell.chargerNameLabel?.isUserInteractionEnabled = true
+        cell.chargerNameLabel?.addGestureRecognizer(chargerBleNumberLabelGesture)
+        cell.chargerNameLabel.tag = indexPath.row
         cell.connectionLabel.isHidden = true
         cell.connectionLabel.layer.cornerRadius = cell.connectionLabel.frame.height / 2
         cell.connectionLabel.layer.masksToBounds = true
@@ -188,7 +220,6 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                 
                 if currentSelectedRow! >= 0 {
                     reservationList.removeAll()
-                    
                     getCurrentReservationsBeforeChargeStart(id: currentSelectedChargerId)
                 } else {
                     showAlert(title: "충전기 연결 상태 확인", message: "충전기를 연결후 재시도 바랍니다.", positiveTitle: "확인", negativeTitle: nil)
@@ -402,13 +433,13 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        timer = Timer.scheduledTimer(timeInterval: clockInterval, target: self, selector: #selector(setClock), userInfo: nil, repeats: true)
         getOwnerChargers()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
+        timer.invalidate()
         self.activityIndicator!.stopAnimating()
     }
     
@@ -471,9 +502,10 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                         ownerCharger.id = content.id
                         ownerCharger.name = content.name
                         ownerCharger.bleNumber = content.bleNumber
+                        ownerCharger.chargerAddress = content.address
                         print("content.id : \(content.id)")
                         print("content.name : \(content.name)")
-                        print("content.address : \(content.address)")
+                        print("content.bleNumber : \(content.bleNumber)")
                         
                         self.ownerChargerList.append(ownerCharger)
                     }
@@ -613,7 +645,7 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                     self.myUserDefaults.set(nil, forKey: "reservationInfo")
                     self.myUserDefaults.set(0, forKey: "rechargeId")
                     self.myUserDefaults.set(false, forKey: "isCharging")
-                    
+                    self.myUserDefaults.set(nil, forKey: "startRechargeDate")
                     let mainViewController = UIStoryboard(name:"Main", bundle: nil).instantiateViewController(withIdentifier: "Main") as! MainViewController
                     let navigationController = UINavigationController(rootViewController: mainViewController)
                     UIApplication.shared.windows.first?.rootViewController = navigationController
@@ -839,6 +871,11 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                                     self.myUserDefaults.set(true, forKey: "isCharging")
                                     BleManager.shared.bleSetTag(tag: tagId)
                                     print("bleSetTag tagId : \(tagId)")
+                                    if let startRechargeDate = instanceData.created {
+                                    
+                                        self.myUserDefaults.set(startRechargeDate, forKey: "startRechargeDate")
+                                                                        
+                                    }
                                     return
                                 } else {
                                     print("**************************")
@@ -964,7 +1001,7 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                             self.myUserDefaults.set(nil, forKey: "reservationInfo")
                             self.myUserDefaults.set(0, forKey: "rechargeId")
                             self.myUserDefaults.set(false, forKey: "isCharging")
-                            
+                            self.myUserDefaults.set(nil, forKey: "startRechargeDate")
                             if tagId != "" && tagId != "fail" && tagId != "false" {
                                 
                                 BleManager.shared.bleDeleteTargetTag(tag: tagId)
@@ -978,7 +1015,7 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                             }
                             
                             if count == index {
-                                self.showAlert(title: "충전 종료", message: "충전이 종료되었습니다.\n이용해주셔서 감사합니다.", positiveTitle: "확인", negativeTitle: nil)
+                                self.showChargeEndPopup(result : instanceData, rechargeKWh: rechargeKwh, rechargeMinute: rechargeMinute)
                             }
                         }
                     }
@@ -1140,7 +1177,6 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                             reservation.bleNumber = item.bleNumber
                             reservation.startDate = item.startDate
                             reservation.endDate = item.endDate
-                            
                             self.reservationList.append(reservation)
                         }
                         
@@ -1287,6 +1323,7 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
         self.navigationController?.pushViewController(viewController, animated: true)
     }
     
+
     //unplug 시 예약 취소하면서 충전 취소
     @objc func cancelReservation() {
         
@@ -1337,7 +1374,112 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
             
             self.activityIndicator!.stopAnimating()
         })
+
+    }
+
+    @objc func goMain(){
         
+        var mainViewController: UIViewController!
+        mainViewController = UIStoryboard(name:"Main", bundle: nil).instantiateViewController(withIdentifier: "Main") as! MainViewController
+        
+        let navigationController = UINavigationController(rootViewController: mainViewController)
+        UIApplication.shared.windows.first?.rootViewController = navigationController
+        //UIApplication.shared.windows.first?.makeKeyAndVisible()
+    }
+    func showChargeEndPopup(result : ChargeObject , rechargeKWh: Double, rechargeMinute:Int){
+        
+        let viewController:ChargeEndPopupViewController = self.storyboard?.instantiateViewController(withIdentifier: "ChargeEndPopup") as! ChargeEndPopupViewController
+        viewController.preferredContentSize = CGSize(width: view.frame.size.width, height: 1.2 * view.frame.size.height / 2)
+        
+        let rechargePeriod = chargingTimeLabel.text!
+        
+        let calendar = Calendar.current
+        let timerDateFormatter = DateFormatter()
+        timerDateFormatter.locale = Locale(identifier: "ko")
+        timerDateFormatter.dateFormat = "HH : mm : ss"
+        
+        guard let period = timerDateFormatter.date(from: rechargePeriod) else { return }
+        let periodComponent = calendar.dateComponents([.hour, .minute, .second], from: period)
+        
+        var endDate = clockDateFormatter.date(from: result.startRechargeDate!)
+        
+        endDate = calendar.date(byAdding: .hour, value: periodComponent.hour!, to: endDate!)
+        endDate = calendar.date(byAdding: .minute, value: periodComponent.minute!, to: endDate!)
+        endDate = calendar.date(byAdding: .second, value:periodComponent.second!, to: endDate!)
+        
+        viewController.reservationPoint = result.reservationPoint!
+        viewController.refundPoint = result.reservationPoint! - result.rechargePoint!
+        viewController.rechargeKWh = rechargeKWh
+        viewController.startRechargeDate = result.startRechargeDate!
+        viewController.endRechargeDate = clockDateFormatter.string(from: endDate!)
+        viewController.rechargePeriod = rechargePeriod
+        
+        
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+        alert.setValue(viewController, forKey: "contentViewController")
+        
+        self.present(alert, animated: false)
+    }
+    
+    @objc func setClock(){
+
+        if let startRechargeDate = myUserDefaults.string(forKey: "startRechargeDate"){
+            let date = Date()
+            let startDate = clockDateFormatter.date(from: startRechargeDate)
+            
+            var diff = -Int(((startDate?.timeIntervalSince(date))!))
+
+            var timerText = ""
+        
+            
+            let hour = (diff/3600)
+                
+                
+            if hour < 10 {
+                    
+                timerText = "0" + String(hour) + " : "
+                    
+            } else {
+                
+                timerText = String(hour) + " : "
+            }
+                
+            diff = diff % 3600
+                
+            
+            
+            let minute = (diff/60)
+                
+            if minute < 10{
+                    
+                timerText += "0"
+                timerText += String(minute)
+            } else {
+                    
+                timerText += String(minute)
+            }
+                
+            timerText += " : "
+            
+            
+            let second = (diff%60)
+                
+            if second < 10 {
+                    
+                timerText += "0" + String(second)
+            }else {
+                
+                timerText += String(second)
+            }
+            
+            
+            
+            chargingTimeLabel.text = String(timerText)
+        } else {
+        
+            chargingTimeLabel.text = "00 : 00 : 00"
+        
+        }
     }
 }
 
@@ -1345,6 +1487,7 @@ struct OwnerCharger {
     var id: Int?
     var name: String?
     var bleNumber: String?
+    var chargerAddress: String?
 }
 
 struct Reservation {
@@ -1406,8 +1549,9 @@ extension OwnerChargeViewController: BleDelegate {
                 
                 let isCharging = myUserDefaults.bool(forKey: "isCharging")
                 
-                for ownerChager in ownerChargerList {
+                for index in 0 ..< ownerChargerList.count {
                     
+                    let ownerChager = ownerChargerList[index]
                     if ownerChager.bleNumber == bluetoothList[currentSelectedRow!] {
                         currentSelectedChargerId = ownerChager.id
                         break
@@ -1415,8 +1559,10 @@ extension OwnerChargeViewController: BleDelegate {
                     
                     //다른 소유주의 충전기를 접속 시도시 return
                     else {
-                        self.view.makeToast("선택한 충전기는 다른 소유주의 충전기입니다.\n다시 확인후 재시도바랍니다.", duration: 3.0, position: .bottom)
-                        BleManager.shared.bleDisConnect()
+                        if index == ownerChargerList.count - 1 {
+                            self.view.makeToast("선택한 충전기는 다른 소유주의 충전기입니다.\n다시 확인후 재시도바랍니다.", duration: 3.0, position: .bottom)
+                            BleManager.shared.bleDisConnect()
+                        }
                     }
                 }
                 
@@ -1574,6 +1720,8 @@ extension OwnerChargeViewController: BleDelegate {
                 break
             case .BleDeleteTag:
                 print("선택 태그 삭제 성공\n")
+                chargeStart.backgroundColor = UIColor(named: "Color_BEBEBE")
+                chargeEnd.backgroundColor = UIColor(named: "Color_BEBEBE")
                 break
             case .BleSetTagFail:
                 print("태그 설정 실패\n")
