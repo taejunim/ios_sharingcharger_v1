@@ -132,6 +132,7 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                 self.activityIndicator!.startAnimating()
 
                 BleManager.shared.bleConnect(bleID: bluetoothList[index!])
+                currentSelectedRow = index
                 
             } else {
                 showAlert(title: "블루투스 꺼짐", message: "충전을 하기 위해서는 블루투스가 켜져 있어야 합니다.\n확인후 재시도 바랍니다.", positiveTitle: "설정", negativeTitle: "닫기")
@@ -156,9 +157,8 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
         
         let chargerBleNumberLabelGesture = UITapGestureRecognizer(target: self, action: #selector(self.connectCharger(sender:)))
         
-        cell.isUserInteractionEnabled = true
-        cell.addGestureRecognizer(chargerBleNumberLabelGesture)
-        
+        cell.chargerBleNumberLabel?.isUserInteractionEnabled = true
+        cell.chargerBleNumberLabel?.addGestureRecognizer(chargerBleNumberLabelGesture)
         cell.chargerBleNumberLabel.tag = indexPath.row
         cell.chargerBleNumberLabel?.text = row
         cell.connectionLabel.isHidden = true
@@ -1215,9 +1215,15 @@ extension OwnerChargeViewController: BleDelegate {
                         currentSelectedChargerId = ownerChager.id
                         break
                     }
+                    
+                    //다른 소유주의 충전기를 접속 시도시 return
+                    else {
+                        self.view.makeToast("선택한 충전기는 다른 소유주의 충전기입니다.\n다시 확인후 재시도바랍니다.", duration: 3.0, position: .bottom)
+                        BleManager.shared.bleDisConnect()
+                    }
                 }
                 
-                print("충전기 접속 성공 : \(bleId)\n isCharging : \(isCharging) \n currentSelectedChargerId : \(currentSelectedChargerId!)")
+                print("충전기 접속 성공 : \(bleId)\n isCharging : \(isCharging)")
                 
                 //현재 충전중이고 충전 종료 버튼 클릭하면 자동으로 충전기 연결해서 종료 처리
                 if isCharging && isChargeStop {
