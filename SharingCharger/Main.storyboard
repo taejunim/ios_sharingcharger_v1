@@ -3411,7 +3411,7 @@
                                         </prototypes>
                                     </tableView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00 : 00 : 00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R2X-Mg-emm">
-                                        <rect key="frame" x="142.66666666666669" y="355" width="128.66666666666669" height="27.666666666666686"/>
+                                        <rect key="frame" x="142.66666666666669" y="325" width="128.66666666666669" height="27.666666666666686"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -3485,7 +3485,7 @@
                                     <constraint firstItem="75u-Mx-zQU" firstAttribute="top" secondItem="zOw-hR-sa1" secondAttribute="bottom" constant="30" id="Thg-jF-TXD"/>
                                     <constraint firstAttribute="bottom" secondItem="3zh-pf-EUc" secondAttribute="bottom" id="W40-rg-FNY"/>
                                     <constraint firstItem="IKY-4b-5dK" firstAttribute="leading" secondItem="tPi-Zd-8V8" secondAttribute="leading" constant="45" id="ZXk-BX-mKm"/>
-                                    <constraint firstItem="R2X-Mg-emm" firstAttribute="top" secondItem="75u-Mx-zQU" secondAttribute="bottom" constant="70" id="aHa-9m-FNF"/>
+                                    <constraint firstItem="R2X-Mg-emm" firstAttribute="top" secondItem="75u-Mx-zQU" secondAttribute="bottom" constant="40" id="aHa-9m-FNF"/>
                                     <constraint firstItem="zOw-hR-sa1" firstAttribute="leading" secondItem="tPi-Zd-8V8" secondAttribute="leading" constant="25" id="chG-eA-Tgw"/>
                                     <constraint firstAttribute="trailing" secondItem="zOw-hR-sa1" secondAttribute="trailing" constant="25" id="d1e-Rz-5WF"/>
                                     <constraint firstItem="75u-Mx-zQU" firstAttribute="leading" secondItem="zOw-hR-sa1" secondAttribute="leading" id="e1l-u4-YYx"/>
