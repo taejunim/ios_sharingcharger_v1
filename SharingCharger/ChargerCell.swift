@@ -10,6 +10,7 @@ import UIKit
 
 class ChargerCell: UITableViewCell {
 
+    @IBOutlet var itemView: UIView!
     @IBOutlet var chargerBleNumberLabel: UILabel!
     @IBOutlet var connectionLabel: UILabel!
     @IBOutlet var chargerNameLabel: UILabel!

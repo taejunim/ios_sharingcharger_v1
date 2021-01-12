@@ -223,10 +223,9 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
             
         }
         let chargerBleNumberLabelGesture = UITapGestureRecognizer(target: self, action: #selector(self.connectCharger(sender:)))
-        cell.chargerNameLabel?.isUserInteractionEnabled = true
-        cell.chargerNameLabel?.addGestureRecognizer(chargerBleNumberLabelGesture)
-        cell.chargerNameLabel.tag = indexPath.row
-
+        cell.itemView?.isUserInteractionEnabled = true
+        cell.itemView?.addGestureRecognizer(chargerBleNumberLabelGesture)
+        cell.itemView.tag = indexPath.row
         cell.connectionLabel.isHidden = true
         cell.connectionLabel.layer.cornerRadius = cell.connectionLabel.frame.height / 2
         cell.connectionLabel.layer.masksToBounds = true
