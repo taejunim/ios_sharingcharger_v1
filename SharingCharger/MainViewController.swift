@@ -639,7 +639,7 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                         print("reservationList size 0")
                         
                     }
-                    self.checkDisableTime(availableTime: availableTimeList[0], reservationList: reservationList)
+                    self.checkDisableTime(availableTimeList: availableTimeList, reservationList: reservationList)
                     
                     print("receivedSearchingConditionObject.chargingStartDate : \(self.receivedSearchingConditionObject.realChargingStartDate)")
                     
@@ -1513,11 +1513,50 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         return deviceHeight
     }
     
-    func checkDisableTime(availableTime: AvailableTimeObject, reservationList: Array<CurrentReservationObject>){
+    func checkDisableTime(availableTimeList: Array<AvailableTimeObject>, reservationList: Array<CurrentReservationObject>){
         
-       
-        if reservationList.count == 0 && receivedSearchingConditionObject.realChargingStartDate >= availableTime.openTime! && receivedSearchingConditionObject.realChargingEndDate <= availableTime.closeTime! {
+        let dayFormatter = DateFormatter()
+        dayFormatter.locale = locale
+        dayFormatter.dateFormat = "yyyy-MM-dd'T'"
+        
+        if Calendar.current.isDateInToday(realDateFormatter.date(from: receivedSearchingConditionObject.realChargingStartDate)!) {
+                
+            let today = dayFormatter.string(from: Date())
             
+            if receivedSearchingConditionObject.realChargingStartDate < today + availableTimeList[0].openTime! + ".000" || receivedSearchingConditionObject.realChargingStartDate > today + availableTimeList[0].closeTime! + ".000"{
+                
+                disableReservationButton(able: false)
+                return
+            } else if receivedSearchingConditionObject.realChargingEndDate < today + availableTimeList[0].openTime! + ".000" || receivedSearchingConditionObject.realChargingEndDate > today + availableTimeList[0].closeTime! + ".000"{
+                
+                disableReservationButton(able: false)
+                return
+            }
+            
+            
+        } else {
+            
+            let tomorrow = dayFormatter.string(from: Calendar.current.date(byAdding: .day, value: 1, to: Date())!)
+            
+            if receivedSearchingConditionObject.realChargingStartDate < tomorrow + availableTimeList[1].openTime! + ".000" || receivedSearchingConditionObject.realChargingStartDate > tomorrow + availableTimeList[1].closeTime! + ".000"{
+                
+                disableReservationButton(able: false)
+                return
+                
+            }else if receivedSearchingConditionObject.realChargingEndDate < tomorrow + availableTimeList[1].openTime! + ".000" || receivedSearchingConditionObject.realChargingEndDate > tomorrow + availableTimeList[1].closeTime! + ".000" {
+                
+                disableReservationButton(able: false)
+                return
+                
+            }
+
+        }
+        
+        //충전 시간이 open close time 사이에 있고, 예약이 없으면 충전 가능
+        if reservationList.count == 0 {
+            
+            
+            print(receivedSearchingConditionObject.realChargingEndDate)
             disableReservationButton(able: true)
             return
             
