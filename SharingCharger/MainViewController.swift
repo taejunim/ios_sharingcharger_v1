@@ -639,7 +639,7 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                         print("reservationList size 0")
                         
                     }
-                    self.checkDisableTime(reservationList: reservationList)
+                    self.checkDisableTime(availableTime: availableTimeList[0], reservationList: reservationList)
                     
                     print("receivedSearchingConditionObject.chargingStartDate : \(self.receivedSearchingConditionObject.realChargingStartDate)")
                     
@@ -1513,9 +1513,10 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         return deviceHeight
     }
     
-    func checkDisableTime( reservationList: Array<CurrentReservationObject>){
+    func checkDisableTime(availableTime: AvailableTimeObject, reservationList: Array<CurrentReservationObject>){
         
-        if reservationList == [] {
+       
+        if reservationList.count == 0 && receivedSearchingConditionObject.realChargingStartDate >= availableTime.openTime! && receivedSearchingConditionObject.realChargingEndDate <= availableTime.closeTime! {
             
             disableReservationButton(able: true)
             return
