@@ -35,6 +35,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         loginEmail.delegate = self
         loginPassword.delegate = self
         
+        loginEmail.keyboardType = UIKeyboardType.emailAddress
+        
         setKeyboard()
         
         locationManager.requestWhenInUseAuthorization() //위치 권한

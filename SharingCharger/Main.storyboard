@@ -2920,17 +2920,6 @@
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Chn-T2-xM3" userLabel="Item View">
                                                             <rect key="frame" x="0.0" y="0.0" width="364" height="40"/>
                                                             <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="연결됨" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y9S-Fa-gFc">
-                                                                    <rect key="frame" x="304" y="8" width="60" height="25"/>
-                                                                    <color key="backgroundColor" name="Color_1ABC9C"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="height" constant="25" id="brz-Vg-nun"/>
-                                                                        <constraint firstAttribute="width" constant="60" id="ter-pg-eex"/>
-                                                                    </constraints>
-                                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
-                                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="융합원 테스트 충전기 - " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sn1-Cw-b7G">
                                                                     <rect key="frame" x="10" y="10" width="156" height="21"/>
                                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
@@ -2949,9 +2938,7 @@
                                                                 <constraint firstItem="Sn1-Cw-b7G" firstAttribute="top" secondItem="Chn-T2-xM3" secondAttribute="top" constant="10" id="69A-cG-64m"/>
                                                                 <constraint firstItem="Sn1-Cw-b7G" firstAttribute="leading" secondItem="Chn-T2-xM3" secondAttribute="leading" constant="10" id="7uP-wV-Rqs"/>
                                                                 <constraint firstItem="P1H-G9-BhD" firstAttribute="leading" secondItem="Sn1-Cw-b7G" secondAttribute="trailing" id="G46-uL-Vpj"/>
-                                                                <constraint firstItem="Y9S-Fa-gFc" firstAttribute="centerY" secondItem="Sn1-Cw-b7G" secondAttribute="centerY" id="JTv-ye-5OT"/>
                                                                 <constraint firstItem="P1H-G9-BhD" firstAttribute="bottom" secondItem="Sn1-Cw-b7G" secondAttribute="bottom" id="kLF-lM-xsR"/>
-                                                                <constraint firstAttribute="trailing" secondItem="Y9S-Fa-gFc" secondAttribute="trailing" id="xzm-im-ROL"/>
                                                             </constraints>
                                                         </view>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kjh-pv-hah" userLabel="Address View">
@@ -2987,7 +2974,6 @@
                                                     <outlet property="addressLabel" destination="0VE-4g-NrJ" id="dei-cu-1hN"/>
                                                     <outlet property="chargerBleNumberLabel" destination="P1H-G9-BhD" id="3h7-kH-NA1"/>
                                                     <outlet property="chargerNameLabel" destination="Sn1-Cw-b7G" id="X1W-8L-7KF"/>
-                                                    <outlet property="connectionLabel" destination="Y9S-Fa-gFc" id="9lx-E8-tCg"/>
                                                     <outlet property="itemView" destination="Chn-T2-xM3" id="Hci-yL-Uml"/>
                                                 </connections>
                                             </tableViewCell>
@@ -3401,24 +3387,11 @@
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="연결됨" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HV9-17-NTL">
-                                                                    <rect key="frame" x="304" y="8" width="60" height="25"/>
-                                                                    <color key="backgroundColor" name="Color_1ABC9C"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="height" constant="25" id="UNi-rJ-Nyo"/>
-                                                                        <constraint firstAttribute="width" constant="60" id="WvG-5r-P7G"/>
-                                                                    </constraints>
-                                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
-                                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
                                                             </subviews>
                                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                             <constraints>
                                                                 <constraint firstItem="mns-14-WCy" firstAttribute="top" secondItem="ULg-ae-1hR" secondAttribute="top" constant="10" id="9nn-hd-mzk"/>
-                                                                <constraint firstItem="HV9-17-NTL" firstAttribute="centerY" secondItem="mns-14-WCy" secondAttribute="centerY" id="Ueg-Vx-iVZ"/>
                                                                 <constraint firstItem="YPY-Sl-UYO" firstAttribute="leading" secondItem="mns-14-WCy" secondAttribute="trailing" id="Xrd-Qw-npZ"/>
-                                                                <constraint firstAttribute="trailing" secondItem="HV9-17-NTL" secondAttribute="trailing" id="Ytc-ka-cew"/>
                                                                 <constraint firstItem="YPY-Sl-UYO" firstAttribute="bottom" secondItem="mns-14-WCy" secondAttribute="bottom" id="cD0-11-AEf"/>
                                                                 <constraint firstItem="mns-14-WCy" firstAttribute="leading" secondItem="ULg-ae-1hR" secondAttribute="leading" constant="10" id="r2Y-c1-DM8"/>
                                                             </constraints>
@@ -3456,7 +3429,6 @@
                                                     <outlet property="addressLabel" destination="nyk-Fl-adc" id="JoO-ao-ovB"/>
                                                     <outlet property="chargerBleNumberLabel" destination="YPY-Sl-UYO" id="Wd8-Zl-vf2"/>
                                                     <outlet property="chargerNameLabel" destination="mns-14-WCy" id="YCz-ja-cQ9"/>
-                                                    <outlet property="connectionLabel" destination="HV9-17-NTL" id="gIU-zk-9Dm"/>
                                                     <outlet property="itemView" destination="ULg-ae-1hR" id="Laj-IM-YtP"/>
                                                 </connections>
                                             </tableViewCell>
@@ -3683,9 +3655,6 @@
         <image name="searching_condition_arrow" width="48" height="28"/>
         <image name="setting" width="48" height="48"/>
         <image name="star_off" width="60" height="60"/>
-        <namedColor name="Color_1ABC9C">
-            <color red="0.10196078431372549" green="0.73725490196078436" blue="0.61176470588235299" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
         <namedColor name="Color_3498DB">
             <color red="0.20392156862745098" green="0.59215686274509804" blue="0.85882352941176465" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

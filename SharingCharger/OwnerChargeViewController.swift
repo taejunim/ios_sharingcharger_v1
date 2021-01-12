@@ -123,8 +123,7 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
     @objc func connectCharger(sender: UITapGestureRecognizer) {
         
         if currentSelectedRow != nil && currentSelectedRow! >= 0 {
-            let cell = tableView.cellForRow(at: [0, currentSelectedRow!]) as! ChargerCell
-            cell.connectionLabel.isHidden = true
+            removeConnectedLabel()
         }
         
         let index = sender.view?.tag
@@ -191,9 +190,6 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
         cell.itemView?.isUserInteractionEnabled = true
         cell.itemView?.addGestureRecognizer(chargerBleNumberLabelGesture)
         cell.itemView.tag = indexPath.row
-        cell.connectionLabel.isHidden = true
-        cell.connectionLabel.layer.cornerRadius = cell.connectionLabel.frame.height / 2
-        cell.connectionLabel.layer.masksToBounds = true
         
         return cell
     }
@@ -1481,6 +1477,41 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
         
         }
     }
+    
+    //연결됨 라벨 표시
+    private func addConnectedLabel() {
+        
+        let cell = tableView.cellForRow(at: [0, currentSelectedRow!]) as! ChargerCell
+        
+        let connectionLabel = UILabel()
+        connectionLabel.translatesAutoresizingMaskIntoConstraints = false
+        connectionLabel.text = "연결됨"
+        connectionLabel.textColor = .white
+        connectionLabel.backgroundColor = UIColor(named: "Color_1ABC9C")
+        connectionLabel.layer.cornerRadius = cell.chargerNameLabel.frame.height / 2
+        connectionLabel.layer.masksToBounds = true
+        connectionLabel.textAlignment = .center
+        connectionLabel.font = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.medium)
+        connectionLabel.tag = 1 //태그값을 줘서 나중에 연결됨 라벨을 제거할 때 찾기 위함
+        
+        cell.itemView.addSubview(connectionLabel)
+        
+        connectionLabel.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        connectionLabel.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        connectionLabel.rightAnchor.constraint(equalTo: cell.itemView.rightAnchor, constant: -5).isActive = true
+        connectionLabel.centerYAnchor.constraint(equalTo: cell.itemView.centerYAnchor).isActive = true
+    }
+    
+    //연결됨 라벨 숨김
+    private func removeConnectedLabel() {
+        let cell = tableView.cellForRow(at: [0, currentSelectedRow!]) as! ChargerCell
+        
+        for subview in cell.itemView.subviews {
+            if (subview.tag == 1) {
+                subview.removeFromSuperview()
+            }
+        }
+    }
 }
 
 struct OwnerCharger {
@@ -1585,8 +1616,7 @@ extension OwnerChargeViewController: BleDelegate {
                 
                 //충전기 접속했을 때
                 else {
-                    let cell = tableView.cellForRow(at: [0, currentSelectedRow!]) as! ChargerCell
-                    cell.connectionLabel.isHidden = false
+                    addConnectedLabel()
                     
                     chargeStart.backgroundColor = UIColor(named: "Color_3498DB")
                     
@@ -1596,9 +1626,8 @@ extension OwnerChargeViewController: BleDelegate {
                 break
             case .BleDisconnect:
                 print("충전기 접속 종료\n")
-                let cell = tableView.cellForRow(at: [0, currentSelectedRow!]) as! ChargerCell
-                cell.connectionLabel.isHidden = true
-                //currentSelectedRow = nil
+                
+                removeConnectedLabel()
                 
                 chargeStart.backgroundColor = UIColor(named: "Color_BEBEBE")
                 
