@@ -64,7 +64,6 @@
 	<array>
 		<string>bluetooth-central</string>
 		<string>bluetooth-peripheral</string>
-		<string>external-accessory</string>
 	</array>
 	<key>UILaunchImageFile~iphone</key>
 	<string>LaunchImage</string>
