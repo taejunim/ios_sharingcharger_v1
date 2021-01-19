@@ -434,8 +434,8 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y8M-9T-YkC" userLabel="Content View">
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="1144"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="총 30분 충전" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M9E-St-4wV">
-                                                        <rect key="frame" x="25" y="30" width="130" height="30"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="총 4시간 충전" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M9E-St-4wV">
+                                                        <rect key="frame" x="25" y="30" width="135.5" height="30"/>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
                                                         <color key="textColor" systemColor="darkTextColor"/>
                                                         <nil key="highlightedColor"/>
@@ -547,8 +547,8 @@
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IkW-Kr-bXu" userLabel="Charging Time Value View">
                                                         <rect key="frame" x="207" y="381.5" width="207" height="65"/>
                                                         <subviews>
-                                                            <label opaque="NO" contentMode="scaleToFill" text="30분" textAlignment="natural" lineBreakMode="tailTruncation" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dBq-fJ-BuG">
-                                                                <rect key="frame" x="110" y="25" width="37" height="15"/>
+                                                            <label opaque="NO" contentMode="scaleToFill" text="4시간" textAlignment="natural" lineBreakMode="tailTruncation" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dBq-fJ-BuG">
+                                                                <rect key="frame" x="106" y="25" width="41" height="15"/>
                                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                                 <color key="textColor" systemColor="darkTextColor"/>

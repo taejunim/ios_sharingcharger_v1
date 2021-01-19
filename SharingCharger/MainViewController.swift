@@ -154,7 +154,6 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         
             chargerViewMinimumHeight = mapView.frame.height * 0.5
             chargerViewMaximumHeight = mapView.frame.height * 0.5
-   
         }
         
         //현재 위치
@@ -206,10 +205,10 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         
         let calendar = Calendar.current
         let startDate = Date()
-        let endDate = Calendar.current.date(byAdding: .minute, value: 30, to: startDate)!
+        let endDate = Calendar.current.date(byAdding: .hour, value: 4, to: startDate)!
         
         let searchingConditionObject: SearchingConditionObject! = SearchingConditionObject()
-        searchingConditionObject.chargingTime = "30분"
+        searchingConditionObject.chargingTime = "4시간"
         searchingConditionObject.realChargingStartDate = realDateFormatter.string(from: startDate)
         searchingConditionObject.realChargingEndDate = realDateFormatter.string(from: endDate)
         searchingConditionObject.realChargingPeriod = dateFormatter.string(from: startDate) + " ~ " + dateFormatter.string(from: endDate)

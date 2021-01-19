@@ -155,7 +155,7 @@ class SearchingConditionViewController: UIViewController, UIPickerViewDelegate, 
         chargingStartDatePicker.minimumDate = availableDate
         chargingStartDatePicker.maximumDate = maximumDate
         
-        let endDate = calendar.date(byAdding: .minute, value: 30, to: date)!
+        let endDate = calendar.date(byAdding: .hour, value: 4, to: date)!
         chargingEndDate = "\(timeFormatter.string(from: endDate))"
         chargingPeriod.text = "\(dateFormatter.string(from: date)) ~ \(chargingEndDate)"
         
@@ -182,6 +182,7 @@ class SearchingConditionViewController: UIViewController, UIPickerViewDelegate, 
         chargingTimePicker.backgroundColor = .white
         chargingTimePicker.delegate = self
         chargingTimePicker.dataSource = self
+        chargingTimePicker.selectRow(7, inComponent: 0, animated: false)
         
         let rangeViewGesture = UITapGestureRecognizer(target: self, action: #selector(self.rangeViewButton))
         rangeView.addGestureRecognizer(rangeViewGesture)
