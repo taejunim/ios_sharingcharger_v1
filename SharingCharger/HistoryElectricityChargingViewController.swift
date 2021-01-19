@@ -130,14 +130,13 @@ class HistoryElectricityChargingViewController: UIViewController, UITableViewDel
         if(row.startRechargeDate == nil || row.endRechargeDate == nil){
             Cell.chargingDate?.text   = "충전 기간 정보가 유효하지 않습니다."
         } else {
-            Cell.chargingDate?.text   = String(row.startRechargeDate!).replacingOccurrences(of: "T", with: " ") + " ~ " + String(row.endRechargeDate!).replacingOccurrences(of: "T", with: " ")
+            Cell.chargingDate?.text   = getChargingPeriod(startDate: row.startRechargeDate!, endDate: row.endRechargeDate!)
         }
-        
-        
+                
         if(row.rechargePoint != nil){
             Cell.chargingUsePoint?.text = String(row.rechargePoint!) + " 포인트 사용"
         } else {
-            Cell.chargingUsePoint?.text =  "포인트 사용 정보가 없습니다."
+            Cell.chargingUsePoint?.text = "정산중"
         }
         
         Cell.chargingSpotNm?.font = UIFont.systemFont(ofSize: 14)
@@ -145,11 +144,23 @@ class HistoryElectricityChargingViewController: UIViewController, UITableViewDel
         Cell.chargingUsePoint?.font = UIFont.systemFont(ofSize: 14)
     
         if(indexPath[0] == arr.count-1 && moreLoadFlag){
-            
             getChargingHistoryData()
         }
         
         return Cell
+    }
+    
+    func getChargingPeriod(startDate: String, endDate: String!) -> String {
+        let startDateString = String(startDate).replacingOccurrences(of: "T", with: " ")
+        let endDateString = String(endDate).replacingOccurrences(of: "T", with: " ")
+        
+        let startDateFirstIndex = startDateString.index(startDateString.startIndex, offsetBy: 0)
+        let startDateLastIndex = startDateString.index(startDateString.startIndex, offsetBy: 16)
+        
+        let endDateFirstIndex = endDateString.index(endDateString.startIndex, offsetBy: 0)
+        let endDateLastIndex = endDateString.index(endDateString.startIndex, offsetBy: 16)
+        
+        return "\(startDateString[startDateFirstIndex..<startDateLastIndex]) ~ \(endDateString[endDateFirstIndex..<endDateLastIndex])"
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {

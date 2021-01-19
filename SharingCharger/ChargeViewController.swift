@@ -69,6 +69,13 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
         chargeEnd.layer.cornerRadius = chargeEnd.frame.height / 2
         searchCharger.layer.cornerRadius = 7
         
+        let margin = chargeStart.frame.width * 0.2
+        let bottomMargin = chargeStart.frame.width * 0.15
+        chargeStart.setImage(UIImage(named: "charge_start"), for: .normal)
+        chargeStart.imageEdgeInsets = UIEdgeInsets(top: margin, left: margin, bottom: bottomMargin, right: margin)
+        chargeEnd.setImage(UIImage(named: "charge_end"), for: .normal)
+        chargeEnd.imageEdgeInsets = UIEdgeInsets(top: margin, left: margin, bottom: bottomMargin, right: margin)
+        
         chargeStart.addTarget(self, action: #selector(chargeStart(sender:)), for: .touchUpInside)
         chargeEnd.addTarget(self, action: #selector(chargeEnd(sender:)), for: .touchUpInside)
         searchCharger.addTarget(self, action: #selector(searchCharger(sender:)), for: .touchUpInside)
@@ -951,19 +958,24 @@ extension ChargeViewController: BleDelegate {
                 break
             case .BleScan:
                 print("충전기 스캔 성공\n")
+                bluetoothList.removeAll()
                 BleManager.shared.bleScanStop()
                 if let scanData = result as? [String] {
                     self.searchInfos = scanData
                     for bleID: String in self.searchInfos {
                         print("검색된 충전기 ID : \(bleID)\n")
+                        if reservationInfo!.bleNumber == bleID {
+                            bluetoothList.append(bleID)
+                            break
+                        }
                     }
-                    
-                    bluetoothList = self.searchInfos
                     
                     self.tableView.reloadData()
                     
                     if bluetoothList.count > 0 {
                         checkState()
+                    } else {
+                        showAlert(title: "사용 가능한 충전기 없음", message: "근처에 예약하신 충전기가 없습니다.", positiveTitle: "확인", negativeTitle: nil)
                     }
                 }
                 

@@ -1357,6 +1357,11 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                         }
                         
                         //현재 예약 정보 메모리에 저장
+                        if instanceData.state == "KEEP" {
+                            self.myUserDefaults.set(true, forKey: "isCharging")
+                        } else {
+                            self.myUserDefaults.set(false, forKey: "isCharging")
+                        }
                         self.myUserDefaults.set(instanceData.id, forKey: "reservationId")
                         self.myUserDefaults.set(try? PropertyListEncoder().encode(reservationInfo), forKey: "reservationInfo")
                     }

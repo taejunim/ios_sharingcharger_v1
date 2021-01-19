@@ -153,8 +153,14 @@ class HistoryPointViewController: UIViewController, UITableViewDelegate, UITable
             Cell.pointStateNm?.text = "포인트 사용 상태가 유효하지 않습니다."
         }
         
+        var pointDate = String(row.created!).replacingOccurrences(of: "T", with: " ")
+        
+        let firstIndex = pointDate.index(pointDate.startIndex, offsetBy: 0)
+        let lastIndex = pointDate.index(pointDate.startIndex, offsetBy: 16)
+        pointDate = "\(pointDate[firstIndex..<lastIndex])"
+        
         if(row.created != nil){
-            Cell.pointDate?.text   = String(row.created!).replacingOccurrences(of: "T", with: " ")
+            Cell.pointDate?.text   = pointDate
         } else {
             Cell.pointDate?.text   = "포인트 이력 날짜가 유효하지 않습니다."
         }

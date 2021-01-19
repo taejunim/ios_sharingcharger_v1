@@ -79,6 +79,13 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
         chargeEnd.layer.cornerRadius = chargeEnd.frame.height / 2
         searchCharger.layer.cornerRadius = 7
         
+        let margin = chargeStart.frame.width * 0.2
+        let bottomMargin = chargeStart.frame.width * 0.15
+        chargeStart.setImage(UIImage(named: "charge_start"), for: .normal)
+        chargeStart.imageEdgeInsets = UIEdgeInsets(top: margin, left: margin, bottom: bottomMargin, right: margin)
+        chargeEnd.setImage(UIImage(named: "charge_end"), for: .normal)
+        chargeEnd.imageEdgeInsets = UIEdgeInsets(top: margin, left: margin, bottom: bottomMargin, right: margin)
+        
         chargeStart.addTarget(self, action: #selector(chargeStart(sender:)), for: .touchUpInside)
         chargeEnd.addTarget(self, action: #selector(chargeEnd(sender:)), for: .touchUpInside)
         searchCharger.addTarget(self, action: #selector(searchCharger(sender:)), for: .touchUpInside)
