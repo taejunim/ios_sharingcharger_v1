@@ -11,7 +11,7 @@ class UserCertificationViewController : UIViewController , WKUIDelegate, WKNavig
     
     @IBOutlet var userCertificationWebView: WKWebView!
     
-    let url = "http://101.101.219.230/"
+    let url = "http://118.67.132.235:8081/"
     let myUserDefaults = UserDefaults.standard
     
     override func loadView() {

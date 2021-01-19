@@ -41,8 +41,6 @@
 		DA21D5E825811099008DD43F /* EvzBLEKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA21D5E52581108B008DD43F /* EvzBLEKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA22F62C259C1B730079DEEE /* OwnerChargeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA22F62B259C1B730079DEEE /* OwnerChargeViewController.swift */; };
 		DA22F62E259C424A0079DEEE /* OwnerChargersObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA22F62D259C424A0079DEEE /* OwnerChargersObject.swift */; };
-		DA26FB2324FCC0CC00D76753 /* SampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA26FB2224FCC0CC00D76753 /* SampleViewController.swift */; };
-		DA26FB2524FCC0FF00D76753 /* SampleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA26FB2424FCC0FF00D76753 /* SampleTableViewCell.swift */; };
 		DA3416662508D64C0031999F /* ShadowButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3416652508D64C0031999F /* ShadowButton.swift */; };
 		DA341672250A20620031999F /* ShadowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA341671250A20620031999F /* ShadowView.swift */; };
 		DA341674250B7AF00031999F /* ShadowCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA341673250B7AF00031999F /* ShadowCircleView.swift */; };
@@ -167,8 +165,6 @@
 		DA21D5E52581108B008DD43F /* EvzBLEKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = EvzBLEKit.xcframework; sourceTree = "<group>"; };
 		DA22F62B259C1B730079DEEE /* OwnerChargeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerChargeViewController.swift; sourceTree = "<group>"; };
 		DA22F62D259C424A0079DEEE /* OwnerChargersObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerChargersObject.swift; sourceTree = "<group>"; };
-		DA26FB2224FCC0CC00D76753 /* SampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleViewController.swift; sourceTree = "<group>"; };
-		DA26FB2424FCC0FF00D76753 /* SampleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleTableViewCell.swift; sourceTree = "<group>"; };
 		DA3416652508D64C0031999F /* ShadowButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowButton.swift; sourceTree = "<group>"; };
 		DA341671250A20620031999F /* ShadowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowView.swift; sourceTree = "<group>"; };
 		DA341673250B7AF00031999F /* ShadowCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowCircleView.swift; sourceTree = "<group>"; };
@@ -355,14 +351,11 @@
 		DA41A1EC24EBDA3600E7BB93 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				C6489FF0256A81D30063E07E /* AddressTableCell.swift */,
 				C6878A7325A42B7C00CA9B94 /* ChargeDefaultTimeSettingViewController.swift */,
 				C6B8E05B25A0CD2B0098DA5E /* ChargeEndPopupViewController.swift */,
 				C6633DEE252C7C4400F02F24 /* ChargeViewController.swift */,
 				DAFED5E9253567D400D5A335 /* FavoriteViewController.swift */,
 				376E3A2524FC906C007274A1 /* HistoryElectricityChargingViewController.swift */,
-				37201B7824FC95DD000A3F08 /* HistoryElectricityTableCell.swift */,
-				37373FAD24FB50C900181756 /* HistoryPointTableCell.swift */,
 				37373FAC24FB50C900181756 /* HistoryPointViewController.swift */,
 				DA09438824E146AC00671F0D /* JoinViewController.swift */,
 				DAAC21D22521D4E20086055F /* LeftMenuViewController.swift */,
@@ -376,8 +369,6 @@
 				C6BF778E2581FC4E00ADEDAD /* PolicyViewController.swift */,
 				DAF563D025426F1800BDE08D /* ReservationPopupViewController.swift */,
 				DADCD4F124F554710026EFAD /* ReservationViewController.swift */,
-				DA26FB2424FCC0FF00D76753 /* SampleTableViewCell.swift */,
-				DA26FB2224FCC0CC00D76753 /* SampleViewController.swift */,
 				C6A4023B255BE3DF006B49D8 /* SearchingAddressViewController.swift */,
 				C6E94F492551454800668994 /* SearchingChargeHistoryConditionViewController.swift */,
 				C6633DEC252C362900F02F24 /* SearchingChargerViewController.swift */,
@@ -402,8 +393,11 @@
 		DA4C26E4253B1F9500E3E79C /* Cell */ = {
 			isa = PBXGroup;
 			children = (
+				C6489FF0256A81D30063E07E /* AddressTableCell.swift */,
 				DA96CDA42546BFBE005DD955 /* ChargerCell.swift */,
 				DA4C26E5253B204500E3E79C /* FavoriteCell.swift */,
+				37201B7824FC95DD000A3F08 /* HistoryElectricityTableCell.swift */,
+				37373FAD24FB50C900181756 /* HistoryPointTableCell.swift */,
 			);
 			name = Cell;
 			sourceTree = "<group>";
@@ -676,10 +670,8 @@
 				C6878A7425A42B7C00CA9B94 /* ChargeDefaultTimeSettingViewController.swift in Sources */,
 				C6BF775D2577707000ADEDAD /* PointChargeViewController.swift in Sources */,
 				DA22F62C259C1B730079DEEE /* OwnerChargeViewController.swift in Sources */,
-				DA26FB2524FCC0FF00D76753 /* SampleTableViewCell.swift in Sources */,
 				DABC41B224CE73F500DD366F /* SharingCharger.xcdatamodeld in Sources */,
 				37373FAF24FB50C900181756 /* HistoryPointTableCell.swift in Sources */,
-				DA26FB2324FCC0CC00D76753 /* SampleViewController.swift in Sources */,
 				DA1D8380251DD77B00855000 /* SearchingConditionObject.swift in Sources */,
 				376E3A2624FC906C007274A1 /* HistoryElectricityChargingViewController.swift in Sources */,
 				DADCD4F224F554710026EFAD /* ReservationViewController.swift in Sources */,
@@ -873,7 +865,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.2;
+				CURRENT_PROJECT_VERSION = 1.0.3;
 				DEVELOPMENT_TEAM = C846JVNTZN;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -885,7 +877,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = krco.metisinfo.SharingCharger;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = SharingCharger/KakaoMapBridgingHeader.h;
@@ -901,7 +893,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.2;
+				CURRENT_PROJECT_VERSION = 1.0.3;
 				DEVELOPMENT_TEAM = C846JVNTZN;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -913,7 +905,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = krco.metisinfo.SharingCharger;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = SharingCharger/KakaoMapBridgingHeader.h;

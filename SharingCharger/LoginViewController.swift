@@ -94,6 +94,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                                 UserDefaults.standard.set(instanceData.email, forKey: "email")
                                 UserDefaults.standard.set(instanceData.password, forKey: "password")
                                 UserDefaults.standard.set(instanceData.userType, forKey: "userType")
+                                UserDefaults.standard.set(instanceData.username, forKey: "username")
                                 
                                 var mainViewController: UIViewController!
                                 

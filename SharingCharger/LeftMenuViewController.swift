@@ -45,7 +45,7 @@ class LeftMenuViewController: UIViewController {
         
         pointCharge.addTarget(self, action: #selector(pointChargeButton(sender:)), for: .touchUpInside)
         nameLabel.text = myUserDefaults.string(forKey: "name")
-        emailLabel.text = myUserDefaults.string(forKey: "email")
+        emailLabel.text = myUserDefaults.string(forKey: "username")
         
         let chargingHistoryGesture = UITapGestureRecognizer(target: self, action: #selector(self.chargingHistoryButton(_:)))
         chargingHistoryLabel.isUserInteractionEnabled = true

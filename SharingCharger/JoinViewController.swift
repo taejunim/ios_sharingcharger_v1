@@ -211,22 +211,28 @@ class JoinViewController: UIViewController, UITextFieldDelegate , PolicyProtocol
     private func checkBlank() -> Bool{
         
         if nameTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            self.view.makeToast("이름을 입력하여주십시오", duration: 2.0, position: .bottom)
+            self.view.makeToast("이름을 입력하여주십시오.", duration: 2.0, position: .bottom)
             return false
         } else if emailTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            self.view.makeToast("이메일을 입력하여주십시오", duration: 2.0, position: .bottom)
+            self.view.makeToast("이메일을 입력하여주십시오.", duration: 2.0, position: .bottom)
+            return false
+        } else if !isValidEmail(emailText: emailTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)){
+            self.view.makeToast("이메일 형식이 올바르지 않습니다.", duration: 2.0, position: .bottom)
             return false
         } else if phoneTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            self.view.makeToast("전화번호를 입력하여주십시오", duration: 2.0, position: .bottom)
+            self.view.makeToast("전화번호를 입력하여주십시오.", duration: 2.0, position: .bottom)
             return false
         } else if autorizationCodeTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            self.view.makeToast("인증번호를 입력하여주십시오", duration: 2.0, position: .bottom)
+            self.view.makeToast("인증번호를 입력하여주십시오.", duration: 2.0, position: .bottom)
             return false
         } else if passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             self.view.makeToast("비밀번호를 입력하여주십시오", duration: 2.0, position: .bottom)
             return false
+        } else if !isValidPassword(passwordText: passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)) {
+            self.view.makeToast("비밀번호는 영문, 숫자, 특수 문자 포함하여 최소 6자 이상 16자리 이하로 설정하셔야합니다.", duration: 2.0, position: .bottom)
+            return false
         } else if passwordConfirmTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            self.view.makeToast("비밀번호 확인을 입력하여주십시오", duration: 2.0, position: .bottom)
+            self.view.makeToast("비밀번호 확인을 입력하여주십시오.", duration: 2.0, position: .bottom)
             return false
         } else if passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines) != passwordConfirmTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines) {
             self.view.makeToast("비밀번호가 일치하지 않습니다.", duration: 2.0, position: .bottom)
@@ -240,6 +246,27 @@ class JoinViewController: UIViewController, UITextFieldDelegate , PolicyProtocol
         }
         
         return true
+    }
+    
+    //이메일 체크
+    func isValidEmail(emailText:String) -> Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailTest.evaluate(with: emailText)
+    }
+    
+    //전화번호 체크
+    func isValidPhone(phoneText: String?) -> Bool {
+        let phoneRegEx = "[0-9]{11}"
+        let predicate = NSPredicate(format:"SELF MATCHES %@", phoneRegEx)
+        return predicate.evaluate(with: phoneText)
+    }
+
+    //패스워드 체크
+    func isValidPassword(passwordText:String) -> Bool {
+        let passwordRegEx = "^(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9])(?=.*[0-9]).{6,16}$"
+        let predicate = NSPredicate(format:"SELF MATCHES %@", passwordRegEx)
+        return predicate.evaluate(with: passwordText)
     }
     
     //textField delegate 설정
@@ -281,8 +308,18 @@ class JoinViewController: UIViewController, UITextFieldDelegate , PolicyProtocol
         
         if phoneTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             self.view.makeToast("전화번호를 입력하여주십시오", duration: 2.0, position: .bottom)
+        }
+        
+        if !isValidPhone(phoneText: phoneTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)) {
+            //키보드 올라온 상태이면 내리기
+            if (activeTextField != nil) {
+                activeTextField?.resignFirstResponder()
+            }
             
-        } else {
+            self.view.makeToast("전화번호 형식이 올바르지 않습니다.", duration: 2.0, position: .bottom)
+        }
+        
+        else {
             self.activityIndicator!.startAnimating()
             
             var code: Int! = 0
