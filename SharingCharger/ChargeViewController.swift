@@ -626,8 +626,17 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                             //정상 인증
                             if obj as! Int == 1 {
                                 
-                                let useTime = self.reservationInfo!.realChargingTime
-                                BleManager.shared.bleChargerStart(useTime: useTime)
+                                let calendar = Calendar.current
+                                let currentDate = Date()
+                                let endDate = self.dateFormatter.date(from: self.reservationInfo!.realChargingEndDate)
+                                
+                                let offsetComps = calendar.dateComponents([.minute], from:currentDate, to:endDate!)
+                                if case let (minute?) = (offsetComps.minute) {
+                                    
+                                    let useTime = String(minute)
+                                    BleManager.shared.bleChargerStart(useTime: useTime)
+                                }
+                                
                                 return
                             }
                             

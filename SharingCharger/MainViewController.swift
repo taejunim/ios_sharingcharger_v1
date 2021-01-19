@@ -904,14 +904,79 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
         
         refreshAlert.addAction(UIAlertAction(title: "충전", style: .default, handler: { (action: UIAlertAction!) in
             
-            //현재 포인트, 예상 포인트 가져오기
-            let userId = self.myUserDefaults.integer(forKey: "userId")
-            let currentPointUrl = "http://211.253.37.97:8101/api/v1/point/users/\(userId)"
-            
-            self.getPoint(url: currentPointUrl)
+            let userType = self.myUserDefaults.string(forKey: "userType")
+            if userType == "Personal" {
+                //self.reservation()
+                self.getChargerInfo()
+            } else {
+                //현재 포인트, 예상 포인트 가져오기
+                let userId = self.myUserDefaults.integer(forKey: "userId")
+                let currentPointUrl = "http://211.253.37.97:8101/api/v1/point/users/\(userId)"
+                
+                self.getPoint(url: currentPointUrl)
+            }
         }))
         
         present(refreshAlert, animated: true, completion: nil)
+    }
+    
+    private func getChargerInfo() {
+        
+        var code: Int! = 0
+        
+        let chargerId = currentSelectedPoiItem!.tag
+        let url = "http://211.253.37.97:8101/api/v1/app/chargers/\(chargerId)"
+        
+        AF.request(url, method: .get, encoding: URLEncoding.default, interceptor: Interceptor(indicator: activityIndicator!)).validate().responseJSON(completionHandler: { response in
+            
+            code = response.response?.statusCode
+            
+            switch response.result {
+            
+            case .success(let obj):
+                print(obj)
+                do {
+                    
+                    let JSONData = try JSONSerialization.data(withJSONObject: obj, options: .prettyPrinted)
+                    let instanceData = try JSONDecoder().decode(ChargerObject.self, from: JSONData)
+                    
+                    if instanceData.ownerName == self.myUserDefaults.string(forKey: "username") {
+                        
+                        let rootViewController = self.storyboard?.instantiateViewController(identifier: "OwnerCharge") as? OwnerChargeViewController
+                        let rootNavigationController = UINavigationController(rootViewController: rootViewController!)
+                        
+                        UIApplication.shared.windows.first?.rootViewController = rootNavigationController
+                        UIApplication.shared.windows.first?.makeKeyAndVisible()
+                        
+                    } else {
+                        let userId = self.myUserDefaults.integer(forKey: "userId")
+                        let currentPointUrl = "http://211.253.37.97:8101/api/v1/point/users/\(userId)"
+                        
+                        self.getPoint(url: currentPointUrl)
+                    }
+                    
+                } catch {
+                    print("error : \(error.localizedDescription)")
+                    print("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)")
+                    self.view.makeToast("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)", duration: 2.0, position: .bottom)
+                }
+                
+            case .failure(let err):
+                
+                print("error is \(String(describing: err))")
+                
+                if code == 400 {
+                    print("400 Error.")
+                    self.view.makeToast("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)", duration: 2.0, position: .bottom)
+                    
+                } else {
+                    print("Unknown Error")
+                    self.view.makeToast("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : 알 수 없는 오류", duration: 2.0, position: .bottom)
+                }
+            }
+            
+            
+        })
     }
     
     //Side Menu
