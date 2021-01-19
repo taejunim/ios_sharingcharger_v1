@@ -28,8 +28,7 @@ class SearchingConditionViewController: UIViewController, UIPickerViewDelegate, 
     @IBOutlet var chargingTime: UILabel!
     @IBOutlet var rangeView: UIView!
     @IBOutlet var range: UILabel!
-    @IBOutlet var feeView: UIView!
-    @IBOutlet var fee: UILabel!
+    
     @IBOutlet var confirmButton: UIButton!
     
     @IBOutlet var chargingStartDatePickerView: UIView!
@@ -39,19 +38,14 @@ class SearchingConditionViewController: UIViewController, UIPickerViewDelegate, 
     @IBOutlet var chargingTimePicker: UIPickerView!
     
     private var chargingTimeArray: [String] = []
-    private var rangeArray: [String] = ["전체", "3 km", "10 km", "30 km"]
-    private var feeArray: [String] = ["전체", "100원 대", " 200원 대", "300원 대"]
+    private var rangeArray: [String] = ["전체", "3 km", "10 km", "40 km"]
     
     @IBOutlet var rangePickerView: UIView!
     @IBOutlet var rangePicker: UIPickerView!
     
-    @IBOutlet var feePickerView: UIView!
-    @IBOutlet var feePicker: UIPickerView!
-    
     var isChargingStartDatePickerViewShowing: Bool = false
     var isChargingTimePickerViewShowing: Bool = false
     var isRangePickerViewShowing: Bool = false
-    var isFeePickerViewShowing: Bool = false
     var isInstantCharge: Bool = true
     
     @IBOutlet var scrollView: UIScrollView!
@@ -195,17 +189,6 @@ class SearchingConditionViewController: UIViewController, UIPickerViewDelegate, 
         rangePicker.dataSource = self
         rangePicker.selectRow(1, inComponent: 0, animated: false)
         
-        let feeViewGesture = UITapGestureRecognizer(target: self, action: #selector(self.feeViewButton))
-        feeView.addGestureRecognizer(feeViewGesture)
-        
-        feePickerView.backgroundColor = UIColor.white
-        feePickerView.gone()
-        
-        feePicker.backgroundColor = .white
-        feePicker.delegate = self
-        feePicker.dataSource = self
-        feePicker.selectRow(1, inComponent: 0, animated: false)
-        
         confirmButton.addTarget(self, action: #selector(confirmButton(sender:)), for: .touchUpInside)
         confirmButton.layer.cornerRadius = 7
     }
@@ -332,11 +315,6 @@ class SearchingConditionViewController: UIViewController, UIPickerViewDelegate, 
             
             inactivateView(inactiveView: rangePickerView)
             isRangePickerViewShowing = false
-            
-        } else if isFeePickerViewShowing {
-            
-            inactivateView(inactiveView: feePickerView)
-            isFeePickerViewShowing = false
         }
         
         inactiveButton.backgroundColor = UIColor.white
@@ -405,21 +383,6 @@ class SearchingConditionViewController: UIViewController, UIPickerViewDelegate, 
         }
     }
     
-    @objc func feeViewButton(sender: UIView!) {
-        print("feeViewButton")
-        
-        if isFeePickerViewShowing {
-            
-            inactivateView(inactiveView: feePickerView)
-            isFeePickerViewShowing = false
-            
-        } else {
-            
-            activateView(activeView: feePickerView)
-            isFeePickerViewShowing = true
-        }
-    }
-    
     private func activateView(activeView: UIView!) {
         
         activeView.isHidden = false
@@ -442,12 +405,6 @@ class SearchingConditionViewController: UIViewController, UIPickerViewDelegate, 
             rangePickerView.isHidden = true
             rangePickerView.gone()
             isRangePickerViewShowing = false
-            
-        } else if isFeePickerViewShowing {
-            
-            feePickerView.isHidden = true
-            feePickerView.gone()
-            isFeePickerViewShowing = false
         }
         
         UIView.animate(withDuration: 0.3) { self.view.layoutIfNeeded() }
@@ -475,10 +432,6 @@ class SearchingConditionViewController: UIViewController, UIPickerViewDelegate, 
             
             return rangeArray.count
             
-        } else if pickerView == feePicker {
-            
-            return feeArray.count
-            
         } else {
             
             return 0
@@ -494,10 +447,6 @@ class SearchingConditionViewController: UIViewController, UIPickerViewDelegate, 
         } else if pickerView == rangePicker {
             
             return rangeArray[row]
-            
-        } else if pickerView == feePicker {
-            
-            return feeArray[row]
             
         } else {
             
@@ -519,12 +468,6 @@ class SearchingConditionViewController: UIViewController, UIPickerViewDelegate, 
             print("row: \(row)")
             print("value: \(rangeArray[row])")
             range.text = rangeArray[row]
-            
-        } else if pickerView == feePicker {
-            
-            print("row: \(row)")
-            print("value: \(feeArray[row])")
-            fee.text = feeArray[row]
             
         } else {
             
@@ -564,11 +507,9 @@ class SearchingConditionViewController: UIViewController, UIPickerViewDelegate, 
 
         chargingTimePicker.selectRow(0, inComponent: 0, animated: false)
         rangePicker.selectRow(1, inComponent: 0, animated: false)
-        feePicker.selectRow(1, inComponent: 0, animated: false)
-
+        
         pickerView(chargingTimePicker, didSelectRow: 0, inComponent: 0)
         pickerView(rangePicker, didSelectRow: 1, inComponent: 0)
-        pickerView(feePicker, didSelectRow: 1, inComponent: 1)
     }
     
     @objc func confirmButton(sender: UIButton!) {

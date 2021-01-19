@@ -104,7 +104,7 @@ class ShadowView: UIControl {
         updateReservationTextLayer(multiplier: 0.92)
         reservationTextLayer.alignmentMode = CATextLayerAlignmentMode.center
         reservationTextLayer.contentsScale = UIScreen.main.scale
-        reservationTextLayer.string = reservationTextAttribute(text: "예약")
+        reservationTextLayer.string = UserDefaults.standard.bool(forKey: "isCharging") == true ? reservationTextAttribute(text: "충전중") : reservationTextAttribute(text: "예약")
         reservationTextLayer.backgroundColor = UIColor(named: "Color_1ABC9C")?.cgColor
         reservationTextLayer.cornerRadius = reservationTextLayer.frame.height / 2
         
@@ -217,7 +217,7 @@ class ShadowView: UIControl {
     private func updateReservationTextLayer(multiplier: CGFloat!) {
         
         reservationTextLayer.frame = CGRect(x: mainArrowImageLayer.frame.minX - chargingTimeTextLayer.frame.height * multiplier, y: chargingTimeTextLayer
-                                                .frame.minY * 0.925, width: chargingTimeTextLayer.frame.height * 0.85 , height: chargingTimeTextLayer.frame.height / 2)
+                                                .frame.minY * 0.925, width: chargingTimeTextLayer.frame.height , height: chargingTimeTextLayer.frame.height / 2)
     }
     
     private func chargingDateTextAttribute(text: String?) -> NSAttributedString {
