@@ -43,7 +43,8 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
         super.viewDidLoad()
         
         viewWillInitializeObjects()
-        
+        dateFormatter.locale = locale
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
         clockDateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         clockDateFormatter.locale = locale
         timer = Timer.scheduledTimer(timeInterval: clockInterval, target: self, selector: #selector(setClock), userInfo: nil, repeats: true)
@@ -95,9 +96,6 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 //블루투스 on/off 체크
                 if isOnBluetooth() {
                     
-                    dateFormatter.locale = locale
-                    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
-
                     //충전 종료 일시
                     let realChargingEndDate = dateFormatter.date(from: reservationInfo!.realChargingEndDate)
                     
@@ -519,6 +517,7 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     self.myUserDefaults.set(0, forKey: "rechargeId")
                     self.myUserDefaults.set(false, forKey: "isCharging")
                     self.myUserDefaults.set(nil, forKey: "startRechargeDate")
+                    self.myUserDefaults.set(nil, forKey: "endRechargeDate")
                     
                     let mainViewController = UIStoryboard(name:"Main", bundle: nil).instantiateViewController(withIdentifier: "Main") as! MainViewController
                     let navigationController = UINavigationController(rootViewController: mainViewController)
@@ -546,6 +545,7 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 self.myUserDefaults.set(0, forKey: "rechargeId")
                 self.myUserDefaults.set(false, forKey: "isCharging")
                 self.myUserDefaults.set(nil, forKey: "startRechargeDate")
+                self.myUserDefaults.set(nil, forKey: "endRechargeDate")
                 
                 let mainViewController = UIStoryboard(name:"Main", bundle: nil).instantiateViewController(withIdentifier: "Main") as! MainViewController
                 let navigationController = UINavigationController(rootViewController: mainViewController)
@@ -603,11 +603,6 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                                     BleManager.shared.bleSetTag(tag: tagId)
                                     print("bleSetTag tagId : \(tagId)")
 
-                                    if let startRechargeDate = instanceData.created {
-                                    
-                                        self.myUserDefaults.set(startRechargeDate, forKey: "startRechargeDate")
-                                                                        
-                                    }
                                     return
                                 } else {
                                     print("**************************")
@@ -635,6 +630,9 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                                     
                                     let useTime = String(minute)
                                     BleManager.shared.bleChargerStart(useTime: useTime)
+                                    self.myUserDefaults.set(self.dateFormatter.string(from: currentDate), forKey: "startRechargeDate")
+                                    self.myUserDefaults.set(self.dateFormatter.string(from: endDate!), forKey: "endRechargeDate")
+                                                                                                                
                                 }
                                 
                                 return
@@ -743,6 +741,7 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                             self.myUserDefaults.set(0, forKey: "rechargeId")
                             self.myUserDefaults.set(false, forKey: "isCharging")
                             self.myUserDefaults.set(nil, forKey: "startRechargeDate")
+                            self.myUserDefaults.set(nil, forKey: "endRechargeDate")
                             
                             if tagId != "" && tagId != "fail" && tagId != "false" {
                                 
@@ -848,16 +847,19 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     @objc func setClock(){
-        
-        if let startRechargeDate = myUserDefaults.string(forKey: "startRechargeDate"){
-            let date = Date()
-            let startDate = clockDateFormatter.date(from: startRechargeDate)
-            
-            var diff = -Int(((startDate?.timeIntervalSince(date))!))
 
-            var timerText = ""
-        
+        if let endRechargeDate = myUserDefaults.string(forKey: "endRechargeDate"){
+            let date = Date()
+            let endDate = dateFormatter.date(from: endRechargeDate)
+
+            var diff = Int(((endDate?.timeIntervalSince(date))!))
             
+            if diff <= 0 {
+                chargingTimeLabel.text = "00 : 00 : 00"
+                return
+            }
+            var timerText = ""
+    
             let hour = (diff/3600)
                 
                 
