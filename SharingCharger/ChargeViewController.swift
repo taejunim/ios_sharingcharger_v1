@@ -912,17 +912,12 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 
                 
             if hour < 10 {
-                    
                 timerText = "0" + String(hour) + " : "
-                    
             } else {
-                
                 timerText = String(hour) + " : "
             }
                 
             diff = diff % 3600
-                
-            
             
             let minute = (diff/60)
                 
@@ -937,7 +932,6 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 
             timerText += " : "
             
-            
             let second = (diff%60)
                 
             if second < 10 {
@@ -947,8 +941,6 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 
                 timerText += String(second)
             }
-            
-            
             
             chargingTimeLabel.text = String(timerText)
         } else {

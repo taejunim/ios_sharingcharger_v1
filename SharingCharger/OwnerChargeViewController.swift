@@ -35,7 +35,8 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
     let dateFormatter = DateFormatter()
     let HHMMFormatter = DateFormatter()
     let clockDateFormatter = DateFormatter()
-    
+    let timerDateFormatter = DateFormatter()
+
     var utils: Utils?
     var activityIndicator: UIActivityIndicatorView?
     
@@ -61,6 +62,8 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
         viewWillInitializeObjects()
         clockDateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         clockDateFormatter.locale = locale
+        timerDateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        timerDateFormatter.locale = locale
     }
     private func viewWillInitializeObjects() {
         
@@ -676,6 +679,7 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                     self.myUserDefaults.set(0, forKey: "rechargeId")
                     self.myUserDefaults.set(false, forKey: "isCharging")
                     self.myUserDefaults.set(nil, forKey: "startRechargeDate")
+                    self.myUserDefaults.set(nil, forKey: "endRechargeDate")
                     let mainViewController = UIStoryboard(name:"Main", bundle: nil).instantiateViewController(withIdentifier: "Main") as! MainViewController
                     let navigationController = UINavigationController(rootViewController: mainViewController)
                     UIApplication.shared.windows.first?.rootViewController = navigationController
@@ -702,6 +706,8 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                 self.reservationInfo = SearchingConditionObject()
                 self.myUserDefaults.set(0, forKey: "rechargeId")
                 self.myUserDefaults.set(false, forKey: "isCharging")
+                self.myUserDefaults.set(nil, forKey: "startRechargeDate")
+                self.myUserDefaults.set(nil, forKey: "endRechargeDate")
                 
                 let mainViewController = UIStoryboard(name:"Main", bundle: nil).instantiateViewController(withIdentifier: "Main") as! MainViewController
                 let navigationController = UINavigationController(rootViewController: mainViewController)
@@ -746,6 +752,8 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                         self.reservationInfo = SearchingConditionObject()
                         self.myUserDefaults.set(0, forKey: "rechargeId")
                         self.myUserDefaults.set(false, forKey: "isCharging")
+                        self.myUserDefaults.set(nil, forKey: "startRechargeDate")
+                        self.myUserDefaults.set(nil, forKey: "endRechargeDate")
                         
                         
                     } else if code == 200 {
@@ -831,6 +839,8 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                     self.reservationInfo = SearchingConditionObject()
                     self.myUserDefaults.set(0, forKey: "rechargeId")
                     self.myUserDefaults.set(false, forKey: "isCharging")
+                    self.myUserDefaults.set(nil, forKey: "startRechargeDate")
+                    self.myUserDefaults.set(nil, forKey: "endRechargeDate")
                 }
                 
             //예약이 없을 때
@@ -853,6 +863,8 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                 self.reservationInfo = SearchingConditionObject()
                 self.myUserDefaults.set(0, forKey: "rechargeId")
                 self.myUserDefaults.set(false, forKey: "isCharging")
+                self.myUserDefaults.set(nil, forKey: "startRechargeDate")
+                self.myUserDefaults.set(nil, forKey: "endRechargeDate")
             }
         })
     }
@@ -907,11 +919,7 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                                     self.myUserDefaults.set(true, forKey: "isCharging")
                                     BleManager.shared.bleSetTag(tag: tagId)
                                     print("bleSetTag tagId : \(tagId)")
-                                    if let startRechargeDate = instanceData.created {
-                                    
-                                        self.myUserDefaults.set(startRechargeDate, forKey: "startRechargeDate")
-                                                                        
-                                    }
+
                                     return
                                 } else {
                                     print("**************************")
@@ -929,9 +937,14 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                             
                             //정상 인증
                             if obj as! Int == 1 {
-                                
+            
+                                let currentDate = Date()
+                                let endDate = self.timerDateFormatter.date(from: self.reservationInfo!.realChargingEndDate)
                                 let useTime = self.reservationInfo!.realChargingTime
                                 BleManager.shared.bleChargerStart(useTime: useTime)
+                            
+                                self.myUserDefaults.set(self.timerDateFormatter.string(from: currentDate), forKey: "startRechargeDate")
+                                self.myUserDefaults.set(self.timerDateFormatter.string(from: endDate!), forKey: "endRechargeDate")
                                 return
                             }
                             
@@ -1030,6 +1043,7 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                     //충전 종료
                     else {
                         
+                        let startRechargeDate = self.myUserDefaults.string(forKey: "startRechargeDate")
                         if instanceData.id! > 0 && code == 200 {
                             
                             self.isChargeStop = false
@@ -1039,6 +1053,7 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                             self.myUserDefaults.set(0, forKey: "rechargeId")
                             self.myUserDefaults.set(false, forKey: "isCharging")
                             self.myUserDefaults.set(nil, forKey: "startRechargeDate")
+                            self.myUserDefaults.set(nil, forKey: "endRechargeDate")
                             if tagId != "" && tagId != "fail" && tagId != "false" {
                                 
                                 BleManager.shared.bleDeleteTargetTag(tag: tagId)
@@ -1052,7 +1067,7 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                             }
                             
                             if count == index {
-                                self.showChargeEndPopup(result : instanceData, rechargeKWh: rechargeKwh, rechargeMinute: rechargeMinute)
+                                self.showChargeEndPopup(result : instanceData, rechargeKWh: rechargeKwh, startRechargeDate: startRechargeDate!)
                             }
                         }
                     }
@@ -1421,6 +1436,9 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                         
                         self.myUserDefaults.set(0, forKey: "reservationId")
                         self.myUserDefaults.set(nil, forKey: "reservationInfo")
+                        self.myUserDefaults.set(nil, forKey: "startRechargeDate")
+                        self.myUserDefaults.set(nil, forKey: "endRechargeDate")
+                        
                         self.reservationInfo = SearchingConditionObject()
                         
                         if self.isChargeStartError {
@@ -1463,33 +1481,49 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
         UIApplication.shared.windows.first?.rootViewController = navigationController
         //UIApplication.shared.windows.first?.makeKeyAndVisible()
     }
-    func showChargeEndPopup(result : ChargeObject , rechargeKWh: Double, rechargeMinute:Int){
+    func showChargeEndPopup(result : ChargeObject , rechargeKWh: Double, startRechargeDate : String) {
         
         let viewController:ChargeEndPopupViewController = self.storyboard?.instantiateViewController(withIdentifier: "ChargeEndPopup") as! ChargeEndPopupViewController
         viewController.preferredContentSize = CGSize(width: view.frame.size.width, height: 1.2 * view.frame.size.height / 2)
         
-        let rechargePeriod = chargingTimeLabel.text!
+        let realStartDate = timerDateFormatter.date(from: startRechargeDate)
+        let date = Date()
+        var diff = Int((date.timeIntervalSince(realStartDate!)))
+        var timerText = ""
         
-        let calendar = Calendar.current
-        let timerDateFormatter = DateFormatter()
-        timerDateFormatter.locale = Locale(identifier: "ko")
-        timerDateFormatter.dateFormat = "HH : mm : ss"
-        
-        guard let period = timerDateFormatter.date(from: rechargePeriod) else { return }
-        let periodComponent = calendar.dateComponents([.hour, .minute, .second], from: period)
-        
-        var endDate = clockDateFormatter.date(from: result.startRechargeDate!)
-        
-        endDate = calendar.date(byAdding: .hour, value: periodComponent.hour!, to: endDate!)
-        endDate = calendar.date(byAdding: .minute, value: periodComponent.minute!, to: endDate!)
-        endDate = calendar.date(byAdding: .second, value:periodComponent.second!, to: endDate!)
+        let hour = (diff/3600)
+        if hour < 10 {
+            timerText = "0" + String(hour) + ":"
+        } else {
+            timerText = String(hour) + ":"
+        }
+            
+        diff = diff % 3600
+            
+        let minute = (diff/60)
+            
+        if minute < 10{
+            timerText += "0"
+            timerText += String(minute)
+        } else {
+            timerText += String(minute)
+        }
+        timerText += ":"
+    
+        let second = (diff%60)
+            
+        if second < 10 {
+            timerText += "0" + String(second)
+        }else {
+            timerText += String(second)
+        }
         
         viewController.reservationPoint = result.reservationPoint!
         viewController.refundPoint = result.reservationPoint! - result.rechargePoint!
         viewController.realUsedPoint = result.rechargePoint!
-        viewController.startRechargeDate = result.startRechargeDate!
-        viewController.endRechargeDate = clockDateFormatter.string(from: endDate!)
-        viewController.rechargePeriod = rechargePeriod
+        viewController.startRechargeDate = startRechargeDate.replacingOccurrences(of: "T", with: " ")
+        viewController.endRechargeDate = clockDateFormatter.string(from: date)
+        viewController.rechargePeriod = timerText
         
         
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
@@ -1500,30 +1534,31 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
     
     @objc func setClock(){
 
-        if let startRechargeDate = myUserDefaults.string(forKey: "startRechargeDate"){
+        if let endRechargeDate = myUserDefaults.string(forKey: "endRechargeDate"){
+            print(endRechargeDate)
             let date = Date()
-            let startDate = clockDateFormatter.date(from: startRechargeDate)
-            
-            var diff = -Int(((startDate?.timeIntervalSince(date))!))
+            let endDate = timerDateFormatter.date(from: endRechargeDate)
 
-            var timerText = ""
-        
+            var diff = Int(((endDate?.timeIntervalSince(date))!))
             
+            if diff <= 0 {
+                chargingTimeLabel.text = "00 : 00 : 00"
+                
+                endCharging()
+                return
+            }
+            var timerText = ""
+    
             let hour = (diff/3600)
                 
                 
             if hour < 10 {
-                    
                 timerText = "0" + String(hour) + " : "
-                    
             } else {
-                
                 timerText = String(hour) + " : "
             }
                 
             diff = diff % 3600
-                
-            
             
             let minute = (diff/60)
                 
@@ -1538,7 +1573,6 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                 
             timerText += " : "
             
-            
             let second = (diff%60)
                 
             if second < 10 {
@@ -1549,13 +1583,10 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                 timerText += String(second)
             }
             
-            
-            
             chargingTimeLabel.text = String(timerText)
         } else {
         
             chargingTimeLabel.text = "00 : 00 : 00"
-        
         }
     }
     

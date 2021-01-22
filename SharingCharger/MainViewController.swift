@@ -1490,7 +1490,6 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                 let reservationInfo: SearchingConditionObject? = try? PropertyListDecoder().decode(SearchingConditionObject.self, from: data)
                 
                 dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
-                print("ㅅㅂㅅㅂ. \(reservationInfo!.realChargingEndDate)")
                 //충전 종료 일시
                 //let realChargingEndDate = dateFormatter.date(from: reservationInfo!.realChargingEndDate)
                 let realChargingEndDate = dateFormatter.date(from: reservationInfo!.realChargingEndDate)
