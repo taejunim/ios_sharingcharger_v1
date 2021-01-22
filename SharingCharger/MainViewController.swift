@@ -1348,10 +1348,32 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                     //현재 예약이 없을 때
                     if code == 204 {
                         
+                        if let endRechargeDate = self.myUserDefaults.string(forKey: "endRechargeDate"){
+                            let date = Date()
+                            let endDate = dateFormatter.date(from: endRechargeDate)
+
+                            let diff = Int(((endDate?.timeIntervalSince(date))!))
+                            
+                            if diff <= 0 {
+                                
+                                let chargeObject = ChargeObject()
+                                
+                                chargeObject.reservationPoint = self.myUserDefaults.integer(forKey: "reservationPoint")
+                                chargeObject.startRechargeDate = self.myUserDefaults.string(forKey: "startRechargeDate")
+                                chargeObject.endRechargeDate = endRechargeDate
+                                
+                                self.showChargeEndPopup(result : chargeObject)
+                            }
+                        }
+                        
                         self.myUserDefaults.set(0, forKey: "reservationId")
                         self.myUserDefaults.set(nil, forKey: "reservationInfo")
                         self.myUserDefaults.set(0, forKey: "rechargeId")
                         self.myUserDefaults.set(false, forKey: "isCharging")
+                        self.myUserDefaults.set(nil, forKey: "startRechargeDate")
+                        self.myUserDefaults.set(nil, forKey: "endRechargeDate")
+                        self.myUserDefaults.set(0, forKey: "reservationPoint")
+                        
                         
                         self.searchingConditionView.initializeLayer(chargingTime: self.receivedSearchingConditionObject.chargingTime, chargingPeriod: self.receivedSearchingConditionObject.chargingPeriod)
                         
@@ -1493,6 +1515,61 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
             
             self.activityIndicator!.stopAnimating()
         })
+    }
+    
+    func showChargeEndPopup(result : ChargeObject){
+        
+        let viewController:ChargeEndPopupViewController = self.storyboard?.instantiateViewController(withIdentifier: "ChargeEndPopup") as! ChargeEndPopupViewController
+        viewController.preferredContentSize = CGSize(width: view.frame.size.width, height: 1.2 * view.frame.size.height / 2)
+        
+        let calendar = Calendar.current
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "ko")
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        
+        viewController.reservationPoint = result.reservationPoint!
+        viewController.refundPoint = 0
+        viewController.realUsedPoint = 0
+        viewController.startRechargeDate = result.startRechargeDate!.replacingOccurrences(of: "T", with: " ")
+        viewController.endRechargeDate = result.endRechargeDate!.replacingOccurrences(of: "T", with: " ")
+        
+        let startDate = dateFormatter.date(from: result.startRechargeDate!)
+        let endDate = dateFormatter.date(from: result.endRechargeDate!)
+        var rechargePeriod = ""
+        
+        let offsetComps = calendar.dateComponents([.hour,.minute,.second], from:startDate!, to:endDate!)
+        if case let (hour?, minute?, second?) = (offsetComps.hour, offsetComps.minute, offsetComps.second) {
+            
+            if hour < 10 {
+                rechargePeriod = "0" + String(hour) + ":"
+            } else {
+                rechargePeriod = String(hour) + ":"
+            }
+            
+            if minute < 10{
+                rechargePeriod += "0"
+                rechargePeriod += String(minute)
+            } else {
+                rechargePeriod += String(minute)
+            }
+                
+            rechargePeriod += ":"
+            
+            if second < 10 {
+                rechargePeriod += "0" + String(second)
+            }else {
+                rechargePeriod += String(second)
+            }
+        }
+        
+        viewController.rechargePeriod = rechargePeriod
+        viewController.userType = ""
+        
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+        alert.setValue(viewController, forKey: "contentViewController")
+        
+        self.present(alert, animated: false)
     }
    
     //view 가 나타난 후

@@ -14,5 +14,7 @@ class ChargerCell: UITableViewCell {
     @IBOutlet var chargerBleNumberLabel: UILabel!
     @IBOutlet var chargerNameLabel: UILabel!
     @IBOutlet var addressLabel: UILabel!
+    @IBOutlet var startDateLabel: UILabel!
+    @IBOutlet var endDateLabel: UILabel!
     
 }

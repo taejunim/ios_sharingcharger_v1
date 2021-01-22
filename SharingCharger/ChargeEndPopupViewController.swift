@@ -7,20 +7,21 @@
 //
 
 import UIKit
+import GoneVisible
 
 class ChargeEndPopupViewController: UIViewController {
     
 
     @IBOutlet var reservationPointLabel: UILabel!
     @IBOutlet var refundPointLabel: UILabel!
-    @IBOutlet var rechargeLabel: UILabel!
+    @IBOutlet var realUsedPointLabel: UILabel!
     @IBOutlet var startRechargeDateLabel: UILabel!
     @IBOutlet var endRechargeDateLabel: UILabel!
     @IBOutlet var rechargePeriodLabel: UILabel!
     
     var reservationPoint:Int = 0
     var refundPoint:Int = 0
-    var rechargeKWh:Double = 0.0
+    var realUsedPoint:Int = 0
     var startRechargeDate:String = ""
     var endRechargeDate:String = ""
     var rechargePeriod:String = ""
@@ -37,9 +38,13 @@ class ChargeEndPopupViewController: UIViewController {
     
     private func viewWillInitializeObjects() {
         
+        if refundPoint == 0 && realUsedPoint == 0 {
+            realUsedPointLabel.gone()
+        }
+        
         reservationPointLabel.text = setComma(value : reservationPoint) + "p"
         refundPointLabel.text = setComma(value : refundPoint) + "p"
-        rechargeLabel.text = setComma(value: rechargeKWh) + "kWh"
+        realUsedPointLabel.text = setComma(value : realUsedPoint) + "p"
         startRechargeDateLabel.text = startRechargeDate
         endRechargeDateLabel.text = endRechargeDate
         rechargePeriodLabel.text = rechargePeriod

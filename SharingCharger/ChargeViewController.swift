@@ -21,6 +21,7 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
     @IBOutlet var tableView: UITableView!
     var currentSelectedRow: Int?
     
+    @IBOutlet var chargeId: UILabel!
     @IBOutlet var chargingTimeLabel: UILabel!
     
     let myUserDefaults = UserDefaults.standard
@@ -43,21 +44,23 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
         super.viewDidLoad()
         
         viewWillInitializeObjects()
+
         dateFormatter.locale = locale
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
-        clockDateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        clockDateFormatter.locale = locale
-        timer = Timer.scheduledTimer(timeInterval: clockInterval, target: self, selector: #selector(setClock), userInfo: nil, repeats: true)
+
     }
     
     private func viewWillInitializeObjects() {
+        
+        clockDateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        clockDateFormatter.locale = locale
+        timer = Timer.scheduledTimer(timeInterval: clockInterval, target: self, selector: #selector(setClock), userInfo: nil, repeats: true)
         
         //로딩 뷰
         utils = Utils(superView: self.view)
         activityIndicator = utils!.activityIndicator
         self.view.addSubview(activityIndicator!)
         self.activityIndicator!.hidesWhenStopped = true
-        
         
         BleManager.shared.setBleDelegate(delegate: self)
         
@@ -230,6 +233,13 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 cell.addressLabel?.text = chargerAddress
             }
             
+            if let startDate = reservationInfo?.realChargingStartDate {
+                cell.startDateLabel?.text = getChargingPeriod(date: startDate)
+            }
+            
+            if let endDate = reservationInfo?.realChargingEndDate {
+                cell.endDateLabel?.text = getChargingPeriod(date: endDate)
+            }
         }
         
         let chargerBleNumberLabelGesture = UITapGestureRecognizer(target: self, action: #selector(self.connectCharger(sender:)))
@@ -240,6 +250,15 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
         return cell
     }
     
+    func getChargingPeriod(date: String) -> String {
+        let dateString = date.replacingOccurrences(of: "T", with: " ")
+        
+        let dateFirstIndex = dateString.index(dateString.startIndex, offsetBy: 0)
+        let dateLastIndex = dateString.index(dateString.startIndex, offsetBy: 16)
+        
+        return "\(dateString[dateFirstIndex..<dateLastIndex])"
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         
         return 1
@@ -247,7 +266,7 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func tableView(_ tableView:UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        return 80
+        return 100
     }
     
     @objc func chargeStart(sender: UIView!) {
@@ -286,6 +305,10 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     @objc func chargeEnd(sender: UIView!) {
         
+        endCharging()
+    }
+    
+    private func endCharging() {
         print("chargeEnd")
         
         //메모리에 저장된 예약 정보 가져와서 예약한 화면 구성
@@ -518,6 +541,7 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     self.myUserDefaults.set(false, forKey: "isCharging")
                     self.myUserDefaults.set(nil, forKey: "startRechargeDate")
                     self.myUserDefaults.set(nil, forKey: "endRechargeDate")
+                    self.myUserDefaults.set(0, forKey: "reservationPoint")
                     
                     let mainViewController = UIStoryboard(name:"Main", bundle: nil).instantiateViewController(withIdentifier: "Main") as! MainViewController
                     let navigationController = UINavigationController(rootViewController: mainViewController)
@@ -546,6 +570,7 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 self.myUserDefaults.set(false, forKey: "isCharging")
                 self.myUserDefaults.set(nil, forKey: "startRechargeDate")
                 self.myUserDefaults.set(nil, forKey: "endRechargeDate")
+                self.myUserDefaults.set(0, forKey: "reservationPoint")
                 
                 let mainViewController = UIStoryboard(name:"Main", bundle: nil).instantiateViewController(withIdentifier: "Main") as! MainViewController
                 let navigationController = UINavigationController(rootViewController: mainViewController)
@@ -598,8 +623,11 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                                 let tagId = String(format: "%13d", instanceDataId)
                                 
                                 if tagId != "" && tagId != "fail" && tagId != "false" {
+                                    self.chargeId.text = "충전 번호 : \(String(instanceDataId))"
+                                    self.chargeId.isHidden = false
                                     self.myUserDefaults.set(instanceDataId, forKey: "rechargeId")
                                     self.myUserDefaults.set(true, forKey: "isCharging")
+                                    self.myUserDefaults.set(instanceData.reservationPoint, forKey: "reservationPoint")
                                     BleManager.shared.bleSetTag(tag: tagId)
                                     print("bleSetTag tagId : \(tagId)")
 
@@ -742,6 +770,7 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                             self.myUserDefaults.set(false, forKey: "isCharging")
                             self.myUserDefaults.set(nil, forKey: "startRechargeDate")
                             self.myUserDefaults.set(nil, forKey: "endRechargeDate")
+                            self.myUserDefaults.set(0, forKey: "reservationPoint")
                             
                             if tagId != "" && tagId != "fail" && tagId != "false" {
                                 
@@ -834,7 +863,7 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         viewController.reservationPoint = result.reservationPoint!
         viewController.refundPoint = result.reservationPoint! - result.rechargePoint!
-        viewController.rechargeKWh = rechargeKWh
+        viewController.realUsedPoint = result.rechargePoint!
         viewController.startRechargeDate = result.startRechargeDate!
         viewController.endRechargeDate = clockDateFormatter.string(from: endDate!)
         viewController.rechargePeriod = rechargePeriod
@@ -856,6 +885,8 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
             
             if diff <= 0 {
                 chargingTimeLabel.text = "00 : 00 : 00"
+                
+                endCharging()
                 return
             }
             var timerText = ""
