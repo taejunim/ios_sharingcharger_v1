@@ -761,6 +761,7 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     //충전 종료
                     else {
                         
+                        let startRechargeDate = self.myUserDefaults.string(forKey: "startRechargeDate")
                         if instanceData.id! > 0 && code == 200 {
                             
                             self.isChargeStop = false
@@ -785,7 +786,7 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                             }
                             
                             if count == index {
-                                self.showChargeEndPopup(result : instanceData, rechargeKWh: rechargeKwh, rechargeMinute: rechargeMinute)
+                                self.showChargeEndPopup(result : instanceData, rechargeKWh: rechargeKwh, startRechargeDate: startRechargeDate!)
                             }
                         }
                     }
@@ -840,33 +841,49 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
     }
     
-    func showChargeEndPopup(result : ChargeObject , rechargeKWh: Double, rechargeMinute:Int){
+    func showChargeEndPopup(result : ChargeObject , rechargeKWh: Double, startRechargeDate : String) {
         
         let viewController:ChargeEndPopupViewController = self.storyboard?.instantiateViewController(withIdentifier: "ChargeEndPopup") as! ChargeEndPopupViewController
         viewController.preferredContentSize = CGSize(width: view.frame.size.width, height: 1.2 * view.frame.size.height / 2)
         
-        let rechargePeriod = chargingTimeLabel.text!
+        let realStartDate = dateFormatter.date(from: startRechargeDate)
+        let date = Date()
+        var diff = Int((date.timeIntervalSince(realStartDate!)))
+        var timerText = ""
         
-        let calendar = Calendar.current
-        let timerDateFormatter = DateFormatter()
-        timerDateFormatter.locale = Locale(identifier: "ko")
-        timerDateFormatter.dateFormat = "HH : mm : ss"
-        
-        guard let period = timerDateFormatter.date(from: rechargePeriod) else { return }
-        let periodComponent = calendar.dateComponents([.hour, .minute, .second], from: period)
-        
-        var endDate = clockDateFormatter.date(from: result.startRechargeDate!)
-        
-        endDate = calendar.date(byAdding: .hour, value: periodComponent.hour!, to: endDate!)
-        endDate = calendar.date(byAdding: .minute, value: periodComponent.minute!, to: endDate!)
-        endDate = calendar.date(byAdding: .second, value:periodComponent.second!, to: endDate!)
+        let hour = (diff/3600)
+        if hour < 10 {
+            timerText = "0" + String(hour) + ":"
+        } else {
+            timerText = String(hour) + ":"
+        }
+            
+        diff = diff % 3600
+            
+        let minute = (diff/60)
+            
+        if minute < 10{
+            timerText += "0"
+            timerText += String(minute)
+        } else {
+            timerText += String(minute)
+        }
+        timerText += ":"
+    
+        let second = (diff%60)
+            
+        if second < 10 {
+            timerText += "0" + String(second)
+        }else {
+            timerText += String(second)
+        }
         
         viewController.reservationPoint = result.reservationPoint!
         viewController.refundPoint = result.reservationPoint! - result.rechargePoint!
         viewController.realUsedPoint = result.rechargePoint!
-        viewController.startRechargeDate = result.startRechargeDate!
-        viewController.endRechargeDate = clockDateFormatter.string(from: endDate!)
-        viewController.rechargePeriod = rechargePeriod
+        viewController.startRechargeDate = startRechargeDate.replacingOccurrences(of: "T", with: " ")
+        viewController.endRechargeDate = clockDateFormatter.string(from: date)
+        viewController.rechargePeriod = timerText
         viewController.userType = "General"
         
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
