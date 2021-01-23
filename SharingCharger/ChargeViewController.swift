@@ -658,9 +658,6 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                                     
                                     let useTime = String(minute)
                                     BleManager.shared.bleChargerStart(useTime: useTime)
-                                    self.myUserDefaults.set(self.dateFormatter.string(from: currentDate), forKey: "startRechargeDate")
-                                    self.myUserDefaults.set(self.dateFormatter.string(from: endDate!), forKey: "endRechargeDate")
-                                                                                                                
                                 }
                                 
                                 return
@@ -750,11 +747,8 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                             }
                             
                             print("********************************")
-                            print("count : \(count), index : \(index) ")
+                            print("비정상적 충전 종료 count : \(count!), index : \(index!) ")
                             print("********************************")
-                            if count == index {
-                                self.showAlert(title: "충전 종료", message: "충전이 종료되었습니다.\n이용해주셔서 감사합니다.", positiveTitle: "확인", negativeTitle: nil)
-                            }
                         }
                     }
                     
@@ -786,7 +780,7 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                             }
                             
                             if count == index {
-                                self.showChargeEndPopup(result : instanceData, rechargeKWh: rechargeKwh, startRechargeDate: startRechargeDate!)
+                                self.showChargeEndPopup(result : instanceData, startRechargeDate: startRechargeDate!)
                             }
                         }
                     }
@@ -841,7 +835,7 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
     }
     
-    func showChargeEndPopup(result : ChargeObject , rechargeKWh: Double, startRechargeDate : String) {
+    func showChargeEndPopup(result : ChargeObject, startRechargeDate : String) {
         
         let viewController:ChargeEndPopupViewController = self.storyboard?.instantiateViewController(withIdentifier: "ChargeEndPopup") as! ChargeEndPopupViewController
         viewController.preferredContentSize = CGSize(width: view.frame.size.width, height: 1.2 * view.frame.size.height / 2)
@@ -903,7 +897,14 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
             if diff <= 0 {
                 chargingTimeLabel.text = "00 : 00 : 00"
                 
-                endCharging()
+                let chargeObject = ChargeObject()
+                
+                chargeObject.reservationPoint = self.myUserDefaults.integer(forKey: "reservationPoint")
+                chargeObject.startRechargeDate = self.myUserDefaults.string(forKey: "startRechargeDate")
+                chargeObject.endRechargeDate = endRechargeDate
+                chargeObject.rechargePoint = self.myUserDefaults.integer(forKey: "reservationPoint")
+                    
+                self.showChargeEndPopup(result : chargeObject, startRechargeDate: self.myUserDefaults.string(forKey: "startRechargeDate")!)
                 return
             }
             var timerText = ""
@@ -1100,6 +1101,13 @@ extension ChargeViewController: BleDelegate {
             case .BleChargeStart:
                 print("충전 시작 성공\n")
                 
+                let currentDate = Date()
+                let endDate = self.dateFormatter.date(from: self.reservationInfo!.realChargingEndDate)
+                //let endDate = self.dateFormatter.date(from: "2021-01-23T22:28:40")
+                
+                self.myUserDefaults.set(self.dateFormatter.string(from: currentDate), forKey: "startRechargeDate")
+                self.myUserDefaults.set(self.dateFormatter.string(from: endDate!), forKey: "endRechargeDate")
+                
                 showAlert(title: "충전 시작", message: "충전이 시작되었습니다.\n충전이 완료될 때까지 플러그를 제거하지마십시오.", positiveTitle: "확인", negativeTitle: nil)
                 
                 let chargerId:Int! = reservationInfo!.chargerId
@@ -1125,7 +1133,7 @@ extension ChargeViewController: BleDelegate {
                 break
             case .BleChargeStop:
                 print("충전 종료 성공\n")
-                
+                isChargeStop = true
                 BleManager.shared.bleGetTag()
                 break
             case .BleChargeStartFail:

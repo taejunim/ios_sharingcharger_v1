@@ -1306,10 +1306,30 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
         self.navigationController?.setNavigationBarHidden(true, animated: true)
-        
         super.viewWillAppear(animated)
+        
+        //예약이 있을 경우 예약 팝업
+        let reservationId = myUserDefaults.integer(forKey: "reservationId")
+        if reservationId > 0 {
+            if let endRechargeDate = self.myUserDefaults.string(forKey: "endRechargeDate"){
+                let date = Date()
+                let endDate = reservationStateBarDateFormatter.date(from: endRechargeDate)
+
+                let diff = Int(((endDate?.timeIntervalSince(date))!))
+                
+                if diff <= 0 {
+                    
+                    let chargeObject = ChargeObject()
+                    
+                    chargeObject.reservationPoint = self.myUserDefaults.integer(forKey: "reservationPoint")
+                    chargeObject.startRechargeDate = self.myUserDefaults.string(forKey: "startRechargeDate")
+                    chargeObject.endRechargeDate = endRechargeDate
+                    
+                    self.showChargeEndPopup(result : chargeObject)
+                }
+            }
+        }
     }
     
     //현재 위치
@@ -1348,24 +1368,6 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                     //현재 예약이 없을 때
                     if code == 204 {
                         
-                        if let endRechargeDate = self.myUserDefaults.string(forKey: "endRechargeDate"){
-                            let date = Date()
-                            let endDate = dateFormatter.date(from: endRechargeDate)
-
-                            let diff = Int(((endDate?.timeIntervalSince(date))!))
-                            
-                            if diff <= 0 {
-                                
-                                let chargeObject = ChargeObject()
-                                
-                                chargeObject.reservationPoint = self.myUserDefaults.integer(forKey: "reservationPoint")
-                                chargeObject.startRechargeDate = self.myUserDefaults.string(forKey: "startRechargeDate")
-                                chargeObject.endRechargeDate = endRechargeDate
-                                
-                                self.showChargeEndPopup(result : chargeObject)
-                            }
-                        }
-                        
                         self.myUserDefaults.set(0, forKey: "reservationId")
                         self.myUserDefaults.set(nil, forKey: "reservationInfo")
                         self.myUserDefaults.set(0, forKey: "rechargeId")
@@ -1373,7 +1375,6 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                         self.myUserDefaults.set(nil, forKey: "startRechargeDate")
                         self.myUserDefaults.set(nil, forKey: "endRechargeDate")
                         self.myUserDefaults.set(0, forKey: "reservationPoint")
-                        
                         
                         self.searchingConditionView.initializeLayer(chargingTime: self.receivedSearchingConditionObject.chargingTime, chargingPeriod: self.receivedSearchingConditionObject.chargingPeriod)
                         
@@ -1461,6 +1462,9 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                     self.myUserDefaults.set(nil, forKey: "reservationInfo")
                     self.myUserDefaults.set(0, forKey: "rechargeId")
                     self.myUserDefaults.set(false, forKey: "isCharging")
+                    self.myUserDefaults.set(nil, forKey: "startRechargeDate")
+                    self.myUserDefaults.set(nil, forKey: "endRechargeDate")
+                    self.myUserDefaults.set(0, forKey: "reservationPoint")
                     
                     self.searchingConditionView.initializeLayer(chargingTime: self.receivedSearchingConditionObject.chargingTime, chargingPeriod: self.receivedSearchingConditionObject.chargingPeriod)
                 }
@@ -1481,6 +1485,9 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                 self.myUserDefaults.set(nil, forKey: "reservationInfo")
                 self.myUserDefaults.set(0, forKey: "rechargeId")
                 self.myUserDefaults.set(false, forKey: "isCharging")
+                self.myUserDefaults.set(nil, forKey: "startRechargeDate")
+                self.myUserDefaults.set(nil, forKey: "endRechargeDate")
+                self.myUserDefaults.set(0, forKey: "reservationPoint")
                 
                 self.searchingConditionView.initializeLayer(chargingTime: self.receivedSearchingConditionObject.chargingTime, chargingPeriod: self.receivedSearchingConditionObject.chargingPeriod)
             }
@@ -1507,6 +1514,9 @@ class MainViewController: UIViewController, MTMapViewDelegate, SearchingConditio
                     self.myUserDefaults.set(nil, forKey: "reservationInfo")
                     self.myUserDefaults.set(0, forKey: "rechargeId")
                     self.myUserDefaults.set(false, forKey: "isCharging")
+                    self.myUserDefaults.set(nil, forKey: "startRechargeDate")
+                    self.myUserDefaults.set(nil, forKey: "endRechargeDate")
+                    self.myUserDefaults.set(0, forKey: "reservationPoint")
                     
                     self.searchingConditionView.initializeLayer(chargingTime: self.receivedSearchingConditionObject.chargingTime, chargingPeriod: self.receivedSearchingConditionObject.chargingPeriod)
                 }

@@ -3023,24 +3023,87 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="예상 환불 포인트" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UKo-tA-rKw">
-                                <rect key="frame" x="25" y="165" width="86" height="16"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="실제 소진 포인트" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mFo-e3-JXk">
-                                <rect key="frame" x="25" y="201" width="86" height="16"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="충전 시작 시간" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H6h-yj-iaY">
-                                <rect key="frame" x="25" y="237" width="75" height="16"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aFF-Cb-uCb" userLabel="Refund Point View">
+                                <rect key="frame" x="25" y="165" width="364" height="16"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="예상 환불 포인트" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UKo-tA-rKw">
+                                        <rect key="frame" x="0.0" y="0.0" width="86" height="16"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="250p" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jda-Ng-ML2">
+                                        <rect key="frame" x="332" y="0.0" width="32" height="16"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="UKo-tA-rKw" firstAttribute="leading" secondItem="aFF-Cb-uCb" secondAttribute="leading" id="LaC-PH-ixC"/>
+                                    <constraint firstAttribute="height" constant="16" id="SDR-fl-bth"/>
+                                    <constraint firstAttribute="bottom" secondItem="UKo-tA-rKw" secondAttribute="bottom" id="VlL-FT-tjV"/>
+                                    <constraint firstItem="UKo-tA-rKw" firstAttribute="top" secondItem="aFF-Cb-uCb" secondAttribute="top" id="Ymf-iC-uMW"/>
+                                    <constraint firstItem="Jda-Ng-ML2" firstAttribute="top" secondItem="aFF-Cb-uCb" secondAttribute="top" id="aKb-JF-UWp"/>
+                                    <constraint firstAttribute="trailing" secondItem="Jda-Ng-ML2" secondAttribute="trailing" id="nNI-6J-jZM"/>
+                                    <constraint firstAttribute="bottom" secondItem="Jda-Ng-ML2" secondAttribute="bottom" id="vln-1U-qLb"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TRR-5x-JOF" userLabel="Real Used Point View">
+                                <rect key="frame" x="25" y="201" width="364" height="16"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="실제 소진 포인트" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mFo-e3-JXk">
+                                        <rect key="frame" x="0.0" y="0.0" width="86" height="16"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0p" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HPy-vM-avL">
+                                        <rect key="frame" x="348" y="0.0" width="16" height="16"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="HPy-vM-avL" secondAttribute="trailing" id="1ld-oo-NS0"/>
+                                    <constraint firstItem="mFo-e3-JXk" firstAttribute="top" secondItem="TRR-5x-JOF" secondAttribute="top" id="2Td-h0-DZi"/>
+                                    <constraint firstItem="HPy-vM-avL" firstAttribute="top" secondItem="TRR-5x-JOF" secondAttribute="top" id="Hav-5c-g6w"/>
+                                    <constraint firstItem="mFo-e3-JXk" firstAttribute="leading" secondItem="TRR-5x-JOF" secondAttribute="leading" id="gbi-Hz-iHd"/>
+                                    <constraint firstAttribute="bottom" secondItem="HPy-vM-avL" secondAttribute="bottom" id="s6h-MY-GKr"/>
+                                    <constraint firstAttribute="bottom" secondItem="mFo-e3-JXk" secondAttribute="bottom" id="tHC-V8-5a7"/>
+                                    <constraint firstAttribute="height" constant="16" id="vYG-3Y-mDd"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Oz2-Oe-OdE" userLabel="Start Recharge Date View">
+                                <rect key="frame" x="25" y="237" width="364" height="16"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="충전 시작 시간" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H6h-yj-iaY">
+                                        <rect key="frame" x="0.0" y="0.0" width="75" height="16"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="예상 환불 포인트" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JYS-S3-XBk">
+                                        <rect key="frame" x="278" y="0.0" width="86" height="16"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="JYS-S3-XBk" firstAttribute="top" secondItem="Oz2-Oe-OdE" secondAttribute="top" id="5Bs-JY-72m"/>
+                                    <constraint firstAttribute="bottom" secondItem="JYS-S3-XBk" secondAttribute="bottom" id="828-uP-fxw"/>
+                                    <constraint firstAttribute="bottom" secondItem="H6h-yj-iaY" secondAttribute="bottom" id="deV-PY-Orn"/>
+                                    <constraint firstItem="H6h-yj-iaY" firstAttribute="leading" secondItem="Oz2-Oe-OdE" secondAttribute="leading" id="dsF-bR-ztg"/>
+                                    <constraint firstAttribute="trailing" secondItem="JYS-S3-XBk" secondAttribute="trailing" id="g8P-1b-zsc"/>
+                                    <constraint firstItem="H6h-yj-iaY" firstAttribute="top" secondItem="Oz2-Oe-OdE" secondAttribute="top" id="ko7-qh-VIZ"/>
+                                    <constraint firstAttribute="height" constant="16" id="y23-9f-VJx"/>
+                                </constraints>
+                            </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="충전 종료 시간" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Fv-GP-6QH">
                                 <rect key="frame" x="25" y="273" width="75" height="16"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -3069,24 +3132,6 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="250p" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jda-Ng-ML2">
-                                <rect key="frame" x="357" y="165" width="32" height="16"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0p" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HPy-vM-avL">
-                                <rect key="frame" x="373" y="196" width="16" height="16"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="예상 환불 포인트" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JYS-S3-XBk">
-                                <rect key="frame" x="303" y="237" width="86" height="16"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="예상 환불 포인트" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CBA-tO-1fJ">
                                 <rect key="frame" x="303" y="273" width="86" height="16"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -3104,49 +3149,49 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="CBA-tO-1fJ" firstAttribute="centerY" secondItem="0Fv-GP-6QH" secondAttribute="centerY" id="1lK-sg-h3O"/>
-                            <constraint firstItem="UKo-tA-rKw" firstAttribute="top" secondItem="55d-OP-Jxp" secondAttribute="bottom" constant="20" id="3tx-dM-iMs"/>
-                            <constraint firstItem="Jda-Ng-ML2" firstAttribute="trailing" secondItem="POx-Xx-07e" secondAttribute="trailing" id="54T-iH-1tu"/>
-                            <constraint firstItem="0Fv-GP-6QH" firstAttribute="top" secondItem="H6h-yj-iaY" secondAttribute="bottom" constant="20" id="8zU-S1-fRx"/>
-                            <constraint firstItem="mFo-e3-JXk" firstAttribute="top" secondItem="UKo-tA-rKw" secondAttribute="bottom" constant="20" id="95k-aB-zk1"/>
                             <constraint firstItem="rbg-sY-jdL" firstAttribute="trailing" secondItem="POx-Xx-07e" secondAttribute="trailing" constant="25" id="9bZ-4I-ukP"/>
+                            <constraint firstItem="rbg-sY-jdL" firstAttribute="trailing" secondItem="Oz2-Oe-OdE" secondAttribute="trailing" constant="25" id="BXM-j8-MJN"/>
                             <constraint firstItem="L2Z-IY-pPQ" firstAttribute="top" secondItem="rbg-sY-jdL" secondAttribute="top" constant="25" id="D2Y-T8-56s"/>
-                            <constraint firstItem="HPy-vM-avL" firstAttribute="centerY" secondItem="mFo-e3-JXk" secondAttribute="centerY" constant="-5" id="EGw-g8-tNF"/>
-                            <constraint firstItem="Jda-Ng-ML2" firstAttribute="centerY" secondItem="UKo-tA-rKw" secondAttribute="centerY" id="Fbc-zW-sXO"/>
+                            <constraint firstItem="aFF-Cb-uCb" firstAttribute="top" secondItem="55d-OP-Jxp" secondAttribute="bottom" constant="20" id="ERa-3n-Xd6"/>
+                            <constraint firstItem="rbg-sY-jdL" firstAttribute="trailing" secondItem="TRR-5x-JOF" secondAttribute="trailing" constant="25" id="Fnz-Qq-04g"/>
                             <constraint firstItem="rbg-sY-jdL" firstAttribute="trailing" secondItem="yLn-9M-c2Y" secondAttribute="trailing" constant="25" id="HXb-y7-JpI"/>
-                            <constraint firstItem="mFo-e3-JXk" firstAttribute="leading" secondItem="L2Z-IY-pPQ" secondAttribute="leading" id="Ncd-z6-fqo"/>
+                            <constraint firstItem="TRR-5x-JOF" firstAttribute="leading" secondItem="L2Z-IY-pPQ" secondAttribute="leading" id="JLN-c6-wc5"/>
+                            <constraint firstItem="Oz2-Oe-OdE" firstAttribute="leading" secondItem="L2Z-IY-pPQ" secondAttribute="leading" id="Ljc-6V-Xj9"/>
+                            <constraint firstItem="0Fv-GP-6QH" firstAttribute="top" secondItem="Oz2-Oe-OdE" secondAttribute="bottom" constant="20" id="MVe-es-HKX"/>
                             <constraint firstItem="k0j-qI-uja" firstAttribute="leading" secondItem="L2Z-IY-pPQ" secondAttribute="leading" id="Nzf-Sz-xMq"/>
                             <constraint firstItem="yLn-9M-c2Y" firstAttribute="leading" secondItem="rbg-sY-jdL" secondAttribute="leading" constant="25" id="OXD-KD-vZM"/>
-                            <constraint firstItem="JYS-S3-XBk" firstAttribute="centerY" secondItem="H6h-yj-iaY" secondAttribute="centerY" id="Tf9-WY-quM"/>
-                            <constraint firstItem="JYS-S3-XBk" firstAttribute="trailing" secondItem="POx-Xx-07e" secondAttribute="trailing" id="WWJ-OU-Yvg"/>
+                            <constraint firstItem="Oz2-Oe-OdE" firstAttribute="top" secondItem="TRR-5x-JOF" secondAttribute="bottom" constant="20" id="QJ3-WU-aj4"/>
                             <constraint firstItem="rbg-sY-jdL" firstAttribute="bottom" secondItem="yLn-9M-c2Y" secondAttribute="bottom" constant="25" id="cEY-ES-Yti"/>
                             <constraint firstItem="55d-OP-Jxp" firstAttribute="leading" secondItem="L2Z-IY-pPQ" secondAttribute="leading" id="fIc-Vx-Uxp"/>
-                            <constraint firstItem="HPy-vM-avL" firstAttribute="trailing" secondItem="POx-Xx-07e" secondAttribute="trailing" id="h7X-J4-PEe"/>
                             <constraint firstItem="3vE-VZ-AQD" firstAttribute="trailing" secondItem="POx-Xx-07e" secondAttribute="trailing" id="hJ3-44-haS"/>
+                            <constraint firstItem="aFF-Cb-uCb" firstAttribute="leading" secondItem="L2Z-IY-pPQ" secondAttribute="leading" id="i0Z-hQ-qrd"/>
                             <constraint firstItem="POx-Xx-07e" firstAttribute="centerY" secondItem="55d-OP-Jxp" secondAttribute="centerY" id="iqh-44-Uxj"/>
-                            <constraint firstItem="H6h-yj-iaY" firstAttribute="leading" secondItem="L2Z-IY-pPQ" secondAttribute="leading" id="jEP-dM-NZv"/>
-                            <constraint firstItem="UKo-tA-rKw" firstAttribute="leading" secondItem="L2Z-IY-pPQ" secondAttribute="leading" id="l0u-hD-EFC"/>
                             <constraint firstItem="k0j-qI-uja" firstAttribute="top" secondItem="0Fv-GP-6QH" secondAttribute="bottom" constant="20" id="oBX-Fl-0J7"/>
                             <constraint firstItem="55d-OP-Jxp" firstAttribute="top" secondItem="L2Z-IY-pPQ" secondAttribute="bottom" constant="30" id="sW3-h3-nf8"/>
                             <constraint firstItem="0Fv-GP-6QH" firstAttribute="leading" secondItem="L2Z-IY-pPQ" secondAttribute="leading" id="sbY-rc-uqc"/>
                             <constraint firstItem="L2Z-IY-pPQ" firstAttribute="leading" secondItem="rbg-sY-jdL" secondAttribute="leading" constant="25" id="su7-N9-Ay2"/>
-                            <constraint firstItem="H6h-yj-iaY" firstAttribute="top" secondItem="mFo-e3-JXk" secondAttribute="bottom" constant="20" id="y9n-Nj-mk5"/>
+                            <constraint firstItem="TRR-5x-JOF" firstAttribute="top" secondItem="aFF-Cb-uCb" secondAttribute="bottom" constant="20" id="w6Q-Q4-L9d"/>
                             <constraint firstItem="CBA-tO-1fJ" firstAttribute="trailing" secondItem="POx-Xx-07e" secondAttribute="trailing" id="ya3-a1-eSv"/>
                             <constraint firstItem="3vE-VZ-AQD" firstAttribute="centerY" secondItem="k0j-qI-uja" secondAttribute="centerY" id="zDz-YD-8d8"/>
+                            <constraint firstItem="rbg-sY-jdL" firstAttribute="trailing" secondItem="aFF-Cb-uCb" secondAttribute="trailing" constant="25" id="zUC-Xt-Cpv"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="confirmButton" destination="yLn-9M-c2Y" id="M5B-KT-GSH"/>
                         <outlet property="endRechargeDateLabel" destination="CBA-tO-1fJ" id="j5q-rO-KDy"/>
-                        <outlet property="realUsedPointLabel" destination="HPy-vM-avL" id="RXj-PJ-W8N"/>
+                        <outlet property="realUsedPointLabel" destination="HPy-vM-avL" id="Nte-L3-zdW"/>
+                        <outlet property="realUsedPointView" destination="TRR-5x-JOF" id="K2y-Yo-ugY"/>
                         <outlet property="rechargePeriodLabel" destination="3vE-VZ-AQD" id="k2a-Ko-8po"/>
                         <outlet property="refundPointLabel" destination="Jda-Ng-ML2" id="4W2-vu-TeJ"/>
+                        <outlet property="refundPointView" destination="aFF-Cb-uCb" id="JFY-Y1-cAR"/>
                         <outlet property="reservationPointLabel" destination="POx-Xx-07e" id="UmI-ce-boe"/>
                         <outlet property="startRechargeDateLabel" destination="JYS-S3-XBk" id="Hda-rB-SB6"/>
+                        <outlet property="startRechargeDateView" destination="Oz2-Oe-OdE" id="rvU-eg-RfA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tGG-ZV-ePw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5610" y="156"/>
+            <point key="canvasLocation" x="5608.6956521739139" y="155.35714285714286"/>
         </scene>
         <!--비밀번호 변경 완료-->
         <scene sceneID="7RA-4D-Rjh">

@@ -19,12 +19,11 @@ class PolicyViewController : UIViewController , WKUIDelegate, WKNavigationDelega
     var url = ""
 
     override func viewDidLoad() {
-        
         super.viewDidLoad()
-        initialize()
+        viewWillInitializeObjects()
     }
 
-    func initialize(){
+    func viewWillInitializeObjects(){
     
         self.delegate = JoinViewController()
         let userUrl = URL(string: url)
@@ -32,12 +31,10 @@ class PolicyViewController : UIViewController , WKUIDelegate, WKNavigationDelega
         self.policyWebView.load(request)
         
         confirmButton.addTarget(self, action: #selector(confirmButton(sender:)), for: .touchUpInside)
-
     }
     
     @objc func confirmButton(sender: UIButton!) {
         
-
         delegate?.policyDelegate(data: url)
         self.dismiss(animated: true, completion: nil)
     }

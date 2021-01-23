@@ -60,10 +60,7 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
         super.viewDidLoad()
         
         viewWillInitializeObjects()
-        clockDateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        clockDateFormatter.locale = locale
-        timerDateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
-        timerDateFormatter.locale = locale
+        
     }
     private func viewWillInitializeObjects() {
         
@@ -96,6 +93,15 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
         searchCharger.addTarget(self, action: #selector(searchCharger(sender:)), for: .touchUpInside)
         
         mainButton.addTarget(self, action: #selector(goMain), for: .touchUpInside)
+        
+        dateFormatter.locale = locale
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        
+        clockDateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        clockDateFormatter.locale = locale
+        
+        timerDateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        timerDateFormatter.locale = locale
         
         HHMMFormatter.locale = locale
         HHMMFormatter.dateFormat = "HH:mm"
@@ -917,6 +923,7 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                                     self.chargeId.isHidden = false
                                     self.myUserDefaults.set(instanceDataId, forKey: "rechargeId")
                                     self.myUserDefaults.set(true, forKey: "isCharging")
+                                    self.myUserDefaults.set(instanceData.reservationPoint, forKey: "reservationPoint")
                                     BleManager.shared.bleSetTag(tag: tagId)
                                     print("bleSetTag tagId : \(tagId)")
 
@@ -938,13 +945,18 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                             //정상 인증
                             if obj as! Int == 1 {
             
+                                let calendar = Calendar.current
                                 let currentDate = Date()
-                                let endDate = self.timerDateFormatter.date(from: self.reservationInfo!.realChargingEndDate)
-                                let useTime = self.reservationInfo!.realChargingTime
-                                BleManager.shared.bleChargerStart(useTime: useTime)
-                            
-                                self.myUserDefaults.set(self.timerDateFormatter.string(from: currentDate), forKey: "startRechargeDate")
-                                self.myUserDefaults.set(self.timerDateFormatter.string(from: endDate!), forKey: "endRechargeDate")
+                                let endDate = self.dateFormatter.date(from: self.reservationInfo!.realChargingEndDate)
+                                
+                                let offsetComps = calendar.dateComponents([.minute], from:currentDate, to:endDate!)
+                                if case let (minute?) = (offsetComps.minute) {
+                                    
+                                    let useTime = String(minute)
+                                    print("useTime : \(useTime)")
+                                    BleManager.shared.bleChargerStart(useTime: useTime)
+                                }
+                                
                                 return
                             }
                             
@@ -1032,11 +1044,8 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                             }
                             
                             print("********************************")
-                            print("count : \(count), index : \(index) ")
+                            print("비정상적 충전 종료 count : \(count!), index : \(index!) ")
                             print("********************************")
-                            if count == index {
-                                self.showAlert(title: "충전 종료", message: "충전이 종료되었습니다.", positiveTitle: "확인", negativeTitle: nil)
-                            }
                         }
                     }
                     
@@ -1067,7 +1076,7 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                             }
                             
                             if count == index {
-                                self.showChargeEndPopup(result : instanceData, rechargeKWh: rechargeKwh, startRechargeDate: startRechargeDate!)
+                                self.showChargeEndPopup(result : instanceData, startRechargeDate: startRechargeDate!)
                             }
                         }
                     }
@@ -1257,17 +1266,6 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                                 self.ownerChargeStart()
                                 break
                             }
-                            
-                            //충전 성공한 건 다시 충전 시작하려할 때
-//                            else if item.userId == currentUserId && item.state == "KEEP" {
-//                                print("기존 예약건 종료 처리하고 다시 충전 시작 isChargeStartError : \(self.isChargeStartError)")
-//                                self.isChargeStartError = true
-//                                self.isChargeStop = true
-//                                self.myUserDefaults.set(true, forKey: "isCharging")
-//                                self.myUserDefaults.set(item.id, forKey: "reservationId")
-//                                BleManager.shared.bleConnect(bleID: item.bleNumber!)
-//                                break
-//                            }
                         }
                     }
                     
@@ -1376,6 +1374,7 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                         
                         let defaultTime = self.myUserDefaults.integer(forKey: "defaultTime")
                         let maximumEndDate = calendar.date(byAdding: .hour, value: defaultTime, to: currentDate)
+                        
                         self.ownerReservation(startDate: dateFormatter.string(from: currentDate), endDate: dateFormatter.string(from: maximumEndDate!))
                         
                     }
@@ -1481,7 +1480,7 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
         UIApplication.shared.windows.first?.rootViewController = navigationController
         //UIApplication.shared.windows.first?.makeKeyAndVisible()
     }
-    func showChargeEndPopup(result : ChargeObject , rechargeKWh: Double, startRechargeDate : String) {
+    func showChargeEndPopup(result : ChargeObject, startRechargeDate : String) {
         
         let viewController:ChargeEndPopupViewController = self.storyboard?.instantiateViewController(withIdentifier: "ChargeEndPopup") as! ChargeEndPopupViewController
         viewController.preferredContentSize = CGSize(width: view.frame.size.width, height: 1.2 * view.frame.size.height / 2)
@@ -1535,7 +1534,7 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
     @objc func setClock(){
 
         if let endRechargeDate = myUserDefaults.string(forKey: "endRechargeDate"){
-            print(endRechargeDate)
+            
             let date = Date()
             let endDate = timerDateFormatter.date(from: endRechargeDate)
 
@@ -1544,13 +1543,23 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
             if diff <= 0 {
                 chargingTimeLabel.text = "00 : 00 : 00"
                 
-                endCharging()
+                chargeStart.backgroundColor = UIColor(named: "Color_BEBEBE")
+                chargeEnd.backgroundColor = UIColor(named: "Color_BEBEBE")
+                
+                let chargeObject = ChargeObject()
+                
+                chargeObject.reservationPoint = self.myUserDefaults.integer(forKey: "reservationPoint")
+                chargeObject.startRechargeDate = self.myUserDefaults.string(forKey: "startRechargeDate")
+                chargeObject.endRechargeDate = endRechargeDate
+                chargeObject.rechargePoint = self.myUserDefaults.integer(forKey: "reservationPoint")
+                    
+                self.showChargeEndPopup(result : chargeObject, startRechargeDate: self.myUserDefaults.string(forKey: "startRechargeDate")!)
                 return
             }
+            
             var timerText = ""
     
             let hour = (diff/3600)
-                
                 
             if hour < 10 {
                 timerText = "0" + String(hour) + " : "
@@ -1779,6 +1788,13 @@ extension OwnerChargeViewController: BleDelegate {
             case .BleChargeStart:
                 print("충전 시작 성공\n")
                 
+                let currentDate = Date()
+                let endDate = self.dateFormatter.date(from: self.reservationInfo!.realChargingEndDate)
+                //let endDate = self.dateFormatter.date(from: "2021-01-24T01:41:10")
+                
+                self.myUserDefaults.set(self.timerDateFormatter.string(from: currentDate), forKey: "startRechargeDate")
+                self.myUserDefaults.set(self.timerDateFormatter.string(from: endDate!), forKey: "endRechargeDate")
+                
                 showAlert(title: "충전 시작", message: "충전이 시작되었습니다.\n충전이 완료될 때까지 플러그를 제거하지마십시오.", positiveTitle: "확인", negativeTitle: nil)
                 
                 let chargerId:Int! = reservationInfo!.chargerId
@@ -1825,6 +1841,7 @@ extension OwnerChargeViewController: BleDelegate {
                 cell.startDateLabel?.text = "-"
                 cell.endDateLabel?.text = "-"
                 
+                isChargeStop = true
                 BleManager.shared.bleGetTag()
                 chargeStart.backgroundColor = UIColor(named: "Color_3498DB")
                 chargeEnd.backgroundColor = UIColor(named: "Color_BEBEBE")

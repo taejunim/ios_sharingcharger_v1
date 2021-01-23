@@ -11,10 +11,12 @@ import GoneVisible
 
 class ChargeEndPopupViewController: UIViewController {
     
-
     @IBOutlet var reservationPointLabel: UILabel!
+    @IBOutlet var refundPointView: UIView!
     @IBOutlet var refundPointLabel: UILabel!
+    @IBOutlet var realUsedPointView: UIView!
     @IBOutlet var realUsedPointLabel: UILabel!
+    @IBOutlet var startRechargeDateView: UIView!
     @IBOutlet var startRechargeDateLabel: UILabel!
     @IBOutlet var endRechargeDateLabel: UILabel!
     @IBOutlet var rechargePeriodLabel: UILabel!
@@ -30,6 +32,8 @@ class ChargeEndPopupViewController: UIViewController {
     
     @IBOutlet var confirmButton: UIButton!
     
+    let myUserDefaults = UserDefaults.standard
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -38,8 +42,12 @@ class ChargeEndPopupViewController: UIViewController {
     
     private func viewWillInitializeObjects() {
         
-        if refundPoint == 0 && realUsedPoint == 0 {
-            realUsedPointLabel.gone()
+        if refundPoint == 0 {
+            //realUsedPointView.gone()
+            realUsedPointView.isHidden = true
+            
+            startRechargeDateView.translatesAutoresizingMaskIntoConstraints = false
+            startRechargeDateView.topAnchor.constraint(equalTo: refundPointView.bottomAnchor, constant: 20).isActive = true
         }
         
         reservationPointLabel.text = setComma(value : reservationPoint) + "p"
@@ -51,6 +59,14 @@ class ChargeEndPopupViewController: UIViewController {
         
         confirmButton.layer.cornerRadius = 7
         confirmButton.addTarget(self, action: #selector(self.confirm), for: .touchUpInside)
+        
+        myUserDefaults.set(0, forKey: "reservationId")
+        myUserDefaults.set(nil, forKey: "reservationInfo")
+        myUserDefaults.set(0, forKey: "rechargeId")
+        myUserDefaults.set(false, forKey: "isCharging")
+        myUserDefaults.set(nil, forKey: "startRechargeDate")
+        myUserDefaults.set(nil, forKey: "endRechargeDate")
+        myUserDefaults.set(0, forKey: "reservationPoint")
     }
     
     private func setComma(value: Int) -> String{
