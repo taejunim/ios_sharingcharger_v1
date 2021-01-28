@@ -106,10 +106,11 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     if Date() < realChargingEndDate! {
                         
                         if bluetoothList.count == 1 && reservationInfo!.bleNumber == bluetoothList[0] {
+                            self.activityIndicator!.startAnimating()
                             currentSelectedRow = 0
                             BleManager.shared.bleConnect(bleID: bluetoothList[0])
                         } else if bluetoothList.count > 1 {
-                            showAlert(title: "충전기 선택", message: "예약한 충전기를 연결하여 주십시오", positiveTitle: "확인", negativeTitle: nil)
+                            showAlert(title: "충전기 선택", message: "예약한 충전기를 연결하여 주십시오.", positiveTitle: "확인", negativeTitle: nil)
                         } else {
                             showAlert(title: "사용 가능한 충전기 없음", message: "근처에 사용 가능한 충전기가 없습니다.\n다시 검색하여 주십시오.", positiveTitle: "확인", negativeTitle: nil)
                         }
@@ -273,34 +274,46 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         print("chargeStart")
         
-        //메모리에 저장된 예약 정보 가져와서 예약한 화면 구성
-        if let data = self.myUserDefaults.value(forKey: "reservationInfo") as? Data {
-            let reservationInfo: SearchingConditionObject? = try? PropertyListDecoder().decode(SearchingConditionObject.self, from: data)
-            
-            //블루투스 권한 체크
-            if hasBluetoothPermission() {
+        if currentSelectedRow! >= 0 {
+            //메모리에 저장된 예약 정보 가져와서 예약한 화면 구성
+            if let data = self.myUserDefaults.value(forKey: "reservationInfo") as? Data {
+                let reservationInfo: SearchingConditionObject? = try? PropertyListDecoder().decode(SearchingConditionObject.self, from: data)
                 
-                //블루투스 on/off 체크
-                if isOnBluetooth() {
-                    
-                    let chargerId: Int! = reservationInfo!.chargerId
-                    let url = "http://211.253.37.97:8101/api/v1/recharge/authenticate/charger/\(chargerId!)"
-                    
-                    postChargeStartData(postUrl: url)
-                    
+                let isCharging = myUserDefaults.bool(forKey: "isCharging")
+                
+                if isCharging {
+                    self.view.makeToast("현재 충전 진행중입니다.\n문제 발생시 고객센터로 문의주십시오.", duration: 2.0, position: .bottom)
                 } else {
-                    showAlert(title: "블루투스 꺼짐", message: "충전을 하기 위해서는 블루투스가 켜져 있어야 합니다.\n확인후 재시도 바랍니다.", positiveTitle: "설정", negativeTitle: "닫기")
-                }
                 
-            } else {
-                showAlert(title: "블루투스 사용 권한 없음", message: "기기 블루투스 사용 권한이 없습니다.\n확인후 재시도 바랍니다.", positiveTitle: "확인", negativeTitle: nil)
+                    //블루투스 권한 체크
+                    if hasBluetoothPermission() {
+                        
+                        //블루투스 on/off 체크
+                        if isOnBluetooth() {
+                            
+                            let chargerId: Int! = reservationInfo!.chargerId
+                            let url = "http://211.253.37.97:8101/api/v1/recharge/authenticate/charger/\(chargerId!)"
+                            
+                            postChargeStartData(postUrl: url)
+                            
+                        } else {
+                            showAlert(title: "블루투스 꺼짐", message: "충전을 하기 위해서는 블루투스가 켜져 있어야 합니다.\n확인후 재시도 바랍니다.", positiveTitle: "설정", negativeTitle: "닫기")
+                        }
+                        
+                    } else {
+                        showAlert(title: "블루투스 사용 권한 없음", message: "기기 블루투스 사용 권한이 없습니다.\n확인후 재시도 바랍니다.", positiveTitle: "확인", negativeTitle: nil)
+                    }
+                }
             }
+            
+            //예약 정보가 없을 경우
+            else {
+                showAlert(title: "예약 정보 없음", message: "예약 정보가 존재하지 않습니다.\n문제가 지속될 시 고객센터로 문의 주십시오.", positiveTitle: "확인", negativeTitle: nil)
+            }
+        } else {
+            showAlert(title: "충전 시작 실패", message: "충전기와 연결이 되어 있지 않습니다.\n예약한 충전기를 연결하여 주십시오.", positiveTitle: "확인", negativeTitle: nil)
         }
         
-        //예약 정보가 없을 경우
-        else {
-            showAlert(title: "예약 정보 없음", message: "예약 정보가 존재하지 않습니다.\n문제가 지속될 시 고객센터로 문의 주십시오.", positiveTitle: "확인", negativeTitle: nil)
-        }
     }
     
     @objc func chargeEnd(sender: UIView!) {
@@ -424,15 +437,37 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         //예약 정보 가져오기
         getReservation()
+    
+        //충전기 연걸, 충전 시작, 충전 종료 버튼 색 변경&클릭 불가 처리, 충전중이면 충전기 연결 버튼 회색으로 변경하고 클릭 불가
+        switchSearchCharger()
+    }
+    
+    //충전기 연걸, 충전 시작, 충전 종료 버튼 색 변경&클릭 불가 처리, 충전중이면 충전기 연결 버튼 회색으로 변경하고 클릭 불가
+    private func switchSearchCharger() {
+        
+        self.activityIndicator!.stopAnimating()
         
         let isCharging = myUserDefaults.bool(forKey: "isCharging")
         
-        //현재 충전중이고 충전 종료 버튼 클릭하면 자동으로 충전기 연결해서 종료 처리
         if isCharging {
+            searchCharger.backgroundColor = UIColor(named: "Color_BEBEBE")
+            searchCharger.isEnabled = false
+            
             chargeStart.backgroundColor = UIColor(named: "Color_BEBEBE")
+            chargeStart.isEnabled = false
+            
             chargeEnd.backgroundColor = UIColor(named: "Color_E74C3C")
+            chargeEnd.isEnabled = true
+        } else {
+            searchCharger.backgroundColor = UIColor(named: "Color_69AD93")
+            searchCharger.isEnabled = true
+            
+            chargeStart.backgroundColor = UIColor(named: "Color_3498DB")
+            chargeStart.isEnabled = true
+            
+            chargeEnd.backgroundColor = UIColor(named: "Color_BEBEBE")
+            chargeEnd.isEnabled = false
         }
-
     }
     
     private func getReservation() {
@@ -577,6 +612,9 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 UIApplication.shared.windows.first?.rootViewController = navigationController
                 UIApplication.shared.windows.first?.makeKeyAndVisible()
             }
+            
+            //충전기 연걸, 충전 시작, 충전 종료 버튼 색 변경&클릭 불가 처리, 충전중이면 충전기 연결 버튼 회색으로 변경하고 클릭 불가
+            self.switchSearchCharger()
         })
     }
     
@@ -742,6 +780,10 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                                 print("**************************")
                                 print("태그 삭제 실패")
                                 print("**************************")
+                                
+                                //충전기 연걸, 충전 시작, 충전 종료 버튼 색 변경&클릭 불가 처리, 충전중이면 충전기 연결 버튼 회색으로 변경하고 클릭 불가
+                                self.switchSearchCharger()
+                                
                                 self.showAlert(title: "서버 에러", message: "서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)", positiveTitle: "확인", negativeTitle: nil)
                                 return
                             }
@@ -775,6 +817,10 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                                 print("**************************")
                                 print("태그 삭제 실패")
                                 print("**************************")
+                                
+                                //충전기 연걸, 충전 시작, 충전 종료 버튼 색 변경&클릭 불가 처리, 충전중이면 충전기 연결 버튼 회색으로 변경하고 클릭 불가
+                                self.switchSearchCharger()
+                                
                                 self.showAlert(title: "충전 종료 오류", message: "충전 종료 오류가 발생했습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)", positiveTitle: "확인", negativeTitle: nil)
                                 return
                             }
@@ -787,6 +833,9 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 } catch {
                     print("error : \(error.localizedDescription)")
                     print("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)")
+                
+                    //충전기 연걸, 충전 시작, 충전 종료 버튼 색 변경&클릭 불가 처리, 충전중이면 충전기 연결 버튼 회색으로 변경하고 클릭 불가
+                    self.switchSearchCharger()
                     
                     self.showAlert(title: "서버 에러", message: "서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)", positiveTitle: "확인", negativeTitle: nil)
                     return
@@ -803,6 +852,8 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 } else {
                     print("Unknown Error")
                 }
+                //충전기 연걸, 충전 시작, 충전 종료 버튼 색 변경&클릭 불가 처리, 충전중이면 충전기 연결 버튼 회색으로 변경하고 클릭 불가
+                self.switchSearchCharger()
                 
                 self.showAlert(title: "서버 에러", message: "서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)", positiveTitle: "확인", negativeTitle: nil)
                 return
@@ -990,7 +1041,8 @@ class ChargeViewController: UIViewController, UITableViewDelegate, UITableViewDa
 extension ChargeViewController: BleDelegate {
     func bleResult(code: BleResultCode, result: Any?) {
         
-        self.activityIndicator!.stopAnimating()
+        //충전기 연걸, 충전 시작, 충전 종료 버튼 색 변경&클릭 불가 처리, 충전중이면 충전기 연결 버튼 회색으로 변경하고 클릭 불가
+        switchSearchCharger()
         
         switch code {
             case .BleAuthorized:
@@ -1067,7 +1119,6 @@ extension ChargeViewController: BleDelegate {
                     //연결됨 라벨 표시
                     addConnectedLabel()
                     
-                    chargeStart.backgroundColor = UIColor(named: "Color_3498DB")
                     showAlert(title: "충전기 연결 성공", message: "\(bleId) 충전기와 연결되었습니다.", positiveTitle: "확인", negativeTitle: nil)
                     
                     BleManager.shared.bleGetTag()
@@ -1079,8 +1130,9 @@ extension ChargeViewController: BleDelegate {
                 
                 //연결됨 라벨 숨김
                 removeConnectedLabel()
-                
+                currentSelectedRow = -1
                 chargeStart.backgroundColor = UIColor(named: "Color_BEBEBE")
+                chargeEnd.backgroundColor = UIColor(named: "Color_BEBEBE")
                 
                 break
             case .BleScanFail:
@@ -1103,7 +1155,6 @@ extension ChargeViewController: BleDelegate {
                 
                 let currentDate = Date()
                 let endDate = self.dateFormatter.date(from: self.reservationInfo!.realChargingEndDate)
-                //let endDate = self.dateFormatter.date(from: "2021-01-23T22:28:40")
                 
                 self.myUserDefaults.set(self.dateFormatter.string(from: currentDate), forKey: "startRechargeDate")
                 self.myUserDefaults.set(self.dateFormatter.string(from: endDate!), forKey: "endRechargeDate")
@@ -1115,17 +1166,12 @@ extension ChargeViewController: BleDelegate {
                 
                 postChargeStartData(postUrl: url)
                 
-                chargeStart.backgroundColor = UIColor(named: "Color_BEBEBE")
-                chargeEnd.backgroundColor = UIColor(named: "Color_E74C3C")
-
                 break
             case .BleUnPlug:
                 print("충전 시작 실패, 플러그 연결 확인 후 재 접속 후 충전을 시작해주세요.\n")
                 // UnPlug 값이 넘어오면 충전기 접속 종료 처리 해줘야 함
                 // 안 그럼 Stop 이벤트가 추가적으로 들어와서 문제가 될 수 있음
                 BleManager.shared.bleDisConnect()
-                chargeStart.backgroundColor = UIColor(named: "Color_BEBEBE")
-                chargeEnd.backgroundColor = UIColor(named: "Color_BEBEBE")
                 showAlert(title: "충전 시작 실패", message: "플러그 연결 확인 후 재접속 후 충전을 시작해주세요.\n문제가 지속될 시 고객센터로 문의 주십시오.", positiveTitle: "확인", negativeTitle: nil)
                 break
             case .BleAgainOtpAtuh:
@@ -1174,8 +1220,6 @@ extension ChargeViewController: BleDelegate {
                         //충전중
                         if isCharging && !isChargeStop && tagNumber == rechargeId {
                             print("충전중")
-                            chargeStart.backgroundColor = UIColor(named: "Color_BEBEBE")
-                            chargeEnd.backgroundColor = UIColor(named: "Color_E74C3C")
                         }
                         
                         //충전 종료 눌렀을 때 충전 정보 서버로 전송
@@ -1228,5 +1272,7 @@ extension ChargeViewController: BleDelegate {
             
             break
         }
+        
+        
     }
 }

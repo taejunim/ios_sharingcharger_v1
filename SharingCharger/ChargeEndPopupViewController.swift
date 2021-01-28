@@ -43,7 +43,6 @@ class ChargeEndPopupViewController: UIViewController {
     private func viewWillInitializeObjects() {
         
         if refundPoint == 0 {
-            //realUsedPointView.gone()
             realUsedPointView.isHidden = true
             
             startRechargeDateView.translatesAutoresizingMaskIntoConstraints = false

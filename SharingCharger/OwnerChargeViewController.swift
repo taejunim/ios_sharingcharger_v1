@@ -333,18 +333,30 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                         let JSONData = try JSONSerialization.data(withJSONObject: obj, options: .prettyPrinted)
                         let instanceData = try JSONDecoder().decode(ReservationObject.self, from: JSONData)
                         
-                        print(instanceData.id)
-                        print(instanceData.bleNumber)
-                        print(instanceData.chargerId)
-                        //예약 정보 가져오기
-                        self.ownerChargeStart()
+                        print("instanceData.id : \(instanceData.id)")
+                        print("instanceData.bleNumber : \(instanceData.bleNumber)")
+                        print("instanceData.chargerId : \(instanceData.chargerId)")
+                        
+                        if instanceData.id! > 0 {
+                            //예약 정보 가져오기
+                            self.ownerChargeStart()
+                        } else {
+                            self.view.makeToast("충전 시작에 실패하였습니다. 고객센터로 문의주십시오.", duration: 2.0, position: .bottom)
+                            //충전기 연걸, 충전 시작, 충전 종료 버튼 색 변경&클릭 불가 처리, 충전중이면 충전기 연결 버튼 회색으로 변경하고 클릭 불가
+                            self.switchSearchCharger()
+                        }
                         
                     } catch {
                         print("error : \(error.localizedDescription)")
                         print("서버와 통신이 원활하지 않습니다. 고객센터로 문의주십시오. code : \(code!)")
+                        self.view.makeToast("충전 시작에 실패하였습니다. 고객센터로 문의주십시오.", duration: 2.0, position: .bottom)
+                        //충전기 연걸, 충전 시작, 충전 종료 버튼 색 변경&클릭 불가 처리, 충전중이면 충전기 연결 버튼 회색으로 변경하고 클릭 불가
+                        self.switchSearchCharger()
                     }
                 } else if code == 204 {
                     self.view.makeToast("사용자 또는 충전기가 존재하지 않습니다.\n다시 확인하여 주십시오", duration: 2.0, position: .bottom)
+                    //충전기 연걸, 충전 시작, 충전 종료 버튼 색 변경&클릭 불가 처리, 충전중이면 충전기 연결 버튼 회색으로 변경하고 클릭 불가
+                    self.switchSearchCharger()
                 }
                 
             case .failure(let err):
@@ -359,9 +371,9 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                     print("서버와 통신이 원활하지 않습니다. 고객센터로 문의주십시오. code : \(code!)")
                     self.view.makeToast("서버와 통신이 원활하지 않습니다.\n고객센터로 문의주십시오.", duration: 2.0, position: .bottom)
                 }
+                //충전기 연걸, 충전 시작, 충전 종료 버튼 색 변경&클릭 불가 처리, 충전중이면 충전기 연결 버튼 회색으로 변경하고 클릭 불가
+                self.switchSearchCharger()
             }
-            
-            self.activityIndicator!.stopAnimating()
         })
     }
     
@@ -490,16 +502,40 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
             reservationInfo = try? PropertyListDecoder().decode(SearchingConditionObject.self, from: data)
         }
         
+        //충전기 연걸, 충전 시작, 충전 종료 버튼 색 변경&클릭 불가 처리, 충전중이면 충전기 연결 버튼 회색으로 변경하고 클릭 불가
+        switchSearchCharger()
+    }
+    
+    //충전기 연걸, 충전 시작, 충전 종료 버튼 색 변경&클릭 불가 처리, 충전중이면 충전기 연결 버튼 회색으로 변경하고 클릭 불가
+    private func switchSearchCharger() {
+        self.activityIndicator!.stopAnimating()
+        
         let isCharging = myUserDefaults.bool(forKey: "isCharging")
         
-        //현재 충전중이고 충전 종료 버튼 클릭하면 자동으로 충전기 연결해서 종료 처리
         if isCharging {
+            searchCharger.backgroundColor = UIColor(named: "Color_BEBEBE")
+            searchCharger.isEnabled = false
+            
             chargeStart.backgroundColor = UIColor(named: "Color_BEBEBE")
+            chargeStart.isEnabled = false
+            
             chargeEnd.backgroundColor = UIColor(named: "Color_E74C3C")
+            chargeEnd.isEnabled = true
+        } else {
+            searchCharger.backgroundColor = UIColor(named: "Color_69AD93")
+            searchCharger.isEnabled = true
+            
+            chargeStart.backgroundColor = UIColor(named: "Color_3498DB")
+            chargeStart.isEnabled = true
+            
+            chargeEnd.backgroundColor = UIColor(named: "Color_BEBEBE")
+            chargeEnd.isEnabled = false
         }
     }
     
     private func getOwnerChargers() {
+        
+        self.activityIndicator!.startAnimating()
         
         let hostId = myUserDefaults.integer(forKey: "userId")
         let hostType = myUserDefaults.string(forKey: "userType")
@@ -554,6 +590,8 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                     print("error : \(error.localizedDescription)")
                     print("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)")
                     self.view.makeToast("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)", duration: 2.0, position: .bottom)
+                    //충전기 연걸, 충전 시작, 충전 종료 버튼 색 변경&클릭 불가 처리, 충전중이면 충전기 연결 버튼 회색으로 변경하고 클릭 불가
+                    self.switchSearchCharger()
                 }
                 
             case .failure(let err):
@@ -568,9 +606,11 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                     print("Unknown Error")
                     self.view.makeToast("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : 알 수 없는 오류", duration: 2.0, position: .bottom)
                 }
+                
+                //충전기 연걸, 충전 시작, 충전 종료 버튼 색 변경&클릭 불가 처리, 충전중이면 충전기 연결 버튼 회색으로 변경하고 클릭 불가
+                self.switchSearchCharger()
             }
             
-            self.activityIndicator!.stopAnimating()
             self.getCurrentReservation()
         })
     }
@@ -676,7 +716,6 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                 } catch {
                     print("error : \(error.localizedDescription)")
                     print("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)")
-                    self.activityIndicator!.stopAnimating()
                     
                     self.isChargeStop = false
                     self.myUserDefaults.set(0, forKey: "reservationId")
@@ -686,10 +725,9 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                     self.myUserDefaults.set(false, forKey: "isCharging")
                     self.myUserDefaults.set(nil, forKey: "startRechargeDate")
                     self.myUserDefaults.set(nil, forKey: "endRechargeDate")
-                    let mainViewController = UIStoryboard(name:"Main", bundle: nil).instantiateViewController(withIdentifier: "Main") as! MainViewController
-                    let navigationController = UINavigationController(rootViewController: mainViewController)
-                    UIApplication.shared.windows.first?.rootViewController = navigationController
-                    UIApplication.shared.windows.first?.makeKeyAndVisible()
+                    
+                    //충전기 연걸, 충전 시작, 충전 종료 버튼 색 변경&클릭 불가 처리, 충전중이면 충전기 연결 버튼 회색으로 변경하고 클릭 불가
+                    self.switchSearchCharger()
                 }
                 
             //예약이 없을 때
@@ -704,8 +742,6 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                     print("Unknown Error")
                 }
                 
-                self.activityIndicator!.stopAnimating()
-                
                 self.isChargeStop = false
                 self.myUserDefaults.set(0, forKey: "reservationId")
                 self.myUserDefaults.set(nil, forKey: "reservationInfo")
@@ -715,10 +751,8 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                 self.myUserDefaults.set(nil, forKey: "startRechargeDate")
                 self.myUserDefaults.set(nil, forKey: "endRechargeDate")
                 
-                let mainViewController = UIStoryboard(name:"Main", bundle: nil).instantiateViewController(withIdentifier: "Main") as! MainViewController
-                let navigationController = UINavigationController(rootViewController: mainViewController)
-                UIApplication.shared.windows.first?.rootViewController = navigationController
-                UIApplication.shared.windows.first?.makeKeyAndVisible()
+                //충전기 연걸, 충전 시작, 충전 종료 버튼 색 변경&클릭 불가 처리, 충전중이면 충전기 연결 버튼 회색으로 변경하고 클릭 불가
+                self.switchSearchCharger()
             }
         })
     }
@@ -749,8 +783,6 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                 do {
                     //예약이 없을 경우
                     if code == 204 {
-                        
-                        self.activityIndicator!.stopAnimating()
                         
                         self.isChargeStop = false
                         self.myUserDefaults.set(0, forKey: "reservationId")
@@ -834,10 +866,12 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                         }
                     }
                     
+                    //충전기 연걸, 충전 시작, 충전 종료 버튼 색 변경&클릭 불가 처리, 충전중이면 충전기 연결 버튼 회색으로 변경하고 클릭 불가
+                    self.switchSearchCharger()
+                    
                 } catch {
                     print("error : \(error.localizedDescription)")
                     print("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)")
-                    self.activityIndicator!.stopAnimating()
                     
                     self.isChargeStop = false
                     self.myUserDefaults.set(0, forKey: "reservationId")
@@ -847,6 +881,9 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                     self.myUserDefaults.set(false, forKey: "isCharging")
                     self.myUserDefaults.set(nil, forKey: "startRechargeDate")
                     self.myUserDefaults.set(nil, forKey: "endRechargeDate")
+                    
+                    //충전기 연걸, 충전 시작, 충전 종료 버튼 색 변경&클릭 불가 처리, 충전중이면 충전기 연결 버튼 회색으로 변경하고 클릭 불가
+                    self.switchSearchCharger()
                 }
                 
             //예약이 없을 때
@@ -861,8 +898,6 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                     print("Unknown Error")
                 }
                 
-                self.activityIndicator!.stopAnimating()
-                
                 self.isChargeStop = false
                 self.myUserDefaults.set(0, forKey: "reservationId")
                 self.myUserDefaults.set(nil, forKey: "reservationInfo")
@@ -871,6 +906,9 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                 self.myUserDefaults.set(false, forKey: "isCharging")
                 self.myUserDefaults.set(nil, forKey: "startRechargeDate")
                 self.myUserDefaults.set(nil, forKey: "endRechargeDate")
+                
+                //충전기 연걸, 충전 시작, 충전 종료 버튼 색 변경&클릭 불가 처리, 충전중이면 충전기 연결 버튼 회색으로 변경하고 클릭 불가
+                self.switchSearchCharger()
             }
         })
     }
@@ -932,7 +970,9 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                                     print("**************************")
                                     print("태그 세팅 실패")
                                     print("**************************")
-                                    self.activityIndicator!.stopAnimating()
+                                    
+                                    //충전기 연걸, 충전 시작, 충전 종료 버튼 색 변경&클릭 불가 처리, 충전중이면 충전기 연결 버튼 회색으로 변경하고 클릭 불가
+                                    self.switchSearchCharger()
                                 }
                             }
                         }
@@ -962,7 +1002,10 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                             
                             //실패
                             else {
+                                //충전기 연걸, 충전 시작, 충전 종료 버튼 색 변경&클릭 불가 처리, 충전중이면 충전기 연결 버튼 회색으로 변경하고 클릭 불가
+                                self.switchSearchCharger()
                                 self.showAlert(title: "충전 사용자 인증 실패", message: "충전을 위한 사용자 인증에 실패하였습니다.\n문제가 지속될 시 고객센터로 문의 주십시오.", positiveTitle: "확인", negativeTitle: nil)
+                                
                                 return
                             }
                         }
@@ -970,7 +1013,8 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                     } catch {
                         print("error : \(error.localizedDescription)")
                         print("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)")
-                        
+                        //충전기 연걸, 충전 시작, 충전 종료 버튼 색 변경&클릭 불가 처리, 충전중이면 충전기 연결 버튼 회색으로 변경하고 클릭 불가
+                        self.switchSearchCharger()
                         self.showAlert(title: "충전 사용자 인증 실패", message: "충전을 위한 사용자 인증에 실패하였습니다.\n문제가 지속될 시 고객센터로 문의 주십시오.", positiveTitle: "확인", negativeTitle: nil)
                         return
                     }
@@ -987,7 +1031,10 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                         print("Unknown Error")
                     }
                     
+                    //충전기 연걸, 충전 시작, 충전 종료 버튼 색 변경&클릭 불가 처리, 충전중이면 충전기 연결 버튼 회색으로 변경하고 클릭 불가
+                    self.switchSearchCharger()
                     self.showAlert(title: "충전 사용자 인증 실패", message: "충전을 위한 사용자 인증에 실패하였습니다.\n문제가 지속될 시 고객센터로 문의 주십시오.", positiveTitle: "확인", negativeTitle: nil)
+                    
                     return
                 }
             })
@@ -1039,7 +1086,10 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                                 print("**************************")
                                 print("태그 삭제 실패")
                                 print("**************************")
+                                //충전기 연걸, 충전 시작, 충전 종료 버튼 색 변경&클릭 불가 처리, 충전중이면 충전기 연결 버튼 회색으로 변경하고 클릭 불가
+                                self.switchSearchCharger()
                                 self.showAlert(title: "서버 에러", message: "서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)", positiveTitle: "확인", negativeTitle: nil)
+                                
                                 return
                             }
                             
@@ -1071,7 +1121,10 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                                 print("**************************")
                                 print("태그 삭제 실패")
                                 print("**************************")
+                                //충전기 연걸, 충전 시작, 충전 종료 버튼 색 변경&클릭 불가 처리, 충전중이면 충전기 연결 버튼 회색으로 변경하고 클릭 불가
+                                self.switchSearchCharger()
                                 self.showAlert(title: "충전 종료 오류", message: "충전 종료 오류가 발생했습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)", positiveTitle: "확인", negativeTitle: nil)
+                                
                                 return
                             }
                             
@@ -1083,8 +1136,10 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                 } catch {
                     print("error : \(error.localizedDescription)")
                     print("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)")
-                    
+                    //충전기 연걸, 충전 시작, 충전 종료 버튼 색 변경&클릭 불가 처리, 충전중이면 충전기 연결 버튼 회색으로 변경하고 클릭 불가
+                    self.switchSearchCharger()
                     self.showAlert(title: "서버 에러", message: "서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)", positiveTitle: "확인", negativeTitle: nil)
+                    
                     return
                 }
                 
@@ -1100,7 +1155,10 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                     print("Unknown Error")
                 }
                 
+                //충전기 연걸, 충전 시작, 충전 종료 버튼 색 변경&클릭 불가 처리, 충전중이면 충전기 연결 버튼 회색으로 변경하고 클릭 불가
+                self.switchSearchCharger()
                 self.showAlert(title: "서버 에러", message: "서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)", positiveTitle: "확인", negativeTitle: nil)
+                
                 return
             }
         })
@@ -1128,6 +1186,8 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
     
     //소유주 충전기들의 현재 예약 가져오기
     private func getCurrentReservations(id: Int!) {
+        
+        self.activityIndicator!.startAnimating()
         
         var code: Int! = 0
         let chargerId = id!
@@ -1173,6 +1233,9 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                     print("error : \(error.localizedDescription)")
                     print("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)")
                     self.view.makeToast("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)", duration: 2.0, position: .bottom)
+                    
+                    //충전기 연걸, 충전 시작, 충전 종료 버튼 색 변경&클릭 불가 처리, 충전중이면 충전기 연결 버튼 회색으로 변경하고 클릭 불가
+                    self.switchSearchCharger()
                 }
                 
             case .failure(let err):
@@ -1187,17 +1250,21 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                     print("Unknown Error")
                     self.view.makeToast("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : 알 수 없는 오류", duration: 2.0, position: .bottom)
                 }
+                
+                //충전기 연걸, 충전 시작, 충전 종료 버튼 색 변경&클릭 불가 처리, 충전중이면 충전기 연결 버튼 회색으로 변경하고 클릭 불가
+                self.switchSearchCharger()
             }
             
-            self.activityIndicator!.stopAnimating()
-            
             if self.bluetoothList.count == 1 {
-                self.activityIndicator!.startAnimating()
-                BleManager.shared.bleConnect(bleID: self.bluetoothList[0])
                 self.currentSelectedRow = 0
+                BleManager.shared.bleConnect(bleID: self.bluetoothList[0])
             } else if self.bluetoothList.count > 1 {
+                //충전기 연걸, 충전 시작, 충전 종료 버튼 색 변경&클릭 불가 처리, 충전중이면 충전기 연결 버튼 회색으로 변경하고 클릭 불가
+                self.switchSearchCharger()
                 self.showAlert(title: "충전기 선택", message: "충전기를 선택하여 주십시오.", positiveTitle: "확인", negativeTitle: nil)
             } else {
+                //충전기 연걸, 충전 시작, 충전 종료 버튼 색 변경&클릭 불가 처리, 충전중이면 충전기 연결 버튼 회색으로 변경하고 클릭 불가
+                self.switchSearchCharger()
                 self.showAlert(title: "사용 가능한 충전기 없음", message: "근처에 사용 가능한 충전기가 없습니다.\n다시 검색하여 주십시오.", positiveTitle: "확인", negativeTitle: nil)
             }
         })
@@ -1205,6 +1272,8 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
     
     //충전 시작전 현재 예약 가져오기
     private func getCurrentReservationsBeforeChargeStart(id: Int!) {
+        
+        self.activityIndicator!.startAnimating()
         
         var code: Int! = 0
         let chargerId = id!
@@ -1309,9 +1378,6 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                             //ex) 현재 13:00, 예약 시작 시간 12:00, 예약 종료 시간 14:00
                             else {
                                 // 14:00 이후로 충전 가능합니다 메시지 띄우고 리턴
-                                
-                                self.activityIndicator!.stopAnimating()
-                                
                                 self.view.makeToast("\(self.HHMMFormatter.string(from: reservationDateArray[2])) 이후로 충전이 가능합니다", duration: 2.0, position: .bottom) {didTap in
                                     
                                     if didTap {
@@ -1321,6 +1387,9 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                                         print("without tap")
                                     }
                                 }
+                                
+                                //충전기 연걸, 충전 시작, 충전 종료 버튼 색 변경&클릭 불가 처리, 충전중이면 충전기 연결 버튼 회색으로 변경하고 클릭 불가
+                                self.switchSearchCharger()
                                 return
                             }
                         }
@@ -1383,6 +1452,8 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                     print("error : \(error.localizedDescription)")
                     print("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)")
                     self.view.makeToast("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)", duration: 2.0, position: .bottom)
+                    //충전기 연걸, 충전 시작, 충전 종료 버튼 색 변경&클릭 불가 처리, 충전중이면 충전기 연결 버튼 회색으로 변경하고 클릭 불가
+                    self.switchSearchCharger()
                 }
                 
             case .failure(let err):
@@ -1397,9 +1468,10 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                     print("Unknown Error")
                     self.view.makeToast("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : 알 수 없는 오류", duration: 2.0, position: .bottom)
                 }
+                
+                //충전기 연걸, 충전 시작, 충전 종료 버튼 색 변경&클릭 불가 처리, 충전중이면 충전기 연결 버튼 회색으로 변경하고 클릭 불가
+                self.switchSearchCharger()
             }
-            
-            self.activityIndicator!.stopAnimating()
         })
     }
     
@@ -1411,6 +1483,8 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
 
     //unplug 시 예약 취소하면서 충전 취소
     @objc func cancelReservation() {
+        
+        self.activityIndicator!.startAnimating()
         
         var code: Int! = 0
         
@@ -1450,6 +1524,8 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                     print("error : \(error.localizedDescription)")
                     print("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)")
                     self.view.makeToast("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : \(code!)", duration: 2.0, position: .bottom)
+                    //충전기 연걸, 충전 시작, 충전 종료 버튼 색 변경&클릭 불가 처리, 충전중이면 충전기 연결 버튼 회색으로 변경하고 클릭 불가
+                    self.switchSearchCharger()
                 }
                 
             case .failure(let err):
@@ -1464,9 +1540,9 @@ class OwnerChargeViewController: UIViewController, UITableViewDelegate, UITableV
                     print("Unknown Error")
                     self.view.makeToast("서버와 통신이 원활하지 않습니다.\n문제가 지속될 시 고객센터로 문의주십시오. code : 알 수 없는 오류", duration: 2.0, position: .bottom)
                 }
+                //충전기 연걸, 충전 시작, 충전 종료 버튼 색 변경&클릭 불가 처리, 충전중이면 충전기 연결 버튼 회색으로 변경하고 클릭 불가
+                self.switchSearchCharger()
             }
-            
-            self.activityIndicator!.stopAnimating()
         })
 
     }
@@ -1654,7 +1730,8 @@ struct Reservation {
 extension OwnerChargeViewController: BleDelegate {
     func bleResult(code: BleResultCode, result: Any?) {
         
-        self.activityIndicator!.stopAnimating()
+        //충전기 연걸, 충전 시작, 충전 종료 버튼 색 변경&클릭 불가 처리, 충전중이면 충전기 연결 버튼 회색으로 변경하고 클릭 불가
+        switchSearchCharger()
         
         switch code {
             case .BleAuthorized:
@@ -1756,8 +1833,6 @@ extension OwnerChargeViewController: BleDelegate {
                 else {
                     addConnectedLabel()
                     
-                    chargeStart.backgroundColor = UIColor(named: "Color_3498DB")
-                    
                     BleManager.shared.bleGetTag()
                 }
                 
@@ -1768,6 +1843,7 @@ extension OwnerChargeViewController: BleDelegate {
                 removeConnectedLabel()
                 
                 chargeStart.backgroundColor = UIColor(named: "Color_BEBEBE")
+                chargeEnd.backgroundColor = UIColor(named: "Color_BEBEBE")
                 
                 break
             case .BleScanFail:
@@ -1790,10 +1866,9 @@ extension OwnerChargeViewController: BleDelegate {
                 
                 let currentDate = Date()
                 let endDate = self.dateFormatter.date(from: self.reservationInfo!.realChargingEndDate)
-                //let endDate = self.dateFormatter.date(from: "2021-01-24T01:41:10")
                 
-                self.myUserDefaults.set(self.timerDateFormatter.string(from: currentDate), forKey: "startRechargeDate")
-                self.myUserDefaults.set(self.timerDateFormatter.string(from: endDate!), forKey: "endRechargeDate")
+                myUserDefaults.set(self.timerDateFormatter.string(from: currentDate), forKey: "startRechargeDate")
+                myUserDefaults.set(self.timerDateFormatter.string(from: endDate!), forKey: "endRechargeDate")
                 
                 showAlert(title: "충전 시작", message: "충전이 시작되었습니다.\n충전이 완료될 때까지 플러그를 제거하지마십시오.", positiveTitle: "확인", negativeTitle: nil)
                 
@@ -1811,10 +1886,6 @@ extension OwnerChargeViewController: BleDelegate {
                 if let endDate = reservationInfo?.realChargingEndDate {
                     cell.endDateLabel?.text = getChargingPeriod(date: endDate)
                 }
-                
-                chargeStart.backgroundColor = UIColor(named: "Color_BEBEBE")
-                chargeEnd.backgroundColor = UIColor(named: "Color_E74C3C")
-
                 break
             case .BleUnPlug:
                 print("충전 시작 실패, 플러그 연결 확인 후 재 접속 후 충전을 시작해주세요.\n")
@@ -1843,8 +1914,6 @@ extension OwnerChargeViewController: BleDelegate {
                 
                 isChargeStop = true
                 BleManager.shared.bleGetTag()
-                chargeStart.backgroundColor = UIColor(named: "Color_3498DB")
-                chargeEnd.backgroundColor = UIColor(named: "Color_BEBEBE")
                 break
             case .BleChargeStartFail:
                 print("충전 시작 실패\n")
@@ -1884,8 +1953,6 @@ extension OwnerChargeViewController: BleDelegate {
                         //충전중
                         if isCharging && !isChargeStop && tagNumber == rechargeId {
                             print("충전중")
-                            chargeStart.backgroundColor = UIColor(named: "Color_BEBEBE")
-                            chargeEnd.backgroundColor = UIColor(named: "Color_E74C3C")
                         }
                         
                         //충전 종료 눌렀을 때 충전 정보 서버로 전송
@@ -1909,8 +1976,6 @@ extension OwnerChargeViewController: BleDelegate {
                 break
             case .BleDeleteTag:
                 print("선택 태그 삭제 성공\n")
-                chargeStart.backgroundColor = UIColor(named: "Color_3498DB")
-                chargeEnd.backgroundColor = UIColor(named: "Color_BEBEBE")
                 break
             case .BleSetTagFail:
                 print("태그 설정 실패\n")
