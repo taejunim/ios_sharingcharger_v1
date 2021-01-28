@@ -47,7 +47,8 @@ class ChargerContentView: UIView {
     let Color1ABC9C: UIColor! = UIColor(named: "Color_1ABC9C")  //녹색
     
     var reservationStateBarList = Array<ReservationStateBarObject>()    //예약 상태바에 들어갈 리스트
-    var availablePeriodBarList = Array<AvailablePeriodBarObject>()    //예약 상태바에 들어갈 리스트
+    var availablePeriodBarList  = Array<AvailablePeriodBarObject>()    //예약 상태바에 들어갈 리스트
+    var openCloseTimeList        = Array<AvailablePeriodBarObject>()    //예약 상태바에 들어갈 리스트
     
     var userLatitude: String?
     var userLongitude: String?
@@ -134,8 +135,7 @@ class ChargerContentView: UIView {
         self.addSubview(favoriteButton)
         self.addSubview(chargerAddress)
         self.addSubview(chargingFee)
-        //self.addSubview(chargingPeriod)
-        //self.addSubview(selectedChargingPeriodBar)
+
         self.addSubview(availableTimeText)
         self.addSubview(availablePeriodBar)
         self.addSubview(availableChargingPeriodText)
@@ -300,7 +300,7 @@ class ChargerContentView: UIView {
         }
     }
     
-    private func addAvailablePeriodBarList(startDateString: String?, endDateString: String?) {
+    private func addAvailablePeriodBarList(startDateString: String?, endDateString: String?, array: String?) {
         
         let startDate = dateFormatter.date(from: startDateString!)
         let id = Int(startDate!.currentTimeMillis())
@@ -310,7 +310,11 @@ class ChargerContentView: UIView {
         availablePeriodBarObject.startDate = startDate
         availablePeriodBarObject.endDate = dateFormatter.date(from: endDateString!)
         
-        availablePeriodBarList.append(availablePeriodBarObject)
+        if array == "available" {
+            availablePeriodBarList.append(availablePeriodBarObject)
+        } else if array == "openClose"{
+            openCloseTimeList.append(availablePeriodBarObject)   //충전기 open close time 저장 배열 분리
+        }
     }
     
     private func getAvailablePeriodBarList(availableTimeList: Array<AvailableTimeObject>?, reservationList: Array<CurrentReservationObject>?, selectedStartDate: Date?) -> [String] {
@@ -324,7 +328,7 @@ class ChargerContentView: UIView {
         availablePeriodBarList = Array<AvailablePeriodBarObject>()
         
         for item in reservationList! {
-            addAvailablePeriodBarList(startDateString: item.startDate!, endDateString: item.endDate!)
+            addAvailablePeriodBarList(startDateString: item.startDate!, endDateString: item.endDate!, array: "available")
         }
         
         for index in 0..<dayArray.count {
@@ -352,82 +356,109 @@ class ChargerContentView: UIView {
                     endDate = calendar.date(byAdding: .day, value: 2, to: endDate)!
                 }
                 
-                addAvailablePeriodBarList(startDateString: startTime, endDateString: endTime)
+                addAvailablePeriodBarList(startDateString: startTime, endDateString: endTime, array: "openClose")
                 
             }
         }
-        
-        availablePeriodBarList = availablePeriodBarList.sorted(by: {$0.id! < $1.id!})
 
         var availablePeriodLabel: [String] = []
-        for index in 0 ..< availablePeriodBarList.count {
-            let availablePeriodBarObjcet = availablePeriodBarList[index]
-           
-            //예약이 없고 오늘,내일 충전 openTime 00:00:00 - closeTime 23:59:59 항시 충전 가능
-            if availablePeriodBarList.count == 2 && index == 0{
-                if HHMMFormatter.string(from: availablePeriodBarObjcet.startDate!) == "00:00" && HHMMFormatter.string(from: availablePeriodBarObjcet.endDate!) == "23:59" && HHMMFormatter.string(from: availablePeriodBarList[1].startDate!) == "00:00" && HHMMFormatter.string(from: availablePeriodBarList[1].endDate!) == "23:59"{
-                    
-                    checkAlwaysAvailable(alwaysAvailable: true)
-                    break
-                } else {
-                    
-                    checkAlwaysAvailable(alwaysAvailable: false)
-                    //현재 시간보다 openTime이 클 경우 ex) 현재 - 18:00, openTime - 19:00
-                    if selectedStartDate! < availablePeriodBarObjcet.startDate! {
-                        availablePeriodLabel.append("\(HHMMFormatter.string(from: availablePeriodBarObjcet.startDate!)) ~ \(HHMMFormatter.string(from: availablePeriodBarObjcet.endDate!))")
-                    } else {
-                        availablePeriodLabel.append("\(HHMMFormatter.string(from: selectedStartDate!)) ~ \(HHMMFormatter.string(from: availablePeriodBarObjcet.endDate!))")
-                    }
-                    
-                }
-                
-            }
-            //예약이 있을때
-            else {
+
+        if availablePeriodBarList.count == 0 {
+            //예약 없을때
+            if HHMMFormatter.string(from: openCloseTimeList[0].startDate!) == "00:00" && HHMMFormatter.string(from: openCloseTimeList[0].endDate!) == "23:59" && HHMMFormatter.string(from: openCloseTimeList[1].startDate!) == "00:00" && HHMMFormatter.string(from: openCloseTimeList[1].endDate!) == "23:59"{
+                checkAlwaysAvailable(alwaysAvailable: true)
+
+            } else {
                 
                 checkAlwaysAvailable(alwaysAvailable: false)
+                //현재 시간보다 openTime이 클 경우 ex) 현재 - 18:00, openTime - 19:00
+                if selectedStartDate! < openCloseTimeList[0].startDate! {
+                    availablePeriodLabel.append("\(HHMMFormatter.string(from: openCloseTimeList[0].startDate!)) ~ \(HHMMFormatter.string(from: openCloseTimeList[0].endDate!))")
+                } else {
+                    availablePeriodLabel.append("\(HHMMFormatter.string(from: selectedStartDate!)) ~ \(HHMMFormatter.string(from: openCloseTimeList[0].endDate!))")
+                }
                 
-                if index != availablePeriodBarList.count-1 {
-                    if index == 0 {
+                availablePeriodLabel.append("\(HHMMFormatter.string(from: openCloseTimeList[1].startDate!)) ~ \(HHMMFormatter.string(from: openCloseTimeList[1].endDate!))")
+            }
+        } else {
+            checkAlwaysAvailable(alwaysAvailable: false)
+            
+            for index in 0 ..< availablePeriodBarList.count {
+                
+                if yyyyMMDDFormatter.string(from: availablePeriodBarList[index].startDate!) == today && yyyyMMDDFormatter.string(from: availablePeriodBarList[index].endDate!) == tomorrow {
+                    if availablePeriodBarList[index].startDate! < openCloseTimeList[0].endDate! {
+                        openCloseTimeList[0].endDate! = availablePeriodBarList[index].startDate!
+                    }
+                    if availablePeriodBarList[index].endDate! > openCloseTimeList[1].startDate! {
+                        openCloseTimeList[1].startDate! = availablePeriodBarList[index].endDate!
+                    }
+                    availablePeriodBarList.remove(at: index)
+                    break
+                }
+            }
+            //예약이 오늘에서 내일로 넘어가는 즉시충전건 뿐일때
+            if availablePeriodBarList.count == 0 {
+                availablePeriodLabel.append("\(HHMMFormatter.string(from: openCloseTimeList[1].startDate!)) ~ \(HHMMFormatter.string(from: openCloseTimeList[1].endDate!))")
+                
+            } else {
+                var tomorrowReservationExist = 0
+                //예약 있읕때
+                availablePeriodBarList = availablePeriodBarList.sorted(by: {$0.id! < $1.id!})
+                for index in 0 ..< availablePeriodBarList.count {
+                    if yyyyMMDDFormatter.string(from: availablePeriodBarList[index].startDate!) == tomorrow || yyyyMMDDFormatter.string(from: availablePeriodBarList[index].endDate!) == tomorrow{
+                        tomorrowReservationExist += 1
+                    }
+                if index == 0 {
+                    //첫번째 예약이 오늘일때
+                    if yyyyMMDDFormatter.string(from: availablePeriodBarList[index].startDate!) == today && yyyyMMDDFormatter.string(from: availablePeriodBarList[index].endDate!) == today {
                         //현재 시간보다 openTime이 클 경우 ex) 현재 - 18:00, openTime - 19:00
-                        if selectedStartDate! < availablePeriodBarObjcet.startDate! {
-                            availablePeriodLabel.append("\(HHMMFormatter.string(from: availablePeriodBarObjcet.startDate!)) ~ \(HHMMFormatter.string(from: availablePeriodBarList[index + 1].startDate!))")
+                        if selectedStartDate! < openCloseTimeList[0].startDate! {
+                            availablePeriodLabel.append("\(HHMMFormatter.string(from: openCloseTimeList[0].startDate!)) ~ \(HHMMFormatter.string(from: availablePeriodBarList[index].startDate!))")
+                        } else{
+                            if selectedStartDate! < availablePeriodBarList[index].startDate! {
+                                availablePeriodLabel.append("\(HHMMFormatter.string(from: selectedStartDate!)) ~ \(HHMMFormatter.string(from: availablePeriodBarList[index].startDate!))")
+                            }
                         }
-                        //즉시 충전건이 존재할때
-                        else if selectedStartDate! < availablePeriodBarList[index + 1].startDate! {
-                            availablePeriodLabel.append("\(HHMMFormatter.string(from: selectedStartDate!)) ~ \(HHMMFormatter.string(from: availablePeriodBarList[index + 1].startDate!))")
-                        }
-                        
                     } else {
-                        //오늘 예약이 있을때, 오늘의 마지막 예약  -> 마지막 예약 종료 시간과 오늘 closeTime 표출
-                        if yyyyMMDDFormatter.string(from: availablePeriodBarList[index].startDate!) == today && yyyyMMDDFormatter.string(from: availablePeriodBarList[index + 1].startDate!) == tomorrow {
-
-                            availablePeriodLabel.append("\(HHMMFormatter.string(from: availablePeriodBarObjcet.endDate!)) ~ \(HHMMFormatter.string(from: availablePeriodBarList[0].endDate!))")
-                            
-                        } else if yyyyMMDDFormatter.string(from: availablePeriodBarList[index - 1 ].startDate!) == today && yyyyMMDDFormatter.string(from: availablePeriodBarList[index].startDate!) == tomorrow {
-                            
-                            availablePeriodLabel.append("\(HHMMFormatter.string(from: availablePeriodBarList[index].startDate!)) ~ \(HHMMFormatter.string(from: availablePeriodBarList[index + 1].startDate!))")
-                            
-                        }else {
-                            availablePeriodLabel.append("\(HHMMFormatter.string(from: availablePeriodBarObjcet.endDate!)) ~ \(HHMMFormatter.string(from: availablePeriodBarList[index + 1].startDate!))")
+                        //현재 시간보다 openTime이 클 경우 ex) 현재 - 18:00, openTime - 19:00
+                        if selectedStartDate! < openCloseTimeList[0].endDate! {
+                            availablePeriodLabel.append("\(HHMMFormatter.string(from: selectedStartDate!)) ~ \(HHMMFormatter.string(from: openCloseTimeList[0].endDate!))")
+                        }
+                        availablePeriodLabel.append("\(HHMMFormatter.string(from: openCloseTimeList[1].startDate!)) ~ \(HHMMFormatter.string(from: availablePeriodBarList[index].startDate!))")
+                    }
+                }
+                if index != availablePeriodBarList.count - 1 {
+                    
+                    if yyyyMMDDFormatter.string(from: availablePeriodBarList[index].endDate!) == today {
+                       
+                        if yyyyMMDDFormatter.string(from: availablePeriodBarList[index + 1].endDate!) == today {
+                            availablePeriodLabel.append("\(HHMMFormatter.string(from: availablePeriodBarList[index].endDate!)) ~ \(HHMMFormatter.string(from: availablePeriodBarList[index + 1].startDate!))")
+                        } else {
+                            availablePeriodLabel.append("\(HHMMFormatter.string(from: availablePeriodBarList[index].endDate!)) ~ \(HHMMFormatter.string(from: openCloseTimeList[0].endDate!))")
+                        }
+                    }
+                    //내일 예약일때
+                    else if yyyyMMDDFormatter.string(from: availablePeriodBarList[index].startDate!) == tomorrow && yyyyMMDDFormatter.string(from: availablePeriodBarList[index].endDate!) == tomorrow {
+                        if tomorrowReservationExist > 1 {
+                            availablePeriodLabel.append("\(HHMMFormatter.string(from: availablePeriodBarList[index].endDate!)) ~ \(HHMMFormatter.string(from: availablePeriodBarList[index + 1].startDate!))")
+                        }else{
+                            availablePeriodLabel.append("\(HHMMFormatter.string(from: openCloseTimeList[1].startDate!)) ~ \(HHMMFormatter.string(from: availablePeriodBarList[index].startDate!))")
+                            availablePeriodLabel.append("\(HHMMFormatter.string(from: availablePeriodBarList[index].endDate!)) ~ \(HHMMFormatter.string(from: availablePeriodBarList[index + 1].startDate!))")
                         }
                     }
                 }
-                //내일 예약 체크. 예약이 없다면 그대로 내일 openTime, closeTime 표추하면되지만, 아니라면 마지막 예약 종료 시간에 closeTime 표출
-                else {
-                    //내일 예약 있을때
-                    if yyyyMMDDFormatter.string(from: availablePeriodBarList[index - 1 ].startDate!) == tomorrow && yyyyMMDDFormatter.string(from: availablePeriodBarList[index].startDate!) == tomorrow {  //내일 예약 있을때
-                    let tomorrowCloseTime = availableTimeList![1].closeTime!
-                    let tomorrowCloseTimeText = tomorrowCloseTime.substring(to: tomorrowCloseTime.index(tomorrowCloseTime.startIndex, offsetBy: 5))
-                    
-                        availablePeriodLabel.append("\(HHMMFormatter.string(from: availablePeriodBarObjcet.endDate!)) ~ \(tomorrowCloseTimeText)")
-                        
+                if index == availablePeriodBarList.count - 1 {  //마지막 예약
+                    if tomorrowReservationExist > 1{
+                        availablePeriodLabel.append("\(HHMMFormatter.string(from: availablePeriodBarList[index].endDate!)) ~ \(HHMMFormatter.string(from: openCloseTimeList[1].endDate!))")
+                    } else if tomorrowReservationExist == 1{
+                        availablePeriodLabel.append("\(HHMMFormatter.string(from: openCloseTimeList[1].startDate!)) ~ \(HHMMFormatter.string(from: availablePeriodBarList[index].startDate!))")
+                        availablePeriodLabel.append("\(HHMMFormatter.string(from: availablePeriodBarList[index].endDate!)) ~ \(HHMMFormatter.string(from: openCloseTimeList[1].endDate!))")
+                    } else {
+                        availablePeriodLabel.append("\(HHMMFormatter.string(from: availablePeriodBarList[index].endDate!)) ~ \(HHMMFormatter.string(from: openCloseTimeList[1].endDate!))")
+                        availablePeriodLabel.append("\(HHMMFormatter.string(from: openCloseTimeList[1].startDate!)) ~ \(HHMMFormatter.string(from: openCloseTimeList[1].endDate!))")
                     }
-                    //내일 예약 없을때
-                    else {
-                        
-                        availablePeriodLabel.append("\(HHMMFormatter.string(from: availablePeriodBarObjcet.startDate!)) ~ \(HHMMFormatter.string(from: availablePeriodBarObjcet.endDate!))")
-                    }
+                }
+
                 }
             }
         }
