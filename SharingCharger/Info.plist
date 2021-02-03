@@ -21,7 +21,7 @@
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>KAKAO_APP_KEY</key>
-    <string>8c076cd238736c78c5f2a703adf2c1ff</string>
+	<string>8c076cd238736c78c5f2a703adf2c1ff</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>KakaoMap</string>
